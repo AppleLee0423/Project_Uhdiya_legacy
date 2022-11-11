@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+	
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="UHDIYA STORE - 어디야 스토어" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 레이아웃이 필요한 JSP -->
+	<definition name="notice" template="baseLayout">
+		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/notice.jsp" />
+	</definition>
+	<definition name="noticeForm" template="baseLayout">
+		<put-attribute name="title" value="NOTICE FORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/noticeForm.jsp" />
+	</definition>
+	<definition name="my_Qna" template="baseLayout">
+		<put-attribute name="title" value="MY QNA - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/my_qna.jsp" />
+	</definition>
+	<definition name="qnaForm" template="baseLayout">
+		<put-attribute name="title" value="QNA FORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/qnaForm.jsp" />
+	</definition>
+	<definition name="my_Review" template="baseLayout">
+		<put-attribute name="title" value="MY REVIEW - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/my_review.jsp" />
+	</definition>
+	<definition name="reviewForm" template="baseLayout">
+		<put-attribute name="title" value="REVIEWFORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/reviewForm.jsp" />
+	</definition>
+	
+	<!-- 관리자 JSP -->
+	<definition name="qna_list" template="baseLayout">
+		<put-attribute name="title" value="QNA LIST - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/qna_list.jsp" />
+	</definition>
+	<definition name="review_list" template="baseLayout">
+		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/common/review_list.jsp" />
+	</definition>
+	
+	<!-- 레이아웃이 필요없는 JSP(임시) -->
+	<definition name="product_Qna" template="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/common/product_qna.jsp" />
+	</definition>
+	<definition name="product_Review" template="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/common/product_review.jsp" />
+	</definition>
+	
+</tiles-definitions>
