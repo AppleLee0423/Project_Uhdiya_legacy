@@ -31,14 +31,12 @@
 			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
 	</beans:bean>
 	
-	<!-- 
 	<interceptors>
 		<interceptor>
 			<mapping path="/*/*.do"/>
 			<beans:bean class="com.spring.Uhdiya.common.interceptor.ViewNameInterceptor" />
 		</interceptor>
 	</interceptors>
-	 -->
 	 
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="52428800" />

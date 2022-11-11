@@ -37,13 +37,13 @@
 	</definition>
 	
 	<!-- 관리자 JSP -->
-	<definition name="qna_list" template="baseLayout">
+	<definition name="qna_List" template="baseLayout">
 		<put-attribute name="title" value="QNA LIST - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/common/qna_list.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/common/qna_List.jsp" />
 	</definition>
-	<definition name="review_list" template="baseLayout">
+	<definition name="review_List" template="baseLayout">
 		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/common/review_list.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/common/review_List.jsp" />
 	</definition>
 	
 	<!-- 레이아웃이 필요없는 JSP(임시) -->
