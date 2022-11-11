@@ -3,18 +3,14 @@
 	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 	
 <tiles-definitions>
-	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+	<definition name="baseLayout_main" template="/WEB-INF/views/common/layout_main.jsp">
 		<put-attribute name="title" value="UHDIYA STORE - 어디야 스토어" />
-		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header_main.jsp" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer_main.jsp" />
 	</definition>
 	
-	<definition name="main" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
-	</definition>
-	
-	<definition name="*/*" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	<definition name="main" extends="baseLayout_main">
+		<put-attribute name="body" value="/WEB-INF/views/home/index.jsp" />
 	</definition>
 </tiles-definitions>

@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="resources/css/reset.css" />
+<link rel="stylesheet" href="../css/reset.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body align="center">
 	<div class="notice">
 		<div class="notice_header">
 			<span class="title">NOTICE</span>

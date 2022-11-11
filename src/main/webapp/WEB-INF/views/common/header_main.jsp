@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/header.css" />
+<link rel="stylesheet" href="resources/css/reset.css" />
+<link rel="stylesheet" href="resources/css/header.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -20,15 +20,15 @@
                 <p>장바구니</p>&nbsp;&nbsp;
                 <p>마이페이지</p>&nbsp;&nbsp;
                 <div class="second_section">
-                    <a href="#"><img src="../img/top_sns01.gif"></a>
-                    <a href="#"><img src="../img/top_sns02.gif"></a>
-                    <a href="#"><img src="../img/top_sns03.gif"></a>
-                    <a href="#"><img src="../img/top_sns04.gif"></a>
+                    <a href="#"><img src="resources/img/top_sns01.gif"></a>
+                    <a href="#"><img src="resources/img/top_sns02.gif"></a>
+                    <a href="#"><img src="resources/img/top_sns03.gif"></a>
+                    <a href="#"><img src="resources/img/top_sns04.gif"></a>
                 </div>
             </div>
             <div class="search_mode">
                 <input type="text" class="searchbar" placeholder="#커피랩  #스페셜" maxlength="11" size="23" />
-                <img src="../img/topserch_b.png" class="searchimg"/>
+                <img src="resources/img/topserch_b.png" class="searchimg"/>
             </div>
 
 
@@ -39,7 +39,7 @@
         </div>
 
         <div class="himg">
-            <img src="../img/iced-coffee-hot-brew.gif" id="headimg" />
+            <img src="resources/img/iced-coffee-hot-brew.gif" id="headimg" />
         </div>
 
     </div>

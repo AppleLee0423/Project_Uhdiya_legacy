@@ -380,7 +380,6 @@
             </div>
         </div>
     </section>
-
     <!-- 자바스크립트 불러오기 -->
     <script src="resources/js/main.js"></script>
 </body>

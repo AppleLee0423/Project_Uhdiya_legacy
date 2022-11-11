@@ -14,6 +14,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/img/**" location="/resources/img/" />
+	<resources mapping="/css/**" location="/resources/css/" />
+	<resources mapping="/js/**" location="/resources/js/" />
 
 	<beans:bean id="viewResult"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -33,7 +36,7 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/*/*.do"/>
+			<mapping path="/*/*"/>
 			<beans:bean class="com.spring.Uhdiya.common.interceptor.ViewNameInterceptor" />
 		</interceptor>
 	</interceptors>
