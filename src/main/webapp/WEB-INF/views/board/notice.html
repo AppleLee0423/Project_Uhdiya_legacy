@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.notice_title{
+		padding: 0 230px;
+		padding-bottom: 10px;
+		font-weight: bold;
+	}
+	.notice_content{
+		padding: 0 230px;
+		width: 70%;
+	}
+	.notice_table{
+		border: 2px outset #D6DCD8;
+		border-collapse: collapse;
+	}
+	thead tr td {
+		background-color: #FBFAFA;
+	}
+	.num{width:3%; text-align: center;}
+	.title{width:20%; padding-left:10px;}
+	.writeDate{width:3%; text-align: center;}
+	.count{width:3%; text-align: center;}
+	tr,td{
+		border: 1px solid #D6DCD8;
+		border-collapse: collapse;
+	}
+	tr{
+		height: 35px;
+	}
+	a{
+		text-decoration: none;
+		color:black;
+	}
+	.notice_paging{
+		width: 10%;
+		margin: 0 auto;
+		display: flex;
+		padding-top: 20px;
+		justify-content: space-between;
+	}
+	.notice_search{
+		padding: 0 230px;
+		padding-top: 20px;
+	}
+	.notice_admin{
+		text-align: right;
+		padding-top: 10px;
+		padding-right: 240px;
+	}
+	.prev, .next{
+		text-align:center;
+		background-color: red;
+		width: 30px;
+		cursor: pointer;
+	}
+	.prev{margin-right:10px;}
+	.next{margin-left:10px;}
+	#search_box{
+		border: 2px solid #474948;
+		border-radius: 2px;
+		height: 20px;
+		padding-left: 5px;
+	}
+	#search_button{
+		border-radius: 2px;
+		width: 50px;
+		height: 25px;
+		background-color: #474948;
+		color: white;
+	}
+</style>
+</head>
+<body>
+	<div class="notice">
+		<div class="notice_title">NOTICE</div>
+		<div class="notice_content">
+			<table class="notice_table">
+				<thead>
+					<tr>
+						<td class="num">번호</td>
+						<td class="title" style="text-align: center;">제목</td>
+						<td class="writeDate">작성일</td>
+						<td class="count">조회수</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="4" style="text-align: center;">작성한 글이 없습니다.</td>
+					</tr>
+					<tr>
+						<td class="num">1</td>
+						<td class="title"><a href="#">이디야커피, 카카오프렌즈와 연간 협업 진행</a></td>
+						<td class="writeDate">2022-11-13</td>
+						<td class="count">1990</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="notice_admin">
+			<a href="#" id="notice_add">등록하기</a>
+		</div>
+		<div class="notice_paging">
+			<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+			<a href="#" class="page1">1</a>
+			<a href="#" class="next"><i class="fa-solid fa-angle-right"></i></a>
+		</div>
+		<div class="notice_search">
+			<input type="text" name="notice_search" id="search_box"/>
+			<button id="search_button">검색</button>
+		</div>
+	</div>
+</body>
+</html>
