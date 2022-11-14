@@ -7,8 +7,10 @@
 		margin:0;
 		padding: 0;
 	}
+	.notice{
+		margin: 0 230px;
+	}
 	.notice_title{
-		padding: 0 230px;
 		padding-bottom: 10px;
 		font-weight: bold;
 	}
@@ -17,8 +19,7 @@
 		border-bottom: 3px solid black;
 	}
 	.notice_content{
-		padding: 0 230px;
-		width: 70%;
+		width: 100%;
 	}
 	ul{
 		list-style: none;
@@ -30,7 +31,6 @@
 	.notice_admin{
 		text-align: right;
 		padding-top: 5px;
-		padding-right: 230px;
 	}
 	.notice_table_header{
 		padding: 20px;
@@ -59,17 +59,23 @@
 	}
 	.notice_detail_button{
 		text-align: right;
-		padding: 0 230px;
 		padding-top: 5px;
 	}
-	/* #notice_detale_update, #notice_detale_delete{
+	.notice_title_header{
+		display: flex;
+		justify-content: space-between;
+	}
+	/* #notice_detail_update, #notice_detail_delete{
 		display: none;
 	} */
 </style>
 </head>
 <body>
 	<div class="notice">
-		<div class="notice_title">NOTICE</div>
+		<div class="notice_title_header">
+			<div class="notice_title">NOTICE <span class="notice_detail_partition">I</span> 1 </div>
+			<a href="#" id="notice_detail_list">목록보기</a>
+		</div>
 		<div class="notice_content">
 			<div class="notice_table">
 				<ul>
@@ -91,9 +97,8 @@
 			</div>
 		</div>
 		<div class="notice_detail_button">
-			<a href="#" id="notice_detale_list">목록보기</a>
-			<a href="#" id="notice_detale_update">수정하기</a>
-			<a href="#" id="notice_detale_delete">삭제하기</a>
+			<a href="#" id="notice_detail_update">수정하기</a>
+			<a href="#" id="notice_detail_delete">삭제하기</a>
 		</div>
 	</div>
 </body>
