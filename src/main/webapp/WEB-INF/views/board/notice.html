@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 	*{
 		margin: 0;
@@ -52,12 +53,11 @@
 	}
 	.notice_admin{
 		text-align: right;
-		padding-top: 10px;
-		padding-right: 240px;
+		padding-top: 5px;
+		padding-right: 230px;
 	}
 	.prev, .next{
 		text-align:center;
-		background-color: red;
 		width: 30px;
 		cursor: pointer;
 	}
@@ -76,7 +76,19 @@
 		background-color: #474948;
 		color: white;
 	}
+	tbody tr:hover{
+		background-color: rgba(139,163,167,0.1);
+	}
 </style>
+<script>
+	function popup(){
+		$('#search_button').on('click',function(){
+			let url = 'board/text';
+			let option = 'width=650px, height=550px, top=300px, left=300px scrollbars=yes';
+			window.open(url,'pop',option);
+		});	
+	}
+</script>
 </head>
 <body>
 	<div class="notice">
@@ -114,7 +126,7 @@
 		</div>
 		<div class="notice_search">
 			<input type="text" name="notice_search" id="search_box"/>
-			<button id="search_button">검색</button>
+			<button id="search_button" onclick="popup()">검색</button>
 		</div>
 	</div>
 </body>
