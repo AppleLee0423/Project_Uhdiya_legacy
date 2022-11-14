@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product">
+<!-- 리절트 맵 정의 -->	
+	<resultMap id="productsResult" type="ProductDTO">
+		<result property="id" column="id" />
+		<result property="product_code" column="product_code" />
+		<result property="product_name" column="product_name" />
+		<result property="product_cateL" column="product_cateL" />
+		<result property="product_cateS" column="product_cateS" />
+		<result property="product_price" column="product_price" />
+	</resultMap>	
+
+	<!-- <resultMap id="productFileResult" type="ProductFileDTO">
+	   <result property="product_fileId" column="product_fileId" />
+	   <result property="product_fileName" column="product_fileName" />
+	   <result property="product_code" column="product_code" />
+	</resultMap> -->
+	
+
+	
+   
+      <select id="selectProductsList" parameterType="String" resultMap="productsResult"   >
+        <![CDATA[
+        
+        select t.*
+        
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code 
+        	and p.product_cateS=#{cateS}
+            order by p.id desc)  t
+            
+	      where   rowNum <16
+        
+	    ]]>
+	</select>
+	
+</mapper>

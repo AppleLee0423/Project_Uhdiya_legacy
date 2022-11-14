@@ -7,5 +7,7 @@
 		<typeAlias type="com.spring.Uhdiya.board.notice.NoticeDTO" alias="noticeDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.qna.QnaDTO" alias="qnaDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewDTO" alias="reviewDTO"/>
+		
+		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />
 	</typeAliases>
 </configuration>
