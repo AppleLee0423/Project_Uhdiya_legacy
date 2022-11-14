@@ -17,6 +17,7 @@
     margin-top: -115px;
     font-size: small;
     color: rgb(56, 54, 54);
+    margin-right: -48px;
 }
 
 .second_section {
@@ -26,7 +27,7 @@
 
 
 .search_mode{
-    margin-right: 40px;
+    margin-right: 28px;
 }
 
 .searchbar {
@@ -56,6 +57,7 @@
     font-size: 50px;
     margin-top: -70px;
     color: #C26225;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 
