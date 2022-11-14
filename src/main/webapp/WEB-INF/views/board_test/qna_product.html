@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.qna{
+		padding: 0 230px;
+	}
+	.qna_header{
+		padding-bottom: 10px;
+	}
+	.qna_body{
+		width: 100%;
+	}
+	.qna_table{
+		border: 2px outset #D6DCD8;
+		border-collapse: collapse;
+	}
+	thead tr td {
+		background-color: #FBFAFA;
+	}
+	.num{width:3%; text-align: center;}
+	.title{width:20%; padding-left:10px;}
+	.writer{width:5%; text-align: center;}
+	.writeDate{width:5%; text-align: center;}
+	.status{width:5%; text-align: center;}
+	tr,td{
+		border: 1px solid #D6DCD8;
+		border-collapse: collapse;
+	}
+	tr{
+		height: 35px;
+	}
+	.qna_paging{
+		width: 10%;
+		margin: 0 auto;
+		display: flex;
+		padding-top: 20px;
+		justify-content: space-between;
+	}
+.prev, .next{
+		text-align:center;
+		width: 30px;
+		cursor: pointer;
+	}
+	.prev{margin-right:10px;}
+	.next{margin-left:10px;}
+	.qna_add{
+		text-align: right;
+		padding-top: 5px;
+		padding-right: 5px;
+	}
+	.qna_add_button{
+		height: 25px;
+		border-radius: 2px;
+		background-color: #474948;
+		color: white;
+	}
+	a{
+		text-decoration: none;
+		color: black;
+	}
+</style>
+</head>
+<body>
+	<div class="qna">
+		<div class="qna_header">
+			<div class="qna_header_title"><b>QnA</b></div>
+			<div class="qna_header_subtitle"><font size="2">상품에 대해 궁금한점을 해결해 드립니다.</font></div>
+		</div>
+		<div class="qna_body">
+			<table class="qna_table">
+				<thead>
+					<tr>
+						<td class="num">번호</td>
+						<td class="title" style="text-align: center;">제목</td>
+						<td class="writer">작성자</td>
+						<td class="writeDate">작성일</td>
+						<td class="status">답변상태</td>
+					</tr>
+				</thead>
+				<tr>
+					<td class="num">1</td>
+					<td class="title"><a href="#">문의드립니다</a></td>
+					<td class="writer">ho**</td>
+					<td class="writeDate">2022-11-13</td>
+					<td class="status">답변대기</td>
+				</tr>
+			</table>
+			<div class="qna_add">
+				<button class="qna_add_button">상품 문의하기</button>
+			</div>
+			<div class="qna_paging">
+				<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+				<a href="#" class="page1">1</a>
+				<a href="#" class="next"><i class="fa-solid fa-angle-right"></i></a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
