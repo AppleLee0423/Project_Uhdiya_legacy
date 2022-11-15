@@ -22,7 +22,7 @@
 <body>
 <div class="div" style="overflow-y: scroll; height:600px; margin-top : 75px; min-height : 200px; ">
 <center>
-    <form action="register.php" method="post" name="twin">
+    <form  method="post" name="twin">
         <table width="800">
             <tr height="40">
                 <td align="center"><b>[회원가입]</b></td>

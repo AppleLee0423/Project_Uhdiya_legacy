@@ -70,14 +70,11 @@
 					<button class="w-100 btn btn-lg btn-primary" type="submit">
 						로그인
 					</button>
-					<p class="security">
-						<img src="//img.echosting.cafe24.com/design/skin/default/member/ico_access.gif" alt="보안접속"> 보안접속
-					</p>
 					<ul>
 						<div class="sb">
-							<li><a href="find_id.jsp">아이디찾기</a></li>
-							<li><a href="find_pw.jsp">비밀번호찾기</a></li>
-							<li><a href="/member/join.html">회원가입</a></li>
+							<li><a href="find_id">아이디찾기</a></li>
+							<li><a href="find_pw">비밀번호찾기</a></li>
+							<li><a href="memberFormJ">회원가입</a></li>
 						</div>
 					</ul>
 				</div>
