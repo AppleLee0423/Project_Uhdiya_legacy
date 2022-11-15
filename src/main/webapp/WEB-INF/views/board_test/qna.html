@@ -112,6 +112,40 @@
 		text-align: center;
 		width: 10%;
 	}
+	.qna_paging{
+		width: 10%;
+		margin: 0 auto;
+		display: flex;
+		padding-top: 20px;
+		justify-content: space-between;
+	}
+.prev, .next{
+		text-align:center;
+		width: 30px;
+		cursor: pointer;
+	}
+	.prev{margin-right:10px;}
+	.next{margin-left:10px;}
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	.qna_search{
+		padding-top: 20px;
+	}
+	#search_box{
+		border: 2px solid #474948;
+		border-radius: 2px;
+		height: 20px;
+		padding-left: 5px;
+	}
+	#search_button{
+		border-radius: 2px;
+		width: 50px;
+		height: 25px;
+		background-color: #474948;
+		color: white;
+	}
 </style>
 <script>
 	function delete_qna(){
@@ -143,6 +177,7 @@
 								<span class="qna_a_content">그걸 알면 제가 학원을 다닐까요?</span>
 								<span class="qna_a_writer">관리자</span>
 								<span class="qna_a_writeDate">2022-11-14</span>
+								<span class="qna_q_delete"><button onclick="delete_qna()">삭제</button></span>
 							</div>
 					</details>
 				</li>
@@ -166,6 +201,15 @@
 					</details>
 				</li>
 			</ul>
+		</div>
+		<div class="qna_paging">
+				<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+				<a href="#" class="page1">1</a>
+				<a href="#" class="next"><i class="fa-solid fa-angle-right"></i></a>
+		</div>
+		<div class="qna_search">
+			<input type="text" name="qna_search" id="search_box"/>
+			<button id="search_button">검색</button>
 		</div>
 	</div>
 </body>

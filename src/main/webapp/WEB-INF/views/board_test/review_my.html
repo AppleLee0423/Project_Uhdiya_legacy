@@ -8,42 +8,41 @@
 		margin: 0;
 		padding: 0;
 	}
-	.qna{
+	.review{
 		padding: 0 230px;
 	}
-	.qna_header{
+	.review_header{
 		padding-bottom: 10px;
 		display: flex;
 		justify-content: space-between;
 	}
-	.qna_body{
+	.review_body{
 		width: 100%;
 	}
-	.qna_table{
+	.review_table{
 		border: 2px outset #D6DCD8;
 		border-collapse: collapse;
 	}
 	thead tr td {
 		background-color: #FBFAFA;
 	}
-	.qna_my_num{width:3%; text-align: center; min-width:30px;}
-	.qna_my_product_code{width:10%; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width:100px; font-size:small; padding-left:5px;}
-	.qna_my_title{width:20%; padding-left:10px; min-width:300px;}
-	.qna_my_writeDate{width:5%; text-align: center; min-width:90px;}
-	.qna_my_status{width:5%; text-align: center; min-width:90px;}
+	.review_my_num{width:3%; text-align: center; min-width:30px;}
+	.review_my_product_code{width:10%; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width:100px; font-size:small; padding-left:5px;}
+	.review_my_title{width:20%; padding-left:10px; min-width:300px;}
+	.review_my_writeDate{width:5%; text-align: center; min-width:90px;}
 	tr,td{
 		border: 1px solid #D6DCD8;
 		border-collapse: collapse;
 		height: 35px;
 	}
-	.qna_paging{
+	.review_paging{
 		width: 10%;
 		margin: 0 auto;
 		display: flex;
 		padding-top: 20px;
 		justify-content: space-between;
 	}
-.prev, .next{
+	.prev, .next{
 		text-align:center;
 		width: 30px;
 		cursor: pointer;
@@ -54,7 +53,7 @@
 		text-decoration: none;
 		color: black;
 	}
-	.qna_search{
+	.review_search{
 		padding-top: 20px;
 	}
 	#search_box{
@@ -73,40 +72,38 @@
 </style>
 </head>
 <body>
-	<div class="qna">
-		<div class="qna_header">
-			<div class="qna_header_title"><b>QnA</b></div>
-			<div class="qna_header_count">총 1건</div>
+	<div class="review">
+		<div class="review_header">
+			<div class="review_header_title"><b>REVIEW</b></div>
+			<div class="review_header_count">총 1건</div>
 		</div>
-		<div class="qna_body">
-			<table class="qna_table">
+		<div class="review_body">
+			<table class="review_table">
 				<thead>
 					<tr>
-						<td class="qna_my_num">번호</td>
-						<td class="qna_my_product_code" width="100px">상품</td>
-						<td class="qna_my_title">제목</td>
-						<td class="qna_my_writeDate">작성일</td>
-						<td class="qna_my_status">답변상태</td>
+						<td class="review_my_num">번호</td>
+						<td class="review_my_product_code" width="100px">상품</td>
+						<td class="review_my_title">제목</td>
+						<td class="review_my_writeDate">작성일</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="qna_my_num">1</td>
-						<td class="qna_my_product_code">홀빈커피 페르소나 블렌드 200g X 2개</td>
-						<td class="qna_my_title"><a href="#">홀가득커피는 없나요? 키키키</a></td>
-						<td class="qna_my_writeDate">2022-11-13</td>
-						<td class="qna_my_status">답변대기</td>
+						<td class="review_my_num">1</td>
+						<td class="review_my_product_code">홀빈커피 페르소나 블렌드 200g X 2개</td>
+						<td class="review_my_title"><a href="#">그닥 맛있어요</a></td>
+						<td class="review_my_writeDate">2022-11-14</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="qna_paging">
+		<div class="review_paging">
 			<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
 			<a href="#" class="page1">1</a>
 			<a href="#" class="next"><i class="fa-solid fa-angle-right"></i></a>
 		</div>
-		<div class="qna_search">
-			<input type="text" name="qna_search" id="search_box"/>
+		<div class="review_search">
+			<input type="text" name="review_search" id="search_box"/>
 			<button id="search_button">검색</button>
 		</div>
 	</div>
