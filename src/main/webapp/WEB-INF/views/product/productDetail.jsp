@@ -15,28 +15,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+/* 전체페이지 */
+.productDetailPage {
+	margin:0 auto;
+	width: 1200px;
+}
+/* 페이지상단 */
 .contentsIntro {
-	width: 100%;
+	width: 1200px;
 	margin: 70px auto;
 	min-height: 520px;
 }
-/* 상품디테일페이지 상단이미지 */
+/* 페이지상단 좌측이미지 부분 */
 .contentsIntro_detailImg {
 	float: left;
 	width: 600px;
-	margin: 0 0 0 250px;
+	padding-right: 50px;
 }
 .detailImg {
 	float: left;
 	width: 500px;
 	height: 500px;
 }
-/* 상품디테일페이지 상단 좌측 정보 */
+/* 페이지상단 우측 결제정보 부분 */
+.contentsIntro_productName {
+	font-size:large;
+	font-weight:bold;
+}
 .contentsIntro_payInfoTxt {
-	margin-top:10px;
+	padding-left:50px;
 	float: left;
 	width: 500px;
-	padding-left: 90px;
 }
 .contentsIntro_payInfo {
 	padding-left: 10px;
@@ -51,50 +60,50 @@
 	margin-top:40px;
 	background: url(/Uhdiya/resources/img/product/ico_info.gif) no-repeat;
 }
-/* 상품디테일페이지 상단 좌측 정보_구매수량(테이블들) */
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블들) */
 .contentsIntro_payInfo_tables {
 	font-size: small;
 }
-/* 상품디테일페이지 상단 좌측 정보_구매수량(테이블1) 수량선택*/
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블1) 수량선택*/
 .contentsIntro_payInfo_select {
 	color: gray;
 	float: left;
 	border: solid 2px;
 	border-color: gray gray;
 	border-width: 1px 0px 0.5px 0px;
-	width: 100%;
+	width: 500px;
 	height: 50px;
 }
 .contentsIntro_payInfo_select_productName {
 	color: gray;
 	padding-top: 10px;
 	float: left;
-	width: 60%;
+	width: 300px;
 }
 .contentsIntro_payInfo_select_quantity {
 	padding-top: 10px;
 	float: left;
-	width: 15%;
+	width: 75px;
 }
 .contentsIntro_payInfo_select_price {
 	text-align: right;
 	color: #008BCC;
 	padding-top: 10px;
 	float: right;
-	width: 25%;
+	width: 125px;
 }
-/* 상품디테일페이지 상단 좌측 정보_구매수량(테이블2) 총수량*/
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블2) 총수량*/
 .contentsIntro_payInfo_totalCal {
 	margin-top:10px;
 	float: left;
 	border: solid 2px;
 	border-color: lightgray;
 	border-width: 0px 0px 0.05px 0px;
-	width: 100%;
+	width: 500px;
 	height: 70px;
 }
 .contentsIntro_payInfo_totalCal_txt {
-	width: 30%;
+	width: 150px;
 	float: left;
 	padding-top: 40px;
 	font-size: x-small;
@@ -104,29 +113,29 @@
 	font-size: x-large;
 	font-weight: bold;
 	padding-top: 40px;
-	width: 60%;
+	width: 300px;
 	float: left;
 }
 .contentsIntro_payInfo_totalCal_quantity {
 	text-align: left;
 	padding-top: 50px;
-	width: 8%;
+	width: 40px;
 	float: right;
 	font-size: x-small;
 	color: gray;
 }
-/* 상품구매,장바구니 버튼 */
+/* 페이지 상단 우측 결제정보 부분_상품구매,장바구니 버튼 */
 .contentsIntro_buttons {
 	margin-top:60px; 
 	float: left;
-	width: 100%;
+	width: 500px;
 	height: 60px;
 	font-weight: bold;
 	text-align:center;
 }
 .contentsIntro_buttons_cart {
 	float: left;
-	width: 49%;
+	width: 249px;
 	
 	line-height: 70px;
 	padding: 2px 0 0 0;
@@ -137,7 +146,7 @@
 .contentsIntro_buttons_buy {
 	margin-top:2px;
 	float: right;
-    width: 49%;
+    width: 249px;
     line-height: 70px;
     font-size: 16px;
     color: #fff;
@@ -146,7 +155,7 @@
 /* 상품디테일페이지 하단 메인정보 */
 .contentsMain {
 	margin-top:100px;
-	width: 100%;
+	width: 1200px;
 	min-height:700px;
 }
 /* 상품상세,사용후기,상품문의 메뉴바 */
@@ -232,6 +241,9 @@ $(function(){
 
 </head>
 <body>
+<div class="productDetailPage">
+
+
 	<div class="contentsIntro">
 		<div class="contentsIntro_detailImg">	<!-- 상품이미지 -->
 			 <img class="detailImg" src="/Uhdiya/resources/img/product/beans_01.jpg"> 
@@ -353,7 +365,7 @@ $(function(){
 		</div>
 	</div>
  
-
+</div>
 
 </body>
 </html>
