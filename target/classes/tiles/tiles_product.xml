@@ -7,12 +7,17 @@
 		<put-attribute name="title" value="UHDIYA STORE - 어디야 스토어" />
 		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" /> 
 	</definition>
 	
 	<definition name="/product/beansList" extends="baseLayout">
 		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
+	</definition>
+	
+	<definition name="/product/productDetail" extends="baseLayout">
+		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/product/productDetail.jsp" />
 	</definition>
 
 	

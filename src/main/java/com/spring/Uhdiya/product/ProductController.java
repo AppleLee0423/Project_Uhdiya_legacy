@@ -31,6 +31,16 @@ public class ProductController {
 		return mav;
 	}
 	
+	// http://localhost:8080/Uhdiya/product/productDetail (제품명+Detail로 변경예정)
+	// 카테고리:대분류선택, 드롭다운:소분류선택 후 제품리스트 페이지 접근
+	@RequestMapping(value="/product/*Detail")
+	public ModelAndView productDetail(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		return mav;
+	}
+	
 	/*
 	create table product (
 		    id number not null,

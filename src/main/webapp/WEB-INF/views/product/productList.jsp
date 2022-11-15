@@ -104,7 +104,7 @@
 
 			<td class="product">
 				<img width="305" height="305"
-				src="/Uhdiya/resources/img/product/beans_01.jpg"> <span><hr></span>
+				src="/Uhdiya/resources/img/product/${list.product_fileName }"> <span><hr style="border-width:1px 0 0 0; border-color:#fff;"> </span>
 				<div class="product_title">
 					<h1>${list.product_name}</h1>
 					<br>

@@ -12,13 +12,14 @@
 		<result property="product_cateL" column="product_cateL" />
 		<result property="product_cateS" column="product_cateS" />
 		<result property="product_price" column="product_price" />
+		<result property="product_fileName" column="product_fileName" />
 	</resultMap>	
 
-	<!-- <resultMap id="productFileResult" type="ProductFileDTO">
+	 <resultMap id="productFileResult" type="ProductFileDTO">
 	   <result property="product_fileId" column="product_fileId" />
 	   <result property="product_fileName" column="product_fileName" />
 	   <result property="product_code" column="product_code" />
-	</resultMap> -->
+	</resultMap>
 	
 
 	

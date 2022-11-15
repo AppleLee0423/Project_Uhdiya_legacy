@@ -9,7 +9,23 @@ public class ProductDTO {
 	private String product_cateL;
 	private String product_cateS;
 	private int product_price;
+	private String product_fileName;
 	
+	
+	
+	
+	public String getProduct_fileName() {
+		return product_fileName;
+	}
+
+
+
+	public void setProduct_fileName(String product_fileName) {
+		this.product_fileName = product_fileName;
+	}
+
+
+
 	public ProductDTO() {
 		// TODO Auto-generated constructor stub
 	}
