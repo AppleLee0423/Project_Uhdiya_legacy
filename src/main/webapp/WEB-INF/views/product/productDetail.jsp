@@ -187,19 +187,19 @@
 /* 상품정보이미지 */
 .contentsMain_contents{
 	margin:0 auto;
-	padding:15px;
+	padding:20px;
 	text-align:center;
 }
 /* 상품후기 */
 .contentsMain_board_review {
 	margin:0 auto;
-	padding:15px;
+	padding:20px;
 	text-align:center;
 }
 /* 상품문의 */
 .contentsMain_board_qna {
 	margin:0 auto;
-	padding:15px;
+	padding:20px;
 	text-align:center;
 }
 </style>
