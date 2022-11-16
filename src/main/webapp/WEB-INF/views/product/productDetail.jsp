@@ -5,8 +5,6 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,11 +77,36 @@
 	float: left;
 	width: 300px;
 }
+/* 수량버튼 readonly 텍스트창*/
 .contentsIntro_payInfo_select_quantity {
-	padding-top: 10px;
+	padding-top: 7px;
 	float: left;
 	width: 75px;
 }
+/* 숫자나오는부분 */
+.qty_num {
+  float: left;
+}
+#quantity {
+  width: 23px;
+  height: 20px;
+  text-align: left;
+  color: gray;
+  border: 1px solid #cbcdce;
+  border-radius: 3px;
+}
+/* 버튼부분 */
+.qty_btn {
+  float: left;
+  height: 15px;
+}
+.qty_btn_plus {
+  height: 11px;
+}
+.qty_btn_minus {
+  height: 11px;
+}
+/* 수량*가격 출력부분 */
 .contentsIntro_payInfo_select_price {
 	text-align: right;
 	color: #008BCC;
@@ -161,22 +184,25 @@
 .contentsMain_bar {
 	position:sticky;
 	top:0px;
-	width:100%;
+	width:1200px;
 	margin: 0 auto;
-	height:41.5px;
+	height:37px;
 	background:white;
 }
 .contentsMain_menu {
-	width:60%;
-	height:40px;
+	width:900px;
+	height:36px;
 	margin: 0 auto;
 	border: 1px solid #cbcdce;
 	background: #fff;
 	color:gray;
-	font-size:small;
+	font-size:11px;
+}
+.contentsMain_menu_buttons {
+	border-bottom:1px solid gray;
 }
 .contentsMain_menu li{
-	height:40px;
+	height:36px;
 	width: 400px;
 	display: table-cell;
 	vertical-align: middle;
@@ -185,8 +211,9 @@
 }
 /* <메뉴바> 스크롤시 메뉴버튼변경 */
 .down{
-	text-color:white;
+	color:white;
 	background-color:lightgray;
+	font-weight:bold;
 }
 .remove{
 	background: #fff;
@@ -212,32 +239,68 @@
 }
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
+
+
+<script type="text/javascript">
 $(function(){
 	  var $header1 = $('.list_info'); //헤더를 변수에 넣기
-	  var $header2 = $('.list_review'); //헤더를 변수에 넣기
-	  var $header3 = $('.list_qna'); //헤더를 변수에 넣기
+	  var $header2 = $('.list_review'); 
+	  var $header3 = $('.list_qna'); 
 	  var $page1 = $('.info'); //색상이 변할 부분
-	  var $page2 = $('.boardReview'); //색상이 변할 부분
-	  var $page3 = $('.boardQna'); //색상이 변할 부분
+	  var $page2 = $('.boardReview'); 
+	  var $page3 = $('.boardQna'); 
 	  var $window = $(window);
 	  var pageOffsetTop1 = $page1.offset().top;//색상 변할 부분의 top값 구하기
-	  var pageOffsetTop2 = $page2.offset().top;//색상 변할 부분의 top값 구하기
-	  var pageOffsetTop3 = $page3.offset().top;//색상 변할 부분의 top값 구하기
+	  var pageOffsetTop2 = $page2.offset().top;
+	  var pageOffsetTop3 = $page3.offset().top;
 	  
 	  $window.on('scroll', function(){ //스크롤시
 	    var scrolled1 = $window.scrollTop() >= pageOffsetTop1; //스크롤된 상태
 	    $header1.toggleClass('down', scrolled1); //클래스 토글
-	    var scrolled2 = $window.scrollTop() >= pageOffsetTop2; //스크롤된 상태
-	    $header2.toggleClass('down', scrolled2); //클래스 토글
-	    $header1.toggleClass('remove', scrolled2); //클래스 토글
-	    var scrolled3 = $window.scrollTop() >= pageOffsetTop3; //스크롤된 상태
-	    $header2.toggleClass('remove', scrolled3); //클래스 토글
-	    $header3.toggleClass('down', scrolled3); //클래스 토글
+	    var scrolled2 = $window.scrollTop() >= pageOffsetTop2; 
+	    $header2.toggleClass('down', scrolled2); 
+	    $header1.toggleClass('remove', scrolled2); 
+	    var scrolled3 = $window.scrollTop() >= pageOffsetTop3; 
+	    $header2.toggleClass('remove', scrolled3); 
+	    $header3.toggleClass('down', scrolled3); 
 	  });
-	}); 
-</script>
+}); 
+function numberWithCommas(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function qty_change(name){
+	let quantity = document.getElementById('quantity');
+	let price = document.getElementById('price');
+	console.log(price);
+	console.log(quantity.value);
+	console.log(name);
+	if(name=='p'){
+		quantity.value++;
+		let num = quantity.value*price.value;/* @@@@@@@@@@@@@ 여기 계산된 토탈금액있음!!!!@@@ */
+		let num_com =numberWithCommas(num);
+		document.getElementById("totalPrice").innerHTML = num_com+'원';
+		document.getElementById("totalPrice2").innerHTML = num_com+'원';
+		document.getElementById("totalQty").innerHTML = '('+quantity.value+'개)';
+	} else if(name=='m'){
+		if(quantity.value==1){
+			alert('최소주문수량은 1개 입니다.')
+		} else {
+			quantity.value--;
+			let num = quantity.value*price.value;/* @@@@@@@@@@@@@ 여기 계산된 토탈금액있음!!!!@@@ */
+			let num_com =numberWithCommas(num);
+			document.getElementById("totalPrice").innerHTML = num_com+'원';
+			document.getElementById("totalPrice2").innerHTML = num_com+'원';
+			document.getElementById("totalQty").innerHTML = '('+quantity.value+'개)';
+		}
+	} 
+}
 
+
+
+
+
+
+</script>
 </head>
 <body>
 <!-- 전체페이지 : 상품 디테일 -->
@@ -254,7 +317,7 @@ $(function(){
 		<!-- 페이지상단 우측 // 상품가격,구매하기버튼등 -->
 		<div class="contentsIntro_payInfoTxt">	
 		
-			<!-- 페이지상단 우측 결제정보의 상품명과 가격정보 -->
+			<!-- 페이지상단 우측 결제정보의 상품명과 가격정보 /////@@@@데이터베이스에서 상품명 가격 가져와야함@@@@-->
 			<div class="contentsIntro_productName">
 				<h1>[어디야] 홀빈커피 페르소나 블렌드 200g</h1>
 			</div>
@@ -263,7 +326,10 @@ $(function(){
 				<span>국내</span><br><br>
 				<div class="contentsIntro_payInfo_productPrice">
 					<span style="color:#008BCC; font-weight:bold"><b>판매가격</b></span>
-					<span style="color:#008BCC;">20,000원</span>
+					<span style="color:#008BCC;">
+						20,000원
+						<input id="price" name="price" value="20000" type="hidden">	<!-- 가져온가격들어가야함@@@@@@@@@@@@@@ -->
+					</span>
 				</div>
 				<br>
 				<hr style="border-width: 1px 0 0 0; border-color: #fff;">
@@ -285,19 +351,29 @@ $(function(){
 						<td class="contentsIntro_payInfo_select_productName">
 							&nbsp;[어디야] 홀빈커피 페르소나 블렌드 200g
 						</td>
-						<td	class="contentsIntro_payInfo_select_quantity">
-						<!-- 	<div class="qty_num">
-								<input id="quantity" class="quantity" name="quantity[]" type="text" style value="1" readonly="readonly">
-							</div> -->
-							<div class="qty_btn_plus">
-								<a href="javascript:qty_change('p')"><img src="/Uhdiya/resources/img/product/btn_p.gif" alt="+"></a>
-							</div>
-							<div class="qty_btn_minus">
-								<a href="javascript:qty_change('m')"><img src="/Uhdiya/resources/img/product/btn_m.gif" alt="-"></a>
-							</div>
-						</td>
-						<td class="contentsIntro_payInfo_select_price">
-							<span style="float:right">20,000원</span>
+							<!-- 수량표기및 수량버튼 -->
+							<td class="contentsIntro_payInfo_select_quantity">
+								<form class="qty">
+									<!-- 수량표기 -->
+									<div class="qty_num">
+										<input id="quantity" name="quantity" type="text" value="1" readonly="readonly">
+									</div>
+									<!-- 버튼 -->
+									<div class="qty_btn">
+										<div class="qty_btn_plus">
+											<a href="javascript:qty_change('p')"><img src="/Uhdiya/resources/img/product/btn_p.gif" alt="+"></a>
+										</div>
+										<div class="qty_btn_minus">
+											<a href="javascript:qty_change('m')"><img src="/Uhdiya/resources/img/product/btn_m.gif" alt="-"></a>
+										</div>
+									</div>
+								</form>
+							</td>
+							<!-- 수량*금액 출력부분 -->
+							<td class="contentsIntro_payInfo_select_price">
+							<span id="totalPrice2" style="float:right">
+								20,000원
+							</span>
 						</td>
 					</tr>
 				</table>
@@ -309,10 +385,14 @@ $(function(){
 							&nbsp;총 상품금액(수량)
 						</td>
 						<td class="contentsIntro_payInfo_totalCal_price">
-							20,000원
+							<span id="totalPrice" style="float:right">
+								20,000원
+							</span>
 						</td>
 						<td class="contentsIntro_payInfo_totalCal_quantity">
-							(10개)
+							<span id="totalQty">
+								(1개)
+							</span>
 						</td>
 					</tr>
 				</table>
@@ -385,6 +465,13 @@ $(function(){
 	</div>
  
 </div>
+
+
+
+
+
+
+
 
 </body>
 </html>
