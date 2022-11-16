@@ -24,11 +24,10 @@
 	thead tr td {
 		background-color: #FBFAFA;
 	}
-	.num{width:3%; text-align: center;}
-	.title{width:20%; padding-left:10px;}
-	.writer{width:5%; text-align: center;}
-	.writeDate{width:5%; text-align: center;}
-	.status{width:5%; text-align: center;}
+	.review_product_num{width:3%; text-align: center;}
+	.review_product_title{width:20%; padding-left:10px;}
+	.review_product_writer{width:5%; text-align: center;}
+	.review_product_writeDate{width:5%; text-align: center;}
 	tr,td{
 		border: 1px solid #D6DCD8;
 		border-collapse: collapse;
@@ -54,6 +53,17 @@
 		text-decoration: none;
 		color: black;
 	}
+	.review_product_star{
+		text-align: center;
+		width: 3%;
+		min-width: 50px;
+	}
+	.rate_in{
+		color: rgba(91, 44, 54, 0.99);
+	}
+	.rate_out{
+		color: rgb(108, 117, 125, 0.99);
+	}
 </style>
 </head>
 <body>
@@ -66,17 +76,19 @@
 			<table class="review_table">
 				<thead>
 					<tr>
-						<td class="num">번호</td>
-						<td class="title" style="text-align: center;">제목</td>
-						<td class="writer">작성자</td>
-						<td class="writeDate">작성일</td>
+						<td class="review_product_num">번호</td>
+						<td class="review_product_star">별점</td>
+						<td class="review_product_title" style="text-align: center;">제목</td>
+						<td class="review_product_writer">작성자</td>
+						<td class="review_product_writeDate">작성일</td>
 					</tr>
 				</thead>
 				<tr>
-					<td class="num">1</td>
-					<td class="title"><a href="#">커피는 맛있는데 그렇다구요</a></td>
-					<td class="writer">ho**</td>
-					<td class="writeDate">2022-11-13</td>
+					<td class="review_product_num">1</td>
+					<td class="review_product_star"><span class="rate_in">★★★★</span><span class="rate_out">★</span></td>
+					<td class="review_product_title"><a href="#">커피는 맛있는데 그렇다구요</a></td>
+					<td class="review_product_writer">ho**</td>
+					<td class="review_product_writeDate">2022-11-13</td>
 				</tr>
 			</table>
 			<div class="review_paging">

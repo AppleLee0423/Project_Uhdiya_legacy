@@ -1,0 +1,315 @@
+@charset "UTF-8";
+
+/* review */
+.review {
+	padding: 0 230px;
+}
+
+.review_header {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.review_body {
+	width: 100%;
+}
+
+.review_table {
+	width: 100%;
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+.review_table thead tr td {
+	background-color: #FBFAFA;
+}
+
+.review_table tr, td {
+	border: 1px solid #D6DCD8;
+	border-collapse: collapse;
+	height: 35px;
+}
+
+.review_num {
+	width: 5%;
+	text-align: center;
+	min-width: 30px;
+}
+
+.review_product_code {
+	width: 15%;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100px;
+	font-size: small;
+	padding-left: 5px;
+}
+
+.review_title {
+	width: 40%;
+	padding-left: 10px;
+	min-width: 300px;
+}
+
+.review_writer {
+	width: 10%;
+	text-align: center;
+	min-width: 90px;
+}
+
+.review_writeDate {
+	width: 10%;
+	text-align: center;
+	min-width: 90px;
+}
+
+.review_star {
+	text-align: center;
+	width: 3%;
+	min-width: 50px;
+}
+
+.rate_in {
+	color: rgba(91, 44, 54, 0.99);
+}
+
+.rate_out {
+	color: rgb(108, 117, 125, 0.99);
+}
+
+.review_delete_button {
+	width: 10%;
+	text-align: center;
+	min-width: 50px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.review_paging {
+	width: 10%;
+	margin: 0 auto;
+	display: flex;
+	padding-top: 20px;
+	justify-content: space-between;
+}
+
+.review_search {
+	padding-top: 20px;
+}
+
+.prev, .next {
+	text-align: center;
+	width: 30px;
+	cursor: pointer;
+}
+
+.prev {
+	margin-right: 10px;
+}
+
+.next {
+	margin-left: 10px;
+}
+
+#search_box {
+	border: 2px solid #474948;
+	border-radius: 2px;
+	height: 20px;
+	padding-left: 5px;
+}
+
+#search_button {
+	border-radius: 2px;
+	width: 50px;
+	height: 25px;
+	background-color: #474948;
+	color: white;
+}
+
+/* review_product */
+.review_product_table {
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+.review_product_table thead tr td {
+	background-color: #FBFAFA;
+}
+
+.review_product_table tr, td {
+	border: 1px solid #D6DCD8;
+	border-collapse: collapse;
+	height: 35px;
+}
+
+.review_product_num {
+	width: 3%;
+	text-align: center;
+}
+
+.review_product_title {
+	width: 20%;
+	padding-left: 10px;
+}
+
+.review_product_writer {
+	width: 5%;
+	text-align: center;
+}
+
+.review_product_writeDate {
+	width: 5%;
+	text-align: center;
+}
+
+.review_product_star {
+	text-align: center;
+	width: 3%;
+	min-width: 50px;
+}
+
+/* review_my */
+.review_my_table {
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+.review_my_table thead tr td {
+	background-color: #FBFAFA;
+}
+
+.review_my_table tr, td {
+	border: 1px solid #D6DCD8;
+	border-collapse: collapse;
+	height: 35px;
+}
+
+.review_my_num {
+	width: 3%;
+	text-align: center;
+	min-width: 30px;
+}
+
+.review_my_product_code {
+	width: 10%;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100px;
+	font-size: small;
+	padding-left: 5px;
+}
+
+.review_my_star {
+	text-align: center;
+	width: 3%;
+	min-width: 50px;
+}
+
+.review_my_title {
+	width: 20%;
+	padding-left: 10px;
+	min-width: 300px;
+}
+
+.review_my_writeDate {
+	width: 5%;
+	text-align: center;
+	min-width: 90px;
+}
+
+/* review_form */
+.review_form_table {
+	width: 100%;
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+.review_form_table tr td {
+	padding: 10px;
+}
+
+#review_form_title {
+	width: 100%;
+	height: 25px;
+}
+
+#review_form_content {
+	width: 100%;
+}
+
+.review_form_td_title {
+	width: 10%;
+	text-align: right;
+}
+
+.review_form_table tr {
+	border-bottom: 1px solid #D6DCD8;
+}
+
+.review_form_star {
+	display: inline-block;
+	direction: rtl;
+}
+
+.review_form_star input[type=radio] {
+	display: none;
+	cursor: pointer;
+}
+
+.review_form_star label {
+	font-size: 2em;
+	color: transparent;
+	text-shadow: 0 0 0 #f0f0f0;
+}
+
+.review_form_star label:hover, .review_form_star label:hover ~ label {
+	text-shadow: 0 0 0 rgba(91, 44, 54, 0.99);
+}
+
+.review_form_star input[type=radio]:checked ~ label {
+	text-shadow: 0 0 0 rgba(91, 44, 54, 0.99);
+}
+
+#review_form_content {
+	resize: none;
+}
+
+.review_form_table input[type=submit], [type=reset] {
+	width: 10%;
+	min-height: 25px;
+	border-radius: 2px;
+	background-color: #474948;
+	color: white;
+}
+
+.btn-upload {
+	width: 100px;
+	height: 30px;
+	background: #474948;
+	color: #fff;
+	border: 1px solid rgb(77, 77, 77);
+	border-radius: 10px;
+	font-weight: 500;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-upload:hover {
+	background: #fff;
+	color: black;
+}
+
+#file {
+	display: none;
+}

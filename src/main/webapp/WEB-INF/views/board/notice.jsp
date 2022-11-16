@@ -6,50 +6,50 @@
 <html>
 <head>
 <link rel="stylesheet" href="../css/reset.css" />
+<link rel="stylesheet" href="../css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
-<style>
- /* table,tr,td,th{border:1px solid black; border-collapse: collapse;} */
- #notice_tbl{border: 1px solid black;}
-</style>
 </head>
 <body >
 	<div class="notice">
 		<div class="notice_header">
-			<span class="title">NOTICE</span>
+			<div class="notice_header_title"><b>NOTICE</b></div>
 		</div>
-		<div class="notice_table" align="center">
-			<table id="notice_tbl">
-				<tr>
-					<td>번호</td>
-					<td>제목</td>
-					<td>작성자</td>
-					<td>작성일</td>
-					<td>조회수</td>
-				</tr>
- 			<c:if test="${empty noticeList}">
+		<div class="notice_content">
+			<table class="notice_table">
+				<thead>
 					<tr>
-						<td colspan="5"> 작성된 글이 없습니다.</td>
+						<td class="notice_num">번호</td>
+						<td class="notice_title" style="text-align: center;">제목</td>
+						<td class="notice_writeDate">작성일</td>
+						<td class="notice_count">조회수</td>
 					</tr>
-				</c:if>
-				<%-- <c:if test="${not empty noticeList}">
-					<c:forEach var="notice" items="${noticeList}" varStatus="num">
+				</thead>
+				<tbody>
 					<tr>
-						<td>${noticeList.size - num.index}</td>
-						<td>${notice.title}</td>
-						<td>${notice.writer}</td>
-						<td>${notice.writeDate}</td>
-						<td>${notice.cnt}</td>
+						<td colspan="4" style="text-align: center;">작성한 글이 없습니다.</td>
 					</tr>
-					</c:forEach>
-				</c:if> --%>
+					<tr>
+						<td class="notice_num">1</td>
+						<td class="notice_title"><a href="#">이디야커피, 카카오프렌즈와 연간 협업 진행</a></td>
+						<td class="notice_writeDate">2022-11-13</td>
+						<td class="notice_count">1990</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
-		<div class="pageingBar">
-			<button class="preview"><i class="fa-solid fa-angle-left"></i></button>
-			 1
-			<button class="next"><i class="fa-solid fa-angle-right"></i></button>
+		<div class="notice_admin">
+			<a href="#" id="notice_add">등록하기</a>
+		</div>
+		<div class="notice_paging">
+			<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+			<a href="#" class="page1">1</a>
+			<a href="#" class="next"><i class="fa-solid fa-angle-right"></i></a>
+		</div>
+		<div class="notice_search">
+			<input type="text" name="notice_search" id="search_box"/>
+			<button id="search_button" onclick="popup()">검색</button>
 		</div>
 	</div>
 </body>

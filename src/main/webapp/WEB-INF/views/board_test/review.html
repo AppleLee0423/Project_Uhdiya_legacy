@@ -30,7 +30,7 @@
 	}
 	.review_num{width:5%; text-align: center; min-width:30px;}
 	.review_product_code{width:15%; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width:100px; font-size:small; padding-left:5px;}
-	.review_title{width:50%; padding-left:10px; min-width:300px;}
+	.review_title{width:40%; padding-left:10px; min-width:200px;}
 	.review_writer{width:10%; text-align: center; min-width:90px;}
 	.review_writeDate{width:10%; text-align: center; min-width:90px;}
 	.review_delete_button{width:10%; text-align: center; min-width:50px;}
@@ -75,6 +75,17 @@
 		background-color: #474948;
 		color: white;
 	}
+	.review_star{
+		text-align: center;
+		width: 3%;
+		min-width: 50px;
+	}
+	.rate_in{
+		color: rgba(91, 44, 54, 0.99);
+	}
+	.rate_out{
+		color: rgb(108, 117, 125, 0.99);
+	}
 </style>
 </head>
 <body>
@@ -89,6 +100,7 @@
 					<td class="review_num">번호</td>
 					<td class="review_product_code"><font size="3">상품</font></td>
 					<td class="review_title">제목</td>
+					<td class="review_star">별점</td>
 					<td class="review_writer">작성자</td>
 					<td class="review_writeDate">작성일</td>
 					<td class="review_delete_button">삭제</td>
@@ -97,6 +109,7 @@
 					<td class="review_num">1</td>
 					<td class="review_product_code">홀빈커피 페르소나 블렌드 200g X 2개</td>
 					<td class="review_title">커피는 맛있는데</td>
+					<td class="review_star"><span class="rate_in">★★★★</span><span class="rate_out">★</span></td>
 					<td class="review_writer">hong</td>
 					<td class="review_writeDate">2022-11-14</td>
 					<td class="review_delete_button"><a href="#">삭제</a></td>

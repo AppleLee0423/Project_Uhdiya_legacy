@@ -1,0 +1,242 @@
+@charset "UTF-8";
+
+/* notice */
+.notice_header {
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.notice_content {
+	width: 100%;
+}
+
+.notice_table {
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+thead tr td {
+	background-color: #FBFAFA;
+}
+
+.notice_num {
+	width: 3%;
+	text-align: center;
+}
+
+.notice_title {
+	width: 20%;
+	padding-left: 10px;
+}
+
+.notice_writeDate {
+	width: 3%;
+	text-align: center;
+}
+
+.notice_count {
+	width: 3%;
+	text-align: center;
+}
+
+.notice_table tr, td {
+	border: 1px solid #D6DCD8;
+	border-collapse: collapse;
+	height: 35px;
+}
+
+.notice_table tbody tr:hover {
+	background-color: rgba(139, 163, 167, 0.1);
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.notice_paging {
+	width: 10%;
+	margin: 0 auto;
+	display: flex;
+	padding-top: 20px;
+	justify-content: space-between;
+}
+
+.notice_search {
+	padding-top: 20px;
+}
+
+.notice_admin {
+	text-align: right;
+	padding-top: 5px;
+}
+
+.prev, .next {
+	text-align: center;
+	width: 30px;
+	cursor: pointer;
+}
+
+.prev {
+	margin-right: 10px;
+}
+
+.next {
+	margin-left: 10px;
+}
+
+#search_box {
+	border: 2px solid #474948;
+	border-radius: 2px;
+	height: 20px;
+	padding-left: 5px;
+}
+
+#search_button {
+	border-radius: 2px;
+	width: 50px;
+	height: 25px;
+	background-color: #474948;
+	color: white;
+}
+
+/* notice_detail */
+
+.notice_header_title {
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.notice_detail_table {
+	border-top: 3px solid black;
+	border-bottom: 3px solid black;
+}
+
+.notice_detail_table ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.notice_admin {
+	text-align: right;
+	padding-top: 5px;
+}
+
+.notice_table_header {
+	padding: 20px;
+	border-bottom: 1px solid #D6DCD8;
+}
+
+.notice_detail_title {
+	padding-bottom: 5px;
+}
+
+.notice_detail_partition {
+	background-color: #D6DCD8;
+	color: #D6DCD8;
+	font-size: small;
+}
+
+.notice_table_body {
+	padding: 20px;
+	text-align: center;
+}
+
+.notice_table_content {
+	margin: 0 auto;
+	width: 50%;
+	word-break: break-all;
+}
+
+.notice_table_image {
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.notice_detail_button {
+	text-align: right;
+	padding-top: 5px;
+}
+
+.notice_title_header {
+	display: flex;
+	justify-content: space-between;
+}
+
+#notice_detail_update, #notice_detail_delete {
+	display: none;
+}
+
+/* notice_form.jsp */
+
+.notice_header_title {
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.notice_form_table {
+	width: 100%;
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+
+.notice_form_table tr td {
+	padding: 10px;
+}
+
+#notice_form_title {
+	width: 100%;
+	height: 25px;
+}
+
+#notice_form_content {
+	width: 100%;
+}
+
+.notice_form_td_title {
+	width: 10%;
+	text-align: right;
+}
+
+.notice_form_table tr {
+	border-bottom: 1px solid #D6DCD8;
+}
+
+#notice_form_content {
+	resize: none;
+}
+
+.notice_form_table input[type=submit], [type=reset] {
+	width: 10%;
+	min-height: 25px;
+	border-radius: 2px;
+	background-color: #474948;
+	color: white;
+}
+
+.btn-upload {
+	width: 100px;
+	height: 30px;
+	background: #474948;
+	color: #fff;
+	border: 1px solid rgb(77, 77, 77);
+	border-radius: 10px;
+	font-weight: 500;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-upload:hover {
+	background: #fff;
+	color: black;
+}
+
+#file {
+	display: none;
+}

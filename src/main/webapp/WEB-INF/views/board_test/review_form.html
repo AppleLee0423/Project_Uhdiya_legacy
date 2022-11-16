@@ -74,14 +74,48 @@
 	#file {
 	display: none;
 	}
+	
+	.review_form_star{
+		display: inline-block;
+		direction: rtl;
+	}
+	.review_form_star input[type=radio]{
+		display: none;
+		cursor: pointer;
+	}
+	.review_form_star label{
+		font-size: 2em;
+    	color: transparent;
+    	text-shadow: 0 0 0 #f0f0f0;
+	}
+	.review_form_star label:hover, .review_form_star label:hover ~ label {
+		text-shadow: 0 0 0 rgba(91, 44, 54, 0.99);
+	}
+	.review_form_star input[type=radio]:checked ~ label {
+		text-shadow: 0 0 0 rgba(91, 44, 54, 0.99);
+	}
 </style>
 </head>
 <body>
 	<div class="review">
-		<div class="review_title"><b>REVIEW</b> <span class="review_title_partition">I</span> 1 </div>
-		<div class="review_content">
+		<div class="review_header">
+			<div class="review_header_title"><b>REVIEW</b> <span class="review_header_partition">I</span> 1 </div>
+		</div>
+		<div class="review_body">
 			<form id="review_form" action="" method="post" enctype="multipart/form-data">
 				<table class="review_form_table">
+					<tr>
+						<td class="review_form_td_title">별점</td>
+						<td>
+							<div class="review_form_star">
+								<input type="radio" name="review_star" id="rate1" value="1"><label for="rate1">★</label>
+								<input type="radio" name="review_star" id="rate2" value="2"><label for="rate2">★</label>
+								<input type="radio" name="review_star" id="rate3" value="3"><label for="rate3">★</label>
+								<input type="radio" name="review_star" id="rate4" value="4"><label for="rate4">★</label>
+								<input type="radio" name="review_star" id="rate5" value="5"><label for="rate5">★</label>
+							</div>
+						</td>
+					</tr>
 					<tr>
 						<td class="review_form_td_title">제목</td>
 						<td><input type="text" name="review_title" id="review_form_title"/></td>
