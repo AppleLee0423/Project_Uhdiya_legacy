@@ -11,7 +11,6 @@
 <html>
 <head>
 <link rel="stylesheet" href="${path } /resources/css/reset.css" />
-<link rel="stylesheet" href="${path } /resources/css/main.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -152,13 +151,13 @@
     color: #fff;
     background: #bbb;
 }
-/* 상품디테일페이지 하단 메인정보 */
+/* 페이지 하단 메인정보 */
 .contentsMain {
 	margin-top:100px;
 	width: 1200px;
 	min-height:700px;
 }
-/* 상품상세,사용후기,상품문의 메뉴바 */
+/* <메뉴바> 상품상세,사용후기,상품문의*/
 .contentsMain_bar {
 	position:sticky;
 	top:0px;
@@ -184,7 +183,7 @@
 	border-left: 1px solid #cbcdce;
 	text-align:center;
 }
-/* 스크롤시 메뉴버튼변경 */
+/* <메뉴바> 스크롤시 메뉴버튼변경 */
 .down{
 	text-color:white;
 	background-color:lightgray;
@@ -193,7 +192,7 @@
 	background: #fff;
 	color:gray;
 }
-/* 상품정보이미지 */
+/* 페이지 하단 메인정보_상품정보이미지 */
 .contentsMain_contents{
 	margin:0 auto;
 	padding:20px;
@@ -241,14 +240,21 @@ $(function(){
 
 </head>
 <body>
+<!-- 전체페이지 : 상품 디테일 -->
 <div class="productDetailPage">
 
-
-	<div class="contentsIntro">
-		<div class="contentsIntro_detailImg">	<!-- 상품이미지 -->
+	<!-- 페이지 상단(상품사진,결제정보입력부분) -->
+	<div class="contentsIntro">	
+	
+		<!-- 페이지상단 좌측 // 상품이미지 -->
+		<div class="contentsIntro_detailImg">	
 			 <img class="detailImg" src="/Uhdiya/resources/img/product/beans_01.jpg"> 
 		</div>
-		<div class="contentsIntro_payInfoTxt">	<!-- 상품가격,구매하기버튼등 -->
+		
+		<!-- 페이지상단 우측 // 상품가격,구매하기버튼등 -->
+		<div class="contentsIntro_payInfoTxt">	
+		
+			<!-- 페이지상단 우측 결제정보의 상품명과 가격정보 -->
 			<div class="contentsIntro_productName">
 				<h1>[어디야] 홀빈커피 페르소나 블렌드 200g</h1>
 			</div>
@@ -270,14 +276,25 @@ $(function(){
 				<br>
 			</div>
 			
+			<!-- 페이지상단 우측 결제정보의 테이블들 (수량선택과 총 금액계산) -->
 			<div class="contentsIntro_payInfo_tables">
+			
+				<!-- 수량선택파트 -->
 				<table class="contentsIntro_payInfo_select">
 					<tr>
 						<td class="contentsIntro_payInfo_select_productName">
 							&nbsp;[어디야] 홀빈커피 페르소나 블렌드 200g
 						</td>
 						<td	class="contentsIntro_payInfo_select_quantity">
-							<span>수량정보</span>
+						<!-- 	<div class="qty_num">
+								<input id="quantity" class="quantity" name="quantity[]" type="text" style value="1" readonly="readonly">
+							</div> -->
+							<div class="qty_btn_plus">
+								<a href="javascript:qty_change('p')"><img src="/Uhdiya/resources/img/product/btn_p.gif" alt="+"></a>
+							</div>
+							<div class="qty_btn_minus">
+								<a href="javascript:qty_change('m')"><img src="/Uhdiya/resources/img/product/btn_m.gif" alt="-"></a>
+							</div>
 						</td>
 						<td class="contentsIntro_payInfo_select_price">
 							<span style="float:right">20,000원</span>
@@ -285,6 +302,7 @@ $(function(){
 					</tr>
 				</table>
 				
+				<!-- 금액계산파트 -->
 				<table class="contentsIntro_payInfo_totalCal">
 					<tr>
 						<td class="contentsIntro_payInfo_totalCal_txt">
@@ -299,7 +317,8 @@ $(function(){
 					</tr>
 				</table>
 			</div>
-
+			
+			<!-- 페이지상단 우측 결제정보 하단의 버튼들(장바구니,구매) -->
 			<div class="contentsIntro_buttons">
 				<div class="contentsIntro_buttons_cart">
 					<a href="#" class="btn_cart"> 
@@ -315,9 +334,9 @@ $(function(){
 		</div>
 	</div>
 	
-	<!-- 상품설명,상품후기,상품문의 -->
+	<!-- 상품설명,상품후기,상품문의 메뉴바 -->
 	<div class="contentsMain">
-		<!-- 상품후기,상품문의 버튼선택 -->
+		<!-- 상품후기,상품문의 버튼들 -->
 		<div class="contentsMain_bar">
 			<div class="contentsMain_menu">
 				<ul class="contentsMain_menu_buttons">
@@ -332,16 +351,16 @@ $(function(){
 		</div>
 		
 		<!-- 상품설명 이미지 -->
-		<p class="info"></p> <!-- 스크롤  -->
+		<p class="info"></p> <!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_contents">	
-			<p id="info"></p> <!-- 클릭이동한곳 -->
+			<p id="info"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			<img src="/Uhdiya/resources/img/product/beans_01_info.jpg">
 		</div>
 		
 		<!-- 상품후기 -->
-		<p class="boardReview"></p> <!-- 스크롤  -->
+		<p class="boardReview"></p> <!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_review" align="center"> 
-			<p id="boardReview"></p><!-- 클릭이동한곳 -->
+			<p id="boardReview"></p><!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			<h1>리뷰게시판</h1>
 			<h1>리뷰게시판</h1>
 			<h1>리뷰게시판</h1>
@@ -352,9 +371,9 @@ $(function(){
 		</div>
 		
 		<!-- 상품문의  -->
-		<p class="boardQna"></p><!-- 스크롤  -->
+		<p class="boardQna"></p><!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_qna" align="center"> 
-			<p id="boardQna"></p> <!-- 클릭이동한곳 -->
+			<p id="boardQna"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			<h1>후기게시판</h1>
 			<h1>후기게시판</h1>
 			<h1>후기게시판</h1>
