@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.qna">
+	<resultMap type="qnaDTO" id="qna">
+		<result property="qna_id" column="qna_id"/>
+		<result property="qna_parentId" column="qna_parentId"/>
+		<result property="qna_writeId" column="qna_writeId"/>
+		<result property="qna_title" column="qna_title"/>
+		<result property="qna_content" column="qna_content"/>
+		<result property="qna_regDate" column="qna_regDate"/>
+		<result property="qna_status" column="qna_status"/>
+		<result property="product_code" column="product_code"/>
+	</resultMap>
+	
+	<resultMap type="qnaFileDTO" id="file">
+		<result property="qna_id" column="qna_id"/>
+		<result property="qna_fileName" column="qna_fileName"/>
+	</resultMap>
+	
+</mapper>

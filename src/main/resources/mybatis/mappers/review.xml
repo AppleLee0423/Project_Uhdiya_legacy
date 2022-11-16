@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.review">
+	<resultMap type="reviewDTO" id="review">
+		<result property="review_id" column="review_id"/>
+		<result property="review_writeId" column="review_writeId"/>
+		<result property="review_star" column="review_star"/>
+		<result property="review_title" column="review_title"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_regDate" column="review_regDate"/>
+		<result property="product_code" column="product_code"/>
+	</resultMap>
+	
+	<resultMap type="reviewFileDTO" id="file">
+		<result property="review_id" column="review_id"/>
+		<result property="review_fileName" column="review_fileName"/>
+	</resultMap>
+	
+</mapper>

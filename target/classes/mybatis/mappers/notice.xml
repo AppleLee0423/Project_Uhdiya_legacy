@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.notice">
+	<resultMap type="noticeDTO" id="notice">
+		<result property="notice_id" column="notice_id"/>
+		<result property="notice_writeId" column="notice_writeId"/>
+		<result property="notice_title" column="notice_title"/>
+		<result property="notice_content" column="notice_content"/>
+		<result property="notice_regDate" column="notice_regDate"/>
+		<result property="notice_count" column="notice_count"/>
+	</resultMap>
+	
+	<resultMap type="noticeFileDTO" id="file">
+		<result property="notice_id" column="notice_id"/>
+		<result property="notice_fileName" column="notice_fileName"/>
+	</resultMap>
+	
+</mapper>

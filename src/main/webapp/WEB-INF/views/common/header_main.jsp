@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="resources/css/reset.css" />
-<link rel="stylesheet" href="resources/css/header.css" />
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link rel="stylesheet" href="${path}/resources/css/header.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -53,7 +53,7 @@
         <span><a href="#">티</span></a>&nbsp;
         <span><a href="#">선물세트</span></a>&nbsp;
         <span><a href="#">케이크</span></a>&nbsp;
-        <span><a href="#">게시판</span></a>&nbsp;
+        <span><a href="${path}/board/notice">공지사항</span></a>&nbsp;
     </div>
 </body>
 </html>

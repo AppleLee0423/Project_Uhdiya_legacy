@@ -1,6 +1,10 @@
 @charset "UTF-8";
 
 /* notice */
+.notice{
+	padding: 20px 350px;
+}
+
 .notice_header {
 	padding-bottom: 10px;
 	font-weight: bold;
@@ -42,7 +46,11 @@ thead tr td {
 .notice_table tr, td {
 	border: 1px solid #D6DCD8;
 	border-collapse: collapse;
+}
+
+.notice_table td{
 	height: 35px;
+	vertical-align: middle;
 }
 
 .notice_table tbody tr:hover {
