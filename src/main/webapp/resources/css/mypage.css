@@ -1,4 +1,3 @@
-
 .mypageAll {
     position: relative;
     width: 1280px;
@@ -9,6 +8,7 @@
 .container {
     width: 1240px;
     margin: 0 auto;
+    margin-top: 35px;
 }
 
 #content {
@@ -22,6 +22,7 @@
     min-height: 30px;
     margin: 0px 0 20px;
     border-bottom: 0px solid #e8e8e8;
+    margin-bottom: 30px;
 }
 
 .first h2 {
@@ -48,7 +49,7 @@
     width: 100%;
     box-sizing: border-box;
 
-    border: 1px solid gray;
+    border: 1px solid rgb(206, 202, 202);
 }
 
 .thumbnail {
@@ -81,10 +82,12 @@
 }
 
 .between button {
-    padding: 35px 0;
+    margin-top: 20px;
+    padding: 35px 15px;
     background-color: white;
     border: 0.5px solid rgb(226, 221, 221);
     box-shadow: 1px 1px 1px 1px rgb(233, 226, 226);
+    margin-bottom: 500px;
 }
 
 .between button:hover {
@@ -94,13 +97,17 @@
 }
 
 .between p {
-    font-size: xx-large;
+    font-size: x-large;
     margin-bottom: 10px;
+}
+
+.between h2 {
+    font-size: 19px;
 }
 
 .between h3 {
     text-align: center;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .between h4 {
