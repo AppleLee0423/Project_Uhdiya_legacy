@@ -1,0 +1,114 @@
+
+.mypageAll {
+    position: relative;
+    width: 1280px;
+    margin: 0px auto 0;
+    margin-top: 30px;
+}
+
+.container {
+    width: 1240px;
+    margin: 0 auto;
+}
+
+#content {
+    float: left;
+    width: 1240px;
+    min-height: 700px;
+    margin: 0;
+}
+
+.first {
+    min-height: 30px;
+    margin: 0px 0 20px;
+    border-bottom: 0px solid #e8e8e8;
+}
+
+.first h2 {
+    display: inline-block;
+    padding: 20px 0 0 0px;
+    color: #2e2e2e;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.second {
+    margin: 0 0 20px;
+}
+
+.second2 {
+    border-width: 1px;
+    padding: 0;
+}
+
+.second3 {
+    display: table;
+    table-layout: fixed;
+    padding: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid gray;
+}
+
+.thumbnail {
+    display: table-cell;
+    padding: 0 15px;
+    width: 70px;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.description {
+    display: table-cell;
+    padding: 0 10px;
+    width: auto;
+    line-height: 1.5em;
+    border-left: 1px solid #e8e8e8;
+    vertical-align: middle;
+    font-size: 13px;
+    color: #817b7b;
+}
+
+.description span {
+    line-height: 1.5em;
+}
+
+.between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.between button {
+    padding: 35px 0;
+    background-color: white;
+    border: 0.5px solid rgb(226, 221, 221);
+    box-shadow: 1px 1px 1px 1px rgb(233, 226, 226);
+}
+
+.between button:hover {
+    border: none;
+    box-shadow: none;
+    transform: scale(1.1);
+}
+
+.between p {
+    font-size: xx-large;
+    margin-bottom: 10px;
+}
+
+.between h3 {
+    text-align: center;
+    font-size: 17px;
+}
+
+.between h4 {
+    max-width: 180px;
+    font-size: 12px;
+    font-family: sans-serif, Helvetica, sans-serif;
+}
+
+.between h4 {
+    margin-top: 20px;
+}
