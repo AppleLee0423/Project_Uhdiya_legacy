@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+	
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="UHDIYA STORE - 어디야 스토어" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<!-- 회원정보 수정 -->
+	<definition name="/mem/modMem" extends="baseLayout">
+		<put-attribute name="title" value="modMem - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/mem/modMem.jsp" />
+	</definition>
+	<!-- 회원정보 수정처리 -->
+	<definition name="/mem/modmemPro" extends="baseLayout">
+		<put-attribute name="title" value="modmemPro - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/mem/modmemPro.jsp" />
+	</definition>
+	<!-- 회원탈퇴 -->
+	<definition name="/mem/delete" extends="baseLayout">
+		<put-attribute name="title" value="delete - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/mem/delete.jsp" />
+	</definition>
+	<!-- 회원탈퇴 처리 -->
+	<definition name="/mem/deletePro" extends="baseLayout">
+		<put-attribute name="title" value="deletePro - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/mem/deletePro.jsp" />
+	</definition>
+	
+</tiles-definitions>
