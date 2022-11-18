@@ -6,16 +6,14 @@
 <html>
 <head>
 <style>
-
 .mem {
 	width: 50%;
-	border: 3px solid green;
+	border: 2px solid black;
 	padding: 10px;
-	margin:auto;
-}
-.modMem{
+	margin: auto;
 	text-align:center;
 }
+
 </style>
 <link rel="stylesheet" href="../css/reset.css" />
 <meta charset="UTF-8">
@@ -40,7 +38,7 @@
 					<td width="200px"><input type="text" name="name"></td>
 				</tr>
 				<tr>
-					<th height="50px">전화번호</th>
+		 			<th height="50px">전화번호</th>
 					<td width="200px"><input type="text" name="phone"></td>
 				</tr>
 				<tr>
@@ -52,8 +50,9 @@
 					<td width="200px"><input type="text" name="address"></td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align: center" height="100px"><input
-						type="submit" value="완료"> <input type="reset" value="취소">
+					<td colspan="3" style="text-align: center" height="100px" >
+					<input type="submit" value="완료" onclick="javascript:window.location='modmemPro.jsp'"> 
+					<input type="reset" value="취소" onclick="javascript:window.location='header.jsp'">
 					</td>
 				</tr>
 			</table>

@@ -11,9 +11,47 @@
 	</definition>
 	
 	<!-- 레이아웃이 필요한 JSP -->
-	<definition name="/mem/modMem" extends="baseLayout">
-		<put-attribute name="title" value="modMem - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/mem/modMem.jsp" />
+	<definition name="/board/notice" extends="baseLayout">
+		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/notice.jsp" />
+	</definition>
+	<definition name="/board/noticeForm" extends="baseLayout">
+		<put-attribute name="title" value="NOTICE FORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/noticeForm.jsp" />
+	</definition>
+	<definition name="/board/my_Qna" extends="baseLayout">
+		<put-attribute name="title" value="MY QNA - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/my_qna.jsp" />
+	</definition>
+	<definition name="/board/qnaForm" extends="baseLayout">
+		<put-attribute name="title" value="QNA FORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/qnaForm.jsp" />
+	</definition>
+	<definition name="/board/my_Review" extends="baseLayout">
+		<put-attribute name="title" value="MY REVIEW - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/my_review.jsp" />
+	</definition>
+	<definition name="r/board/eviewForm" extends="baseLayout">
+		<put-attribute name="title" value="REVIEWFORM - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/reviewForm.jsp" />
+	</definition>
+	
+	<!-- 관리자 JSP -->
+	<definition name="/board/qna_List" extends="baseLayout">
+		<put-attribute name="title" value="QNA LIST - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/qna_List.jsp" />
+	</definition>
+	<definition name="/board/review_List" extends="baseLayout">
+		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/review_List.jsp" />
+	</definition>
+	
+	<!-- 레이아웃이 필요없는 JSP(임시) -->
+	<definition name="/board/product_Qna" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/product_qna.jsp" />
+	</definition>
+	<definition name="/board/product_Review" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/product_review.jsp" />
 	</definition>
 	
 </tiles-definitions>

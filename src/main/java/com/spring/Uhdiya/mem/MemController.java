@@ -16,12 +16,35 @@ public class MemController {
 //	@Autowired NoticeService noticeService;
 	
 	
-	// 공지사항 작성폼(관리자만)
+	// 회원정보 수정
 	@RequestMapping("modMem")
-	public ModelAndView noticeForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView modMem(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	// 회원정보 수정처리
+		@RequestMapping("modmemPro")
+		public ModelAndView modmemPro(HttpServletRequest request, HttpServletResponse response) throws Exception{
+			String viewName = (String) request.getAttribute("viewName");
+			ModelAndView mav = new ModelAndView(viewName);
+			return mav;
+		}
+	
+	// 회원탈퇴
+	@RequestMapping("delete")
+	public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+	// 회원탈퇴 처리
+	@RequestMapping("deletePro")
+	public ModelAndView deletePro(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+	
 	
 }
