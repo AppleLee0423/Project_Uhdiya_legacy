@@ -53,20 +53,30 @@
    }
 
    </style>
+      <c:set var="result" value="${param.result }" />
+      <c:choose>
+	  <c:when test="${result == 'loginFailed' }">
+		<script>
+			window.onload = function(){
+				alert('아이디나 비밀번호가 틀립니다. 다시 로그인 하세요!.');
+			}
+		</script>
+	</c:when>
+</c:choose>
    
 </head>
 <body>
 <body class="text-center">
 	<main class="form-signin">
-		<form>
+		<form method="post" action="${path }/memJ/logib=nMem" >
 			<div class="sss"
 				style="border: 1px solid black; width: 1200px; height: 400px; margin-left: auto; margin-right: auto; margin-top: 75px;">
 				<div class="ni">
 					<h1 class="h3 mb-3 fw-normal">로그인</h1>
 					<label for="inputId" class="visually-hidden">ID</label>
-					<input type="ID" id="user_id" class="form-control" placeholder="아이디" required autofocus>
+					<input type="ID" id="member_id" class="form-control" placeholder="아이디" required autofocus>
 					<label for="inputPassword" class="visually-hidden">Password</label> 
-					<input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
+					<input type="password" id="member_Password" class="form-control" placeholder="비밀번호" required>
 					<button class="w-100 btn btn-lg btn-primary" type="submit">
 						로그인
 					</button>
