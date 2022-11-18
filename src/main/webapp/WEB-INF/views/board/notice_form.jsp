@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/notice.css" />
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link rel="stylesheet" href="${path}/resources/css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -33,9 +33,8 @@
 	}
 </script>
 <style>
-#file {
-	display: none;
-}
+#file {display: none;}
+.notice_form_td_title{word-break: keep-all;}
 </style>
 </head>
 <body>

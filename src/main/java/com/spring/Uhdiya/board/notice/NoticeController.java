@@ -39,10 +39,19 @@ public class NoticeController {
 		ModelAndView mav = new ModelAndView(viewName);
 		List<NoticeDTO> notice_list = noticeService.all_notice();
 		mav.addObject("notice_list",notice_list);
-		String webappRoot = servletContext.getRealPath("/");
-		String relativeFolder = File.separator + "resources" + File.separator + "file" + File.separator + "notice_repo";
 		
-
+		return mav;
+	}
+	
+	// 공지사항 상세페이지
+	@RequestMapping(value="notice_page",method=RequestMethod.GET)
+	public ModelAndView notice_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		/*
+		List<NoticeDTO> notice_list = noticeService.all_notice();
+		mav.addObject("notice_list",notice_list);
+		*/
 		return mav;
 	}
 	
@@ -172,16 +181,16 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정(관리자만)
-	@RequestMapping("update_Notice")
-	public ModelAndView updateNotice(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("update_notice")
+	public ModelAndView update_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
 	
 	// 공지사항 삭제(관리자만)
-	@RequestMapping("deleteNotice")
-	public ModelAndView deleteNotice(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("delete_notice")
+	public ModelAndView delete_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;

@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/qna.css" />
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link rel="stylesheet" href="${path}/resources/css/qna.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -18,7 +18,7 @@
 			<div class="qna_count">총 2건</div>
 		</div>
 		<div class="qna_body">
-			<ul>
+			<ul class="qna_list">
 				<li>
 					<details>
 						<summary>

@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/mypage.css" />
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link rel="stylesheet" href="${path}/resources/css/mypage.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -21,7 +21,7 @@
                     <div class="second2">
                         <div class="second3">
                             <p class="thumbnail">
-                                <img src="img/member_default.gif" />
+                                <img src="${path}/resources/img/member_default.gif" />
                             </p>
                             <div class="description">
                                 <span>저희 쇼핑몰을 이용해 주셔서 감사합니다.</span>
@@ -50,13 +50,13 @@
                         <h3>장바구니</h3>
                         <h4>장바구니에 등록하신 상품의 목록을 보여드립니다.</h4>
                     </button>
-                    <button>
+                    <button onclick="location.href='${path}/board/qna_my';">
                         <p>📬</p>
                         <h2>Questions</h2>
                         <h3>문의 내역</h3>
                         <h4>고객님께서 작성하신 게시물을 관리하는 공간입니다.</h4>
                     </button>
-                    <button>
+                    <button onclick="location.href='${path}/board/review_my';">
                         <p>✍</p>
                         <h2>Review</h2>
                         <h3>리뷰 목록</h3>

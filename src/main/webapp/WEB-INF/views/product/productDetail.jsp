@@ -280,14 +280,16 @@ $(document).ready(function() {
 		<p class="boardReview"></p> <!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_review" align="center"> 
 			<p id="boardReview"></p><!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
-			<img width="1190px" height="1500px" src="${path }/resources/img/product/reviewTest.png">
+			<jsp:include page="/WEB-INF/views/board/review_product.jsp" ></jsp:include>
+			<%-- <img width="1190px" height="1500px" src="${path }/resources/img/product/reviewTest.png"> --%>
 		</div>
 		
 		<!-- 상품문의  -->
 		<p class="boardQna"></p><!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_qna" align="center"> 
 			<p id="boardQna"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
-			<img width="1190px" height="1500px" src="${path }/resources/img/product/qnaTest.png">
+			<jsp:include page="/WEB-INF/views/board/qna_product.jsp" ></jsp:include>
+			<%-- <img width="1190px" height="1500px" src="${path }/resources/img/product/qnaTest.png"> --%>
 		</div>
 	</div>
 </div>

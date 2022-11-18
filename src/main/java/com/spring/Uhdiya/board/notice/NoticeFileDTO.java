@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NoticeFileDTO {
-	private int notice_fileId;
+	private int notice_fileId; // 이미지 고유번호
 	private int notice_id; // 글 고유번호
 	private String notice_fileName; // 이미지 파일명
 

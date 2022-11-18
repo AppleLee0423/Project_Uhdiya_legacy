@@ -4,16 +4,22 @@
 
 <configuration>
 	<typeAliases>
+		<!-- board -->
 		<typeAlias type="com.spring.Uhdiya.board.notice.NoticeDTO" alias="noticeDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.notice.NoticeFileDTO" alias="noticeFileDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.qna.QnaDTO" alias="qnaDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.qna.QnaFileDTO" alias="qnaFileDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewDTO" alias="reviewDTO"/>
-
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewFileDTO" alias="reviewFileDTO"/>
-
+		
+		<!-- member -->
+		<!-- mem -->
+		<!-- memJ -->
 		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
 		
+		<!-- shoppingList -->
+		
+		<!-- product -->
 		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />
 		<typeAlias type="com.spring.Uhdiya.product.ProductFileDTO" alias="productFileDTO" />
 		<typeAlias type="com.spring.Uhdiya.product.ProductCntDTO" alias="productCntDTO" />

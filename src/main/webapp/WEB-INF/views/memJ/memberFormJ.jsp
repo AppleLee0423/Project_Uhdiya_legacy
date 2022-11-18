@@ -7,8 +7,8 @@
 <head>
 <link rel="stylesheet" href="../css/reset.css" />
 
-<link href= "../css/memJ/bootstrap.min.css" rel = "stylesheet">
-<link href= "../css/memJ/signin.css" rel="stylesheet">
+<link href= "${path}/resources/css/memJ/bootstrap.min.css" rel = "stylesheet">
+<link href= "${path}/resources/css/memJ/signin.css" rel="stylesheet">
 
 
 <meta charset="UTF-8">

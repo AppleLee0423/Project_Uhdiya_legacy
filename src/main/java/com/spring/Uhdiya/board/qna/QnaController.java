@@ -24,16 +24,16 @@ public class QnaController {
 	}
 	
 	// 상품 QnA
-	@RequestMapping("/product_Qna")
-	public ModelAndView product_Qna(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/qna_product")
+	public ModelAndView qna_product(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
 	
 	// 나의 QnA
-	@RequestMapping("/my_Qna")
-	public ModelAndView my_Qna(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/qna_my")
+	public ModelAndView qna_my(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
