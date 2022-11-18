@@ -10,8 +10,5 @@
 		<typeAlias type="com.spring.Uhdiya.board.qna.QnaFileDTO" alias="qnaFileDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewDTO" alias="reviewDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewFileDTO" alias="reviewFileDTO"/>
-		
-		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />
-		<typeAlias type="com.spring.Uhdiya.product.ProductFileDTO" alias="productFileDTO" />
 	</typeAliases>
 </configuration>
