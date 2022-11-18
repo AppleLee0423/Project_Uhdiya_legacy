@@ -10,5 +10,7 @@
 		<typeAlias type="com.spring.Uhdiya.board.qna.QnaFileDTO" alias="qnaFileDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewDTO" alias="reviewDTO"/>
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewFileDTO" alias="reviewFileDTO"/>
+
+		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
 	</typeAliases>
 </configuration>

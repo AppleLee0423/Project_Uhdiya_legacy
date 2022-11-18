@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap type="MemJDTO" id="memResult">
+		<result property="mem_seq.nextval" column="id" />
+		<result property="member_id" column="member_id" />
+		<result property="member_password" column="member_password" />
+		<result property="member_phone" column="member_phone"/>
+		<result property="member_name" column="member_name" />
+		<result property="member_email" column="member_email" />
+		<result property="member_joinDate" column="member_joinDate" />
+		<result property="zipno" column="zipno" />
+		<result property="roadFullAddr" column="roadFullAddr" />
+		<result property="addDetail" column="addDetail" />
+	</resultMap> 
+	
+
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="MemJDTO">
+		<![CDATA[
+		INSERT INTO member
+		VALUES(mem_seq.nextval, #{member_id}, #{member_password},#{member_name},#{member_phone},  #{member_email},sysdate)
+		]]>
+	</insert>
+	<!-- 회원가입 주소 -->
+	<insert id="insertaddress" parameterType="MemJDTO">
+		<![CDATA[
+		INSERT INTO address
+		VALUES(#{member_id}, #{zipno},#{roadFullAddr},#{addDetail})
+		]]>
+	</insert>
+	
+	
+	<!-- id="loginById" 로 아이디/패스워드를 입력 받아서 MemberDTO를 반환하는 sql 작성 -->
+	<select id="loginById"	parameterType="MemJDTO" resultType="MemJDTO">
+		<![CDATA[
+			select * from member where member_id=#{member_id} and memebr_password=#{member_password}
+		]]>
+	</select>
+
+</mapper>
