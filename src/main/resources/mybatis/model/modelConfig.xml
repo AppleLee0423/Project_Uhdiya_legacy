@@ -10,5 +10,6 @@
 		
 		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />
 		<typeAlias type="com.spring.Uhdiya.product.ProductFileDTO" alias="productFileDTO" />
+		<typeAlias type="com.spring.Uhdiya.product.ProductCntDTO" alias="productCntDTO" />
 	</typeAliases>
 </configuration>

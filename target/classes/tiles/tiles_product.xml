@@ -10,13 +10,13 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" /> 
 	</definition>
 	
-	<definition name="/product/beansList" extends="baseLayout">
-		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
+	<definition name="/product/productList" extends="baseLayout">
+		<put-attribute name="title" value="SHOPPING - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
 	</definition>
 	
 	<definition name="/product/productDetail" extends="baseLayout">
-		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
+		<put-attribute name="title" value="SHOPPING - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/product/productDetail.jsp" />
 	</definition>
 

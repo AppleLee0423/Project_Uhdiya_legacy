@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product">
+<!-- 리절트 맵 정의 -->	
+	<resultMap id="productResult" type="ProductDTO">
+		<result property="product_id" column="product_id" />
+		<result property="product_code" column="product_code" />
+		<result property="product_name" column="product_name" />
+		<result property="product_cateL" column="product_cateL" />
+		<result property="product_cateS" column="product_cateS" />
+		<result property="product_price" column="product_price" />
+		<result property="product_fileName" column="product_fileName" />
+	</resultMap>	
+
+	 <resultMap id="productFileResult" type="ProductFileDTO">
+	   <result property="product_fileId" column="product_fileId" />
+	   <result property="product_fileName" column="product_fileName" />
+	   <result property="product_fileType" column="product_fileType" />
+	   <result property="product_code" column="product_code" />
+	</resultMap>
+	
+	<resultMap id="cntResult" type="java.lang.Integer">
+		<result property="total" column="total" />
+	</resultMap>
+	<resultMap id="cntCateSResult" type="ProductCntDTO">
+		<result property="product_cateS" column="total" />
+		<result property="cateS" column="cateS" />
+	</resultMap>
+	
+	
+	
+    <select id="selectCountByCateS" parameterType="String" resultMap="cntCateSResult"   >
+        <![CDATA[
+       select product_cateS,count(*) as cateS from product where product_cateL = #{cateL}
+   			 group by product_cateS
+	    ]]>
+	</select>
+	
+    <select id="selectProductCountByCateL" parameterType="String" resultMap="cntResult"   >
+        <![CDATA[
+       select count(*) as total from product where product_cateL=#{cateL}
+	    ]]>
+	</select>
+	
+    <select id="selectProductCountByCateS" parameterType="String" resultMap="cntResult"   >
+        <![CDATA[
+       select count(*) as total from product where product_cateS=#{cateS}
+	    ]]>
+	</select>
+	
+    <select id="selectProductsListL" parameterType="String" resultMap="productResult"   >
+        <![CDATA[
+        select t.*
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main' 
+        	and p.product_cateL=#{cateL}
+            order by p.product_id asc)  t
+	      where   rowNum <16
+	    ]]>
+	</select>
+	
+    <select id="selectProductsListS" parameterType="String" resultMap="productResult"   >
+        <![CDATA[
+        select t.*
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main' 
+        	and p.product_cateS=#{cateS}
+            order by p.product_id asc)  t
+	      where   rowNum <16
+	    ]]>
+	</select>
+	
+	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
+	    <![CDATA[
+		     select p.*,f.product_fileName from product p, product_file f
+	        where p.product_code=f.product_code
+	        and f.product_fileType='main'
+	        and p.product_code = #{product_code}
+	        order by p.product_code
+    	]]>
+	</select>
+
+	<select id="selectProductInfoFile" resultMap="productFileResult"   parameterType="String"  >
+	    <![CDATA[
+		    	select * from  product_file 
+		    	where product_fileType ='info'
+				and product_code = #{product_code}
+    	]]>
+	</select>
+	
+</mapper>

@@ -4,10 +4,17 @@ public class ProductFileDTO {
 	
 	private int product_fileId;
 	private String product_fileName;
+	private String product_fileType;
 	private String product_code;
 	
 	
 	
+	public String getProduct_fileType() {
+		return product_fileType;
+	}
+	public void setProduct_fileType(String product_fileType) {
+		this.product_fileType = product_fileType;
+	}
 	public int getProduct_fileId() {
 		return product_fileId;
 	}

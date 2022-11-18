@@ -3,12 +3,13 @@ package com.spring.Uhdiya.product;
 public class ProductDTO {
 	
 	
-	private int id;
+	private int product_id;
 	private String product_code;
 	private String product_name;
 	private String product_cateL;
 	private String product_cateS;
 	private int product_price;
+	
 	private String product_fileName;
 	
 	
@@ -26,18 +27,22 @@ public class ProductDTO {
 
 
 
-	public ProductDTO() {
-		// TODO Auto-generated constructor stub
-	}
+
 	
 	
-	
-	public int getId() {
-		return id;
+
+	public int getProduct_id() {
+		return product_id;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+
+
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
 	}
+
+
+
 	public String getProduct_code() {
 		return product_code;
 	}
