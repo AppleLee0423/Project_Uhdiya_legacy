@@ -10,6 +10,33 @@
 <link rel="stylesheet" href="../css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	let cnt = 1;
+	function fn_addFile(){
+		$("#d_file").append("<br><input type='file' name='notice_fileName"+cnt+"' onchange='readURL(this)'>'");
+		$(".image_preview").append("<img src='#' id='preview"+cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
+		cnt++;
+	}
+	function readURL(input){
+		if(input.files && input.files[0]){
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$("#preview"+(cnt-1)).attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	function cleandiv(){
+		$('#d_file').empty();
+		$('.image_preview').empty();
+	}
+</script>
+<style>
+#file {
+	display: none;
+}
+</style>
 </head>
 <body>
 	<div class="notice">
@@ -17,7 +44,7 @@
 			<div class="notice_header_title"><b>NOTICE</b></div>
 		</div>
 		<div class="notice_content">
-			<form id="notice_form" action="" method="post" enctype="multipart/form-data">
+			<form id="notice_form" action="${path}/board/addNotice" method="post" enctype="multipart/form-data">
 				<table class="notice_form_table">
 					<tr>
 						<td class="notice_form_td_title">제목</td>
@@ -34,18 +61,24 @@
 						<label for="file">
   						<div class="btn-upload">파일추가</div>
 						</label>
-						<input type="file" name="imageFileName" id="file">
+						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
+						<%-- <input type="file" name="notice_fileName" id="file" onchange="readURL(this)"> --%>
+						<div id="d_file"></div>	
 						</td>
 					</tr>
 					<tr>
-						<td class="notice_form_td_title">미리보기</td>
-						<td><img src="#" id="preview" /></td>
+						<td class="notice_form_td_title">첨부파일</td>
+						<td>
+							<div class="image_preview">
+								<%-- <img src="#" id="preview" width="100px" style="padding-top:10px;"/> --%>
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right">
 							<input type="submit" value=" 등록하기"/>
-							<input type="reset" value="취소하기"/>
+							<input type="reset" value="취소하기" onclick="cleandiv()"/>
 						</td>
 					</tr>
 				</table>

@@ -15,7 +15,7 @@
         <div class="header_padding">
 
             <div class="first_section">
-                <p id="one">로그인</p>&nbsp;&nbsp;
+                <p id="one">${path}</p>&nbsp;&nbsp;
                 <p id="two">회원가입</p>&nbsp;&nbsp;
                 <p>장바구니</p>&nbsp;&nbsp;
                 <p>마이페이지</p>&nbsp;&nbsp;

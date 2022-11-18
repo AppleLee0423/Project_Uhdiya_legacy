@@ -27,21 +27,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td colspan="4" style="text-align: center;">작성한 글이 없습니다.</td>
-					</tr>
-					<tr>
-						<td class="notice_num">1</td>
-						<td class="notice_title"><a href="#">이디야커피, 카카오프렌즈와 연간 협업 진행</a></td>
-						<td class="notice_writeDate">2022-11-13</td>
-						<td class="notice_count">1990</td>
-					</tr>
+					<c:if test="${empty notice_list}">
+						<tr>
+							<td colspan="4" style="text-align: center;">작성한 글이 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:if test="${not empty notice_list}">
+						<c:forEach var="notice" items="${notice_list}" varStatus="num">
+							<tr>
+								<td class="notice_num">${num.count}</td>
+								<td class="notice_title"><a href="${path}/board/notice_detail?notice_id=${notice.notice_id}">${notice.notice_title}</a></td>
+								<td class="notice_writeDate">${notice.notice_regDate}</td>
+								<td class="notice_count">${notice.notice_count}</td>
+							</tr>
+						</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 		</div>
+		<c:if test="${member.member_id == 'admin'}"></c:if>
 		<div class="notice_admin">
-			<a href="#" id="notice_add">등록하기</a>
+			<a href="${path}/board/noticeForm" id="notice_add">등록하기</a>
 		</div>
+		
 		<div class="notice_paging">
 			<a href="#" class="prev"><i class="fa-solid fa-angle-left"></i></a>
 			<a href="#" class="page1">1</a>
@@ -49,7 +57,7 @@
 		</div>
 		<div class="notice_search">
 			<input type="text" name="notice_search" id="search_box"/>
-			<button id="search_button" onclick="popup()">검색</button>
+			<button id="search_button">검색</button>
 		</div>
 	</div>
 </body>

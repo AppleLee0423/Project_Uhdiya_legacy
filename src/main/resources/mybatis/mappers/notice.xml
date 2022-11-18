@@ -12,9 +12,91 @@
 		<result property="notice_count" column="notice_count"/>
 	</resultMap>
 	
-	<resultMap type="noticeFileDTO" id="file">
+	<resultMap type="noticeFileDTO" id="notice_file">
+		<result property="notice_fileId" column="notice_fileId"/>
 		<result property="notice_id" column="notice_id"/>
 		<result property="notice_fileName" column="notice_fileName"/>
 	</resultMap>
 	
+	<!-- 공지사항 리스트 -->
+	<select id="all_notice" resultMap="notice">
+		<![CDATA[
+			select * from notice order by notice_regDate desc
+		]]>
+	</select>
+	
+	<!-- 공지사항 상세페이지 -->
+	<select id="one_notice" resultMap="notice" parameterType="int">
+		<![CDATA[
+			select * from notice where notice_id = #{notice_id}
+		]]>
+	</select>
+	
+	<select id="one_notice_file" resultMap="notice_file" parameterType="int">
+		<![CDATA[
+			select * from notice_file where notice_id = #{notice_id}
+		]]>
+	</select>
+	
+	<!-- 공지사항 검색결과 -->
+	<select id="search_notice" resultMap="notice" parameterType="String">
+		<![CDATA[
+			select * from notice where title like '%'||#{keyword}||'%' order by notice_regDate desc
+		]]>
+	</select>
+	
+	<!-- 공지사항 추가 -->
+	
+	<select id="new_notice_number" resultType="int">
+		<![CDATA[
+			select nvl(max(notice_id),0) from notice
+		]]>
+	</select>
+	
+	<select id="new_notice_file_number" resultType="int">
+		<![CDATA[
+			select nvl(max(notice_fileId),0) from notice_file
+		]]>
+	</select>
+	
+	<insert id="insert_notice" parameterType="java.util.Map">
+		<![CDATA[
+			insert into notice values(#{notice_id},#{notice_writeId},#{notice_title},#{notice_content},sysdate,0) 
+		]]>
+	</insert>
+	
+	<insert id="insert_notice_file" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="insert all" separator=" " close="select * from dual">
+			into notice_file values(#{item.notice_fileId},#{item.notice_id},#{item.notice_fileName})
+		</foreach>
+	</insert>
+	
+	<!-- 공자사항 수정 이미지는 수정시 폴더 삭제 후 insert 하는식으로-->
+	
+	<update id="update_notice" parameterType="noticeDTO">
+		<![CDATA[
+			update notice set notice_title=#{notice_title},notice_content=#{notice_content} where notice_id=#{notice_id}
+		]]>
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	
+	<delete id="delete_notice" parameterType="int">
+		<![CDATA[
+			delete from notice where notice_id = #{notice_id}
+		]]>
+	</delete>
+	
+	<delete id="delete_notice_file" parameterType="int">
+		<![CDATA[
+			delete from notice_file where notice_id = #{notice_id}
+		]]>
+	</delete>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="count_plus" parameterType="int">
+		<![CDATA[
+			update notice set notice_count=notice_count+1 where notice_id=#{notice_id}
+		]]>
+	</update>
 </mapper>
