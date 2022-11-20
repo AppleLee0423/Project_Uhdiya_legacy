@@ -5,13 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/reset.css" />
-<link rel="stylesheet" href="../css/notice.css" />
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link rel="stylesheet" href="${path}/resources/css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 </head>
-<body >
+<body>
 	<div class="notice">
 		<div class="notice_header">
 			<div class="notice_header_title"><b>NOTICE</b></div>

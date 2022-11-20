@@ -5,6 +5,8 @@
     background-color: white;
     padding: 130px 0px;
     box-sizing: border-box;
+
+    position: relative;
 }
 
 .header_padding{
@@ -14,9 +16,10 @@
 .first_section{
     display: flex;
     float: right;
-    margin-top: -115px;
+    margin-top: -130px;
     font-size: small;
     color: rgb(56, 54, 54);
+    margin-right: -70px;
 }
 
 .second_section {
@@ -26,8 +29,10 @@
 
 
 .search_mode{
-    margin-right: 40px;
+    margin-right: -10px;
+    margin-top: 14px;
 }
+
 
 .searchbar {
     float: right;
@@ -50,16 +55,19 @@
     width: 100%;
     display: grid;
     justify-content: center;
+    margin-top: -6px;
 }
 
 .sizecontroll {
-    font-size: 50px;
-    margin-top: -70px;
+    font-size: 40px;
+    margin-top: -65px;
     color: #C26225;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 
 .categori {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     background-color: transparent;

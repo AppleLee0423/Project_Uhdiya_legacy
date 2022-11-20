@@ -1,0 +1,221 @@
+/* 전체페이지 */
+.productDetailPage {
+	margin:0 auto;
+	width: 1200px;
+}
+
+
+/* 페이지상단 좌측이미지 부분 */
+.contentsIntro_detailImg {
+	float: left;
+	width: 600px;
+	padding-right: 50px;
+}
+.detailImg {
+	float: left;
+	width: 500px;
+	height: 500px;
+}
+/* 페이지상단 우측 결제정보 부분 */
+.contentsIntro_productName {
+	font-size:large;
+	font-weight:bold;
+}
+.contentsIntro_payInfoTxt {
+	padding-left:50px;
+	float: left;
+	width: 500px;
+}
+.contentsIntro_payInfo {
+	padding-left: 10px;
+	margin-top: 40px;
+	font-size: small;
+}
+.contentsIntro_payInfo span {
+	color: gray;
+	margin-right: 60px;
+}
+.contentsIntro_payInfo_productPrice_ico {
+	margin-top:40px;
+	background: url(/Uhdiya/resources/img/product/ico_info.gif) no-repeat;
+}
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블들) */
+.contentsIntro_payInfo_tables {
+	font-size: small;
+}
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블1) 수량선택*/
+.contentsIntro_payInfo_select {
+	color: gray;
+	float: left;
+	border: solid 2px;
+	border-color: gray gray;
+	border-width: 1px 0px 0.5px 0px;
+	width: 500px;
+	height: 50px;
+}
+.contentsIntro_payInfo_select_productName {
+	color: gray;
+	padding-top: 10px;
+	float: left;
+	width: 300px;
+}
+/* 수량버튼 readonly 텍스트창*/
+.contentsIntro_payInfo_select_quantity {
+	padding-top: 7px;
+	float: left;
+	width: 75px;
+}
+/* 숫자나오는부분 */
+.qty_num {
+  float: left;
+}
+#quantity {
+  width: 23px;
+  height: 20px;
+  text-align: left;
+  color: gray;
+  border: 1px solid #cbcdce;
+  border-radius: 3px;
+}
+/* 버튼부분 */
+.qty_btn {
+  float: left;
+  height: 15px;
+}
+.qty_btn_plus {
+  height: 11px;
+}
+.qty_btn_minus {
+  height: 11px;
+}
+/* 수량*가격 출력부분 */
+.contentsIntro_payInfo_select_price {
+	text-align: right;
+	color: #008BCC;
+	padding-top: 10px;
+	float: right;
+	width: 125px;
+}
+/* 페이지 상단 우측 결제정보 부분_구매수량(테이블2) 총수량*/
+.contentsIntro_payInfo_totalCal {
+	margin-top:10px;
+	float: left;
+	border: solid 2px;
+	border-color: lightgray;
+	border-width: 0px 0px 0.05px 0px;
+	width: 500px;
+	height: 70px;
+}
+.contentsIntro_payInfo_totalCal_txt {
+	width: 150px;
+	float: left;
+	padding-top: 40px;
+	font-size: x-small;
+}
+.contentsIntro_payInfo_totalCal_price {
+	text-align: right;
+	font-size: x-large;
+	font-weight: bold;
+	padding-top: 40px;
+	width: 300px;
+	float: left;
+}
+.contentsIntro_payInfo_totalCal_quantity {
+	text-align: left;
+	padding-top: 50px;
+	width: 40px;
+	float: right;
+	font-size: x-small;
+	color: gray;
+}
+/* 페이지 상단 우측 결제정보 부분_상품구매,장바구니 버튼 */
+.contentsIntro_buttons {
+	margin-top:60px; 
+	float: left;
+	width: 500px;
+	height: 60px;
+	font-weight: bold;
+	text-align:center;
+}
+.contentsIntro_buttons_cart {
+	float: left;
+	width: 249px;
+	
+	line-height: 70px;
+	padding: 2px 0 0 0;
+	color: #333;
+	font-size: 14px;
+	border: 1px #ccc solid;
+}
+.contentsIntro_buttons_buy {
+	margin-top:2px;
+	float: right;
+    width: 249px;
+    line-height: 70px;
+    font-size: 16px;
+    color: #fff;
+    background: #bbb;
+}
+/* 페이지 하단 메인정보 */
+.contentsMain {
+	margin-top:100px;
+	width: 1200px;
+	min-height:700px;
+}
+/* <메뉴바> 상품상세,사용후기,상품문의*/
+.contentsMain_bar {
+	position:sticky;
+	top:0px;
+	width:1200px;
+	margin: 0 auto;
+	height:37px;
+	background:white;
+}
+.contentsMain_menu {
+	width:900px;
+	height:36px;
+	margin: 0 auto;
+	border: 1px solid #cbcdce;
+	background: #fff;
+	color:gray;
+	font-size:11px;
+}
+.contentsMain_menu_buttons {
+	border-bottom:1px solid gray;
+}
+.contentsMain_menu li{
+	height:36px;
+	width: 400px;
+	display: table-cell;
+	vertical-align: middle;
+	border-left: 1px solid #cbcdce;
+	text-align:center;
+}
+/* <메뉴바> 스크롤시 메뉴버튼변경 */
+.down{
+	color:white;
+	background-color:lightgray;
+	font-weight:bold;
+}
+.remove{
+	background: #fff;
+	color:gray;
+}
+/* 페이지 하단 메인정보_상품정보이미지 */
+.contentsMain_contents{
+	margin:0 auto;
+	padding:20px;
+	text-align:center;
+}
+/* 상품후기 */
+.contentsMain_board_review {
+	margin:0 auto;
+	padding:20px;
+	text-align:center;
+}
+/* 상품문의 */
+.contentsMain_board_qna {
+	margin:0 auto;
+	padding:20px;
+	text-align:center;
+}

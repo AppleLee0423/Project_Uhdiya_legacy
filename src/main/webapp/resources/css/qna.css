@@ -13,12 +13,12 @@
 
 .qna_body {
 	width: 100%;
-	border-top: 3px solid black;
-	border-bottom: 3px solid black;
 }
 
-.qna_body ul {
+.qna_list {
 	list-style: none;
+	border-top: 3px solid black;
+	border-bottom: 3px solid black;
 }
 
 .qna_body ul li {

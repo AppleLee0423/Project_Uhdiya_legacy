@@ -24,16 +24,16 @@ public class ReviewController {
 	}
 	
 	// 상품 Review
-	@RequestMapping("/product_Review")
-	public ModelAndView product_Review(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/review_product")
+	public ModelAndView review_product(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
 	
 	// 나의 Review
-	@RequestMapping("/my_Review")
-	public ModelAndView my_Review(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/review_my")
+	public ModelAndView review_my(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
