@@ -56,7 +56,6 @@
 					<tr>
 						<td class="notice_form_td_title">이미지 첨부</td>
 						<td>
-						<!-- <input type="file" name="notice_imageFileName"/> -->
 						<label for="file">
   						<div class="btn-upload">파일추가</div>
 						</label>

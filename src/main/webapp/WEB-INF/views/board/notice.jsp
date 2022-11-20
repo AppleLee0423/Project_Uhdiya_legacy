@@ -36,7 +36,7 @@
 						<c:forEach var="notice" items="${notice_list}" varStatus="num">
 							<tr>
 								<td class="notice_num">${num.count}</td>
-								<td class="notice_title"><a href="${path}/board/notice_detail?notice_id=${notice.notice_id}">${notice.notice_title}</a></td>
+								<td class="notice_title"><a href="${path}/board/notice_page?notice_id=${notice.notice_id}">${notice.notice_title}</a></td>
 								<td class="notice_writeDate">${notice.notice_regDate}</td>
 								<td class="notice_count">${notice.notice_count}</td>
 							</tr>

@@ -21,4 +21,11 @@ public class NoticeService {
 		// TODO Auto-generated method stub
 		return noticeDAO.addNotice(noticeMap);
 	}
+	
+	// 공지사항 상세페이지
+	public Map<String, Object> one_notice(int notice_id) {
+		// TODO Auto-generated method stub
+		noticeDAO.countUp(notice_id);
+		return noticeDAO.one_notice(notice_id);
+	}
 }

@@ -1,5 +1,6 @@
 package com.spring.Uhdiya.board.notice;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,5 +47,20 @@ public class NoticeDAO {
 	private int new_notice_number() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.notice.new_notice_number");
+	}
+
+	public Map<String, Object> one_notice(int notice_id) {
+		// TODO Auto-generated method stub
+		NoticeDTO noticeDTO = sqlSession.selectOne("mapper.notice.one_notice", notice_id);
+		List<NoticeFileDTO> noticeFileList = sqlSession.selectList("mapper.notice.one_notice_file", notice_id);
+		Map<String, Object> noticeMap = new HashMap<String, Object>();
+		noticeMap.put("noticeDTO", noticeDTO);
+		noticeMap.put("noticeFileList", noticeFileList);
+		return noticeMap;
+	}
+
+	public void countUp(int notice_id) {
+		// TODO Auto-generated method stub
+		sqlSession.update("mapper.notice.count_plus",notice_id);
 	}
 }

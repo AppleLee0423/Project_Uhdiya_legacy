@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,13 +46,19 @@ public class NoticeController {
 	
 	// 공지사항 상세페이지
 	@RequestMapping(value="notice_page",method=RequestMethod.GET)
-	public ModelAndView notice_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView notice_page(@RequestParam("notice_id")int notice_id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		
 		/*
-		List<NoticeDTO> notice_list = noticeService.all_notice();
-		mav.addObject("notice_list",notice_list);
+		HttpSession session = request.getSession();
+		MemderDTO dto = session.getAttribute("member");
+		String member_id = dto.getMember_id;
+		mav.addObject("member_id", member_id);
 		*/
+		
+		Map<String, Object> noticeMap = noticeService.one_notice(notice_id);
+		mav.addObject("noticeMap", noticeMap);
 		return mav;
 	}
 	
@@ -68,7 +75,8 @@ public class NoticeController {
 		session 값 받아서 admin 일때만 가능하게
 
 		HttpSession session = request.getSession();
-		if(session.getAttribute("member") == "admin") {
+		MemberDTO member = session.getAttribute("member");
+		if(member.getMember_id == "admin") {
 			String viewName = (String) request.getAttribute("viewName");
 			mav = new ModelAndView(viewName);
 		} else {
@@ -89,8 +97,7 @@ public class NoticeController {
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> noticeMap = new HashMap<String, Object>();
 		Enumeration<String>	enu = multiRequest.getParameterNames();
-		String webPath = "/resources/file/notice_repo/";
-		String folderPath = multiRequest.getSession().getServletContext().getRealPath(webPath);
+		String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
 		
 		while(enu.hasMoreElements()) {
 			String name = enu.nextElement();
@@ -182,10 +189,15 @@ public class NoticeController {
 
 	// 공지사항 수정(관리자만)
 	@RequestMapping("update_notice")
-	public ModelAndView update_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
+	public ResponseEntity<String> update_notice(MultipartHttpServletRequest multiRequest, HttpServletResponse response) throws Exception{
+		multiRequest.setCharacterEncoding("UTF-8");
+		ResponseEntity<String> resEnt = null;
+		Map<String, Object> noticeMap = new HashMap<String, Object>();
+		Enumeration<String>	enu = multiRequest.getParameterNames();
+		String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
+		
+		
+		return resEnt;
 	}
 	
 	// 공지사항 삭제(관리자만)
