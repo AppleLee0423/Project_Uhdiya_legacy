@@ -32,14 +32,36 @@ import org.springframework.web.servlet.ModelAndView;
 public class NoticeController {
 	@Autowired NoticeService noticeService;
 	@Autowired ServletContext servletContext;
+	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
 	
 	// 공지사항
 	@RequestMapping(value="notice")
 	public ModelAndView notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		List<NoticeDTO> notice_list = noticeService.all_notice();
-		mav.addObject("notice_list",notice_list);
+		List<NoticeDTO> notice_list = new ArrayList<NoticeDTO>();
+		
+		String keyword = request.getParameter("keyword");
+		String _section = request.getParameter("section"); 
+		String _pageNum = request.getParameter("pageNum");
+		int section = Integer.parseInt((_section == null) ? "1" : _section);  
+		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);  
+		
+		Map<String, Integer> pageMap = new HashMap<String, Integer>();
+		pageMap.put("section", section);
+		pageMap.put("pageNum", pageNum);
+		Map<String,Object> noticeMap = new HashMap<String, Object>();
+		
+		if(keyword != null && keyword != "") {
+			notice_list = noticeService.search_notice(keyword);
+		} else {
+			noticeMap = noticeService.all_notice_page(pageMap);
+			noticeMap.put("section", section);
+			noticeMap.put("pageNum", pageNum);
+		}
+
+		mav.addObject("keyword",keyword);
+		mav.addObject("noticeMap",noticeMap);
 		
 		return mav;
 	}
@@ -97,7 +119,6 @@ public class NoticeController {
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> noticeMap = new HashMap<String, Object>();
 		Enumeration<String>	enu = multiRequest.getParameterNames();
-		String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
 		
 		while(enu.hasMoreElements()) {
 			String name = enu.nextElement();
@@ -113,16 +134,15 @@ public class NoticeController {
 				noticeFile.setNotice_fileName(fileName);
 				imageList.add(noticeFile);
 			}
+			noticeMap.put("imageList", imageList);
 		}
-		
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		String notice_writeId = member.getId();
 		*/
-		
 		noticeMap.put("notice_writeId", "admin");
-		noticeMap.put("imageList", imageList);
+
 		
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -188,23 +208,106 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정(관리자만)
-	@RequestMapping("update_notice")
-	public ResponseEntity<String> update_notice(MultipartHttpServletRequest multiRequest, HttpServletResponse response) throws Exception{
+	@RequestMapping(value="update_notice",method=RequestMethod.POST)
+	public ResponseEntity<String> update_notice(@RequestParam("notice_id")int notice_id, MultipartHttpServletRequest multiRequest, HttpServletResponse response) throws Exception{
 		multiRequest.setCharacterEncoding("UTF-8");
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> noticeMap = new HashMap<String, Object>();
 		Enumeration<String>	enu = multiRequest.getParameterNames();
-		String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
 		
+		while(enu.hasMoreElements()) {
+			String name = enu.nextElement();
+			String value = multiRequest.getParameter(name);
+			noticeMap.put(name, value);
+		}
 		
+		List<String> fileList = upload(multiRequest,folderPath);
+		List<NoticeFileDTO> imageList = new ArrayList<NoticeFileDTO>();
+		if(fileList != null && fileList.size() != 0) {
+			for(String fileName : fileList) {
+				NoticeFileDTO noticeFile = new NoticeFileDTO();
+				noticeFile.setNotice_fileName(fileName);
+				imageList.add(noticeFile);
+			}
+			noticeMap.put("imageList", imageList);
+		}
+		
+		/*
+		HttpSession session = multiRequest.getSession();
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		String notice_writeId = member.getId();
+		*/
+		
+		noticeMap.put("notice_writeId", "admin");
+		
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		
+		try {
+			noticeService.update_notice(noticeMap);
+			
+			if(fileList != null && fileList.size() != 0) {
+				for(String fileName : fileList) {
+					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(folderPath+"\\"+notice_id);
+					FileUtils.deleteDirectory(destDir);
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+				}
+			}
+			
+			message = "<script>";
+			message += "alert('공지사항을 수정했습니다.');";
+			message += "location.href='"+multiRequest.getContextPath()+"/board/notice';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(fileList != null && fileList.size() != 0) {
+				for(String fileName : fileList) {
+					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					srcFile.delete();
+				}
+			}
+			
+			message = "<script>";
+			message += "alert('오류가 발생했습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
 		return resEnt;
 	}
 	
 	// 공지사항 삭제(관리자만)
 	@RequestMapping("delete_notice")
-	public ModelAndView delete_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
+	public ResponseEntity<String> delete_notice(@RequestParam("notice_id")int notice_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity<String> resEnt = null;
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		
+		try {
+			File destDir = new File(folderPath+"\\"+notice_id);
+			FileUtils.deleteDirectory(destDir);
+			
+			noticeService.delete_notice(notice_id);
+			
+			message = "<script>";
+			message += "alert('공지사항을 삭제했습니다.');";
+			message += "location.href='"+request.getContextPath()+"/board/notice';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			message = "<script>";
+			message += "alert('공지사항을 삭제할 수 없습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		return resEnt;
 	}
 }

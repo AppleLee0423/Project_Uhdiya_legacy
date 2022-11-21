@@ -13,6 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <style>
 	.notice_header {display: flex; justify-content: space-between; }
 	.notice_header_title {
@@ -21,15 +22,14 @@
 	}
 	#notice_form_content_view{
 		width: 100%;
-		min-height: 200px;
-		height: auto;
-		box-sizing: border-box;
+		/* min-height: 200px; */
+		overflow: hidden;
+		display: block;
 		background-color: transparent;
 		border: none;
-		overflow-y:hidden;
-		resize: none;
 		text-align: center;
 		font-size: large;
+		resize: none;
 	}
 	.notice_table_image {
 		text-align: center;
@@ -48,6 +48,16 @@
 </style>
 <script>
 	let cnt = 1;
+	$(function(){
+		autosize(document.querySelector('textarea'));
+	});
+	/* 
+	$('textarea').each(function(){
+		  autosize(this);
+		}).on('autosize:resized', function(){
+		  console.log('textarea height updated');
+	}); */
+	
 	// 파일추가 버튼
 	function fn_addFile(){
 		$("#d_file").append("<br><input type='file' name='notice_fileName"+cnt+"' onchange='readURL(this)'>'");
@@ -81,14 +91,9 @@
 		//유효성 검사
 		let form = document.update_form;
 		let title = form.notice_title.value;
-		let content = form.notice_content.value;
 		if(title==''){
 			alert('제목은 빈 칸일 수 없습니다.');
 			form.title.select();
-			return;
-		} else if(content==''){
-			alert('내용은 빈 칸일 수 없습니다.');
-			form.content.select();
 			return;
 		} else {
 			// 변경사항 전송

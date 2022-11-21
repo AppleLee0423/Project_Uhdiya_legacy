@@ -25,6 +25,28 @@
 		]]>
 	</select>
 	
+	<!-- 공지사항 검색결과 -->
+	<select id="search_notice" resultMap="notice" parameterType="String">
+		<![CDATA[
+			select * from notice where notice_title like '%'||#{keyword}||'%' order by notice_regDate desc
+		]]>
+	</select>
+	
+	<!-- 공지사항 페이징 적용 -->
+	<select id="paging_notice" resultMap="notice" parameterType="java.util.Map">
+		<![CDATA[
+			select notice_id, notice_title, notice_regDate, notice_count from 
+    			(select rownum rn, notice_id, notice_title, notice_regDate, notice_count from notice
+    			order by notice_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_notice" resultType="int">
+		<![CDATA[
+			select count(notice_id) from notice
+		]]>
+	</select>
+	
 	<!-- 공지사항 상세페이지 -->
 	<select id="one_notice" resultMap="notice" parameterType="int">
 		<![CDATA[
@@ -35,13 +57,6 @@
 	<select id="one_notice_file" resultMap="notice_file" parameterType="int">
 		<![CDATA[
 			select * from notice_file where notice_id = #{notice_id}
-		]]>
-	</select>
-	
-	<!-- 공지사항 검색결과 -->
-	<select id="search_notice" resultMap="notice" parameterType="String">
-		<![CDATA[
-			select * from notice where title like '%'||#{keyword}||'%' order by notice_regDate desc
 		]]>
 	</select>
 	
