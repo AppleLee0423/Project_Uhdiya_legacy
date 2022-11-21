@@ -25,21 +25,37 @@
 	<resultMap id="cntResult" type="java.lang.Integer">
 		<result property="total" column="total" />
 	</resultMap>
+	<resultMap id="cntResultAll" type="java.lang.Integer">
+		<result property="totalAll" column="totalAll" />
+	</resultMap>
 	<resultMap id="cntCateSResult" type="ProductCntDTO">
 		<result property="product_cateS" column="total" />
 		<result property="cateS" column="cateS" />
 	</resultMap>
 	
+
+	
+    <select id="selectCountAllL" parameterType="java.util.Map" resultMap="cntResultAll"   >
+        <![CDATA[
+       select count(*) as totalAll
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main'
+        	and p.product_cateL=#{cateL}
+            order by p.product_id desc)
+	    ]]>
+	</select>
 	
 	
-    <select id="selectCountByCateS" parameterType="String" resultMap="cntCateSResult"   >
+    <select id="selectCountByCateS" parameterType="java.util.Map" resultMap="cntCateSResult"   >
         <![CDATA[
        select product_cateS,count(*) as cateS from product where product_cateL = #{cateL}
    			 group by product_cateS
 	    ]]>
 	</select>
 	
-    <select id="selectProductCountByCateL" parameterType="String" resultMap="cntResult"   >
+    <select id="selectProductCountByCateL" parameterType="java.util.Map" resultMap="cntResult"   >
         <![CDATA[
        select count(*) as total from product where product_cateL=#{cateL}
 	    ]]>
@@ -51,19 +67,18 @@
 	    ]]>
 	</select>
 	
-    <select id="selectProductsListL" parameterType="String" resultMap="productResult"   >
+    <select id="selectProductsListL" parameterType="java.util.Map" resultMap="productResult"   >
         <![CDATA[
-        select t.*
+        select * from ( select rowNum as num, t.*
           from(
 			select p.*,f.product_fileName from product p, product_file f
         	where p.product_code=f.product_code
             and f.product_fileType='main' 
         	and p.product_cateL=#{cateL}
-            order by p.product_id asc)  t
-	      where   rowNum <16
+            order by p.product_id asc)  t) where num between (#{page}-1)*#{count}+1 and #{page}*#{count}
+	      
 	    ]]>
 	</select>
-	
     <select id="selectProductsListS" parameterType="String" resultMap="productResult"   >
         <![CDATA[
         select t.*
@@ -73,7 +88,7 @@
             and f.product_fileType='main' 
         	and p.product_cateS=#{cateS}
             order by p.product_id asc)  t
-	      where   rowNum <16
+	      where   rowNum <9
 	    ]]>
 	</select>
 	

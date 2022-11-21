@@ -1,5 +1,6 @@
 package com.spring.Uhdiya.product;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,11 +29,24 @@ public class ProductController {
 	public ModelAndView productList(
 			@RequestParam("product_cateL") String product_cateL,
 			@RequestParam("product_cateS") String product_cateS,
+			@RequestParam Map<String, String> pageMap,
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		String page = pageMap.get("page");
+		System.out.println(page);
+		if(page==null) {
+			page="1";
+		}
+		Map search = new HashMap();
+		String count = "8";
+		search.put("page", page);
+		search.put("count", count);
+		search.put("cateL", product_cateL);
+		search.put("cateS", product_cateS);
+		
 		if(product_cateS=="") {
-			Map productsMap=productService.listProductsL(product_cateL);
+			Map productsMap = productService.listProductsL(search);
 			mav.addObject("productsMap", productsMap);
 		} else {
 			Map<String,List<ProductDTO>> productsMap=productService.listProductsS(product_cateS);
@@ -40,6 +54,38 @@ public class ProductController {
 		}
 		return mav;
 	}
+	
+	/*
+	//리스트페이지
+	@RequestMapping(value="page")
+	public void productListPage(
+			@RequestParam("product_cateL") String product_cateL,
+			@RequestParam("product_cateS") String product_cateS,
+			@RequestParam("page") Integer page,
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
+//		String viewName = "product/productList/page";
+//		ModelAndView mav = new ModelAndView(viewName);
+//		System.out.println(viewName);
+		if(page==2) {
+			System.out.println("두번째페이지");
+		}
+		if(page==3) {
+			System.out.println("세번째페이지");
+		}
+//		
+//		if(product_cateS=="") {
+//			Map productsMap=productService.listProductsL(product_cateL);
+//			mav.addObject("productsMap", productsMap);
+//		} else {
+//			Map<String,List<ProductDTO>> productsMap=productService.listProductsS(product_cateS);
+//			mav.addObject("productsMap", productsMap);
+//		}
+//		return mav;
+	}
+	
+	*/
+	
+	
 	
 	// http://localhost:8080/Uhdiya/product/productDetail=beans001
 	// 카테고리:대분류선택, 드롭다운:소분류선택 후 제품리스트 페이지 접근

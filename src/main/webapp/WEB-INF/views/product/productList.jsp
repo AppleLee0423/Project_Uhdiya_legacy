@@ -21,7 +21,7 @@
 /* 메뉴맵 */
 .menuMap {
 	width: 1240px;
-	margin: 0px;
+	margin-top: 35px;
 	min-height: 20px;
 	text-align: right;
 	font-size: small;
@@ -124,6 +124,34 @@
 	padding-left: 2px;
 	color: #008BCC;
 }
+/* 페이지버튼 */
+.pageBtn {
+	margin: 35 auto;
+	width:1240px;
+	min-height:60px;
+}
+.pageBtn_ul {
+	display: inline-block;
+    font-size: 0;
+    margin-left:570px;
+}
+.pageBtn_li {
+	display: inline-block;
+    margin: 0 0 0 -1px;
+    color: #757575;
+    vertical-align: middle;
+}
+.pageBtn_li_txt {
+	display: inline-block;
+    border: 1px solid #d7d5d5;
+    color: #757575;
+    font-size: medium;
+	line-height: 2;
+    vertical-align: middle;
+    height:32.5px;
+    min-width: 33px;
+    text-align:center;
+}
 </style>
 <script type="text/javascript">
 function cateL() {
@@ -131,22 +159,36 @@ function cateL() {
 	console.log(cateL.value);
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS=';
 }
-function cateS() {
+function cateS1() {
 	let cateL = document.getElementById('cateL');
 	let cateS1 = document.getElementById('cateS1');
-	let cateS2 = document.getElementById('cateS2');
-	let cateS3 = document.getElementById('cateS3');
-	let cateS4 = document.getElementById('cateS4');
-	console.log(cateS.value);
+	console.log(cateS1.value);
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS1.value;
+}
+function cateS2() {
+	let cateL = document.getElementById('cateL');
+	let cateS2 = document.getElementById('cateS2');
+	console.log(cateS2.value);
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS2.value;
+}
+function cateS3() {
+	let cateL = document.getElementById('cateL');
+	let cateS1 = document.getElementById('cateS3');
+	console.log(cateS3.value);
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS3.value;
+}
+function cateS4() {
+	let cateL = document.getElementById('cateL');
+	let cateS2 = document.getElementById('cateS4');
+	console.log(cateS4.value);
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS4.value;
 }
+
 </script>
 </head>
 <body>
 <c:set var="total" value="${productsMap.total }" />
+<c:set var="totalAll" value="${productsMap.totalAllL }" />
 <!-- 전체페이지 : 상품 디테일 -->
 <div class="productListPage">
 
@@ -179,7 +221,7 @@ function cateS() {
 										<c:set var="k" value="1" />
 										<c:forEach items="${productsMap.totalS }" var="totalS">
 											<li class="totalSbtn" id="totalSbtn">
-												<a href="javascript:cateS()">${totalS.product_cateS} (${totalS.cateS}) </a>
+												<a href="javascript:cateS${k}()">${totalS.product_cateS} (${totalS.cateS}) </a>
 												<input id="cateS${k}" type="hidden" value="${totalS.product_cateS}">
 											</li>
 											<c:set var="k" value="${k+1 }" />
@@ -248,6 +290,58 @@ function cateS() {
 				<c:set var="i" value="${i+1 }" />
 			</c:forEach>
 		</table> 
+		
+		<div class="pageBtn">
+			<ul class="pageBtn_ul">
+				<li class="pageBtn_li">
+					<img src="${path }/resources/img/product/btn_page_prev.gif">
+				</li>
+				<li class="pageBtn_li_txt">
+					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&page=1">
+						<span>1</span>
+					</a>
+				</li>
+
+			<c:forEach var="i" begin="2" end="${totalAll }" step="1">
+					<c:if test="${totalAll>(i-1)*8 }">
+						<li class="pageBtn_li_txt">
+							<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&page=${i}">
+								<span>${i }</span>
+							</a>
+						</li>
+					</c:if>
+				</c:forEach> 
+				
+<%-- 				<c:if test="${totalAll >8 }">
+				<li class="pageBtn_li_txt">
+					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=&page=2">
+						<span>2</span>
+					</a>
+				</li>
+				</c:if>
+				<c:if test="${totalAll >16 }">
+				<li class="pageBtn_li_txt">
+					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=&page=2">
+						<span>3</span>
+					</a>
+				</li>
+				</c:if> --%>
+				
+<%-- 				<c:if test="${totalAll >8 }">
+				<li class="pageBtn_li_txt">
+					<span>2</span>
+				</li>
+				</c:if> --%>
+				
+				
+				<li class="pageBtn_li">
+					<img src="${path }/resources/img/product/btn_page_next.gif" style="border-left: 1px solid #d7d5d5;">
+				</li>
+				
+			</ul><span>${totalAll }</span>
+		</div>
+		
+		
 	</div>
 </div>			
 

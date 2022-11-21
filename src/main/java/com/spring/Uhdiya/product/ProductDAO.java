@@ -1,7 +1,9 @@
 package com.spring.Uhdiya.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,28 @@ public class ProductDAO {
 	@Autowired SqlSession sqlSession;
 	
 	// 제품메인사진, 제품명, 제품금액 (대분류) : 대분류 제품리스트페이지에서 사용
-	public List<ProductDTO> selectProductsListL(String cateL) {
-		List<ProductDTO> productList = (ArrayList)sqlSession.selectList("mapper.product.selectProductsListL",cateL);
+	public List<ProductDTO> selectProductsListL(Map search) {
+		List<ProductDTO> productList = (ArrayList)sqlSession.selectList("mapper.product.selectProductsListL",search);
 		return productList;
 	}
+	// 대분류든 소분류든 상품 토탈
+	public int selectProductsByCateL(Map search) {
+		int total = sqlSession.selectOne("mapper.product.selectProductCountByCateL",search);
+		return total;
+	}
+	// 대분류 리스트페이지에서 소분류별 토탈
+	public List<ProductCntDTO> selectCountByCateS(Map search) {
+		List<ProductCntDTO> totalS = (ArrayList)sqlSession.selectList("mapper.product.selectCountByCateS",search);
+		return totalS;
+	}
+	// 대분류페이지에 페이징처리를 위한 토탈
+	public int selectCountAllL(Map search) {
+		int totalAllL = sqlSession.selectOne("mapper.product.selectCountAllL",search);
+		return totalAllL;
+	}
+
+	
+	
 	// 제품메인사진, 제품명, 제품금액 (소분류) : 소분류 제품리스트페이지에서 사용
 	public List<ProductDTO> selectProductsListS(String cateS) {
 		List<ProductDTO> productList = (ArrayList)sqlSession.selectList("mapper.product.selectProductsListS",cateS);
@@ -37,14 +57,6 @@ public class ProductDAO {
 	public int selectProductsByCateS(String product_cateS) {
 		int total = sqlSession.selectOne("mapper.product.selectProductCountByCateS",product_cateS);
 		return total;
-	}
-	public int selectProductsByCateL(String product_cateL) {
-		int total = sqlSession.selectOne("mapper.product.selectProductCountByCateL",product_cateL);
-		return total;
-	}
-	public List<ProductCntDTO> selectCountByCateS(String product_cateL) {
-		List<ProductCntDTO> totalS = (ArrayList)sqlSession.selectList("mapper.product.selectCountByCateS",product_cateL);
-		return totalS;
 	}
 
 	

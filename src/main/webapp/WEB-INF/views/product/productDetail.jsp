@@ -103,7 +103,7 @@ $(document).ready(function() {
 }
 .menuMap{
 	width: 1200px;
-	margin:0px;
+	margin-top:35px;
 	min-height:20px;
 	text-align:right;
 	font-size:small;

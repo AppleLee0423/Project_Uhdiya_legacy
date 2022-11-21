@@ -15,6 +15,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
 	</definition>
 	
+<!-- 	<definition name="/product/productList/page" extends="baseLayout">
+		<put-attribute name="title" value="SHOPPING - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
+	</definition> -->
+	
 	<definition name="/product/productDetail" extends="baseLayout">
 		<put-attribute name="title" value="SHOPPING - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/product/productDetail.jsp" />
