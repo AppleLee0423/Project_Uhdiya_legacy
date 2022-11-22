@@ -15,7 +15,7 @@
 		<!-- member -->
 		<!-- mem -->
 		<!-- memJ -->
-		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
+		<typeAlias type="com.spring.Uhdiya.member.MemberDTO" alias="memberDTO"/>
 		
 		<!-- shoppingList -->
 		

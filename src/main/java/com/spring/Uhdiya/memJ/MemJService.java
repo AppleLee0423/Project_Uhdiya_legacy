@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemJService {
 	@Autowired MemJDAO memJDAO;
+
 	
-	public void addMember(MemJDTO memJ) {
+	public int addMember(MemJDTO memJ) {
 		// TODO Auto-generated method stub
-		memJDAO.addMember(memJ);
+		int result = memJDAO.addMember(memJ);
+		return result;
 	}
 	
 	public MemJDTO login(MemJDTO memJ) {

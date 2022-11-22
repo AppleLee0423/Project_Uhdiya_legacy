@@ -12,10 +12,10 @@ public class MemJDAO {
 	@Autowired SqlSession sqlSession;
 	
 	
-	public void addMember(MemJDTO memJ) {
-		sqlSession.insert("mapper.member.insertMember", memJ);
+	public int addMember(MemJDTO memJ) {
+		int result = sqlSession.insert("mapper.member.insertMember", memJ);
 		sqlSession.insert("mapper.member.insertaddress", memJ);
-		
+		return result;
 	}
 	
 	public MemJDTO login(MemJDTO memJ) {
