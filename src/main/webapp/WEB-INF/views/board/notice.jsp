@@ -17,6 +17,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 </head>
+<style>
+	.notice{margin:40px auto;}
+</style>
 <script>
 	function search(){
 		let keyword = document.getElementById('search_box').value;

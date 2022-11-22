@@ -10,6 +10,44 @@
 <link rel="stylesheet" href="${path}/resources/css/qna.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+	.qna{margin:0 auto; padding: 20px;}
+	.qna_form_td_title{width:15%;}
+</style>
+<script>
+	let cnt = 1;
+	function fn_addFile(){
+		$("#d_file").append("<br><input type='file' name='notice_fileName"+cnt+"' onchange='readURL(this)'>'");
+		$(".image_preview").append("<img src='#' id='preview"+cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
+		cnt++;
+	}
+	function readURL(input){
+		if(input.files && input.files[0]){
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$("#preview"+(cnt-1)).attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	function cleandiv(){
+		$('#d_file').empty();
+		$('.image_preview').empty();
+	}
+	function insert_qna(obj){
+		let form = document.qna_form;
+		let title = form.qna_title.value;
+		if(title==''){
+			alert('제목은 빈 칸일 수 없습니다.');
+			form.title.select();
+			return;
+		} else {
+			obj.action='${path}/board/addQna';
+			obj.submit();
+		}
+	}
+</script>
 </head>
 <body>
 	<div class="qna">
@@ -17,7 +55,9 @@
 			<div class="qna_header_title"><b>QnA</b> <span class="qna_header_partition">I</span> 1 </div>
 		</div>
 		<div class="qna_body">
-			<form id="qna_form" action="" method="post" enctype="multipart/form-data">
+			<form name="qna_form" action="" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="qna_writeId" value="${member_id}"/>
+				<input type="hidden" name="product_code" value="${product_code}"/>	
 				<table class="qna_form_table">
 					<tr>
 						<td class="qna_form_td_title">제목</td>
@@ -43,7 +83,7 @@
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right">
-							<input type="submit" value=" 등록하기"/>
+							<input type="button" class="qna_add" onclick="insert_qna(this.form)" value="등록하기"/>
 							<input type="reset" value="취소하기"/>
 						</td>
 					</tr>

@@ -31,7 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/board/**")
 public class NoticeController {
 	@Autowired NoticeService noticeService;
-	@Autowired ServletContext servletContext;
 	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
 	
 	// 공지사항
@@ -54,8 +53,9 @@ public class NoticeController {
 		
 		if(keyword != null && keyword != "") {
 			notice_list = noticeService.search_notice(keyword);
+			noticeMap.put("notice_list", notice_list);
 		} else {
-			noticeMap = noticeService.all_notice_page(pageMap);
+			noticeMap = noticeService.all_notice(pageMap);
 			noticeMap.put("section", section);
 			noticeMap.put("pageNum", pageNum);
 		}

@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 public class NoticeDAO {
 	@Autowired SqlSession sqlSession;
 
-	public List<NoticeDTO> all_notice() {
+	public List<NoticeDTO> all_notice(Map<String, Integer> pageMap) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.notice.all_notice");
+		return sqlSession.selectList("mapper.notice.all_notice",pageMap);
 	}
 
 	public int addNotice(Map<String, Object> noticeMap) {
@@ -88,11 +88,6 @@ public class NoticeDAO {
 	public List<NoticeDTO> search_notice(String keyword) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.notice.search_notice",keyword);
-	}
-
-	public List<NoticeDTO> all_notice_page(Map<String, Integer> pageMap) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.notice.paging_notice",pageMap);
 	}
 
 	public int total_notice() {

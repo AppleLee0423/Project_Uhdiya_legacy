@@ -19,9 +19,11 @@
 	</resultMap>
 	
 	<!-- 공지사항 리스트 -->
-	<select id="all_notice" resultMap="notice">
+	<select id="all_notice" resultMap="notice" parameterType="java.util.Map">
 		<![CDATA[
-			select * from notice order by notice_regDate desc
+			select notice_id, notice_title, notice_regDate, notice_count from 
+    			(select rownum rn, notice_id, notice_title, notice_regDate, notice_count from notice
+    			order by notice_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	
@@ -29,15 +31,6 @@
 	<select id="search_notice" resultMap="notice" parameterType="String">
 		<![CDATA[
 			select * from notice where notice_title like '%'||#{keyword}||'%' order by notice_regDate desc
-		]]>
-	</select>
-	
-	<!-- 공지사항 페이징 적용 -->
-	<select id="paging_notice" resultMap="notice" parameterType="java.util.Map">
-		<![CDATA[
-			select notice_id, notice_title, notice_regDate, notice_count from 
-    			(select rownum rn, notice_id, notice_title, notice_regDate, notice_count from notice
-    			order by notice_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	

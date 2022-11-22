@@ -15,8 +15,111 @@
 	</resultMap>
 	
 	<resultMap type="qnaFileDTO" id="file">
+		<result property="qna_fileId" column="qna_fileId"/>
 		<result property="qna_id" column="qna_id"/>
 		<result property="qna_fileName" column="qna_fileName"/>
 	</resultMap>
 	
+	<!-- 관리자 페이지 문의글 전체 -->
+	<select id="product_qna" resultMap="qna" parameterType="java.util.Map">
+		<![CDATA[
+			select qna_id, qna_title, qna_writeId, qna_regDate, qna_status from 
+    			(select rownum rn, qna_id, qna_title, qna_writeId, qna_regDate, qna_status from qna
+    			order by qna_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_qna" resultType="int">
+		<![CDATA[
+			select count(qna_id) from qna
+		]]>
+	</select>
+	
+	<!-- 상품 상세페이지 내 문의글 -->
+	<select id="product_qna" resultMap="qna" parameterType="java.util.Map">
+		<![CDATA[
+			select qna_id, qna_title, qna_writeId, qna_regDate, qna_status from 
+    			(select rownum rn, qna_id, qna_title, qna_writeId, qna_regDate, qna_status from qna where product_code = #{product_code}
+    			order by qna_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_product_qna" resultType="int" parameterType="String">
+		<![CDATA[
+			select count(qna_id) from qna where product_code=#{product_code}
+		]]>
+	</select>
+	
+	<!-- 마이페이지 내 문의글 -->
+	<select id="my_qna" resultMap="qna" parameterType="java.util.Map">
+		<![CDATA[
+			select qna_id, qna_title, qna_writeId, qna_regDate, qna_status from 
+    			(select rownum rn, qna_id, qna_title, qna_writeId, qna_regDate, qna_status from qna where qna_writeId=#{qna_writeId}
+    			order by qna_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_my_qna" resultType="int" parameterType="String">
+		<![CDATA[
+			select count(qna_id) from qna where qna_writeId=#{qna_writeId}
+		]]>
+	</select>
+	
+	
+	<!-- 문의글 추가하기 -->
+	<select id="new_qna_number" resultType="int">
+		<![CDATA[
+			select nvl(max(qna_id),0) from qna
+		]]>
+	</select>
+	
+	<select id="new_qna_file_number" resultType="int">
+		<![CDATA[
+			select nvl(max(qna_fileId),0) from qna_file
+		]]>
+	</select>
+	
+	<insert id="insert_qna" parameterType="java.util.Map">
+		<![CDATA[
+			insert into qna values(#{qna_id},0,#{qna_writeId},#{qna_title},#{qna_content},sysdate,0,#{product_code}) 
+		]]>
+	</insert>
+	
+	<insert id="insert_qna_file" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="insert all" separator=" " close="select * from dual">
+			into qna_file values(#{item.qna_fileId},#{item.qna_id},#{item.qna_fileName})
+		</foreach>
+	</insert>
+	
+	<!-- 문의글 수정 -->
+	<update id="update_qna" parameterType="qnaDTO">
+		<![CDATA[
+			update qna set qna_title=#{qna_title},qna_content=#{qna_content} where qna_id=#{qna_id}
+		]]>
+	</update>
+	
+	<!-- 문의글 삭제 -->
+	<delete id="delete_qna" parameterType="int">
+		<![CDATA[
+			delete from qna where qna_id=#{qna_id}
+		]]>
+	</delete>
+	<delete id="delete_qna_file" parameterType="int">
+		<![CDATA[
+			delete from qna_file where qna_id=#{qna_id}
+		]]>
+	</delete>
+	
+	<!-- 문의글 답변 -->
+	<insert id="reply_qna" parameterType="java.util.Map">
+		<![CDATA[
+			insert into qna values(#{qna_id},#{qna_parentId},'관리자',#{qna_title},#{qna_content},sysdate,1,#{product_code})
+		]]>
+	</insert>
+	
+	<update id="status_set_qna" parameterType="int">
+		<![CDATA[
+			update qna set qna_status=1 where qna_id=#{qna_id}
+		]]>
+	</update>
 </mapper>
