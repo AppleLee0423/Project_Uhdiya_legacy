@@ -13,8 +13,6 @@
 		<typeAlias type="com.spring.Uhdiya.board.review.ReviewFileDTO" alias="reviewFileDTO"/>
 		
 		<!-- member -->
-		<!-- mem -->
-		<!-- memJ -->
 		<typeAlias type="com.spring.Uhdiya.member.MemberDTO" alias="memberDTO"/>
 		
 		<!-- shoppingList -->
