@@ -25,7 +25,14 @@ public class MemberService {
     public int idcheck(MemberDTO member) throws Exception {
     	return memberDAO.idcheck(member);
     }
-
+    
+    public int phonecheck(MemberDTO member) throws Exception {
+    	return memberDAO.phonecheck(member);
+    }
+    
+    public int emailcheck(MemberDTO member) throws Exception {
+    	return memberDAO.emailcheck(member);
+    }
 
 	
 	

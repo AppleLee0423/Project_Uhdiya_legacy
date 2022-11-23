@@ -28,7 +28,7 @@ import jdk.internal.org.jline.utils.Log;
 
 
 @Controller
-@RequestMapping("/member/**")
+@RequestMapping("/member")
 public class MemberController {
 	@Autowired MemberService memberService;
 		
@@ -47,15 +47,24 @@ public class MemberController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		ModelAndView mav = new ModelAndView();
-		MemberDTO memberDTO = memberService.login(member);
 		
+		System.err.println(member.getMember_id());
+		System.err.println(member.getMember_password());
+		
+		MemberDTO memberDTO = memberService.login(member);
+		System.err.println(memberDTO.toString());
 		if(memberDTO != null) {
 			HttpSession session = request.getSession();
 			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 			String viewName = (String) request.getAttribute("viewName");
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
-			mav.setViewName("redirect:/home/index");
+			
+			mav.setViewName("redirect:/main");
+			
+			if( "admin".equals(memberDTO.getMember_id()) ) {
+				mav.setViewName("redirect:/main");
+			}
 		} else {
 			rAttr.addAttribute("result", "loginFailed");
 			mav.setViewName("redirect:/member/login");
@@ -105,11 +114,49 @@ public class MemberController {
 	
     @ResponseBody
     @RequestMapping("/idcheck")
-    public int idcheck(MemberDTO member) throws Exception {
-    	Log.info(member);
+    public String idcheck(MemberDTO member) throws Exception {
+    	
+    	String res = "Y";
+    	
     	int result = memberService.idcheck(member);
-    	return result;
+    	
+    	if( result > 0 ) {
+    		res = "N";
+    	}
+    	
+    	return res;
     }
+    // 전화번호중복체크
+     @ResponseBody
+     @RequestMapping("/phonecheck")
+     public String phonecheck(MemberDTO member) throws Exception {
+    	
+    	String res = "Y";
+    	
+    	int result = memberService.idcheck(member);
+    	
+    	if( result > 0 ) {
+    		res = "N";
+    	}
+    	
+    	return res;
+     }
+     
+     // 이메일중복체크
+     @ResponseBody
+     @RequestMapping("/phonecheck")
+     public String emailcheck(MemberDTO member) throws Exception {
+    	
+    	String res = "Y";
+    	
+    	int result = memberService.emailcheck(member);
+    	
+    	if( result > 0 ) {
+    		res = "N";
+    	}
+    	
+    	return res;
+     }
 
 	
 	//  http://localhost:8080/Uhdiya/member/find_id

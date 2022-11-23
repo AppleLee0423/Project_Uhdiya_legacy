@@ -78,15 +78,15 @@
 <body>
 <body class="text-center">
 	<main class="form-signin">
-		<form method="post" action="${path }" >
+		<form method="post" action="/member/loginMember" >
 			<div class="sss"
 				style="border: 1px solid black; width: 1200px; height: 400px; margin-left: auto; margin-right: auto; margin-top: 75px;">
 				<div class="ni">
 					<h1 class="h3 mb-3 fw-normal">로그인</h1>
 					<label for="inputId" class="visually-hidden">ID</label>
-					<input type="ID" id="member_id" class="form-control" placeholder="아이디" required autofocus>
+					<input type="ID" name="member_id" class="form-control" placeholder="아이디" required autofocus>
 					<label for="inputPassword" class="visually-hidden">Password</label> 
-					<input type="password" id="member_Password" class="form-control" placeholder="비밀번호" required>
+					<input type="password" name="member_password" class="form-control" placeholder="비밀번호" required>
 					<button class="w-100 btn btn-lg btn-primary" type="submit">
 						로그인
 					</button>

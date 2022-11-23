@@ -30,6 +30,18 @@ public class MemberDAO {
     	return sqlSession.selectOne("mapper.member.idcheck",member);
     	
     }
+    
+    public int phonecheck(MemberDTO member) throws Exception {
+    	
+    	return sqlSession.selectOne("mapper.member.phonecheck",member);
+    	
+    }
+    
+    public int emailcheck(MemberDTO member) throws Exception {
+      	
+    	return sqlSession.selectOne("mapper.member.emailcheck",member);
+    	
+    }
 
 
 	

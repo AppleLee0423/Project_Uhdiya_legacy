@@ -16,6 +16,15 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
  
  <script type="text/javascript">
+ 
+    function jsSubmit() {
+
+     // 입력값 유효성 체크 추가
+     
+     $("#frm").submit();
+    
+    } 
+ 
 	
  	$(document).ready(function() {
  		
@@ -79,14 +88,10 @@
 	        var pw2 = document.getElementById("member_password2").value; // 확인 비밀번호
 
 
-	        var pattern1 = /[0-9]/;
-
-	        var pattern2 = /[a-z]/;
-
-	        var pattern3 =  /[A-Z]/;
-	        	
-            var pattern4 = /[~!@\#$%<>^&*]/;
-	        
+	        var pattern1 = /^[a-z0-9]/;
+ //           var pattern2 = /[a-z]/;
+ //           var pattern3 =  /[A-Z]/;
+ //           var pattern4 = /[~!@\#$%<>^&*]/;
 	        var pw_msg = "";
 
 
@@ -105,7 +110,8 @@
 
 	                      return false;  
 	                 } else {
-	                	  if(pw = pw2){
+	                	  
+	                	 if(pw = pw2){
 	                		  
 	                		  alert("비밀번호가 일치합니다.")
 	                	  }
@@ -113,14 +119,93 @@
 	                
 	         }	 
 
-	       if(!pattern1.test(pw)||!pattern2.test(pw)||!pattern3.test(pw)||!pattern4.test(pw)||pw.length<6||pw.length>16){
+	       if(!pattern1.test(pw)||pw.length<6||pw.length>16){
 
-	            alert("영문+숫자+특수기호 8자리 이상 16글자 이하만 이용 가능합니다.");
+	            alert("영문+숫자+특수기호 6자리 이상 16글자 이하만 이용 가능합니다.");
 
 	            return false;
 	        }          
 
 	    }
+	     function checkname() {
+			
+			var name = $("#member_name").val();
+			if( name == null || !(id.length > 0) ) {
+				alert("이름을 입력해주세요");
+				return;
+			}
+			function checkphone() {
+				
+				var phone = $("#member_phone","#member_phone2","#member_phone3").val();
+				if( phone == null || !(id.length > 0) ) {
+					alert("전화번호를 입력해주세요");
+					return;
+				}
+				$.ajax({
+					url : "phonecheck",
+					type : "post",
+					dataType : "text",
+					data : {
+						"member_phone" : phone
+					},
+					success : function(data) {
+						
+						console.log(data);
+						
+						if( data == "Y" ) {
+							$("#phonecheck")..val("Y");
+				
+						} else {
+							alert("중복된 전화번호 입니다.");
+						}
+					},
+					fail : function(e) {
+						console.log(e);
+						alert("error");
+					}
+				})
+			}
+		
+				function checkemail() {
+					
+					var email = $("#member_email").val();
+					if( email == null || !(id.length > 0) ) {
+						alert("email를 입력해주세요");
+						return;
+					}
+					$.ajax({
+						url : "emailcheck",
+						type : "post",
+						dataType : "text",
+						data : {
+							"member_email" : email
+						},
+						success : function(data) {
+							
+							console.log(data);
+							
+							if( data == "Y" ) {
+								$("#emailcheck").val("Y");
+					
+							} else {
+								alert("중복된 email 입니다.");
+							}
+						},
+						fail : function(e) {
+							console.log(e);
+							alert("error");
+						}
+					})
+				}
+                 function checkaddDetail() {
+					
+					var add = $("#member_addDetail").val();
+					if( add == null || !(id.length > 0) ) {
+						alert("상세주소를 입력해주세요");
+						return;
+					}
+			
+	 
 </script>
 
 
@@ -181,7 +266,7 @@
 </head>
 <body>
 <div class="div" style="/* overflow-y: scroll; height:600px; */ margin-top : 75px; min-height : 200px; " align="center">
-    <form method="post" action="${path }/member/addMember">
+    <form id="frm"method="post" action="${path }/member/addMember">
         <table width="800">
             <tr height="40">
                 <td align="center">
@@ -206,7 +291,7 @@
                 <td width="5%" align="center">*</td>
                 <td width="15%">비밀번호</td>
                 <td><input type="password" name="member_password" id="member_password" onchange="check_pwd()" />
-                &nbsp(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 6자~16자)
+                &nbsp(영문 소문자/숫자/특수문자 조합, 6자~16자)
                 </td>
             </tr>
             <tr height="7">
@@ -331,7 +416,7 @@
 	               <label for="check2">동의함</label>
                </p>
             <tr height="40">
-                <td><button id = "submit" class="w-100 btn btn-lg btn-primary" style="margin-left: auto; margin-right: auto;" type="submit" value="회원가입">회원가입</button></a></td>
+                <td><button id = "submit" class="w-100 btn btn-lg btn-primary" style="margin-left: auto; margin-right: auto;" type="button" onclick="jsSubmit"  value="회원가입">회원가입</button></a></td>
             </tr>                                                            
         </table>
         
