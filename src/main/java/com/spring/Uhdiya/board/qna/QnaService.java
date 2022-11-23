@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +60,10 @@ public class QnaService {
 		qnaMap.put("qna_list", qna_list);
 		qnaMap.put("total_qna", total_qna);
 		return qnaMap;
+	}
+
+	public Map<String, Object> one_qna(int qna_id) {
+		// TODO Auto-generated method stub
+		return qnaDAO.one_qna(qna_id);
 	}
 }

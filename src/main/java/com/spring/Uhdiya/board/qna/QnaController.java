@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.board.qna;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -31,8 +32,8 @@ public class QnaController {
 	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\qna_repo";
 	
 	// 전체 QnA(관리자만)
-	@RequestMapping("/qna_List")
-	public ModelAndView qna_List(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/qna_list")
+	public ModelAndView qna_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		String _section = request.getParameter("section"); 
@@ -59,6 +60,7 @@ public class QnaController {
 	public ModelAndView qna_product( HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		
 		String _section = request.getParameter("section"); 
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt((_section == null) ? "1" : _section);  
@@ -67,12 +69,10 @@ public class QnaController {
 		String product_code = request.getParameter("product_code");
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
-//		PagingVO vo = new PagingVO(section,pageNum,product_code);
-//		
-//		pageMap.put("vo", vo);
+		
 		pageMap.put("section", section);
 		pageMap.put("pageNum", pageNum);
-		pageMap.put("product_code", 001);
+		pageMap.put("product_code", "001");
 		Map<String,Object> qnaMap = new HashMap<String, Object>();
 		
 		qnaMap = qnaService.product_qna(pageMap);
@@ -117,6 +117,39 @@ public class QnaController {
 		return mav;
 	}
 	
+	// Qna 상세페이지
+	@RequestMapping("/qna_page")
+	public ModelAndView qna_page
+	(@RequestParam("qna_id")int qna_id, @RequestParam("qna_writeId")String qna_writeId, HttpServletRequest request, HttpServletResponse response) 
+			throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = null;
+		PrintWriter out = response.getWriter();
+		
+		Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+		mav = new ModelAndView(viewName);
+		mav.addObject("qnaMap",qnaMap);
+		
+		/*
+		HttpSession session = request.getSession();
+		MemberDTO dto = session.getAttribute("member");
+		String member_id = dto.getMember_id();
+		
+		if(qna_writeId.equals(member_id)) {
+			Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+			mav = new ModelAndView(viewName);
+			mav.addObject("qnaMap",qnaMap);
+		} else {
+			out.println("<script>");
+			out.println("alert('해당 글 작성자만 볼 수 있습니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+		}
+		*/
+		return mav;
+	}
+	
 	// Qna 작성폼
 	@RequestMapping("/qnaForm")
 	public ModelAndView qnaForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -154,7 +187,7 @@ public class QnaController {
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		String notice_writeId = member.getId();
 		*/
-//		qnaMap.put("notice_writeId", "hong");
+		qnaMap.put("notice_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -203,18 +236,22 @@ public class QnaController {
 		
 		while(fileNames.hasNext()) {
 			String fileName = fileNames.next();
-			MultipartFile mFile = request.getFile(fileName);
-			String originalFileName = mFile.getOriginalFilename();
-			fileList.add(originalFileName);
-			File file = new File(folderPath+"\\"+fileName);
-			
-			if(mFile.getSize() != 0) {
-				if(!file.exists()) {
-					if(file.getParentFile().mkdirs()) {
-						file.createNewFile();
+			if(fileName != null && fileName != "") {
+				MultipartFile mFile = request.getFile(fileName);
+				String originalFileName = mFile.getOriginalFilename();
+				fileList.add(originalFileName);
+				File file = new File(folderPath+"\\"+fileName);
+				
+				if(mFile.getSize() != 0) {
+					if(!file.exists()) {
+						if(file.getParentFile().mkdirs()) {
+							file.createNewFile();
+						}
 					}
+					mFile.transferTo(new File(folderPath+"\\"+"temp"+"\\"+originalFileName));
 				}
-				mFile.transferTo(new File(folderPath+"\\"+"temp"+"\\"+originalFileName));
+			} else {
+				return null;
 			}
 		}
 		return fileList;

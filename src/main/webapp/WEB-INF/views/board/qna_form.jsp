@@ -12,13 +12,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
-	.qna{margin:0 auto; padding: 20px;}
+	.qna{margin: 40px auto;}
 	.qna_form_td_title{width:15%;}
 </style>
 <script>
 	let cnt = 1;
 	function fn_addFile(){
-		$("#d_file").append("<br><input type='file' name='notice_fileName"+cnt+"' onchange='readURL(this)'>'");
+		$("#d_file").append("<br><input type='file' name='qna_fileName"+cnt+"' onchange='readURL(this)'>'");
 		$(".image_preview").append("<img src='#' id='preview"+cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
 		cnt++;
 	}
@@ -56,8 +56,8 @@
 		</div>
 		<div class="qna_body">
 			<form name="qna_form" action="" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="qna_writeId" value="${member_id}"/>
-				<input type="hidden" name="product_code" value="${product_code}"/>	
+				<input type="hidden" name="qna_writeId" value="${param.qna_writeId}"/>
+				<input type="hidden" name="product_code" value="${param.product_code}"/>	
 				<table class="qna_form_table">
 					<tr>
 						<td class="qna_form_td_title">제목</td>
@@ -73,12 +73,16 @@
 						<label for="file">
   						<div class="btn-upload">파일추가</div>
 						</label>
-						<input type="file" name="imageFileName" id="file">
+						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
+						<div id="d_file"></div>	
 						</td>
 					</tr>
 					<tr>
-						<td class="qna_form_td_title">미리보기</td>
-						<td><img src="#" id="preview" /></td>
+						<td class="notice_form_td_title">첨부파일</td>
+						<td>
+							<div class="image_preview">
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>

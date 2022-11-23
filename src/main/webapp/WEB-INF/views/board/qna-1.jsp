@@ -12,60 +12,57 @@
 <head>
 <link rel="stylesheet" href="${path}/resources/css/reset.css" />
 <link rel="stylesheet" href="${path}/resources/css/qna.css" />
-<script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-	function search(){
-		let keyword = document.getElementById('search_box').value;
-		location.href='${path}/board/qna_my?keyword='+keyword;
-	}
-</script>
-<style>
-	.qna{margin:50px auto; padding:0 350px;}
-</style>
 </head>
 <body>
- 	<div class="qna">
+	<div class="qna">
 		<div class="qna_header">
 			<div class="qna_header_title"><b>QnA</b></div>
-			<div class="qna_header_count">총 ${total_qna}건</div>
+			<div class="qna_count">총 2건</div>
 		</div>
 		<div class="qna_body">
-			<table class="qna_my_table">
-				<thead>
-					<tr>
-						<td class="qna_my_num">번호</td>
-						<td class="qna_my_product_code" width="100px">상품</td>
-						<td class="qna_my_title">제목</td>
-						<td class="qna_my_writeDate">작성일</td>
-						<td class="qna_my_status">답변상태</td>
-					</tr>
-				</thead>
-				<tbody>
-					<c:if test="${empty qna_list}">
-						<tr>
-							<td align="center" colspan="5">작성된 문의가 없습니다.</td>
-						</tr>
-					</c:if>
-					<c:if test="${not empty qna_list}">
-						<c:forEach var="qna" items="${qna_list}" varStatus="num">
-							<tr>
-								<td class="qna_my_num">${(total_qna) - (num.index)}</td>
-								<td class="qna_my_product_code">${qna.product_code}</td>
-								<td class="qna_my_title"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}">${qna.qna_title}</a></td>
-								<td class="qna_my_writeDate">${qna.qna_regDate}</td>
-								<c:if test="${qna.qna_status == 0}">
-									<td class="qna_my_status">답변대기</td>
-								</c:if>
-								<c:if test="${qna.qna_status == 1}">
-									<td class="qna_my_status">답변완료</td>
-								</c:if>
-							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
+			<ul class="qna_list">
+				<li>
+					<details>
+						<summary>
+							<span class="qna_q_num">1</span>
+							<span class="qna_q_title">문의드립니다.</span>
+							<span class="qna_q_writer">hong</span>
+							<span class="qna_q_writeDate">2022-11-13</span>
+							<span class="qna_q_state">답변완료</span>
+							<span class="qna_q_delete"><button onclick="">삭제</button></span>
+						</summary>
+							<span class="qna_content">도대체 왜 안 되는걸까요?</span>
+							<div class="qna_a">
+								<span class="answer_tag">답변</span>
+								<span class="qna_a_content">그걸 알면 제가 학원을 다닐까요?</span>
+								<span class="qna_a_writer">관리자</span>
+								<span class="qna_a_writeDate">2022-11-14</span>
+								<span class="qna_q_delete"><button onclick="">삭제</button></span>
+							</div>
+					</details>
+				</li>
+				<li>
+					<details>
+						<summary>
+							<span class="qna_q_num">2</span>
+							<span class="qna_q_title">질문이요</span>
+							<span class="qna_q_writer">leeleeleelee</span>
+							<span class="qna_q_writeDate">2022-11-14</span>
+							<span class="qna_q_state" style="text-decoration: underline;"><a href="#">답변대기</a></span>
+							<span class="qna_q_delete"><button onclick="">삭제</button></span>
+						</summary>
+							<span class="qna_content">남자친구 있어요?</span>
+							<!-- <div class="qna_a">
+								<span class="answer_tag"></span>
+								<span class="qna_a_content"></span>
+								<span class="qna_a_writer"></span>
+								<span class="qna_a_writeDate"></span>
+							</div> -->
+					</details>
+				</li>
+			</ul>
 		</div>
 		<c:if test="${not empty total_qna}">
 			<div class="qna_paging">
@@ -101,18 +98,10 @@
 			</c:choose>
 			</div>
 		</c:if>
-		<c:if test="${not empty keyword}">
-			<div class="qna_search">
-				<input type="text" name="qna_search" id="search_box" value="${keyword}"/>
-				<button id="search_button" onclick="search()">검색</button>
-			</div>
-		</c:if>
-		<c:if test="${empty keyword}">
-			<div class="qna_search">
-				<input type="text" name="qna_search" id="search_box" />
-				<button id="search_button" onclick="search()">검색</button>
-			</div>
-		</c:if>
+		<div class="qna_search">
+			<input type="text" name="qna_search" id="search_box"/>
+			<button id="search_button">검색</button>
+		</div>
 	</div>
 </body>
 </html>

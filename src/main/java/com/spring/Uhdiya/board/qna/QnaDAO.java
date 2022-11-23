@@ -1,11 +1,15 @@
 package com.spring.Uhdiya.board.qna;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.spring.Uhdiya.board.notice.NoticeDTO;
+import com.spring.Uhdiya.board.notice.NoticeFileDTO;
 
 @Repository
 public class QnaDAO {
@@ -74,7 +78,7 @@ public class QnaDAO {
 
 	public List<QnaDTO> qna_list(Map<String, Object> pageMap) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.qna.qna_list",pageMap);
+		return sqlSession.selectList("mapper.qna.all_qna",pageMap);
 	}
 
 	public int total_qna() {
@@ -90,5 +94,15 @@ public class QnaDAO {
 	public List<QnaDTO> my_qna(Map<String, Object> pageMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.qna.my_qna",pageMap);
+	}
+
+	public Map<String, Object> one_qna(int qna_id) {
+		// TODO Auto-generated method stub
+		QnaDTO qnaDTO = sqlSession.selectOne("mapper.qna.one_qna", qna_id);
+		List<QnaFileDTO> qnaFileList = sqlSession.selectList("mapper.qna.one_qna_file", qna_id);
+		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap.put("qnaDTO", qnaDTO);
+		qnaMap.put("qnaFileList", qnaFileList);
+		return qnaMap;
 	}
 }

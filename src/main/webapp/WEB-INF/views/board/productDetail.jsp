@@ -345,7 +345,7 @@ $(function(){
 			<p id="boardReview"></p><!-- 클릭이동한곳 -->
 			<jsp:include page="/WEB-INF/views/board/review_product.jsp"></jsp:include>
 		</div>
-		
+		<hr>
 		<!-- 상품문의  -->
 		<p class="boardQna"></p><!-- 스크롤  -->
 		<div class="contentsMain_board_qna" align="center"> 

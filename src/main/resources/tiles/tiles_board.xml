@@ -29,6 +29,10 @@
 		<put-attribute name="title" value="NOTICE FORM - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/notice_form.jsp" />
 	</definition>
+	<definition name="/board/qna_page" extends="baseLayout">
+		<put-attribute name="title" value="QNA - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/qna_detail.jsp" />
+	</definition>
 	<definition name="/board/qna_my" extends="baseLayout">
 		<put-attribute name="title" value="MY QNA - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/qna_my.jsp" />
@@ -47,11 +51,11 @@
 	</definition>
 	
 	<!-- 관리자 JSP -->
-	<definition name="/board/qna_List" extends="baseLayout">
+	<definition name="/board/qna_list" extends="baseLayout">
 		<put-attribute name="title" value="QNA LIST - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/qna.jsp" />
 	</definition>
-	<definition name="/board/review_List" extends="baseLayout">
+	<definition name="/board/review_list" extends="baseLayout">
 		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review.jsp" />
 	</definition>

@@ -31,8 +31,8 @@ public class ReviewController {
 	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\review_repo";
 	
 	// 전체 Review(관리자만)
-	@RequestMapping("/review_List")
-	public ModelAndView review_List(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/review_list")
+	public ModelAndView review_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		

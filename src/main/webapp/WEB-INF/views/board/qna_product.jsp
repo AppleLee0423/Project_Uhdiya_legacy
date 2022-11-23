@@ -7,8 +7,12 @@
 <c:set var="total_qna" value="${qnaMap.total_qna}" />
 <c:set var="section" value="${qnaMap.section}" />
 <c:set var="pageNum" value="${qnaMap.pageNum}" />
+<%-- 
 <c:set var="member_id" value="${member.member_id}" />
 <c:set var="product_code" value="${qnaMap.product_code}" />
+ --%>
+<c:set var="member_id" value="hong" />
+<c:set var="product_code" value="001" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,10 +64,10 @@
 					</tr>
 				</c:if>
 				<c:if test="${not empty qna_list}">
-					<c:forEach var="qna" items="${qna_list}">
+					<c:forEach var="qna" items="${qna_list}" varStatus="num">
 						<tr>
-							<td class="qna_product_num">${qna.qna_id}</td>
-							<td class="qna_product_title"><a href="#"><i class="fa-solid fa-lock"></i>&nbsp;${qna.qna_title}</a></td>
+							<td class="qna_product_num">${total_qna - num.index}</td>
+							<td class="qna_product_title" style="text-align: left;"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}"><i class="fa-solid fa-lock"></i>&nbsp;${qna.qna_title}</a></td>
 							<td class="qna_product_writer">${qna.qna_writeId}</td>
 							<td class="qna_product_writeDate">${qna.qna_regDate}</td>
 							<c:if test="${qna.qna_status == 0}">
@@ -77,7 +81,7 @@
 				</c:if>
 			</table>
 			<div class="qna_add">
-				<a href="${path}/board/qnaForm" class="qna_add_button">상품 문의하기</a>
+				<a href="${path}/board/qnaForm?qna_writeId=${member_id}&product_code=${product_code}" class="qna_add_button">상품 문의하기</a>
 			</div>
 			<c:if test="${not empty total_qna}">
 			<div class="qna_paging">
