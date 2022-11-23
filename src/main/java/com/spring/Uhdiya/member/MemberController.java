@@ -133,7 +133,7 @@ public class MemberController {
     	
     	String res = "Y";
     	
-    	int result = memberService.idcheck(member);
+    	int result = memberService.phonecheck(member);
     	
     	if( result > 0 ) {
     		res = "N";
@@ -144,7 +144,7 @@ public class MemberController {
      
      // 이메일중복체크
      @ResponseBody
-     @RequestMapping("/phonecheck")
+     @RequestMapping("/emailcheck")
      public String emailcheck(MemberDTO member) throws Exception {
     	
     	String res = "Y";
