@@ -50,10 +50,10 @@ a{text-decoration:none; color:black;}
     <div class="categori">
         <span><a href="${path}/about">About</span></a>&nbsp;
         <span><a href="#">쇼핑</span></a>&nbsp;
-        <span><a href="#">커피</span></a>&nbsp;
-        <span><a href="#">스틱커피</span></a>&nbsp;
-        <span><a href="#">음료</span></a>&nbsp;
-        <span><a href="#">티</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=커피&product_cateS=">커피</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=스틱커피&product_cateS=">스틱커피</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=음료&product_cateS=">음료</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=티&product_cateS=">티</span></a>&nbsp;
         <span><a href="#">선물세트</span></a>&nbsp;
         <span><a href="#">케이크</span></a>&nbsp;
         <span><a href="${path}/board/notice">공지사항</span></a>&nbsp;

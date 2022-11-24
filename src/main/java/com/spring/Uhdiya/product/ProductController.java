@@ -178,7 +178,26 @@ public class ProductController {
 			String value = multipartRequest.getParameter(name);
 			productMap.put(name, value);
 		}
-		
+		////////
+		String message;
+		ResponseEntity<String> resEnt = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html;charset=utf-8");
+		try {
+			productService.addNewProduct(productMap);
+			message = "<script>";
+			message += "alert('상품을 추가했습니다.');";
+			message += "location.href='" + multipartRequest.getContextPath() +"/product/addProductForm';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message, responseHeaders, HttpStatus.OK);
+		} catch(Exception e) {
+			message = "<script>";
+			message += "alert('상품추가 오류가 발생했습니다. 상품이 추가되지 않았습니다. 다시 시도해 주세요.');";
+			message += "location.href='" + multipartRequest.getContextPath() +"/product/addProductForm';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message, responseHeaders, HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
 		////////
 		String imageFileName=null;
 		List<ProductFileDTO> imageFileList=null;
@@ -206,27 +225,6 @@ public class ProductController {
 					srcFile.delete();
 				}
 			}
-			e.printStackTrace();
-		}
-		////////
-		
-		String message;
-		ResponseEntity<String> resEnt = null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type", "text/html;charset=utf-8");
-		try {
-			productService.addNewProduct(productMap);
-			message = "<script>";
-			message += "alert('상품을 추가했습니다.');";
-			message += "location.href='" + multipartRequest.getContextPath() +"/product/addProductForm';";
-			message += "</script>";
-			resEnt = new ResponseEntity<String>(message, responseHeaders, HttpStatus.OK);
-		} catch(Exception e) {
-			message = "<script>";
-			message += "alert('상품추가 오류가 발생했습니다. 상품이 추가되지 않았습니다. 다시 시도해 주세요.');";
-			message += "location.href='" + multipartRequest.getContextPath() +"/product/addProductForm';";
-			message += "</script>";
-			resEnt = new ResponseEntity<String>(message, responseHeaders, HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		return resEnt;
