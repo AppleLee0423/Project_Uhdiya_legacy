@@ -16,14 +16,14 @@ public class FileDownloadController {
 	
 	@RequestMapping("/product_download")
 	public void product_download
-	(@RequestParam("이미지 파일 이름") String 이미지파일이름, @RequestParam("상품코드") String 상품코드, HttpServletResponse response) throws Exception {
-		/*
+	(@RequestParam("product_fileName") String product_fileName, @RequestParam("product_code") String product_code, HttpServletResponse response) throws Exception {
+		String UHDIYA_IMAGE_REPO = "C:\\najin\\uhdiya";
 		OutputStream out = response.getOutputStream();
-		String downFile = PRODUCT_IMAGE_REPO + "\\" + 상품코드 + "\\" + 이미지파일이름;
+		String downFile = UHDIYA_IMAGE_REPO + "\\" + product_code + "\\" + product_fileName;
 		File file = new File(downFile);
 		
 		response.setHeader("Cache-control", "no-cache");
-		response.addHeader("Content-disposition", "attachment;fileName="+이미지파일이름);
+		response.addHeader("Content-disposition", "attachment;fileName="+product_fileName);
 		FileInputStream in = new FileInputStream(file);
 		byte[] buffer = new byte[1024 * 8];
 		while(true) {
@@ -35,7 +35,7 @@ public class FileDownloadController {
 		}
 		in.close();
 		out.close();
-		*/
+		
 	}
 	
 	@RequestMapping("/notice_download")

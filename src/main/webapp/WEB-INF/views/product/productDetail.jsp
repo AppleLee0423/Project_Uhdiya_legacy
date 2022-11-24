@@ -89,6 +89,15 @@ $(document).ready(function() {
 	});
 
 });
+function cateL() {
+	let cateL = document.getElementById('cateL');
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS=';
+}
+function cateS() {
+	let cateL = document.getElementById('cateL');
+	let cateS = document.getElementById('cateS');
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS.value;
+}
 </script>
 <style>
 /* ㅅ 버튼 */
@@ -103,7 +112,7 @@ $(document).ready(function() {
 }
 .menuMap{
 	width: 1200px;
-	margin:0px;
+	margin-top:35px;
 	min-height:20px;
 	text-align:right;
 	font-size:small;
@@ -123,9 +132,16 @@ $(document).ready(function() {
 
 	<!-- 메뉴맵 -->
 	<div class="menuMap">
-		<a href="${path }/main">홈 > </a>
-		<a href="${path }/product/productList?product_cateS=${product.product_cateS }">
-			<span> ${product.product_cateS } </span>
+		<a href="${path }/main">
+			홈 > 
+		</a>
+		<a href="javascript:cateL()">
+			<span >${param.product_cateL } </span>
+			<input type="hidden" id="cateL" value="${param.product_cateL }">
+		</a>
+		<a href="javascript:cateS()">
+			<span> > ${param.product_cateS }</span>
+			<input type="hidden" id="cateS" value="${param.product_cateS }">
 		</a>
 	</div>
 	
@@ -134,7 +150,8 @@ $(document).ready(function() {
 	
 		<!-- 페이지상단 좌측 // 상품이미지 -->
 		<div class="contentsIntro_detailImg">	
-			 <img class="detailImg" src="${path }/resources/img/product/${product.product_fileName }"> 
+			<img width="500" height="500" src="${path }/product_download?product_fileName=${product.product_fileName }&product_code=${product.product_code }" 
+								 id="preview"> 				 
 		</div>
 		
 		<!-- 페이지상단 우측 // 상품가격,구매하기버튼등 -->
@@ -162,7 +179,6 @@ $(document).ready(function() {
 				<p class="contentsIntro_payInfo_productPrice_ico">
 					<span style="font-size: x-small;color:#f76560;padding-left:20px;">수량을 선택해주세요.</span>
 				</p>
-				
 				<br>
 			</div>
 			
@@ -185,7 +201,9 @@ $(document).ready(function() {
 									<!-- 버튼 -->
 									<div class="qty_btn">
 										<div class="qty_btn_plus">
-											<a href="javascript:qty_change('p')"><img src="${path }/resources/img/product/btn_p.gif" alt="+"></a>
+											<a href="javascript:qty_change('p')">
+												<img src="${path }/resources/img/product/btn_p.gif" alt="+">
+											</a>
 										</div>
 										<div class="qty_btn_minus">
 											<a href="javascript:qty_change('m')"><img src="${path }/resources/img/product/btn_m.gif" alt="-"></a>
@@ -270,7 +288,8 @@ $(document).ready(function() {
 			<p id="info"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			
 			<c:forEach var="info" items="${infoFileList }">
-				<img src = "${path }/resources/img/product/${info.product_fileName}">
+				<img src="${path }/product_download?product_fileName=${info.product_fileName}&product_code=${info.product_code}" 
+								 id="preview"> 
 			</c:forEach> 
 			
 			
@@ -281,7 +300,6 @@ $(document).ready(function() {
 		<div class="contentsMain_board_review" align="center"> 
 			<p id="boardReview"></p><!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			<jsp:include page="/WEB-INF/views/board/review_product.jsp" ></jsp:include>
-			<%-- <img width="1190px" height="1500px" src="${path }/resources/img/product/reviewTest.png"> --%>
 		</div>
 		
 		<!-- 상품문의  -->
@@ -289,7 +307,6 @@ $(document).ready(function() {
 		<div class="contentsMain_board_qna" align="center"> 
 			<p id="boardQna"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
 			<jsp:include page="/WEB-INF/views/board/qna_product.jsp" ></jsp:include>
-			<%-- <img width="1190px" height="1500px" src="${path }/resources/img/product/qnaTest.png"> --%>
 		</div>
 	</div>
 </div>
