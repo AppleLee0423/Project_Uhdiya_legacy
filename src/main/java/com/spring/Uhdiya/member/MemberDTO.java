@@ -1,13 +1,15 @@
-package com.spring.Uhdiya.memJ;
+package com.spring.Uhdiya.member;
 
 import java.sql.Date;
 
-public class MemJDTO {
+public class MemberDTO {
 	private int id;
-	private String member_id;
+	private String member_id;	
 	private String member_password;
 	private String member_name;
 	private String member_phone;
+	private String member_phone1;
+	private String member_phone2;
 	private String member_email;
 	private Date member_joinDate;
 	private String zipno;           //우편번호
@@ -15,6 +17,7 @@ public class MemJDTO {
 	private String addDetail;       // 상세주소
 	
 	
+
 	public int getId() {
 		return id;
 	}
@@ -45,6 +48,18 @@ public class MemJDTO {
 	}
 	public void setMember_phone(String member_phone) {
 		this.member_phone = member_phone;
+	}
+	public String getMember_phone1() {
+		return member_phone1;
+	}
+	public void setMember_phone1(String member_phone1) {
+		this.member_phone1 = member_phone1;
+	}
+	public String getMember_phone2() {
+		return member_phone2;
+	}
+	public void setMember_phone2(String member_phone2) {
+		this.member_phone2 = member_phone2;
 	}
 	public String getMember_email() {
 		return member_email;

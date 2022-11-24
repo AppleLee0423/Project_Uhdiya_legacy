@@ -3,11 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.member">
-	<resultMap type="MemJDTO" id="memResult">
+	<resultMap type="MemberDTO" id="memberResult">
 		<result property="mem_seq.nextval" column="id" />
 		<result property="member_id" column="member_id" />
 		<result property="member_password" column="member_password" />
 		<result property="member_phone" column="member_phone"/>
+		<result property="member_phone1" column="member_phone"/>
+		<result property="member_phone2" column="member_phone"/>
 		<result property="member_name" column="member_name" />
 		<result property="member_email" column="member_email" />
 		<result property="member_joinDate" column="member_joinDate" />
@@ -28,26 +30,38 @@
 
 	
 	<!-- 회원가입 -->
-	<insert id="insertMember" parameterType="MemJDTO">
+	<insert id="insertMember" parameterType="MemberDTO">
 		<![CDATA[
 		INSERT INTO member
-		VALUES(mem_seq.nextval, #{member_id}, #{member_password},#{member_name},#{member_phone},  #{member_email},sysdate)
+		VALUES(mem_seq.nextval, #{member_id}, #{member_password},#{member_name},#{member_phone}||'-'||#{member_phone1}||'-'||#{member_phone2},  #{member_email},sysdate)
 		]]>
 	</insert>
 	<!-- 회원가입 주소 -->
-	<insert id="insertaddress" parameterType="MemJDTO">
+	<insert id="insertaddress" parameterType="MemberDTO">
 		<![CDATA[
 		INSERT INTO address
 		VALUES(#{member_id}, #{zipno},#{roadFullAddr},#{addDetail})
 		]]>
 	</insert>
-	
+    
+    <!-- 아이디 중복 체크 -->
+    <select id="idcheck" resultType="int">
+      SELECT COUNT(*) FROM member WHERE member_id = #{member_id}
+    </select>
+    
+    <!-- 전화번호 중복 체크 -->
+    <select id="phonecheck" resultType="int">
+      SELECT COUNT(*) FROM member WHERE member_phone = #{member_phone}
+    </select>
+    
+    <!-- email 중복 체크 -->
+    <select id="emailcheck" resultType="int">
+      SELECT COUNT(*) FROM member WHERE member_email = #{member_email}
+    </select>
 	
 	<!-- id="loginById" 로 아이디/패스워드를 입력 받아서 MemberDTO를 반환하는 sql 작성 -->
-	<select id="loginById"	parameterType="MemJDTO" resultType="MemJDTO">
-		<![CDATA[
-			select * from member where member_id=#{member_id} and memebr_password=#{member_password}
-		]]>
+	<select id="loginById"	parameterType="MemberDTO" resultType="MemberDTO">
+		select * from member where member_id=#{member_id} <!-- and member_password=#{member_password} -->
 	</select>
 
 </mapper>
