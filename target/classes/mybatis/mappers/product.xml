@@ -25,17 +25,107 @@
 	<resultMap id="cntResult" type="java.lang.Integer">
 		<result property="total" column="total" />
 	</resultMap>
-	<resultMap id="cntResultAll" type="java.lang.Integer">
+	<!-- <resultMap id="cntResultAll" type="java.lang.Integer">
 		<result property="totalAll" column="totalAll" />
-	</resultMap>
+	</resultMap> -->
 	<resultMap id="cntCateSResult" type="ProductCntDTO">
 		<result property="product_cateS" column="total" />
 		<result property="cateS" column="cateS" />
 	</resultMap>
 	
-
 	
-    <select id="selectCountAllL" parameterType="java.util.Map" resultMap="cntResultAll"   >
+	<delete id="delProductFile" parameterType="String">
+		<![CDATA[
+			delete from product_file where product_code=#{del_product_code}
+		]]>
+	</delete>
+	<delete id="delProduct" parameterType="String">
+		<![CDATA[
+			delete from product where product_code=#{del_product_code}
+		]]>
+	</delete>
+	
+	<!-- 상품검색 카운트 -->
+	 <select id="selectSearchProductCnt" parameterType="java.util.Map" resultMap="cntResult"   >
+        <![CDATA[
+        select count(*) as total
+          from(
+			select * from product
+            where product_id>1
+         ]]>   
+             <if test='product_cateS!=""'>
+        <![CDATA[
+         	and product_cateS like '%'||#{product_cateS}||'%'
+        ]]>
+         	</if>
+          	<if test='product_cateL!=""'>
+        <![CDATA[
+         	and product_cateL like '%'||#{product_cateL}||'%'
+        ]]>
+         	</if>
+          	<if test='searchSel=="product_code"'>
+        <![CDATA[
+         	and product_code like '%'||#{searchSelTxt}||'%'
+        ]]>
+         	</if>
+          	<if test='searchSel=="product_name"'>
+        <![CDATA[
+         	and product_name like '%'||#{searchSelTxt}||'%' 
+        ]]>
+         	</if>
+       <![CDATA[
+       		)
+		]]>
+	</select>
+	
+	<!-- 상품검색+ 메인사진까지 같이 불러오는 -->
+	 <select id="selectSearchProduct" parameterType="java.util.Map" resultMap="productResult"   >
+        <![CDATA[
+        select * from ( select rowNum as num, t.*
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main' 
+         ]]>   
+             <if test='product_cateS!=""'>
+        <![CDATA[
+         	and p.product_cateS like '%'||#{product_cateS}||'%'
+        ]]>
+         	</if>
+          	<if test='product_cateL!=""'>
+        <![CDATA[
+         	and p.product_cateL like '%'||#{product_cateL}||'%'
+        ]]>
+         	</if>
+          	<if test='searchSel=="product_code"'>
+        <![CDATA[
+         	and p.product_code like '%'||#{searchSelTxt}||'%'
+        ]]>
+         	</if>
+          	<if test='searchSel=="product_name"'>
+        <![CDATA[
+         	and p.product_name like '%'||#{searchSelTxt}||'%'
+        ]]>
+         	</if>
+        <![CDATA[
+            order by p.product_id asc)  t )
+	             where num between (#{page}-1)*#{count}+1 and #{page}*#{count}
+	    ]]>
+	</select>
+	
+<!-- 	<select id="selectProductListAll" parameterType="java.util.Map" resultMap="productResult"   >
+        <![CDATA[
+        select t.*
+          from(
+			select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType=#{product_fileType}
+            order by p.product_id asc)  t
+	             where   rowNum <16
+	    ]]>
+	</select> -->
+	
+<!--     <select id="selectCountAllL" parameterType="java.util.Map" resultMap="cntResultAll"   >
         <![CDATA[
        select count(*) as totalAll
           from(
@@ -43,30 +133,31 @@
         	where p.product_code=f.product_code
             and f.product_fileType='main'
         	and p.product_cateL=#{cateL}
-            order by p.product_id desc)
+            order by p.product_id asc)
 	    ]]>
-	</select>
+	</select> -->
 	
-	
+	<!-- 대분류페이지에서 소분류별 숫자 -->
     <select id="selectCountByCateS" parameterType="java.util.Map" resultMap="cntCateSResult"   >
         <![CDATA[
        select product_cateS,count(*) as cateS from product where product_cateL = #{cateL}
    			 group by product_cateS
 	    ]]>
 	</select>
-	
+	<!-- 대분류 카운트 -->
     <select id="selectProductCountByCateL" parameterType="java.util.Map" resultMap="cntResult"   >
         <![CDATA[
        select count(*) as total from product where product_cateL=#{cateL}
 	    ]]>
 	</select>
-	
+	<!-- 소분류 카운트 -->
     <select id="selectProductCountByCateS" parameterType="String" resultMap="cntResult"   >
         <![CDATA[
        select count(*) as total from product where product_cateS=#{cateS}
 	    ]]>
 	</select>
 	
+	<!-- 대분류 리스트(메인사진포함) -->
     <select id="selectProductsListL" parameterType="java.util.Map" resultMap="productResult"   >
         <![CDATA[
         select * from ( select rowNum as num, t.*
@@ -79,6 +170,8 @@
 	      
 	    ]]>
 	</select>
+	
+	<!-- 소분류리스트(메인사진포함) -->
     <select id="selectProductsListS" parameterType="String" resultMap="productResult"   >
         <![CDATA[
         select t.*
@@ -92,6 +185,7 @@
 	    ]]>
 	</select>
 	
+	<!-- 상품디테일페이지 -->
 	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
 	    <![CDATA[
 		     select p.*,f.product_fileName from product p, product_file f
@@ -102,6 +196,7 @@
     	]]>
 	</select>
 
+	<!-- 상품디테일페이지 상품상세이미지 -->
 	<select id="selectProductInfoFile" resultMap="productFileResult"   parameterType="String"  >
 	    <![CDATA[
 		    	select * from  product_file 
@@ -109,5 +204,30 @@
 				and product_code = #{product_code}
     	]]>
 	</select>
+	
+	<!-- 관리자 상품추가 -->
+	<insert id="insertNewProduct" parameterType="java.util.Map">
+		<![CDATA[
+			insert into product values(pro_seq.nextval,#{product_code},#{product_name},#{product_cateL},#{product_cateS},#{product_price}) 
+		]]>
+	</insert>
+	
+	<!-- 관리자 상품추가시 메인사진추가 -->
+	<insert id="insertNewProductFile" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="insert all" separator=" " close="select * from dual">
+			into product_file values(proFile_seq.nextval,#{item.product_fileName},'test',#{item.product_code})
+		</foreach>
+	</insert>
+	
+	<!-- 관리자 상품추가시 상세사진추가 -->
+	<insert id="insertGoodsImageFile" parameterType="ProductFileDTO"   >
+	    <![CDATA[
+		   insert into product_file
+		   values(proFile_seq.nextval,#{product_fileName},#{product_fileType},#{product_code})
+		   
+		]]>
+	</insert> 
+	
+	
 	
 </mapper>

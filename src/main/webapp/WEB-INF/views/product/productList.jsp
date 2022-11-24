@@ -12,6 +12,71 @@
 <link rel="stylesheet" href="${path } /resources/css/reset.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function cateL() {
+	let cateL = document.getElementById('cateL');
+	console.log(cateL.value);
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS=';
+}
+function cateS1() {
+	let cateL = document.getElementById('cateL');
+	let cateS1 = document.getElementById('cateS1');
+	console.log(cateS1.value);
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS1.value;
+}
+function cateS2() {
+	let cateL = document.getElementById('cateL');
+	let cateS2 = document.getElementById('cateS2');
+	console.log(cateS2.value);
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS2.value;
+}
+function cateS3() {
+	let cateL = document.getElementById('cateL');
+	let cateS3 = document.getElementById('cateS3');
+	console.log(cateS3.value);
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS3.value;
+}
+function cateS4() {
+	let cateL = document.getElementById('cateL');
+	let cateS4 = document.getElementById('cateS4');
+	console.log(cateS4.value);
+	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS4.value;
+}
+function btn_prev(){
+	let urlParams = new URL(location.href).searchParams;
+	let page = urlParams.get('page');
+	let product_cateL = urlParams.get('product_cateL');
+	let product_cateS = urlParams.get('product_cateS');
+	let page_prev = page - 1;
+	console.log(page);
+	console.log(page_prev);
+	if(page=='1' || page==null){
+		window.location.href='${path}/product/productList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&page=1';
+		alert('첫 페이지입니다.');
+	} else {
+		window.location.href='${path}/product/productList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&page='+page_prev;
+	}
+}
+function btn_next(){
+	let urlParams = new URL(location.href).searchParams;
+	let page = urlParams.get('page');
+	let product_cateL = urlParams.get('product_cateL');
+	let product_cateS = urlParams.get('product_cateS');
+	if(page==null){
+		page=1;
+	}
+	let page_next = parseInt(page) + 1;
+ 	let lastPage = document.getElementById('lastPage');
+	if(page_next > lastPage.value ){
+		window.location.href='${path}/product/productList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&page='+page;
+		alert('마지막 페이지입니다.');
+	} else{
+		window.location.href='${path}/product/productList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&page='+page_next;
+	} 
+}
+
+</script>
 <style>
 /* 전체페이지 */
 .productListPage {
@@ -105,7 +170,7 @@
 }
 /* 제품 한칸 */
 .product {
-	padding: 0 2px 100px 2px;
+	padding: 0 1px 100px 1px;
 	max-width: 310px;
 	height: 350px;
 	float:left;
@@ -153,45 +218,13 @@
     text-align:center;
 }
 </style>
-<script type="text/javascript">
-function cateL() {
-	let cateL = document.getElementById('cateL');
-	console.log(cateL.value);
-	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS=';
-}
-function cateS1() {
-	let cateL = document.getElementById('cateL');
-	let cateS1 = document.getElementById('cateS1');
-	console.log(cateS1.value);
-	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS1.value;
-}
-function cateS2() {
-	let cateL = document.getElementById('cateL');
-	let cateS2 = document.getElementById('cateS2');
-	console.log(cateS2.value);
-	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS2.value;
-}
-function cateS3() {
-	let cateL = document.getElementById('cateL');
-	let cateS1 = document.getElementById('cateS3');
-	console.log(cateS3.value);
-	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS3.value;
-}
-function cateS4() {
-	let cateL = document.getElementById('cateL');
-	let cateS2 = document.getElementById('cateS4');
-	console.log(cateS4.value);
-	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS4.value;
-}
-
-</script>
 </head>
 <body>
 <c:set var="total" value="${productsMap.total }" />
-<c:set var="totalAll" value="${productsMap.totalAllL }" />
+<%-- <c:set var="totalAll" value="${productsMap.totalAllL }" /> --%>
 <!-- 전체페이지 : 상품 디테일 -->
 <div class="productListPage">
-
+<!-- /////////////////////////// -->
 	<!-- 메뉴맵 -->
 	<div class="menuMap">
 		<a href="${path }/main">
@@ -206,7 +239,7 @@ function cateS4() {
 		</c:if>
 	</div>
 	
-	<!-- 페이지 상단(소분류명,총아이템수,가격순) -->
+	<!-- 페이지 상단(소분류명,총아이템수,가격순)    -->
 	<div class="contentsIntro">	
  		<table class="products_info">
 			<tr>
@@ -266,15 +299,18 @@ function cateS4() {
 				<td class="product">
 				
 					<!-- 상품사진 -->
-						<a href ="${path }/product/productDetail?product_code=${list.product_code }">
-							<img width="305" height="305"
-								src="${path }/resources/img/product/${list.product_fileName }"> 
+						<a href ="${path }/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
+							<%-- <img width="305" height="305"
+								src="${path }/resources/img/product/${list.product_fileName }">  --%>
+								
+							<img width="305" height="305" src="${path }/product_download?product_fileName=${list.product_fileName }&product_code=${list.product_code}" 
+								 id="preview"> 
 							<hr style="border-width: 1px 0 0 0; border-color: #fff;">
 						</a>
 					
 					<!-- 상품명 -->
 					<div class="product_title">
-						<h1 style="font-weight:lighte">${list.product_name}</h1>
+						<h1 style="font-weight:lighter">${list.product_name}</h1>
 						<br>
 					</div>
 					
@@ -291,67 +327,40 @@ function cateS4() {
 			</c:forEach>
 		</table> 
 		
+		<%-- <c:set var="k" value="${totalAll }" /> --%>
+	<%-- 	<c:if test="${totalAll==null }"> --%>
+			<c:set var="k" value="${total }" />
+	<%-- 	</c:if> --%>
+		
 		<div class="pageBtn">
 			<ul class="pageBtn_ul">
 				<li class="pageBtn_li">
-					<img src="${path }/resources/img/product/btn_page_prev.gif">
-				</li>
-				<li class="pageBtn_li_txt">
-					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&page=1">
-						<span>1</span>
+					<a href="javascript:btn_prev()">
+						<img src="${path }/resources/img/product/btn_page_prev.gif">
 					</a>
 				</li>
-
-			<c:forEach var="i" begin="2" end="${totalAll }" step="1">
-					<c:if test="${totalAll>(i-1)*8 }">
+				<c:forEach var="i" begin="1" end="${k }" step="1">
+					<c:if test="${k>(i-1)*8 }">
 						<li class="pageBtn_li_txt">
 							<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&page=${i}">
 								<span>${i }</span>
+								<c:if test="${param.page==i || (param.page==null) && i==1 }">
+									<hr style="border-width: 2px 0 0 0; border-color: #fff; margin-top:0px;">
+								</c:if>
 							</a>
 						</li>
 					</c:if>
 				</c:forEach> 
-				
-<%-- 				<c:if test="${totalAll >8 }">
-				<li class="pageBtn_li_txt">
-					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=&page=2">
-						<span>2</span>
-					</a>
-				</li>
-				</c:if>
-				<c:if test="${totalAll >16 }">
-				<li class="pageBtn_li_txt">
-					<a href="${path}/product/productList?product_cateL=${param.product_cateL }&product_cateS=&page=2">
-						<span>3</span>
-					</a>
-				</li>
-				</c:if> --%>
-				
-<%-- 				<c:if test="${totalAll >8 }">
-				<li class="pageBtn_li_txt">
-					<span>2</span>
-				</li>
-				</c:if> --%>
-				
-				
 				<li class="pageBtn_li">
-					<img src="${path }/resources/img/product/btn_page_next.gif" style="border-left: 1px solid #d7d5d5;">
+					<a href="javascript:btn_next()">
+						<img src="${path }/resources/img/product/btn_page_next.gif" style="border-left: 1px solid #d7d5d5;">
+						<input id = "lastPage" type="hidden" value="${k/8+1 }">
+					</a>
 				</li>
-				
-			</ul><span>${totalAll }</span>
+			</ul>
 		</div>
-		
-		
 	</div>
 </div>			
-
-
-
-
-
-
-
-
 
 
 </body>
