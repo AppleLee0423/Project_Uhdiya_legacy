@@ -34,7 +34,7 @@ import com.spring.Uhdiya.common.interceptor.ViewNameInterceptor;
 @Controller
 @RequestMapping("/product/**")
 public class ProductController {
-	private static final String UHDIYA_IMAGE_REPO = "C:\\najin\\uhdiya";
+	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\product"; 
 	
 	@Autowired ProductService productService;
 	

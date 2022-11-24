@@ -14,8 +14,98 @@
 	</resultMap>
 	
 	<resultMap type="reviewFileDTO" id="file">
+		<result property="review_fileId" column="review_fileId"/>
 		<result property="review_id" column="review_id"/>
 		<result property="review_fileName" column="review_fileName"/>
 	</resultMap>
 	
+	<!-- 관리자페이지 리뷰 전체목록 -->
+	<select id="all_review" resultMap="review" parameterType="java.util.Map">
+		<![CDATA[
+			select review_id, review_writeId, review_star, review_regDate, product_code from 
+    			(select rownum rn, review_id, review_writeId, review_star, review_regDate, product_code from review
+    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_review" resultType="int">
+		<![CDATA[
+			select count(review_id) from review
+		]]>
+	</select>
+	
+	<!-- 상품페이지 리뷰 목록 -->
+	<select id="product_review" resultMap="review" parameterType="java.util.Map">
+		<![CDATA[
+			select review_id, review_writeId, review_star, review_regDate, product_code from 
+    			(select rownum rn, review_id, review_writeId, review_star, review_regDate, product_code from review where product_code = #{product_code}
+    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_product_review" resultType="int" parameterType="String">
+		<![CDATA[
+			select count(review_id) from review where product_code = #{product_code}
+		]]>
+	</select>
+	
+	<!-- 마이페이지 리뷰 목록 -->
+	<select id="my_review" resultMap="review" parameterType="java.util.Map">
+		<![CDATA[
+			select review_id, review_writeId, review_title, review_star, review_regDate, product_code from 
+    			(select rownum rn, review_id, review_writeId, review_title, review_star, review_regDate, product_code from review where review_writeId = #{review_writeId}
+    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="total_my_review" resultType="int" parameterType="String">
+		<![CDATA[
+			select count(review_id) from review where review_writeId = #{review_writeId}
+		]]>
+	</select>
+	
+	<!-- 리뷰 등록 -->
+		<select id="new_review_num" resultType="int">
+			<![CDATA[
+				select nvl(max(review_id),0) from review
+			]]>
+		</select>
+		
+		<insert id="insert_review" parameterType="java.util.Map">
+			<![CDATA[
+				insert into review values(#{review_id},#{review_writeId},#{review_star},#{review_title},#{review_content},sysdate,#{product_code})
+			]]>
+		</insert>
+		
+		<select id="new_review_file_num" resultType="int">
+			<![CDATA[
+				select nvl(max(review_fileId),0) from review_file
+			]]>
+		</select>
+		
+		<insert id="insert_review_file" parameterType="java.util.Map">
+			<foreach collection="list" item="item" open="insert all" separator=" " close="select * from dual">
+				into review_file values(#{item.review_fileId},#{item.review_id},#{item.review_fileName})
+			</foreach>
+		</insert>
+		
+	<!-- 리뷰 수정 -->
+		<update id="update_review" parameterType="java.util.Map">
+			<![CDATA[
+				update review set review_star=${review_star}, review_title=${review_title}, review_content=${review_content} where review_id = ${review_id}
+			]]>
+		</update>
+		
+	<!-- 리뷰 삭제 -->
+		<delete id="delete_review" parameterType="int">
+			<![CDATA[
+				delete from review where review_id=${review_id}
+			]]>
+		</delete>
+		
+		<delete id="delete_review_file" parameterType="int">
+			<![CDATA[
+				delete from review_file where review_id=${review_id}
+			]]>
+		</delete>
 </mapper>

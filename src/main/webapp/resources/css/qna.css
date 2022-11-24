@@ -190,6 +190,7 @@ a {
 }
 
 .qna_product_title {
+	text-align: left;
 	width: 20%;
 	padding-left: 10px;
 }

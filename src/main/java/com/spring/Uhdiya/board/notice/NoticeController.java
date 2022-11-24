@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,28 +31,56 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/board/**")
 public class NoticeController {
 	@Autowired NoticeService noticeService;
-	@Autowired ServletContext servletContext;
+	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\notice";
 	
 	// 공지사항
 	@RequestMapping(value="notice")
 	public ModelAndView notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		List<NoticeDTO> notice_list = noticeService.all_notice();
-		mav.addObject("notice_list",notice_list);
+		List<NoticeDTO> notice_list = new ArrayList<NoticeDTO>();
+		
+		String keyword = request.getParameter("keyword");
+		String _section = request.getParameter("section"); 
+		String _pageNum = request.getParameter("pageNum");
+		int section = Integer.parseInt((_section == null) ? "1" : _section);  
+		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);  
+		
+		Map<String, Integer> pageMap = new HashMap<String, Integer>();
+		pageMap.put("section", section);
+		pageMap.put("pageNum", pageNum);
+		Map<String,Object> noticeMap = new HashMap<String, Object>();
+		
+		if(keyword != null && keyword != "") {
+			notice_list = noticeService.search_notice(keyword);
+			noticeMap.put("notice_list", notice_list);
+		} else {
+			noticeMap = noticeService.all_notice(pageMap);
+			noticeMap.put("section", section);
+			noticeMap.put("pageNum", pageNum);
+		}
+
+		mav.addObject("keyword",keyword);
+		mav.addObject("noticeMap",noticeMap);
 		
 		return mav;
 	}
 	
 	// 공지사항 상세페이지
 	@RequestMapping(value="notice_page",method=RequestMethod.GET)
-	public ModelAndView notice_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView notice_page(@RequestParam("notice_id")int notice_id,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		
 		/*
-		List<NoticeDTO> notice_list = noticeService.all_notice();
-		mav.addObject("notice_list",notice_list);
+		HttpSession session = request.getSession();
+		MemderDTO dto = session.getAttribute("member");
+		String member_id = dto.getMember_id;
+		mav.addObject("member_id", member_id);
 		*/
+		
+		Map<String, Object> noticeMap = noticeService.one_notice(notice_id);
+		mav.addObject("noticeMap", noticeMap);
 		return mav;
 	}
 	
@@ -68,7 +97,8 @@ public class NoticeController {
 		session 값 받아서 admin 일때만 가능하게
 
 		HttpSession session = request.getSession();
-		if(session.getAttribute("member") == "admin") {
+		MemberDTO member = session.getAttribute("member");
+		if(member.getMember_id == "admin") {
 			String viewName = (String) request.getAttribute("viewName");
 			mav = new ModelAndView(viewName);
 		} else {
@@ -89,8 +119,6 @@ public class NoticeController {
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> noticeMap = new HashMap<String, Object>();
 		Enumeration<String>	enu = multiRequest.getParameterNames();
-		String webPath = "/resources/file/notice_repo/";
-		String folderPath = multiRequest.getSession().getServletContext().getRealPath(webPath);
 		
 		while(enu.hasMoreElements()) {
 			String name = enu.nextElement();
@@ -98,7 +126,7 @@ public class NoticeController {
 			noticeMap.put(name, value);
 		}
 		
-		List<String> fileList = upload(multiRequest,folderPath);
+		List<String> fileList = upload(multiRequest,UHDIYA_IMAGE_REPO);
 		List<NoticeFileDTO> imageList = new ArrayList<NoticeFileDTO>();
 		if(fileList != null && fileList.size() != 0) {
 			for(String fileName : fileList) {
@@ -106,16 +134,15 @@ public class NoticeController {
 				noticeFile.setNotice_fileName(fileName);
 				imageList.add(noticeFile);
 			}
+			noticeMap.put("imageList", imageList);
 		}
-		
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		String notice_writeId = member.getId();
 		*/
-		
 		noticeMap.put("notice_writeId", "admin");
-		noticeMap.put("imageList", imageList);
+
 		
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -126,8 +153,8 @@ public class NoticeController {
 			
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
-					File destDir = new File(folderPath+"\\"+notice_id);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
 			}
@@ -141,7 +168,7 @@ public class NoticeController {
 			// TODO: handle exception
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
 			}
@@ -156,7 +183,7 @@ public class NoticeController {
 		return resEnt;
 	}
 
-	private List<String> upload(MultipartHttpServletRequest multiRequest, String folderPath) throws Exception{
+	private List<String> upload(MultipartHttpServletRequest multiRequest, String UHDIYA_IMAGE_REPO) throws Exception{
 		// TODO Auto-generated method stub
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multiRequest.getFileNames();
@@ -166,7 +193,7 @@ public class NoticeController {
 			MultipartFile mFile = multiRequest.getFile(fileName);
 			String originalFileName = mFile.getOriginalFilename();
 			fileList.add(originalFileName);
-			File file = new File(folderPath+"\\"+fileName);
+			File file = new File(UHDIYA_IMAGE_REPO+"\\"+fileName);
 			
 			if(mFile.getSize() != 0) {
 				if(!file.exists()) {
@@ -174,25 +201,113 @@ public class NoticeController {
 						file.createNewFile();
 					}
 				}
-				mFile.transferTo(new File(folderPath+"\\"+"temp"+"\\"+originalFileName));
+				mFile.transferTo(new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+originalFileName));
 			}
 		}
 		return fileList;
 	}
 
 	// 공지사항 수정(관리자만)
-	@RequestMapping("update_notice")
-	public ModelAndView update_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
+	@RequestMapping(value="update_notice",method=RequestMethod.POST)
+	public ResponseEntity<String> update_notice(@RequestParam("notice_id")int notice_id, MultipartHttpServletRequest multiRequest, HttpServletResponse response) throws Exception{
+		multiRequest.setCharacterEncoding("UTF-8");
+		ResponseEntity<String> resEnt = null;
+		Map<String, Object> noticeMap = new HashMap<String, Object>();
+		Enumeration<String>	enu = multiRequest.getParameterNames();
+		
+		while(enu.hasMoreElements()) {
+			String name = enu.nextElement();
+			String value = multiRequest.getParameter(name);
+			noticeMap.put(name, value);
+		}
+		
+		List<String> fileList = upload(multiRequest,UHDIYA_IMAGE_REPO);
+		List<NoticeFileDTO> imageList = new ArrayList<NoticeFileDTO>();
+		if(fileList != null && fileList.size() != 0) {
+			for(String fileName : fileList) {
+				NoticeFileDTO noticeFile = new NoticeFileDTO();
+				noticeFile.setNotice_fileName(fileName);
+				imageList.add(noticeFile);
+			}
+			noticeMap.put("imageList", imageList);
+		}
+		
+		/*
+		HttpSession session = multiRequest.getSession();
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		String notice_writeId = member.getId();
+		*/
+		
+		noticeMap.put("notice_writeId", "admin");
+		
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		
+		try {
+			noticeService.update_notice(noticeMap);
+			
+			if(fileList != null && fileList.size() != 0) {
+				for(String fileName : fileList) {
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
+					FileUtils.deleteDirectory(destDir);
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+				}
+			}
+			
+			message = "<script>";
+			message += "alert('공지사항을 수정했습니다.');";
+			message += "location.href='"+multiRequest.getContextPath()+"/board/notice';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(fileList != null && fileList.size() != 0) {
+				for(String fileName : fileList) {
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					srcFile.delete();
+				}
+			}
+			
+			message = "<script>";
+			message += "alert('오류가 발생했습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		return resEnt;
 	}
 	
 	// 공지사항 삭제(관리자만)
 	@RequestMapping("delete_notice")
-	public ModelAndView delete_notice(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
+	public ResponseEntity<String> delete_notice(@RequestParam("notice_id")int notice_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity<String> resEnt = null;
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		
+		try {
+			File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
+			FileUtils.deleteDirectory(destDir);
+			
+			noticeService.delete_notice(notice_id);
+			
+			message = "<script>";
+			message += "alert('공지사항을 삭제했습니다.');";
+			message += "location.href='"+request.getContextPath()+"/board/notice';";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			message = "<script>";
+			message += "alert('공지사항을 삭제할 수 없습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		return resEnt;
 	}
 }

@@ -7,8 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class ProductService {
 	@Autowired ProductDAO productDAO;
@@ -80,16 +78,5 @@ public class ProductService {
 	public void addNewGoodsImage(List imageFileList) throws Exception{
 		productDAO.insertGoodsImageFile(imageFileList);
 	}
-
-	
-	
-
-
-
-
-
-
-
-
 
 }

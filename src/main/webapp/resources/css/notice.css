@@ -110,10 +110,7 @@ a {
 
 /* notice_detail */
 
-.notice_header_title {
-	padding-bottom: 10px;
-	font-weight: bold;
-}
+
 
 .notice_detail_table {
 	border-top: 3px solid black;
@@ -140,7 +137,8 @@ a {
 }
 
 .notice_detail_title {
-	padding-bottom: 5px;
+	padding-bottom: 15px;
+	font-size: large;
 }
 
 .notice_detail_partition {
@@ -164,21 +162,6 @@ a {
 	text-align: center;
 	padding-bottom: 10px;
 }
-
-.notice_detail_button {
-	text-align: right;
-	padding-top: 5px;
-}
-
-.notice_title_header {
-	display: flex;
-	justify-content: space-between;
-}
-
-#notice_detail_update, #notice_detail_delete {
-	display: none;
-}
-
 /* notice_form.jsp */
 
 .notice_header_title {
