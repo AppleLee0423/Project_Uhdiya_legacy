@@ -68,7 +68,8 @@ public class MemberDAO
             // 완료시 커밋
             conn.commit(); 
             
-        } catch (ClassNotFoundException | NamingException | SQLException sqle) {
+//        } catch (ClassNotFoundException | NamingException | SQLException sqle) {
+        } catch (Exception sqle) {
             // 오류시 롤백
             conn.rollback(); 
             throw new RuntimeException(sqle.getMessage());
