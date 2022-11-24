@@ -15,7 +15,16 @@
 		<result property="roadFullAddr" column="roadFullAddr" />
 		<result property="addDetail" column="addDetail" />
 	</resultMap> 
-	
+	<resultMap type="memberBean" id="memResult">
+		<result property="id" column="id"/>
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="mail" column="mail" />
+		<result property="address" column="address" />
+		<result property="reg" column="reg" />
+	</resultMap>
+
 
 	
 	<!-- 회원가입 -->
