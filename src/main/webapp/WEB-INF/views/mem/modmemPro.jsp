@@ -20,16 +20,13 @@
 </style>
 </head>
 <body>
-
-
-
 	<br>
 	<br>
 	<div class="memBox">
 		<div>
 			<font size="5" color="gray">회원정보가 수정되었습니다.</font> <br> <br>
 			<br> <input class="mainbt" type="button" value="메인으로"
-				onclick="javascript:window.location='MainForm.jsp'" />
+				onclick="javascript:window.location='MainForm'"/>
 		</div>
 	</div>
 </body>

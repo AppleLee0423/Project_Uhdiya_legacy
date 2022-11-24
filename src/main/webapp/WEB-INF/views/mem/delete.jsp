@@ -57,9 +57,10 @@ td {
 
 <body>
 
-	<form name="deleteform" method="post"
-		action="MainForm.jsp?contentPage=member/pro/DeletePro.jsp"
+	<form name="delete" method="post"
+		action=""
 		onsubmit="return checkValue()">
+		
 		<div class="deletePage">
 			<br>
 			<br>
@@ -76,8 +77,8 @@ td {
 					</tr>
 				</table>
 
-				<br> <input type="submit" value="확인">
-				<input type="button" value="취소" onclick="javascript:window.location='modmemPro.jsp'"> 
+				<br> <input type="submit" value="확인" onclick="javascript:window.location='deletePro'">
+				<input type="button" value="취소" onclick="javascript:window.location='modMem'"> 
 				
 			</div>
 		</div>
