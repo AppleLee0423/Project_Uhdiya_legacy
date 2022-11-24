@@ -26,6 +26,7 @@ public class ShoppingListService {
 		daySearchVO.setToday(SDF.format(calendar.getTime())); //오늘날짜 vo에 저장	
 		//System.out.println("오늘 날짜 : " + chkDate);
 		
+		/** jre different
 		switch(day) {
 		case "1" : 
 			calendar.add(Calendar.DATE, -1);	
@@ -43,7 +44,7 @@ public class ShoppingListService {
 			calendar.add(Calendar.DATE, -90);	
 			break;
 		}//switch
-		
+		*/
 		daySearchVO.setSearchDay(SDF.format(calendar.getTime())); //검색할 날짜 중 가장 과거의 날짜
 		
 		//전체 구매 내역 조회 시 과거 날짜 구할 필요 없음
@@ -66,7 +67,7 @@ public class ShoppingListService {
 	
 	//기간에 따른 주문내역 db에서 select 
 	public List<ShoppingListDomain> searchShoppingList(String day, String id) {
-		List<ShoppingListDomain> sldList=new ArrayList<>(); //domain담을 list 생성
+		List<ShoppingListDomain> sldList=new ArrayList<ShoppingListDomain>(); //domain담을 list 생성
 		DaySearchVO daySearchVO=new DaySearchVO(); //날짜 설정
 		daySearchVO=searchDay(day, id); //searchDay 메소드를 실행시킴
 		

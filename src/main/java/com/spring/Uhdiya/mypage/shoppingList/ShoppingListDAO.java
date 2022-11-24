@@ -25,7 +25,7 @@ public class ShoppingListDAO {
 	
 	//주문내역을 db에서 select로 조회한다
 	public List<ShoppingListDomain> selectShoppingList(DaySearchVO daySearchVO){
-		List<ShoppingListDomain> sld=new ArrayList<>();
+		List<ShoppingListDomain> sld=new ArrayList<ShoppingListDomain>();
 		//SQL
 		SqlSession ss=ShoppingListHandler.getInstance().getSqlSession();
 		sld=ss.selectList("com.spring.Uhdiya.mypage.shoppingList.selectOrderList", daySearchVO);

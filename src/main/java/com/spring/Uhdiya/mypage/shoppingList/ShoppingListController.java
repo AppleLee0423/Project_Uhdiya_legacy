@@ -27,7 +27,7 @@ public class ShoppingListController {
 		}//end if
 		
 		//주문내역을 구한다
-		List<ShoppingListDomain> sldList=new ArrayList<>();
+		List<ShoppingListDomain> sldList=new ArrayList<ShoppingListDomain>();
 		sldList=sls.searchShoppingList(day, id);
 		
 		//System.out.println("컨트롤러:"+sldList.get(0).getMember_id());
