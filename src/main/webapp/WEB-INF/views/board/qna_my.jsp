@@ -73,11 +73,11 @@
 				<c:when test="${total_qna > 50}">
 					<c:forEach var="page" begin="1" end="5" step="1">
 						<c:if test="${section > 1 && page == 1}">
-							<a href="${path}/board/qna_product?section=${section-1}&pageNum=${5}" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+							<a href="${path}/board/qna_my?section=${section-1}&pageNum=${5}" class="prev"><i class="fa-solid fa-angle-left"></i></a>
 						</c:if>
-							<a href="${path}/board/qna_product?section=${section}&pageNum=${page}" class="page">${(section-1)*10+page}</a>
+							<a href="${path}/board/qna_my?section=${section}&pageNum=${page}" class="page">${(section-1)*10+page}</a>
 						<c:if test="${page == 5}">
-							<a href="${path}/board/qna_product?section=${section+1}&pageNum=${1}" class="next"><i class="fa-solid fa-angle-right"></i></a>
+							<a href="${path}/board/qna_my?section=${section+1}&pageNum=${1}" class="next"><i class="fa-solid fa-angle-right"></i></a>
 						</c:if>
 					</c:forEach>
 				</c:when>
@@ -87,13 +87,13 @@
 					</c:forEach>
 				</c:when>
 				<c:when test="${total_qna < 50}">
-					<c:forEach var="page" begin="1" end="${total_notice/5 + 1}" step="1">
+					<c:forEach var="page" begin="1" end="${total_qna/5 + 1}" step="1">
 						<c:choose>
 							<c:when test="${page == pageNum}">
-								<a href="${path}/board/qna_product?section=${section}&pageNum=${page}" class="page">${page}</a>
+								<a href="${path}/board/qna_my?section=${section}&pageNum=${page}" class="page">${page}</a>
 							</c:when>
 							<c:otherwise>
-								<a href="${path}/board/qna_product?section=${section}&pageNum=${page}" class="page">${page}</a>
+								<a href="${path}/board/qna_my?section=${section}&pageNum=${page}" class="page">${page}</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>

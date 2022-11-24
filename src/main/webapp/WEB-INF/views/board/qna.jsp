@@ -75,7 +75,7 @@
 				<c:when test="${total_qna > 50}">
 					<c:forEach var="page" begin="1" end="5" step="1">
 						<c:if test="${section > 1 && page == 1}">
-							<a href="${path}/board/qna_product?section=${section-1}&pageNum=${5}" class="prev"><i class="fa-solid fa-angle-left"></i></a>
+							<a href="${path}/board/qna_product?section=${section-1}&pageNum=${5}" class="prev"><i class="fa-solid fa-angle-left"></i></a> 
 						</c:if>
 							<a href="${path}/board/qna_product?section=${section}&pageNum=${page}" class="page">${(section-1)*10+page}</a>
 						<c:if test="${page == 5}">

@@ -150,7 +150,7 @@ public class ReviewController {
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		String notice_writeId = member.getId();
 		*/
-//		qnaMap.put("notice_writeId", "hong");
+		reviewMap.put("review_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();

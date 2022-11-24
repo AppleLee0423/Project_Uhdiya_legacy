@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="qna_writeId" value="${reviewMap.member_id}" />
+<c:set var="product_code" value="${reviewMap.product_code}" />
 <!DOCTYPE html>
 <html>
 <head>

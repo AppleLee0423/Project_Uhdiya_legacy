@@ -52,8 +52,8 @@
 	<!-- 마이페이지 리뷰 목록 -->
 	<select id="my_review" resultMap="review" parameterType="java.util.Map">
 		<![CDATA[
-			select review_id, review_writeId, review_star, review_regDate, product_code from 
-    			(select rownum rn, review_id, review_writeId, review_star, review_regDate, product_code from review where review_writeId = #{review_writeId}
+			select review_id, review_writeId, review_title, review_star, review_regDate, product_code from 
+    			(select rownum rn, review_id, review_writeId, review_title, review_star, review_regDate, product_code from review where review_writeId = #{review_writeId}
     			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>

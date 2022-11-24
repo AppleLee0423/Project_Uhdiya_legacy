@@ -38,13 +38,13 @@
                         <h3>구매내역</h3>
                         <h4>고개님께서 구매하신 상품의 주문내역을 확인하실 수 있습니다.</h4>
                     </button>
-                    <button onclick="location.href='${path}/board/review_list;">
+                    <button onclick="location.href='${path}/board/review_list';">
                         <p>😄</p>
                         <h2>Profile</h2>
                         <h3>회원 정보</h3>
                         <h4>회원이신 고객님의 개인정보를 관리하는 공간입니다.</h4>
                     </button>
-                    <button>
+                    <button onclick="location.href='${path}/board/reviewForm';">
                         <p>🛒</p>
                         <h2>Basket</h2>
                         <h3>장바구니</h3>

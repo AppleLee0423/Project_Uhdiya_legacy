@@ -187,7 +187,7 @@ public class QnaController {
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		String notice_writeId = member.getId();
 		*/
-		qnaMap.put("notice_writeId", "hong");
+		qnaMap.put("review_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();

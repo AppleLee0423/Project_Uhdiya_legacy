@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<%-- 
+<c:set var="review_writeId" value="${reviewMap.member_id}" />
+<c:set var="product_code" value="${reviewMap.product_code}" />
+--%>
+<c:set var="review_writeId" value="hong" />
+<c:set var="product_code" value="001" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +37,22 @@
 		$('#d_file').empty();
 		$('.image_preview').empty();
 	}
+	function review_submit(obj){
+		let form = document.review_form;
+		let review_star = $('input[name=review_star]:checked').val();
+		let review_title = $('input[name=review_title]').val();
+		if(review_star == null){
+			alert('별점을 체크해주세요');
+			return;
+		} else if (review_title == "" || review_title == null){
+			alert('제목을 입력해주세요.');
+			review_title.select();
+			return;
+		} else {
+			form.action = '${path}/board/addReview';
+			form.submit();
+		}
+	}
 </script>
 </head>
 <body>
@@ -39,7 +61,9 @@
 			<div class="review_header_title"><b>REVIEW</b> <span class="review_header_partition">I</span> 1 </div>
 		</div>
 		<div class="review_body">
-			<form id="review_form" action="" method="post" enctype="multipart/form-data">
+			<form id="review_form" name="review_form" action="" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="review_writeId" value="${review_writeId}"/>
+				<input type="hidden" name="product_code" value="${product_code}"/>
 				<table class="review_form_table">
 					<tr>
 						<td class="review_form_td_title">별점</td>
@@ -81,7 +105,7 @@
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right">
-							<input type="submit" value=" 등록하기"/>
+							<input type="button" onclick="review_submit(this)" value=" 등록하기"/>
 							<input type="reset" value="취소하기"/>
 						</td>
 					</tr>
