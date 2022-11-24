@@ -41,12 +41,13 @@
 						<td class="qna_writeId">작성자</td>
 						<td class="qna_my_writeDate">작성일</td>
 						<td class="qna_my_status">답변상태</td>
+						<td class="qna_delete_button">삭제</td>
 					</tr>
 				</thead>
 				<tbody>
 					<c:if test="${empty qna_list}">
 						<tr>
-							<td align="center" colspan="6">작성된 문의가 없습니다.</td>
+							<td align="center" colspan="7">작성된 문의가 없습니다.</td>
 						</tr>
 					</c:if>
 					<c:if test="${not empty qna_list}">
@@ -63,6 +64,7 @@
 								<c:if test="${qna.qna_status == 1}">
 									<td class="qna_my_status">답변완료</td>
 								</c:if>
+								<td class="qna_delete_button"><a href="${path}/board/delete_qna?qna_id=${qna.qna_id}"></a></td>
 							</tr>
 						</c:forEach>
 					</c:if>

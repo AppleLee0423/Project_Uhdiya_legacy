@@ -28,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/board/*")
 public class ReviewController {
 	@Autowired ReviewService reviewService;
-	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\qna";
+	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\review";
 	
 	// 전체 Review(관리자만)
 	@RequestMapping("/review_list")
@@ -148,7 +148,7 @@ public class ReviewController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String review_writeId = member.getId();
 		*/
 		reviewMap.put("review_writeId", "hong");
 
@@ -243,9 +243,9 @@ public class ReviewController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String review_writeId = member.getId();
 		*/
-//		qnaMap.put("notice_writeId", "hong");
+//		reviewMap.put("review_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();

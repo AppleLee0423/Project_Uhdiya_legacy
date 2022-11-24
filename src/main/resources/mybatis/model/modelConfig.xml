@@ -16,7 +16,6 @@
 		<typeAlias type="com.spring.Uhdiya.member.MemberDTO" alias="memberDTO"/>
 		<!-- mem -->
 		<typeAlias type="com.spring.Uhdiya.mem.MemberBean" alias="memberBean"/>
-		
 		<!-- memJ -->
 		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
 		

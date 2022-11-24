@@ -185,9 +185,9 @@ public class QnaController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String qna_writeId = member.getId();
 		*/
-		qnaMap.put("review_writeId", "hong");
+		qnaMap.put("qna_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -284,9 +284,9 @@ public class QnaController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String qna_writeId = member.getId();
 		*/
-//		qnaMap.put("notice_writeId", "hong");
+//		qnaMap.put("qna_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
