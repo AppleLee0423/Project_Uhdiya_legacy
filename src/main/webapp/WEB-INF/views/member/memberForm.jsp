@@ -267,7 +267,8 @@
                <td width="15%">비밀번호</td>
                <td>
                   <input type="password" name="member_password"
-                     id="member_password" onchange="checkPw()" />
+                     id="member_password" autocomplete="new-password"
+                     onchange="checkPw()" />
                   &nbsp;(영문 소문자/숫자/특수문자 조합, 6자~16자)
                </td>
             </tr>

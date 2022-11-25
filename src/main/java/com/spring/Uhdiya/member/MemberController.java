@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.member;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -160,13 +162,32 @@ public class MemberController {
 
 	
 	//  http://localhost:8080/Uhdiya/member/find_id
-	// 아이디 찾기
+	// 아이디 찾기 폼
 	@RequestMapping("find_id")
 	public ModelAndView find_id(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	// 아이디 찾기 실행
+	@RequestMapping(value = "/findid" , method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String findingId(@ModelAttribute MemberDTO member, Model model , HttpServletResponse response)throws Exception {
+
+		System.out.println(member.toString());
+
+
+		MemberDTO member = memberService.findid(member);
+		System.out.println(member.toString());
+		System.out.println(member.get(0));
+		String findid = "{\"member_id\":\""+member+"\"}";
+
+		System.out.println(findid);
+
+		return findid;
+	}
+	
+	
+	
 	//  http://localhost:8080/Uhdiya/member/find_pw
 	// 비밀번호 찾기
 	@RequestMapping("find_pw")

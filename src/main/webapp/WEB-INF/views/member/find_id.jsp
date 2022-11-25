@@ -12,6 +12,37 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script>
+$(document).on('click','#findid',function(){
+	var name = $('#member_name').val();
+ 	var tel = $('#member_email').val();
+
+ 	var postData = {'member_name' : name ,'member_email' : email};
+
+	$.ajax({
+        url:'/member/find_id',
+        type:'POST',
+        data: postData,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        dataType : "json",
+
+        success:function(data){
+        	var idLists = data.member_id;
+        	var idLength = idLists.length
+        	var idfind = idLists.substring(1, idLength-1)
+       	 		 $("#idList").append("<h1>"+"회원님의 정보로 등록된 아이디는 : "+idfind+" 입니다.</h1>")
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown){
+
+        	alert('정보를 다시 입력해주시길 바랍니다.' );
+        }
+    });
+});
+
+</script>
+
     <title>아이디 찾기</title>
 
         <style>

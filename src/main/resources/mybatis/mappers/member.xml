@@ -52,7 +52,17 @@
 	
 	<!-- id="loginById" 로 아이디/패스워드를 입력 받아서 MemberDTO를 반환하는 sql 작성 -->
 	<select id="loginById"	parameterType="MemberDTO" resultType="MemberDTO">
-		select * from member where member_id=#{member_id} <!-- and member_password=#{member_password} -->
+		select * from member where member_id=#{member_id} and member_password=#{member_password}
 	</select>
 
+    <!-- ID 찾기 -->
+    <select id="findid" parameterType="MemberDTO" resultType="MemberDTO">
+      SELECT MEMBER_ID FROM member WHERE MEMBER_NAME = #{member_name} and MEMBER_EMAIL = #{member_email}
+    </select>
+    
+    <!-- 비밀번호 찾기 -->
+    <select id="findpw" resultType="MemberDTO">
+      SELECT MEMBER_PASSWORD FROM member WHERE MEMBER_NAME = #{member_name} and MEMBER_EMAIL = #{member_email} and MEMBER_PHONE = #{member_phone}
+    </select>
+    
 </mapper>

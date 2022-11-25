@@ -33,6 +33,16 @@ public class MemberService {
     public int emailcheck(MemberDTO member) throws Exception {
     	return memberDAO.emailcheck(member);
     }
+    
+    public MemberDTO findid(MemberDTO member) {
+    	 return memberDAO.findid(member);
+    }
+    
+    public MemberDTO findpassword(MemberDTO member) {
+   	 return memberDAO.findpassword(member);
+   }
+    
+ 
 
 	
 	

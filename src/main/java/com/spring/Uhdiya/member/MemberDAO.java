@@ -42,6 +42,17 @@ public class MemberDAO {
     	return sqlSession.selectOne("mapper.member.emailcheck",member);
     	
     }
+    
+    public MemberDTO findid(MemberDTO member) {
+		System.out.println("==> Mybatis로 findid() 기능 처리");
+		return sqlSession.selectOne("mamper.member.findid", member);
+	}
+
+	public MemberDTO findpassword(MemberDTO member) {
+		System.out.println("==> Mybatis로 findpassword() 기능 처리");
+		return sqlSession.selectOne("mamper.member.findpassword", member);
+	}
+ 
 
 
 	
