@@ -45,12 +45,12 @@ public class MemberDAO {
     
     public MemberDTO findid(MemberDTO member) {
 		System.out.println("==> Mybatis로 findid() 기능 처리");
-		return sqlSession.selectOne("mamper.member.findid", member);
+		return sqlSession.selectOne("mapper.member.findid", member);
 	}
 
 	public MemberDTO findpassword(MemberDTO member) {
 		System.out.println("==> Mybatis로 findpassword() 기능 처리");
-		return sqlSession.selectOne("mamper.member.findpassword", member);
+		return sqlSession.selectOne("mapper.member.findpassword", member);
 	}
  
 

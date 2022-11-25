@@ -169,20 +169,25 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	
 	// 아이디 찾기 실행
-	@RequestMapping(value = "/findid" , method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public @ResponseBody String findingId(@ModelAttribute MemberDTO member, Model model , HttpServletResponse response)throws Exception {
-
-		System.out.println(member.toString());
-
-
+	@RequestMapping(value = "/findid", method = RequestMethod.POST)
+	@ResponseBody
+	public String findingId(@ModelAttribute MemberDTO member, Model model , HttpServletResponse response)throws Exception {
+		
+		System.out.println(member.getMember_name());
+		System.out.println(member.getMember_email());
+		
 		MemberDTO id = memberService.findid(member);
-		System.out.println(member.toString());
-		System.out.println(member.get(0));
-		String findid = "{\"member_id\":\""+member+"\"}";
-
+		
+		String findid = null;
+		
+		if( id != null ) {
+			findid = id.getMember_id();
+		}
+		
 		System.out.println(findid);
-
+		
 		return findid;
 	}
 	
