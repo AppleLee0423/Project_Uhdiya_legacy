@@ -176,7 +176,7 @@ public class MemberController {
 		System.out.println(member.toString());
 
 
-		MemberDTO member = memberService.findid(member);
+		MemberDTO id = memberService.findid(member);
 		System.out.println(member.toString());
 		System.out.println(member.get(0));
 		String findid = "{\"member_id\":\""+member+"\"}";
