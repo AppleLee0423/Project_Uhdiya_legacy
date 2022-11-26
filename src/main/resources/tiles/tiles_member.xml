@@ -30,4 +30,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/find_pw.jsp" />
 	</definition>
 	
+	<definition name="/member/member_list" extends="baseLayout">
+		<put-attribute name="title" value="관리자 - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/member/member_list.jsp" />
+	</definition>
+	
 </tiles-definitions>

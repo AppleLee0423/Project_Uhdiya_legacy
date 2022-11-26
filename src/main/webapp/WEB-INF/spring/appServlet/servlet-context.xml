@@ -39,6 +39,10 @@
 			<mapping path="/*/*"/>
 			<beans:bean class="com.spring.Uhdiya.common.interceptor.ViewNameInterceptor" />
 		</interceptor>
+		<interceptor>
+			<mapping path="/member/member_*"/>
+			<beans:bean class="com.spring.Uhdiya.common.interceptor.AdminCheckInterceptor" />
+		</interceptor>
 	</interceptors>
 	 
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
