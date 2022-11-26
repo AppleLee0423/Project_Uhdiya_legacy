@@ -60,7 +60,6 @@
   						<div class="btn-upload">파일추가</div>
 						</label>
 						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
-						<%-- <input type="file" name="notice_fileName" id="file" onchange="readURL(this)"> --%>
 						<div id="d_file"></div>	
 						</td>
 					</tr>
@@ -68,7 +67,6 @@
 						<td class="notice_form_td_title">첨부파일</td>
 						<td>
 							<div class="image_preview">
-								<%-- <img src="#" id="preview" width="100px" style="padding-top:10px;"/> --%>
 							</div>
 						</td>
 					</tr>

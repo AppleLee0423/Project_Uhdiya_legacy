@@ -18,8 +18,8 @@ a{text-decoration:none; color:black;}
         <div class="header_padding">
 
             <div class="first_section">
-                <p id="one"><a href="${path}/memJ/loginJ">로그인</a></p>&nbsp;&nbsp;
-                <p id="two"><a href="${path}/memJ/memberFormJ">회원가입</a></p>&nbsp;&nbsp;
+                <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
+                <p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
                 <p>장바구니</p>&nbsp;&nbsp;
                 <p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
                 <div class="second_section">
@@ -49,11 +49,11 @@ a{text-decoration:none; color:black;}
 
     <div class="categori">
         <span><a href="${path}/about">About</span></a>&nbsp;
-        <span><a href="${path}/board/qna_product">쇼핑</span></a>&nbsp;
-        <span><a href="#">커피</span></a>&nbsp;
-        <span><a href="#">스틱커피</span></a>&nbsp;
-        <span><a href="#">음료</span></a>&nbsp;
-        <span><a href="#">티</span></a>&nbsp;
+        <span><a href="#">쇼핑</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=커피&product_cateS=">커피</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=스틱커피&product_cateS=">스틱커피</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=음료&product_cateS=">음료</span></a>&nbsp;
+        <span><a href="${path}/product/productList?product_cateL=티&product_cateS=">티</span></a>&nbsp;
         <span><a href="#">선물세트</span></a>&nbsp;
         <span><a href="#">케이크</span></a>&nbsp;
         <span><a href="${path}/board/notice">공지사항</span></a>&nbsp;

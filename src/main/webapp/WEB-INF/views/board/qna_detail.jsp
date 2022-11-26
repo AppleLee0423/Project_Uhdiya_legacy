@@ -24,6 +24,7 @@
 </script>
 <style>
 	.qna{margin: 40px auto;}
+	/* CSS 미완료 */
 </style>
 </head>
 <body>

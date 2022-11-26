@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/board/**")
 public class NoticeController {
 	@Autowired NoticeService noticeService;
-	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\notice_repo";
+	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\notice";
 	
 	// 공지사항
 	@RequestMapping(value="notice")
@@ -126,7 +126,7 @@ public class NoticeController {
 			noticeMap.put(name, value);
 		}
 		
-		List<String> fileList = upload(multiRequest,folderPath);
+		List<String> fileList = upload(multiRequest,UHDIYA_IMAGE_REPO);
 		List<NoticeFileDTO> imageList = new ArrayList<NoticeFileDTO>();
 		if(fileList != null && fileList.size() != 0) {
 			for(String fileName : fileList) {
@@ -153,8 +153,8 @@ public class NoticeController {
 			
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
-					File destDir = new File(folderPath+"\\"+notice_id);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
 			}
@@ -168,7 +168,7 @@ public class NoticeController {
 			// TODO: handle exception
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
 			}
@@ -183,7 +183,7 @@ public class NoticeController {
 		return resEnt;
 	}
 
-	private List<String> upload(MultipartHttpServletRequest multiRequest, String folderPath) throws Exception{
+	private List<String> upload(MultipartHttpServletRequest multiRequest, String UHDIYA_IMAGE_REPO) throws Exception{
 		// TODO Auto-generated method stub
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multiRequest.getFileNames();
@@ -193,7 +193,7 @@ public class NoticeController {
 			MultipartFile mFile = multiRequest.getFile(fileName);
 			String originalFileName = mFile.getOriginalFilename();
 			fileList.add(originalFileName);
-			File file = new File(folderPath+"\\"+fileName);
+			File file = new File(UHDIYA_IMAGE_REPO+"\\"+fileName);
 			
 			if(mFile.getSize() != 0) {
 				if(!file.exists()) {
@@ -201,7 +201,7 @@ public class NoticeController {
 						file.createNewFile();
 					}
 				}
-				mFile.transferTo(new File(folderPath+"\\"+"temp"+"\\"+originalFileName));
+				mFile.transferTo(new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+originalFileName));
 			}
 		}
 		return fileList;
@@ -221,7 +221,7 @@ public class NoticeController {
 			noticeMap.put(name, value);
 		}
 		
-		List<String> fileList = upload(multiRequest,folderPath);
+		List<String> fileList = upload(multiRequest,UHDIYA_IMAGE_REPO);
 		List<NoticeFileDTO> imageList = new ArrayList<NoticeFileDTO>();
 		if(fileList != null && fileList.size() != 0) {
 			for(String fileName : fileList) {
@@ -249,8 +249,8 @@ public class NoticeController {
 			
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
-					File destDir = new File(folderPath+"\\"+notice_id);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
 					FileUtils.deleteDirectory(destDir);
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
@@ -265,7 +265,7 @@ public class NoticeController {
 			// TODO: handle exception
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
 			}
@@ -289,7 +289,7 @@ public class NoticeController {
 		headers.add("Content-Type","text/html;charset=utf-8");
 		
 		try {
-			File destDir = new File(folderPath+"\\"+notice_id);
+			File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+notice_id);
 			FileUtils.deleteDirectory(destDir);
 			
 			noticeService.delete_notice(notice_id);

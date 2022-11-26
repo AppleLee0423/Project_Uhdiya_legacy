@@ -28,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/board/*")
 public class ReviewController {
 	@Autowired ReviewService reviewService;
-	private String folderPath = "C:\\Users\\CJ\\Spring_workspace\\Project_Uhdiya\\src\\main\\webapp\\resources\\file\\review_repo";
+	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\review";
 	
 	// 전체 Review(관리자만)
 	@RequestMapping("/review_list")
@@ -135,7 +135,7 @@ public class ReviewController {
 			reviewMap.put(name, value);
 		}
 		
-		List<String> fileList = upload(request,folderPath);
+		List<String> fileList = upload(request,UHDIYA_IMAGE_REPO);
 		List<ReviewFileDTO> imageList = new ArrayList<ReviewFileDTO>();
 		if(fileList != null && fileList.size() != 0) {
 			for(String fileName : fileList) {
@@ -148,7 +148,7 @@ public class ReviewController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String review_writeId = member.getId();
 		*/
 		reviewMap.put("review_writeId", "hong");
 
@@ -161,8 +161,8 @@ public class ReviewController {
 			
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
-					File destDir = new File(folderPath+"\\"+review_id);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+review_id);
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
 			}
@@ -177,7 +177,7 @@ public class ReviewController {
 			// TODO: handle exception
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
 			}
@@ -192,7 +192,7 @@ public class ReviewController {
 		return resEnt;
 	}
 	
-	private List<String> upload(MultipartHttpServletRequest request, String folderPath)throws Exception {
+	private List<String> upload(MultipartHttpServletRequest request, String UHDIYA_IMAGE_REPO)throws Exception {
 		// TODO Auto-generated method stub
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = request.getFileNames();
@@ -202,7 +202,7 @@ public class ReviewController {
 			MultipartFile mFile = request.getFile(fileName);
 			String originalFileName = mFile.getOriginalFilename();
 			fileList.add(originalFileName);
-			File file = new File(folderPath+"\\"+fileName);
+			File file = new File(UHDIYA_IMAGE_REPO+"\\"+fileName);
 			
 			if(mFile.getSize() != 0) {
 				if(!file.exists()) {
@@ -210,7 +210,7 @@ public class ReviewController {
 						file.createNewFile();
 					}
 				}
-				mFile.transferTo(new File(folderPath+"\\"+"temp"+"\\"+originalFileName));
+				mFile.transferTo(new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+originalFileName));
 			}
 		}
 		return fileList;
@@ -230,7 +230,7 @@ public class ReviewController {
 			reviewMap.put(name, value);
 		}
 		
-		List<String> fileList = upload(request,folderPath);
+		List<String> fileList = upload(request,UHDIYA_IMAGE_REPO);
 		List<ReviewFileDTO> imageList = new ArrayList<ReviewFileDTO>();
 		if(fileList != null && fileList.size() != 0) {
 			for(String fileName : fileList) {
@@ -243,9 +243,9 @@ public class ReviewController {
 		/*
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
+		String review_writeId = member.getId();
 		*/
-//		qnaMap.put("notice_writeId", "hong");
+//		reviewMap.put("review_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -256,8 +256,8 @@ public class ReviewController {
 			
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
-					File destDir = new File(folderPath+"\\"+review_id);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+review_id);
 					FileUtils.deleteDirectory(destDir);
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
@@ -273,7 +273,7 @@ public class ReviewController {
 			// TODO: handle exception
 			if(fileList != null && fileList.size() != 0) {
 				for(String fileName : fileList) {
-					File srcFile = new File(folderPath+"\\"+"temp"+"\\"+fileName);
+					File srcFile = new File(UHDIYA_IMAGE_REPO+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
 			}
@@ -297,7 +297,7 @@ public class ReviewController {
 		headers.add("Content-Type","text/html;charset=utf-8");
 		
 		try {
-			File destDir = new File(folderPath+"\\"+review_id);
+			File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+review_id);
 			FileUtils.deleteDirectory(destDir);
 			
 			reviewService.delete_review(review_id);

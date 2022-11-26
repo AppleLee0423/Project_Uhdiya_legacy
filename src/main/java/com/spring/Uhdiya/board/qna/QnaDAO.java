@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.Uhdiya.board.notice.NoticeDTO;
-import com.spring.Uhdiya.board.notice.NoticeFileDTO;
-
 @Repository
 public class QnaDAO {
 	@Autowired SqlSession sqlSession;

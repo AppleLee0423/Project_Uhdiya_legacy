@@ -9,12 +9,6 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
-	<!-- 임시 생성 -->
-	<definition name="/board/qna_product" extends="baseLayout">
-		<put-attribute name="title" value="NOTICE - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/board/productDetail.jsp" />
-	</definition>
-	
 	
 	<!-- 레이아웃이 필요한 JSP -->
 	<definition name="/board/notice" extends="baseLayout">
@@ -59,13 +53,5 @@
 		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review.jsp" />
 	</definition>
-	
-	<!-- 레이아웃이 필요없는 JSP(임시) -->
-	<!-- <definition name="/board/qna_product" template="/WEB-INF/views/board/qna_product.jsp">
-		<put-attribute name="body" value="/WEB-INF/views/board/product_qna.jsp" />
-	</definition>
-	<definition name="/board/review_product" template="/WEB-INF/views/board/review_product.jsp">
-		<put-attribute name="body" value="/WEB-INF/views/board/product_review.jsp" />
-	</definition> -->
 	
 </tiles-definitions>
