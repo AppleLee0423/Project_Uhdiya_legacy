@@ -25,15 +25,20 @@
 	<resultMap id="cntResult" type="java.lang.Integer">
 		<result property="total" column="total" />
 	</resultMap>
-	<!-- <resultMap id="cntResultAll" type="java.lang.Integer">
-		<result property="totalAll" column="totalAll" />
-	</resultMap> -->
+	
 	<resultMap id="cntCateSResult" type="ProductCntDTO">
 		<result property="product_cateS" column="total" />
 		<result property="cateS" column="cateS" />
 	</resultMap>
 	
+	<!-- 상품등록 제품고유코드 카운트 -->
+    <select id="productCodeCheck" parameterType="String" resultType="int">
+        <![CDATA[
+       select count (product_code) from product where product_code = #{product_code}
+	    ]]>
+	</select>
 	
+	<!-- 상품삭제 -->
 	<delete id="delProductFile" parameterType="String">
 		<![CDATA[
 			delete from product_file where product_code=#{del_product_code}
@@ -112,30 +117,6 @@
 	             where num between (#{page}-1)*#{count}+1 and #{page}*#{count}
 	    ]]>
 	</select>
-	
-<!-- 	<select id="selectProductListAll" parameterType="java.util.Map" resultMap="productResult"   >
-        <![CDATA[
-        select t.*
-          from(
-			select p.*,f.product_fileName from product p, product_file f
-        	where p.product_code=f.product_code
-            and f.product_fileType=#{product_fileType}
-            order by p.product_id asc)  t
-	             where   rowNum <16
-	    ]]>
-	</select> -->
-	
-<!--     <select id="selectCountAllL" parameterType="java.util.Map" resultMap="cntResultAll"   >
-        <![CDATA[
-       select count(*) as totalAll
-          from(
-			select p.*,f.product_fileName from product p, product_file f
-        	where p.product_code=f.product_code
-            and f.product_fileType='main'
-        	and p.product_cateL=#{cateL}
-            order by p.product_id asc)
-	    ]]>
-	</select> -->
 	
 	<!-- 대분류페이지에서 소분류별 숫자 -->
     <select id="selectCountByCateS" parameterType="java.util.Map" resultMap="cntCateSResult"   >

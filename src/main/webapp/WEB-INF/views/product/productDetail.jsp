@@ -98,6 +98,19 @@ function cateS() {
 	let cateS = document.getElementById('cateS');
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS.value;
 }
+function buyNow() {
+	console.log('바로구매하기 클릭');
+	let isLogOn = '<%=(Boolean)session.getAttribute("isLogOn") %>';
+	let member_id = document.getElementById('member_id');
+	console.log(member_id.value);
+	if(isLogOn){
+		console.log('로그인되어있음.');
+		
+	}else {
+		alert('로그인 후 구매가능합니다.');
+		window.location.href='${path}/member/login';
+	}
+}
 </script>
 <style>
 /* ㅅ 버튼 */
@@ -250,8 +263,9 @@ function cateS() {
 					</a>
 				</div>
 				<div class="contentsIntro_buttons_buy">
-					<a href="#" class="btn_buy"> 
+					<a href="javascript:buyNow()" class="btn_buy"> 
 						<span class="btn_buy_txt">BUT NOW 바로구매하기</span>
+						<input id="member_id" type="hidden" value="${member.member_id }">
 					</a>
 				</div>
 			</div>

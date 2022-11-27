@@ -327,10 +327,7 @@ function btn_next(){
 			</c:forEach>
 		</table> 
 		
-		<%-- <c:set var="k" value="${totalAll }" /> --%>
-	<%-- 	<c:if test="${totalAll==null }"> --%>
-			<c:set var="k" value="${total }" />
-	<%-- 	</c:if> --%>
+		<c:set var="k" value="${total }" />
 		
 		<div class="pageBtn">
 			<ul class="pageBtn_ul">

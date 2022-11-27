@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,6 +44,21 @@ public class ProductController {
 //디테일 페이지 : http://localhost:8080/Uhdiya/product/productDetail?product_cateL=커피&product_cateS=홀빈원두&product_code=beans001
 //관리자 상품추가 :  http://localhost:8080/Uhdiya/product/addProductForm
 //관리자 상품검색삭제 : http://localhost:8080/Uhdiya/product/modProductList?searchSel=product_name
+	
+	
+	//상품등록(제품고유코드 중복체크)
+	@RequestMapping("productCodeCheck")
+	@ResponseBody
+	public String productCodeCheck(@RequestParam("product_code") String product_code)	{
+		int cnt=productService.productCodeCheck(product_code);
+		String res = "";
+    	if( cnt > 0 ) {
+    		res = "n";
+    	} else if (cnt==0) {
+    		res="y";
+    	}
+    	return res;
+	}
 	
 	//상품삭제
 	@RequestMapping("/delProduct")
