@@ -60,4 +60,9 @@ public class ReviewService {
 		// TODO Auto-generated method stub
 		reviewDAO.delete_review(review_id);
 	}
+
+	public Map<String, Object> one_review(int review_id) {
+		// TODO Auto-generated method stub
+		return reviewDAO.one_review(review_id);
+	}
 }

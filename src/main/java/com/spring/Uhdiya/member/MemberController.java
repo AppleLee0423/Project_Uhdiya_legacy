@@ -52,19 +52,18 @@ public class MemberController {
 		System.err.println(member.getMember_password());
 		
 		MemberDTO memberDTO = memberService.login(member);
-		System.err.println(memberDTO.toString());
 		if(memberDTO != null) {
 			HttpSession session = request.getSession();
-			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+//			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 			String viewName = (String) request.getAttribute("viewName");
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
 			
 			mav.setViewName("redirect:/main");
 			
-			if( "admin".equals(memberDTO.getMember_id()) ) {
-				mav.setViewName("redirect:/main");
-			}
+//			if( "admin".equals(memberDTO.getMember_id()) ) {
+//				mav.setViewName("redirect:/main");
+//			}
 		} else {
 			rAttr.addAttribute("result", "loginFailed");
 			mav.setViewName("redirect:/member/login");

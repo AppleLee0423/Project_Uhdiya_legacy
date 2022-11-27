@@ -3,8 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<c:set var="qna_writeId" value="${reviewMap.member_id}" />
-<c:set var="product_code" value="${reviewMap.product_code}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +57,9 @@
 		<div class="qna_body">
 			<form name="qna_form" action="" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="qna_writeId" value="${param.qna_writeId}"/>
-				<input type="hidden" name="product_code" value="${param.product_code}"/>	
+				<input type="hidden" name="product_code" value="${param.product_code}"/>
+				<input type="hidden" name="product_cateL" value="${product_cateL}"/>
+				<input type="hidden" name="product_cateS" value="${product_cateS}"/>
 				<table class="qna_form_table">
 					<tr>
 						<td class="qna_form_td_title">제목</td>

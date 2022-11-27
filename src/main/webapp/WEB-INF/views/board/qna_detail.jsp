@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td class="qna_page_td">내용</td>
-					<td class="qna_page_content">${qnaDTO.qna_title}</td>
+					<td class="qna_page_content">${qnaDTO.qna_content}</td>
 				</tr>
 				<c:if test="${not empty qnaFileList}">
 					<tr>

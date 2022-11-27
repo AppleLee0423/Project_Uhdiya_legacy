@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.board.review;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,10 +67,9 @@ public class ReviewController {
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt((_section == null) ? "1" : _section);  
 		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-		String product_code = request.getParameter("product_code");
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
-		
+		String product_code = request.getParameter("product_code");
 		pageMap.put("product_code", product_code);
 		pageMap.put("section", section);
 		pageMap.put("pageNum", pageNum);
@@ -113,11 +114,64 @@ public class ReviewController {
 		return mav;
 	}
 	
+	// 리뷰 상세페이지
+		@RequestMapping("/review_page")
+		public ModelAndView review_page
+		(@RequestParam("review_id")int review_id, @RequestParam("review_writeId")String review_writeId, HttpServletRequest request, HttpServletResponse response) 
+				throws Exception{
+			response.setContentType("text/html;charset=utf-8");
+			String viewName = (String) request.getAttribute("viewName");
+			ModelAndView mav = null;
+			PrintWriter out = response.getWriter();
+			
+			Map<String, Object> reviewMap = reviewService.one_review(review_id);
+			mav = new ModelAndView(viewName);
+			mav.addObject("reviewMap",reviewMap);
+			
+			/*
+			HttpSession session = request.getSession();
+			MemberDTO dto = session.getAttribute("member");
+			String member_id = dto.getMember_id();
+			
+			if(qna_writeId.equals(member_id)) {
+				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+				mav = new ModelAndView(viewName);
+				mav.addObject("qnaMap",qnaMap);
+			} else {
+				out.println("<script>");
+				out.println("alert('해당 글 작성자만 볼 수 있습니다.');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+			*/
+			return mav;
+		}
+	
 	// Review 작성폼
 	@RequestMapping("/reviewForm")
-	public ModelAndView reviewForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView reviewForm(@RequestParam("product_code")String product_code, @RequestParam("review_writeId")String review_writeId, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
+		ModelAndView mav = null;
+		
+		if(isLogOn != null && isLogOn == true) {
+			mav = new ModelAndView(viewName);
+			mav.addObject("product_code", product_code);
+			mav.addObject("review_writeId", review_writeId);
+			mav.addObject("product_cateL",request.getParameter("product_cateL"));
+			mav.addObject("product_cateS",request.getParameter("product_cateS"));
+		} else {
+			out.println("<script>");
+			out.println("alert('로그인 후 이용가능합니다.');");
+			out.println("location.href='"+request.getContextPath()+"/member/login';");
+			out.println("</script>");
+			return null;
+		}
+		
 		return mav;
 	}
 	
@@ -155,6 +209,7 @@ public class ReviewController {
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
+		String product_code = request.getParameter("product_code");
 		
 		try {
 			int review_id = reviewService.insert_review(reviewMap);
@@ -166,11 +221,14 @@ public class ReviewController {
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
 			}
+			String product_cateL = request.getParameter("product_cateL");
+			String product_cateS = request.getParameter("product_cateS");
 			
 			message = "<script>";
 			message += "alert('상품후기를 추가했습니다.');";
-//			message += "location.href='"+request.getContextPath()+"/board/review_my?member_id="+member_id+"'";
-			message += "location.href='"+request.getContextPath()+"/board/review_my'";
+//			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+			message += "history.go(-2);";
+//			message += "location.href='"+request.getContextPath()+"/board/review_my'";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {

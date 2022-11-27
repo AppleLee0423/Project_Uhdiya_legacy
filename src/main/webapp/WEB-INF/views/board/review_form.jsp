@@ -7,8 +7,6 @@
 <c:set var="review_writeId" value="${reviewMap.member_id}" />
 <c:set var="product_code" value="${reviewMap.product_code}" />
 --%>
-<c:set var="review_writeId" value="hong" />
-<c:set var="product_code" value="001" />
 <!DOCTYPE html>
 <html>
 <head>

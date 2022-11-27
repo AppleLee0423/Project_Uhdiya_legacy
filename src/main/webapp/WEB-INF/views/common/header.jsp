@@ -18,10 +18,23 @@ a{text-decoration:none; color:black;}
         <div class="header_padding">
 
             <div class="first_section">
-                <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
-                <p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
-                <p>장바구니</p>&nbsp;&nbsp;
-                <p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
+            	<c:choose>
+            		<c:when test="${isLogOn == true && member != null && member.member_id != 'admin'}">
+            			<p id="one">${member.member_id}님</p>&nbsp;&nbsp;
+						<p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
+						<p>장바구니</p>&nbsp;&nbsp;
+						<p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
+            		</c:when>
+            		<c:when test="${isLogOn == true && member.member_id == 'admin'}">
+	            		<p id="one">${member.member_id}님</p>&nbsp;&nbsp;
+	            		<p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
+	            		<p><a href="${path}/mypage">관리자페이지</a></p>&nbsp;&nbsp;
+            		</c:when>
+            		<c:otherwise>
+            		  <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
+						<p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
+            		</c:otherwise>
+            	</c:choose>
                 <div class="second_section">
                     <a href="#"><img src="${path}/resources/img/top_sns01.gif"></a>
                     <a href="#"><img src="${path}/resources/img/top_sns02.gif"></a>

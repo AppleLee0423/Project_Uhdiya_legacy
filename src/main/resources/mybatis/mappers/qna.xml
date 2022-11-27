@@ -74,7 +74,7 @@
 	
 	<select id="one_qna_file" resultMap="file" parameterType="int">
 		<![CDATA[
-			select * from qna_file where qna_id = #{qna_id} and qna_fileName != null
+			select * from qna_file where qna_id = #{qna_id} and qna_fileName is not null
 		]]>
 	</select>
 	

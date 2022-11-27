@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,22 +58,21 @@ public class QnaController {
 	
 	// 상품 QnA
 	@RequestMapping("/qna_product")
-	public ModelAndView qna_product( HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView qna_product(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		
+		//@RequestParam("product_code")String product_code
 		String _section = request.getParameter("section"); 
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt((_section == null) ? "1" : _section);  
 		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-		// @RequestParam("product_code")String product_code,
-		String product_code = request.getParameter("product_code");
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
+		String product_code = request.getParameter("product_code");
 		
 		pageMap.put("section", section);
 		pageMap.put("pageNum", pageNum);
-		pageMap.put("product_code", "001");
+		pageMap.put("product_code", product_code);
 		Map<String,Object> qnaMap = new HashMap<String, Object>();
 		
 		qnaMap = qnaService.product_qna(pageMap);
@@ -81,8 +81,6 @@ public class QnaController {
 		
 		mav.addObject("qnaMap",qnaMap);
 		return mav;
-		
-		
 	}
 	
 	// 나의 QnA
@@ -152,9 +150,29 @@ public class QnaController {
 	
 	// Qna 작성폼
 	@RequestMapping("/qnaForm")
-	public ModelAndView qnaForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView qnaForm(@RequestParam("product_code")String product_code, @RequestParam("qna_writeId")String qna_writeId, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
+		ModelAndView mav = null;
+		
+		if(isLogOn != null && isLogOn == true) {
+			mav = new ModelAndView(viewName);
+			mav.addObject("product_code", product_code);
+			mav.addObject("qna_writeId", qna_writeId);
+			mav.addObject("product_cateL",request.getParameter("product_cateL"));
+			mav.addObject("product_cateS",request.getParameter("product_cateS"));
+		} else {
+			out.println("<script>");
+			out.println("alert('로그인 후 이용가능합니다.');");
+			out.println("location.href='"+request.getContextPath()+"/member/login';");
+			out.println("</script>");
+			return null;
+		}
+		
 		return mav;
 	}
 	
@@ -182,16 +200,11 @@ public class QnaController {
 			}
 			qnaMap.put("imageList", imageList);
 		}
-		/*
-		HttpSession session = multiRequest.getSession();
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String qna_writeId = member.getId();
-		*/
-		qnaMap.put("qna_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
+		String product_code = request.getParameter("product_code");
 		
 		try {
 			int qna_id = qnaService.addQna(qnaMap);
@@ -203,11 +216,13 @@ public class QnaController {
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
 			}
-			
+			String product_cateL = request.getParameter("product_cateL");
+			String product_cateS = request.getParameter("product_cateS");
 			message = "<script>";
 			message += "alert('문의글을 추가했습니다.');";
-//			message += "location.href='"+request.getContextPath()+"/board/product?product_code='"+product_code;
-			message += "location.href='"+request.getContextPath()+"/board/qna_product'";
+//			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+			message += "history.go(-2);";
+//			message += "location.href='"+request.getContextPath()+"/board/qna_product'";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {

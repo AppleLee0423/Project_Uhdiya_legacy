@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.Uhdiya.board.qna.QnaService;
+import com.spring.Uhdiya.board.review.ReviewService;
 import com.spring.Uhdiya.common.interceptor.ViewNameInterceptor;
 
 
@@ -35,7 +37,8 @@ import com.spring.Uhdiya.common.interceptor.ViewNameInterceptor;
 @RequestMapping("/product/**")
 public class ProductController {
 	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\product"; 
-	
+	@Autowired QnaService qnaService;
+	@Autowired ReviewService reviewService;
 	@Autowired ProductService productService;
 	
 //소분류리스트페이지 : http://localhost:8080/Uhdiya/product/productList?product_cateL=커피&product_cateS=홀빈원두
@@ -155,6 +158,33 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		Map productsMap=productService.productsDetail(product_code);
 		mav.addObject("productsMap", productsMap);
+		/*
+		// Qna 페이지 데이터
+		String _section = request.getParameter("section"); 
+		String _pageNum = request.getParameter("pageNum");
+		int section = Integer.parseInt((_section == null) ? "1" : _section);  
+		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+		
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		
+		pageMap.put("section", section);
+		pageMap.put("pageNum", pageNum);
+		pageMap.put("product_code", product_code);
+		
+		Map<String,Object> qnaMap = new HashMap<String, Object>();
+		Map<String,Object> reviewMap = new HashMap<String, Object>();
+		
+		qnaMap = qnaService.product_qna(pageMap);
+		qnaMap.put("section", section);
+		qnaMap.put("pageNum", pageNum);
+		
+		reviewMap = reviewService.product_review(pageMap);
+		reviewMap.put("section", section);
+		reviewMap.put("pageNum", pageNum);
+		
+		mav.addObject("qnaMap",qnaMap);
+		mav.addObject("reviewMap",reviewMap);
+		*/
 		return mav;
 	}
 

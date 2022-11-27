@@ -43,6 +43,10 @@
 		<put-attribute name="title" value="REVIEWFORM - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review_form.jsp" />
 	</definition>
+	<definition name="/board/review_page" extends="baseLayout">
+		<put-attribute name="title" value="QNA - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/board/review_detail.jsp" />
+	</definition>
 	
 	<!-- 관리자 JSP -->
 	<definition name="/board/qna_list" extends="baseLayout">
@@ -52,6 +56,17 @@
 	<definition name="/board/review_list" extends="baseLayout">
 		<put-attribute name="title" value="REVIEW LIST - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review.jsp" />
+	</definition>
+	
+	<!-- 타일즈 제외 -->
+	<definition name="default" template="/WEB-INF/views/common/default.jsp">
+		<put-attribute name="content" value="" />
+	</definition>
+	<definition name="/board/qna_product" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/qna_product.jsp" />
+	</definition>
+	<definition name="/board/review_product" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/review_product.jsp" />
 	</definition>
 	
 </tiles-definitions>
