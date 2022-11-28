@@ -124,6 +124,7 @@ function cateS() {
 	margin: 40px auto;
 	min-height: 520px;
 }
+hr{width:900px;}
 </style>
 </head>
 <body>
@@ -294,6 +295,8 @@ function cateS() {
 			
 			
 		</div>
+		
+		<hr>
 		
 		<!-- 상품후기 -->
 		<p class="boardReview"></p> <!-- 메뉴바 스크롤반응위치  -->

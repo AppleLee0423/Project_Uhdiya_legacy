@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="${path}/resources/css/qna.css" />
+<%-- <link rel="stylesheet" href="${path}/resources/css/qna.css" /> --%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -21,10 +21,35 @@
 			alert('취소되었습니다.');
 		}
 	}
+	$(function(){
+		autosize(document.querySelector('textarea'));
+	});
 </script>
 <style>
-	.qna{margin: 40px auto;}
-	/* CSS 미완료 */
+	.qna{width:1200px; margin:40px auto;}
+	.qna_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
+	.qna_header_title{font-size: large;}
+	.qna_header_back{height:30px;}
+	.qna_page_button{height: 30px; border-radius: 2px; background-color: #474948; color: white;}
+	.qna_body{margin: 20px auto; width:100%;}
+	.qna_page_table{border: 2px outset #D6DCD8; border-collapse: collapse; width:100%;}
+	.qna_page_table tr{border-bottom: 1px solid #D6DCD8;}
+	.qna_page_table td {vertical-align: middle;}
+	.qna_page_td {background-color: #FBFAFA; width:15%; text-align: center; border-right:1px solid #D6DCD8;}
+	.qna_page_content{min-height: 300px;}
+	.qna_footer{text-align: right;	padding-top: 5px;}
+	#qna_form_content_view {
+		width: 100%;
+		overflow: hidden;
+		display: block;
+		background-color: transparent;
+		border: none;
+		text-align: left;
+		font-size: large;
+		resize: none;
+		padding-left: 5px;
+		}
+	.qna_page_image img {width:70px; height:70px;}
 </style>
 </head>
 <body>
@@ -37,24 +62,30 @@
 			<table class="qna_page_table">
 				<tr>
 					<td class="qna_page_td">제목</td>
-					<td class="qna_page_title">${qnaDTO.qna_title}</td>
+					<td class="qna_page_title" height="50px">&nbsp;&nbsp;${qnaDTO.qna_title}</td>
+				</tr>
+				<tr>
+					<td class="qna_page_td">상품</td>
+					<td class="qna_page_product_name" height="50px">&nbsp;&nbsp;${qnaDTO.product_name}</td>
 				</tr>
 				<tr>
 					<td class="qna_page_td">작성자</td>
-					<td class="qna_page_writeId">${qnaDTO.qna_writeId}</td>
+					<td class="qna_page_writeId" height="50px">&nbsp;&nbsp;${qnaDTO.qna_writeId}</td>
 				</tr>
 				<tr>
 					<td class="qna_page_td">작성일</td>
-					<td class="qna_page_regDate">${qnaDTO.qna_regDate}</td>
+					<td class="qna_page_regDate" height="50px">&nbsp;&nbsp;${qnaDTO.qna_regDate}</td>
 				</tr>
-				<tr>
+				<tr style="min-height: 300px;">
 					<td class="qna_page_td">내용</td>
-					<td class="qna_page_content">${qnaDTO.qna_content}</td>
+					<td class="qna_page_content">
+						<textarea id="qna_form_content_view" disabled="disabled">${qnaDTO.qna_content}</textarea>
+					</td>
 				</tr>
 				<c:if test="${not empty qnaFileList}">
 					<tr>
 						<td class="qna_page_td">첨부파일</td>
-						<td class="qna_page_image">
+						<td class="qna_page_image" height="100px">
 							<ul>
 								<c:forEach var="item" items="${qnaFileList}">
 									<li>

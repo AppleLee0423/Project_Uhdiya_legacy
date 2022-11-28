@@ -13,6 +13,7 @@ public class ReviewDTO {
 	private String review_content; // 내용
 	private Date review_regDate; // 등록일
 	private String product_code; // 상품코드
+	private String product_name; // 상품명
 
 	public ReviewDTO() {
 		// TODO Auto-generated constructor stub
@@ -80,5 +81,13 @@ public class ReviewDTO {
 
 	public void setProduct_code(String product_code) {
 		this.product_code = product_code;
+	}
+
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
 }

@@ -14,6 +14,7 @@ public class QnaDTO {
 	private Date qna_regDate; // 등록일
 	private int qna_status; // 0:답변대기, 1:답변완료
 	private String product_code; // 상품코드
+	private String product_name; // 상품명
 
 	public QnaDTO() {
 		// TODO Auto-generated constructor stub
@@ -88,5 +89,13 @@ public class QnaDTO {
 
 	public void setProduct_code(String product_code) {
 		this.product_code = product_code;
+	}
+
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
 }

@@ -8,7 +8,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- <link rel="stylesheet" href="${path}/resources/css/reset.css" /> --%>
 <link rel="stylesheet" href="${path}/resources/css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +21,6 @@
 	}
 	#notice_form_content_view{
 		width: 100%;
-		/* min-height: 200px; */
 		overflow: hidden;
 		display: block;
 		background-color: transparent;
@@ -48,15 +46,10 @@
 </style>
 <script>
 	let cnt = 1;
+	// 내용 오토사이징
 	$(function(){
 		autosize(document.querySelector('textarea'));
 	});
-	/* 
-	$('textarea').each(function(){
-		  autosize(this);
-		}).on('autosize:resized', function(){
-		  console.log('textarea height updated');
-	}); */
 	
 	// 파일추가 버튼
 	function fn_addFile(){
