@@ -31,17 +31,9 @@
 		<put-attribute name="title" value="MY QNA - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/qna_my.jsp" />
 	</definition>
-	<definition name="/board/qnaForm" extends="baseLayout">
-		<put-attribute name="title" value="QNA - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/board/qna_form.jsp" />
-	</definition>
 	<definition name="/board/review_my" extends="baseLayout">
 		<put-attribute name="title" value="MY REVIEW - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review_my.jsp" />
-	</definition>
-	<definition name="/board/reviewForm" extends="baseLayout">
-		<put-attribute name="title" value="REVIEWFORM - UHDIYA STORE" />
-		<put-attribute name="body" value="/WEB-INF/views/board/review_form.jsp" />
 	</definition>
 	<definition name="/board/review_page" extends="baseLayout">
 		<put-attribute name="title" value="QNA - UHDIYA STORE" />
@@ -67,6 +59,12 @@
 	</definition>
 	<definition name="/board/review_product" extends="default">
 		<put-attribute name="content" value="/WEB-INF/views/board/review_product.jsp" />
+	</definition>
+	<definition name="/board/qnaForm" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/qna_form.jsp" />
+	</definition>
+	<definition name="/board/reviewForm" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/review_form.jsp" />
 	</definition>
 	
 </tiles-definitions>

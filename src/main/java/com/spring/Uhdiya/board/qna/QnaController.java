@@ -44,27 +44,29 @@ public class QnaController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
-		if(isLogOn != null && isLogOn == true && member_id.equals("admin")) {
-			mav = new ModelAndView(viewName);
+		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if(member_id.equals("admin")) {
+				mav = new ModelAndView(viewName);
 
-			String _section = request.getParameter("section"); 
-			String _pageNum = request.getParameter("pageNum");
-			int section = Integer.parseInt((_section == null) ? "1" : _section);  
-			int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-			
-			Map<String, Object> pageMap = new HashMap<String, Object>();
-			
-			pageMap.put("section", section);
-			pageMap.put("pageNum", pageNum);
-			Map<String,Object> qnaMap = new HashMap<String, Object>();
-			
-			qnaMap = qnaService.qna_list(pageMap);
-			qnaMap.put("section", section);
-			qnaMap.put("pageNum", pageNum);
-			
-			mav.addObject("qnaMap",qnaMap);
+				String _section = request.getParameter("section"); 
+				String _pageNum = request.getParameter("pageNum");
+				int section = Integer.parseInt((_section == null) ? "1" : _section);  
+				int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+				
+				Map<String, Object> pageMap = new HashMap<String, Object>();
+				
+				pageMap.put("section", section);
+				pageMap.put("pageNum", pageNum);
+				Map<String,Object> qnaMap = new HashMap<String, Object>();
+				
+				qnaMap = qnaService.qna_list(pageMap);
+				qnaMap.put("section", section);
+				qnaMap.put("pageNum", pageNum);
+				
+				mav.addObject("qnaMap",qnaMap);
+			}
 		} else {
 			message(request,response);
 			return null;
@@ -109,9 +111,9 @@ public class QnaController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
 		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
 			mav = new ModelAndView(viewName);
 			
 			String _section = request.getParameter("section"); 
@@ -151,12 +153,14 @@ public class QnaController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
-		if(isLogOn != null && isLogOn == true && qna_writeId.equals(member_id)) {
-			mav = new ModelAndView(viewName);
-			Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
-			mav.addObject("qnaMap",qnaMap);
+		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if(qna_writeId.equals(member_id)) {
+				mav = new ModelAndView(viewName);
+				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+				mav.addObject("qnaMap",qnaMap);
+			}
 		} else {
 			message2(request, response);
 			return null;
@@ -174,9 +178,9 @@ public class QnaController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
 		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
 			mav = new ModelAndView(viewName);
 			mav.addObject("product_code", product_code);
 			mav.addObject("qna_writeId", member_id);

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Remember to include jQuery :) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+<!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<style>
+	.modal{max-width: 800px; padding: 0;}
+</style>
+<script>
+	$(function(){
+		$('#qna_form').load('test4.html');
+	});
+</script>
+</head>
+<body>
+	<div class="modal_button">
+		<a href="#qna_form" rel="modal:open">문의하기</a>
+	</div>
+
+	<div id="qna_form" class="modal">
+	</div>
+</body>
+</html>

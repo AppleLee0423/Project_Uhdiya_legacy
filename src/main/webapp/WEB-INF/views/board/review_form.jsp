@@ -11,7 +11,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="${path}/resources/css/reset.css" />
-<link rel="stylesheet" href="${path}/resources/css/review.css" />
+<%-- <link rel="stylesheet" href="${path}/resources/css/review.css" /> --%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>

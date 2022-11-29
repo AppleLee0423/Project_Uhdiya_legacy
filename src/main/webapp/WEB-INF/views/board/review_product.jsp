@@ -8,16 +8,25 @@
 <c:set var="total_review" value="${reviewMap.total_review}" />
 <c:set var="section" value="${reviewMap.section}" />
 <c:set var="pageNum" value="${reviewMap.pageNum}" />
-<c:set var="member_id" value="${param.member_id}" />
+<c:set var="member_id" value="${member.member_id}" />
 <c:set var="product_code" value="${param.product_code}" />
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Remember to include jQuery :) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+<!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 	.review{width:900px; margin:0 auto;}
+	.modal{max-width: 800px; padding: 0;}
+	.blocker{rgba(0,0,0,0.5);}
 	.review_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
 	.review_header_one{display: block;}
 	.review_header_two{display: block; padding-right: 5px;}
@@ -32,17 +41,14 @@
 	.review_product_title{width:300px;}
 	.review_product_writer{width:100px;}
 	.review_product_writeDate{width:100px;}
-	.review_add{text-align: right;	padding-top: 5px;}
-	.review_add_button {height: 30px; border-radius: 2px; background-color: #474948; color: white;}
+	.review_add{text-align:-webkit-right;	padding-top: 5px;}
+	.review_add_button {width:100px; height: 25px; border-radius: 2px; background-color: #474948; color: white; text-align: center; padding:0; padding-top:8px; font-size:12pt;}
 	.rate_in {color: rgba(91, 44, 54, 0.99);}
 	.rate_out {color: rgb(108, 117, 125, 0.99);}
 	[id ~= "content_"]{display: none;}
+	button{border:0; background-color: transparent; color:white;}
 </style>
 <script>
-	//리뷰 등록하기
-	function review_add(){
-		location.href='${path}/board/reviewForm?review_writeId=${member_id}&product_code=${product_code}&product_cateL=${param.product_cateL}&product_cateS=${param.product_cateS}';
-	}
 	// 눌렀을때 드롭
 	function review_dropdown(review_list,number){
 		review_list.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
@@ -55,12 +61,20 @@
 		let review_content = $('tr#review_content_'+number); 
 		review_content.css("display","table-row");
 	}
-	function delete_go(review_id){
-		if(confirm('삭제하시겠습니까?')){
-			location.href='${path}/board/delete_review?review_id='+review_id;
-		} else {
-			alert("삭제가 취소 되었습니다.");
-		}
+	
+	function req_login(){
+		alert('로그인이 필요한 서비스입니다.');
+		location.href='${path}/member/login';
+	}
+	
+	function modal_set2(){
+		let review_modal_btn = document.querySelect('#review_modal_btn');
+		let review_form = document.querySelect('#review_form');
+		let qna_form = document.querySelect('#qna_form');
+		qna_modal_btn.addEventListener('click', function(){
+			review_form.css("display","block");
+			qna_form.css("display","none");
+		});
 	}
 </script>
 </head>
@@ -132,19 +146,36 @@
 							<td class="review_product_num">&nbsp;</td>
 							<td class="review_product_content" colspan="4" style="text-align: left;">${review.review_content}</td>
 						</tr>
-						<c:if test="${sessionScope.member.member_id == review.review_writeId}">
 						<tr id="review_content_${num.index}" style="display:none;">
-							<td colspan="5">
-								<input type="button" id="delete_btn" onclick="delete_go(${review.review_id})"/>
+							<td class="review_product_num">&nbsp;</td>
+							<td class="review_product_content" colspan="4" style="text-align: left;">
+								<img src="" alt="" />
 							</td>
 						</tr>
-						</c:if>
 					</c:forEach>
 				</c:if>
 			</table>
-			<div class="review_add">
-				<input type="button" class="review_add_button" onclick="review_add()" value="후기 작성하기"/>
-			</div>
+			
+			<c:if test="${empty member_id}">
+				<div class="review_add">
+					<p class="review_add_button" align="right"><button onclick="req_login()">리뷰작성</button></p>
+				</div>
+			</c:if>
+			<c:if test="${not empty member_id}">
+				<div class="review_add">
+					<p class="review_add_button" align="right"><a id="review_modal_btn" href="#review_form"  rel="review_modal:open">리뷰작성</a></p>
+				</div>
+				
+				<!-- 리뷰 등록창 -->
+				<div id="reivew_form" class="review_modal" style="display:none;">
+					<c:import url="/board/reviewForm">
+						<c:param name="product_code" value="${product_code}" />
+						<c:param name="product_cateL" value="${param.product_cateL}" />
+						<c:param name="product_cateS" value="${param.product_cateS}" />
+					</c:import>
+				</div>
+			</c:if>
+
 			<c:if test="${not empty total_review}">
 			<div class="review_paging">
 			<c:choose>

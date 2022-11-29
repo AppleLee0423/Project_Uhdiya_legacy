@@ -44,27 +44,29 @@ public class ReviewController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
-		if(isLogOn != null && isLogOn == true && member_id.equals("admin")) {
-			mav = new ModelAndView(viewName);
-			
-			String _section = request.getParameter("section"); 
-			String _pageNum = request.getParameter("pageNum");
-			int section = Integer.parseInt((_section == null) ? "1" : _section);  
-			int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-			
-			Map<String, Object> pageMap = new HashMap<String, Object>();
-			
-			pageMap.put("section", section);
-			pageMap.put("pageNum", pageNum);
-			Map<String,Object> reviewMap = new HashMap<String, Object>();
-			
-			reviewMap = reviewService.all_review(pageMap);
-			reviewMap.put("section", section);
-			reviewMap.put("pageNum", pageNum);
-			
-			mav.addObject("reviewMap",reviewMap);
+		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if(member_id.equals("admin")) {
+				mav = new ModelAndView(viewName);
+				
+				String _section = request.getParameter("section"); 
+				String _pageNum = request.getParameter("pageNum");
+				int section = Integer.parseInt((_section == null) ? "1" : _section);  
+				int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+				
+				Map<String, Object> pageMap = new HashMap<String, Object>();
+				
+				pageMap.put("section", section);
+				pageMap.put("pageNum", pageNum);
+				Map<String,Object> reviewMap = new HashMap<String, Object>();
+				
+				reviewMap = reviewService.all_review(pageMap);
+				reviewMap.put("section", section);
+				reviewMap.put("pageNum", pageNum);
+				
+				mav.addObject("reviewMap",reviewMap);
+			}
 		} else {
 			message(request, response);
 			return null;
@@ -108,9 +110,9 @@ public class ReviewController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
 		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
 			mav = new ModelAndView(viewName);
 			
 			String _section = request.getParameter("section"); 
@@ -160,9 +162,9 @@ public class ReviewController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		String member_id = member.getMember_id();
 		
 		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
 			mav = new ModelAndView(viewName);
 			mav.addObject("product_code", product_code);
 			mav.addObject("review_writeId", member_id);
