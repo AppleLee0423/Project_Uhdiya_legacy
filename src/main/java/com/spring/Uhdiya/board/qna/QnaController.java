@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.Uhdiya.member.MemberDTO;
+
 @Controller
 @RequestMapping("/board/*")
 public class QnaController {
@@ -35,33 +37,47 @@ public class QnaController {
 	// 전체 QnA(관리자만)
 	@RequestMapping("/qna_list")
 	public ModelAndView qna_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		String _section = request.getParameter("section"); 
-		String _pageNum = request.getParameter("pageNum");
-		int section = Integer.parseInt((_section == null) ? "1" : _section);  
-		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+		ModelAndView mav = null;
 		
-		Map<String, Object> pageMap = new HashMap<String, Object>();
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
 		
-		pageMap.put("section", section);
-		pageMap.put("pageNum", pageNum);
-		Map<String,Object> qnaMap = new HashMap<String, Object>();
-		
-		qnaMap = qnaService.qna_list(pageMap);
-		qnaMap.put("section", section);
-		qnaMap.put("pageNum", pageNum);
-		
-		mav.addObject("qnaMap",qnaMap);
+		if(isLogOn != null && isLogOn == true && member_id.equals("admin")) {
+			mav = new ModelAndView(viewName);
+
+			String _section = request.getParameter("section"); 
+			String _pageNum = request.getParameter("pageNum");
+			int section = Integer.parseInt((_section == null) ? "1" : _section);  
+			int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+			
+			Map<String, Object> pageMap = new HashMap<String, Object>();
+			
+			pageMap.put("section", section);
+			pageMap.put("pageNum", pageNum);
+			Map<String,Object> qnaMap = new HashMap<String, Object>();
+			
+			qnaMap = qnaService.qna_list(pageMap);
+			qnaMap.put("section", section);
+			qnaMap.put("pageNum", pageNum);
+			
+			mav.addObject("qnaMap",qnaMap);
+		} else {
+			message(request,response);
+			return null;
+		}		
 		return mav;
 	}
-	
+
 	// 상품 QnA
 	@RequestMapping("/qna_product")
 	public ModelAndView qna_product(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		//@RequestParam("product_code")String product_code
+		
 		String _section = request.getParameter("section"); 
 		String _pageNum = request.getParameter("pageNum");
 		int section = Integer.parseInt((_section == null) ? "1" : _section);  
@@ -86,32 +102,40 @@ public class QnaController {
 	// 나의 QnA
 	@RequestMapping("/qna_my")
 	public ModelAndView qna_my(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		String _section = request.getParameter("section"); 
-		String _pageNum = request.getParameter("pageNum");
-		int section = Integer.parseInt((_section == null) ? "1" : _section);  
-		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-		// @RequestParam("product_code")String product_code,
-		String product_code = request.getParameter("product_code");
+		ModelAndView mav = null;
 		
-		Map<String, Object> pageMap = new HashMap<String, Object>();
-
-//		HttpSession session = request.getSession();
-//		MemberDTO dto = session.getAttribute("member");
-//		String member_id = dto.getMember_id();
-//		pageMap.put("qna_writeId", member_id);
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
 		
-		pageMap.put("section", section);
-		pageMap.put("pageNum", pageNum);
-		pageMap.put("qna_writeId", "hong");
-		Map<String,Object> qnaMap = new HashMap<String, Object>();
-		
-		qnaMap = qnaService.my_qna(pageMap);
-		qnaMap.put("section", section);
-		qnaMap.put("pageNum", pageNum);
-		
-		mav.addObject("qnaMap",qnaMap);
+		if(isLogOn != null && isLogOn == true && member != null) {
+			mav = new ModelAndView(viewName);
+			
+			String _section = request.getParameter("section"); 
+			String _pageNum = request.getParameter("pageNum");
+			int section = Integer.parseInt((_section == null) ? "1" : _section);  
+			int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+			
+			Map<String, Object> pageMap = new HashMap<String, Object>();
+			
+			pageMap.put("section", section);
+			pageMap.put("pageNum", pageNum);
+			pageMap.put("qna_writeId", member_id);
+			
+			Map<String,Object> qnaMap = new HashMap<String, Object>();
+			
+			qnaMap = qnaService.my_qna(pageMap);
+			qnaMap.put("section", section);
+			qnaMap.put("pageNum", pageNum);
+			
+			mav.addObject("qnaMap",qnaMap);
+		} else {
+			message(request, response);
+			return null;
+		}
 		return mav;
 	}
 	
@@ -123,56 +147,45 @@ public class QnaController {
 		response.setContentType("text/html;charset=utf-8");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = null;
-		PrintWriter out = response.getWriter();
 		
-		Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
-		mav = new ModelAndView(viewName);
-		mav.addObject("qnaMap",qnaMap);
-		
-		/*
 		HttpSession session = request.getSession();
-		MemberDTO dto = session.getAttribute("member");
-		String member_id = dto.getMember_id();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
 		
-		if(qna_writeId.equals(member_id)) {
-			Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+		if(isLogOn != null && isLogOn == true && qna_writeId.equals(member_id)) {
 			mav = new ModelAndView(viewName);
+			Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
 			mav.addObject("qnaMap",qnaMap);
 		} else {
-			out.println("<script>");
-			out.println("alert('해당 글 작성자만 볼 수 있습니다.');");
-			out.println("history.back();");
-			out.println("</script>");
+			message2(request, response);
+			return null;
 		}
-		*/
 		return mav;
 	}
 	
 	// Qna 작성폼
 	@RequestMapping("/qnaForm")
-	public ModelAndView qnaForm(@RequestParam("product_code")String product_code, @RequestParam("qna_writeId")String qna_writeId, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView qnaForm(@RequestParam("product_code")String product_code, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		
-		HttpSession session = request.getSession();
-		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = null;
 		
-		if(isLogOn != null && isLogOn == true) {
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
+		
+		if(isLogOn != null && isLogOn == true && member != null) {
 			mav = new ModelAndView(viewName);
 			mav.addObject("product_code", product_code);
-			mav.addObject("qna_writeId", qna_writeId);
+			mav.addObject("qna_writeId", member_id);
 			mav.addObject("product_cateL",request.getParameter("product_cateL"));
 			mav.addObject("product_cateS",request.getParameter("product_cateS"));
 		} else {
-			out.println("<script>");
-			out.println("alert('로그인 후 이용가능합니다.');");
-			out.println("location.href='"+request.getContextPath()+"/member/login';");
-			out.println("</script>");
+			message(request, response);
 			return null;
 		}
-		
 		return mav;
 	}
 	
@@ -204,7 +217,6 @@ public class QnaController {
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
-		String product_code = request.getParameter("product_code");
 		
 		try {
 			int qna_id = qnaService.addQna(qnaMap);
@@ -296,12 +308,6 @@ public class QnaController {
 			}
 			qnaMap.put("imageList", imageList);
 		}
-		/*
-		HttpSession session = multiRequest.getSession();
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String qna_writeId = member.getId();
-		*/
-//		qnaMap.put("qna_writeId", "hong");
 
 		String message;
 		HttpHeaders headers = new HttpHeaders();
@@ -321,7 +327,6 @@ public class QnaController {
 			
 			message = "<script>";
 			message += "alert('문의글을 수정했습니다.');";
-//			message += "location.href='"+request.getContextPath()+"/board/product?product_code="+product_code+"'";
 			message += "location.href='"+request.getContextPath()+"/board/qna_my'";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
@@ -373,5 +378,29 @@ public class QnaController {
 			e.printStackTrace();
 		}
 		return resEnt;
+	}
+	
+	// 에러메세지(to 로그인)
+	public void message(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		out.println("<script>");
+		out.println("alert('로그인 후 이용가능합니다.');");
+		out.println("location.href='"+request.getContextPath()+"/member/login';");
+		out.println("</script>");
+	}
+	
+	// 에러메세지(to 이전페이지)
+	public void message2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		out.println("<script>");
+		out.println("alert('작성자만 확인 가능합니다.');");
+		out.println("history.back();");
+		out.println("</script>");
 	}
 }

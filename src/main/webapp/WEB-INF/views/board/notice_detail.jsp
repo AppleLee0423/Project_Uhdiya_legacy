@@ -170,17 +170,16 @@
 						</li>
 					</ul>
 				</div>
-				<%-- <c:if test="${member.member_id == 'admin'}"></c:if> --%>
+				<c:if test="${member_id != null && member_id == 'admin'}">
 				<div class="view_set" id="notice_detail_button_on">
 					<input type="button" class="notice_detail_button" onclick="update_set(this.form)" value="수정하기"/>
 					<input type="button" class="notice_detail_button" onclick="delete_notice('${path}/board/delete_notice',${noticeDTO.notice_id})" value="삭제하기"/>
-					
 				</div>
 				<div class="update_set" id="notice_detail_button_off" >
 					<input type="button" class="notice_detail_button" onclick="update_notice(this.form)" value="수정하기"/>
 					<input type="button" class="notice_detail_button" onclick="form_reset(${noticeDTO.notice_id})" value="취소"/>
-					
 				</div>
+				</c:if>
 			</form>
 		</div>
 	</div>

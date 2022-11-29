@@ -62,6 +62,8 @@
 			<form id="review_form" name="review_form" action="" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="review_writeId" value="${review_writeId}"/>
 				<input type="hidden" name="product_code" value="${product_code}"/>
+				<input type="hidden" name="product_cateL" value="${product_cateL}"/>
+				<input type="hidden" name="product_cateS" value="${product_cateS}"/>
 				<table class="review_form_table">
 					<tr>
 						<td class="review_form_td_title">별점</td>

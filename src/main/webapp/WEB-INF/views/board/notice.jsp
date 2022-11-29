@@ -60,10 +60,11 @@
 				</tbody>
 			</table>
 		</div>
-		<c:if test="${member.member_id == 'admin'}"></c:if>
+		<c:if test="${member.member_id == 'admin'}">
 		<div class="notice_admin">
 			<a href="${path}/board/noticeForm" id="notice_add">등록하기</a>
 		</div>
+		</c:if>
 		
 		<c:if test="${not empty total_notice}">
 			<div class="notice_paging">
@@ -107,7 +108,7 @@
 		</c:if>
 		<c:if test="${empty keyword}">
 			<div class="notice_search">
-				<input type="text" name="notice_search" id="search_box" />
+				<input type="text" name="keyword" id="search_box" />
 				<button id="search_button" onclick="search()">검색</button>
 			</div>
 		</c:if>

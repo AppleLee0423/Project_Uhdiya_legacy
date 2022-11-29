@@ -36,10 +36,31 @@
 	.review_add_button {height: 30px; border-radius: 2px; background-color: #474948; color: white;}
 	.rate_in {color: rgba(91, 44, 54, 0.99);}
 	.rate_out {color: rgb(108, 117, 125, 0.99);}
+	[id ~= "content_"]{display: none;}
 </style>
 <script>
+	//리뷰 등록하기
 	function review_add(){
 		location.href='${path}/board/reviewForm?review_writeId=${member_id}&product_code=${product_code}&product_cateL=${param.product_cateL}&product_cateS=${param.product_cateS}';
+	}
+	// 눌렀을때 드롭
+	function review_dropdown(review_list,number){
+		review_list.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
+		
+		for(let i=0; i<${total_review}; i++){
+			let review_content = $('tr#review_content_'+i);
+			review_content.css("display","none");
+		}
+		
+		let review_content = $('tr#review_content_'+number); 
+		review_content.css("display","table-row");
+	}
+	function delete_go(review_id){
+		if(confirm('삭제하시겠습니까?')){
+			location.href='${path}/board/delete_review?review_id='+review_id;
+		} else {
+			alert("삭제가 취소 되었습니다.");
+		}
 	}
 </script>
 </head>
@@ -74,11 +95,10 @@
 				</c:if>
 				<c:if test="${not empty review_list}">
 					<c:forEach var="review" items="${review_list}" varStatus="num">
-						<tr>
+						<tr id="review_list" onclick="review_dropdown(this,${num.index})">
 							<td class="review_product_num">${total_review - num.index}</td>
 							<td class="review_product_title" style="text-align: left;">
-								<a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">
-								<i class="fa-solid fa-lock"></i>&nbsp;&nbsp;${review.review_title}</a>
+								<a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">${review.review_title}</a> 
 							</td>
 							<td class="review_product_writer">
 								<c:if test="${fn:length(review.review_writeId) < 5}">
@@ -90,7 +110,7 @@
 								<c:if test="${fn:length(review.review_writeId) > 5}">
 									${fn:substring(review.review_writeId,0,3)}
 									<c:forEach begin="4" end="${fn:length(review.review_writeId)}" step="1">
-										*
+										* 
 									</c:forEach>
 								</c:if>
 							</td>
@@ -108,6 +128,17 @@
 								</span>
 							</td>
 						</tr>
+						<tr id="review_content_${num.index}" style="display:none;">
+							<td class="review_product_num">&nbsp;</td>
+							<td class="review_product_content" colspan="4" style="text-align: left;">${review.review_content}</td>
+						</tr>
+						<c:if test="${sessionScope.member.member_id == review.review_writeId}">
+						<tr id="review_content_${num.index}" style="display:none;">
+							<td colspan="5">
+								<input type="button" id="delete_btn" onclick="delete_go(${review.review_id})"/>
+							</td>
+						</tr>
+						</c:if>
 					</c:forEach>
 				</c:if>
 			</table>

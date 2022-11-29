@@ -34,10 +34,30 @@
 	.qna_product_status{width:100px;}
 	.qna_add{text-align: right;	padding-top: 5px;}
 	.qna_add_button {height: 30px; border-radius: 2px; background-color: #474948; color: white;}
+	[id ~= "qna_content_"]{margin:0; padding:0;}
 </style>
 <script>
 	function qna_add(){
-		location.href='${path}/board/qnaForm?qna_writeId=${member_id}&product_code=${product_code}&product_cateL=${param.product_cateL}&product_cateS=${param.product_cateS}';
+		location.href='${path}/board/qnaForm?product_code=${product_code}&product_cateL=${param.product_cateL}&product_cateS=${param.product_cateS}';
+	}
+	// 눌렀을때 드롭
+	function qna_dropdown(qna_list,number){
+		qna_list.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
+		
+		for(let i=0; i<${total_qna}; i++){
+			let qna_content = $('tr#qna_content_'+i);
+			qna_content.css("display","none");
+		}
+		
+		let qna_content = $('tr#qna_content_'+number); 
+		qna_content.css("display","table-row");
+	}
+	function delete_go(qna_id){
+		if(confirm('삭제하시겠습니까?')){
+			location.href='${path}/board/delete_qna?qna_id='+qna_id;
+		} else {
+			alert("삭제가 취소 되었습니다.");
+		}
 	}
 </script>
 </head>
@@ -72,7 +92,7 @@
 				</c:if>
 				<c:if test="${not empty qna_list}">
 					<c:forEach var="qna" items="${qna_list}" varStatus="num">
-						<tr>
+						<tr id="qna_list" onclick="qna_dropdown(this,${num.index})">
 							<td class="qna_product_num">${total_qna - num.index}</td>
 							<td class="qna_product_title" style="text-align: left;"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;${qna.qna_title}</a></td>
 							<td class="qna_product_writer">
@@ -97,6 +117,17 @@
 								<td class="qna_product_status"><b>답변완료</b></td>
 							</c:if>
 						</tr>
+						<tr id="qna_content_${num.index}" style="display:none;">
+							<td class="qna_product_num">&nbsp;</td>
+							<td class="qna_product_content" colspan="4" style="text-align: left;">${qna.qna_content}</td>
+						</tr>
+						<c:if test="${sessionScope.member.member_id == qna.qna_writeId}">
+						<tr id="qna_content_${num.index}" style="display:none;">
+							<td class="qna_product_button" colspan="5" style="text-align: right;">
+								<input type="button" id="delete_btn" onclick="delete_go(${qna.qna_id})" value="삭제하기"/>
+							</td>
+						</tr>
+						</c:if>
 					</c:forEach>
 				</c:if>
 			</table>
