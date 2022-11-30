@@ -8,6 +8,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
  <c:set var="product"  value="${productsMap.productDTO}"  />
 <c:set var="infoFileList"  value="${productsMap.infoFileList }"  />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
 $(function(){
 	  var $header1 = $('.list_info'); //헤더를 변수에 넣기
 	  var $header2 = $('.list_review'); 
@@ -99,15 +101,55 @@ function cateS() {
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS.value;
 }
 function buyNow() {
+	let member_id = document.getElementById('member_id');
 	console.log('바로구매하기 클릭');
 	let isLogOn = '<%=(Boolean)session.getAttribute("isLogOn") %>';
-	let member_id = document.getElementById('member_id');
+	
 	console.log(member_id.value);
 	if(isLogOn){
 		console.log('로그인되어있음.');
 		
 	}else {
 		alert('로그인 후 구매가능합니다.');
+		window.location.href='${path}/member/login';
+	}
+}
+function addCart() {
+	let member_id = document.getElementById('member_id').value;
+	let product_code = document.getElementById('product_code').value;
+	let cart_qty = document.getElementById('quantity').value;
+	if(member_id!=''){
+		console.log(member_id);
+		console.log(product_code);
+		console.log(cart_qty);
+		$.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "${path}/cart/addCart",
+			data : {
+				member_id:member_id,
+				product_code:product_code,
+				cart_qty:cart_qty
+			},
+			success : function(data, textStatus) {
+				if(data=='y'){
+					let confirm_val = confirm('장바구니에 상품이 성공적으로 추가되었습니다. 장바구니로 이동하시겠습니까?');
+					if(confirm_val){
+						window.location.href='${path}/cart/cartList';
+					}
+				} else if(data=='e'){
+					let confirm_val = confirm('장바구니에 이미 추가되어있는 상품입니다. 장바구니로 이동하시겠습니까?');
+					if(confirm_val){
+						window.location.href='${path}/cart/cartList';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			}
+		}); 
+	} else {
+		alert('로그인 후 이용가능합니다.');
 		window.location.href='${path}/member/login';
 	}
 }
@@ -140,6 +182,7 @@ function buyNow() {
 </style>
 </head>
 <body>
+
 <!-- 전체페이지 : 상품 디테일 -->
 <div class="productDetailPage">
 
@@ -256,16 +299,17 @@ function buyNow() {
 			</div>
 			
 			<!-- 페이지상단 우측 결제정보 하단의 버튼들(장바구니,구매) -->
+			<input type="hidden" id="member_id" value="${member.member_id }">
+			<input type="hidden" id="product_code" value="${product.product_code}">
 			<div class="contentsIntro_buttons">
 				<div class="contentsIntro_buttons_cart">
-					<a href="#" class="btn_cart"> 
+					<a href="javascript:addCart()" class="btn_cart"> 
 						<span class="btn_cart_txt">CART 장바구니담기</span>
 					</a>
 				</div>
 				<div class="contentsIntro_buttons_buy">
 					<a href="javascript:buyNow()" class="btn_buy"> 
 						<span class="btn_buy_txt">BUT NOW 바로구매하기</span>
-						<input id="member_id" type="hidden" value="${member.member_id }">
 					</a>
 				</div>
 			</div>

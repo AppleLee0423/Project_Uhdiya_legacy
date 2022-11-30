@@ -20,7 +20,7 @@ a{text-decoration:none; color:black;}
             <div class="first_section">
                 <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
                 <p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
-                <p>장바구니</p>&nbsp;&nbsp;
+                <p><a href="${path}/cart/cartList">장바구니</a></p>&nbsp;&nbsp;
                 <p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
                 <div class="second_section">
                     <a href="#"><img src="${path}/resources/img/top_sns01.gif"></a>
