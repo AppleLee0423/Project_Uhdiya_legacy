@@ -52,7 +52,7 @@
 						<c:forEach var="qna" items="${qna_list}" varStatus="num">
 							<tr>
 								<td class="qna_my_num">${(total_qna) - (num.index)}</td>
-								<td class="qna_my_product_code">${qna.product_code}</td>
+								<td class="qna_my_product_code">${qna.product_name}</td>
 								<td class="qna_my_title"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}">${qna.qna_title}</a></td>
 								<td class="qna_my_writeDate">${qna.qna_regDate}</td>
 								<c:if test="${qna.qna_status == 0}">

@@ -87,6 +87,7 @@ public class ReviewController {
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
 		String product_code = request.getParameter("product_code");
+		
 		pageMap.put("product_code", product_code);
 		pageMap.put("section", section);
 		pageMap.put("pageNum", pageNum);
@@ -218,12 +219,12 @@ public class ReviewController {
 			}
 			String product_cateL = request.getParameter("product_cateL");
 			String product_cateS = request.getParameter("product_cateS");
+			String product_code = request.getParameter("product_code");
 			
 			message = "<script>";
 			message += "alert('상품후기를 추가했습니다.');";
-//			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
-			message += "history.go(-2);";
-//			message += "location.href='"+request.getContextPath()+"/board/review_my'";
+			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+//			message += "history.go(-2);";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {

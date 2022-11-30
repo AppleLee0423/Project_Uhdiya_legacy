@@ -52,7 +52,7 @@
 					<c:forEach var="review" items="${review_list}" varStatus="num">
 						<tr>
 						<td class="review_my_num">${total_review - num.index}</td>
-						<td class="review_my_product_code">${review.product_code}</td>
+						<td class="review_my_product_code">${review.product_name}</td>
 						<td class="review_my_title"><a href="${path}/board/review_page?review_writeId=${review.review_writeId}&review_id=${review.review_id}">${review.review_title}</a></td>
 						<td class="review_my_star">
 							<span class="rate_in">

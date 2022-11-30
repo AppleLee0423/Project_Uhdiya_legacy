@@ -22,9 +22,9 @@
 	<!-- 관리자페이지 리뷰 전체목록 -->
 	<select id="all_review" resultMap="review" parameterType="java.util.Map">
 		<![CDATA[
-			select review_id, review_writeId, review_title, review_star, review_regDate, product_code from 
-    			(select rownum rn, review_id, review_writeId, review_title, review_star, review_regDate, product_code from review
-    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+    		select * from	
+    			(select rownum rn, product_name, review_id, review_writeId, review_title, review_star, review_regDate, p.product_code from review r, product p
+    			where r.product_code = r.product_code order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	
@@ -34,12 +34,28 @@
 		]]>
 	</select>
 	
+	<!-- 검색결과 -->
+	<select id="search_review" resultMap="review" parameterType="String">
+		<![CDATA[
+			select review_id, product_name, review_writeid, review_title, review_content, review_regdate, review_star, product_code from 
+    		(select rownum rn, review_id, product_name, review_writeid, review_title, review_content, review_regdate, review_star, p.product_code from review r, product p 
+    		where r.product_code = p.product_code and review_title like '%'||#{keyword}||'%' order by review_regDate desc)
+		]]>
+	</select>
+	
 	<!-- 상품페이지 리뷰 목록 -->
 	<select id="product_review" resultMap="review" parameterType="java.util.Map">
 		<![CDATA[
-			select review_id, review_writeId, review_star, review_title,review_content,review_regDate, product_code from 
-    			(select rownum rn, review_id, review_writeId, review_title,review_content, review_star, review_regDate, product_code from review where product_code = #{product_code}
-    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+			select * from	
+    			(select rownum rn, product_name, review_id, review_writeId, review_title, review_star, review_regDate, p.product_code from review r, product p
+    			where r.product_code = r.product_code and r.product_code = #{product_code} order by review_id desc) 
+    			where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+		]]>
+	</select>
+	
+	<select id="product_review_file" resultMap="file" parameterType="java.util.Map">
+		<![CDATA[
+			select f.review_id, f.review_fileName from review r, review_file f where r.review_id = f.review_id and r.product_code = #{product_code}
 		]]>
 	</select>
 	
@@ -52,9 +68,10 @@
 	<!-- 마이페이지 리뷰 목록 -->
 	<select id="my_review" resultMap="review" parameterType="java.util.Map">
 		<![CDATA[
-			select review_id, review_writeId, review_title, review_star, review_regDate, product_code from 
-    			(select rownum rn, review_id, review_writeId, review_title, review_star, review_regDate, product_code from review where review_writeId = #{review_writeId}
-    			order by review_id desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+			select * from	
+				(select rownum rn, product_name, review_id, review_writeId, review_title, review_star, review_regDate, p.product_code from review r, product p
+				where r.product_code = r.product_code and review_writeId = #{review_writeId} order by review_id desc)
+    			where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	

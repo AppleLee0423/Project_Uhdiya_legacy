@@ -59,10 +59,9 @@
 	.qna_modal-content {
 		width: 800px;
 		position: absolute;
-		top: 25%;
+		top: 15%;
 		left: 25%;
 		background-color: #fefefe;
-		padding: 20px;
 		border: 1px solid #888;
 	}
 </style>
@@ -73,19 +72,21 @@
 		
 		$('#qna_modal_btn').click(function(){
 			$('.qna_modal').css("display","block");
-			$('.qna_modal').css("overflow","hidden");
+			$('body').css("overflow","hidden");
 		});
 		
 		$('.qna_close').click(function(){
 			$('.qna_modal').css("display","none");
-			$('.qna_modal').css("overflow","unset");
+			$('body').css("overflow","unset");
 		});
 	});
 	
 	window.onclick = function(event){
 		if(event.target.className == 'qna_modal'){
 			event.target.style.display = "none";
-			event.target.style.overflow = "unset";
+			$('.review_modal').css("display","none");
+			$('.qna_modal').css("display","none");
+			$('body').css("overflow","unset");
 		};
 	}
 

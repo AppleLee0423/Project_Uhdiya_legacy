@@ -11,7 +11,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 	.qna_form_header{background-color:#353B4C; height:45px; }
-	.qna_form_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px;}
+	.qna_form_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px; text-align: left;}
 	.qna_form_body{padding: 20px; padding-bottom: 20px;}
 	.qna_form_ul{list-style: none; padding: 0;}
 	.qna_form_li{padding-bottom: 10px;}
@@ -23,8 +23,8 @@
 				font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 	.btn-upload:hover {background: #fff; color: black;}
 	.ctrl_btn {text-align: center; display: flex; justify-content: space-between; padding: 0 200px;}
-	#qna_close_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
-	#qna_insert_btn {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large;}
+	#qna_insert_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
+	#qna_close_btn {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large;}
 </style>
 <script>
 	let qna_cnt = 1;
@@ -43,9 +43,19 @@
 		}
 	}
 	
-	function fn_close(){
-		$('.review_modal').css("display","none");
+	function fn_qna_close(){
+		$('.qna_modal').css("display","none");
 		$('body').css("overflow","unset");
+	}
+	
+	window.onclick = function(event1){
+		if(event1.target.className == 'qna_modal'){
+			event1.target.style.display = "none";
+			console.log(event1.target);
+			$('.review_modal').css("display","none");
+			$('.qna_modal').css("display","none");
+			$('body').css("overflow","unset");
+		};
 	}
 	
 	function insert_qna(obj){
@@ -90,16 +100,17 @@
 						<div class="image_preview"></div>
 					</li>
 					
-					<li class="qna_form_li">
+					<li class="qna_form_li" style="text-align: left;">
 						<span style="font-size: small; color: #6C757D">문의하신 내용에 대한 답변은 <font color="black" style="font-weight: bold;">마이페이지>문의내역</font> 에서 확인가능합니다.</span>
+						<br><br>
 					</li>
 				</ul>
 				
 				<div class="ctrl_btn">
-					<input id="qna_close_btn" type="button" onclick="fn_close()" value="취소"/>
+					<input id="qna_close_btn" type="button" onclick="fn_qna_close()" value="취소"/>
 					<input id="qna_insert_btn" type="button" onclick="insert_qna(this.form)" value="등록"/>
 				</div>
-				<input type="hidden" name="qna_writeId" value="${param.qna_writeId}"/>
+				<input type="hidden" name="qna_writeId" value="${qna_writeId}"/>
 				<input type="hidden" name="product_code" value="${param.product_code}"/>
 				<input type="hidden" name="product_cateL" value="${product_cateL}"/>
 				<input type="hidden" name="product_cateS" value="${product_cateS}"/>

@@ -234,11 +234,11 @@ public class QnaController {
 			}
 			String product_cateL = request.getParameter("product_cateL");
 			String product_cateS = request.getParameter("product_cateS");
+			String product_code = request.getParameter("product_code");
 			message = "<script>";
 			message += "alert('문의글을 추가했습니다.');";
-//			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
-			message += "history.go(-2);";
-//			message += "location.href='"+request.getContextPath()+"/board/qna_product'";
+			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+			//message += "history.go(-2);";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {

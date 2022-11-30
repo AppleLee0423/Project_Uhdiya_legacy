@@ -29,6 +29,11 @@ public class ReviewDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.review.product_review",pageMap);
 	}
+	
+	public List<ReviewFileDTO> product_review_file(Map<String, Object> pageMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.review.product_review_file",pageMap);
+	}
 
 	public int total_product_review(String product_code) {
 		// TODO Auto-generated method stub
@@ -105,4 +110,6 @@ public class ReviewDAO {
 		reviewMap.put("reviewFileList", reviewFileList);
 		return reviewMap;
 	}
+
+	
 }

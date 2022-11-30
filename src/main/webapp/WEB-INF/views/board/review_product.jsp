@@ -5,6 +5,7 @@
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:set var="review_list" value="${reviewMap.review_list}" />
+<c:set var="review_fileList" value="${reviewMap.review_fileList}" />
 <c:set var="total_review" value="${reviewMap.total_review}" />
 <c:set var="section" value="${reviewMap.section}" />
 <c:set var="pageNum" value="${reviewMap.pageNum}" />
@@ -14,6 +15,7 @@
 <html>
 <head>
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,9 +35,11 @@
 	.review_product_title{width:300px;}
 	.review_product_writer{width:100px;}
 	.review_product_writeDate{width:100px;}
+	.product_review_image{width:100px; transition: all 1.0s;}
+	.product_review_image:hover{transform:scale(3.0); overflow: hidden; z-index: 3;}
 	.review_add{text-align:-webkit-right;	padding-top: 5px;}
 	.review_add_button {width:100px; height: 25px; border-radius: 2px; background-color: #474948; color: white; text-align: center; padding:0; padding-top:8px; font-size:12pt;}
-	.rate_in {color: rgba(91, 44, 54, 0.99);}
+	.rate_in {color: rgb(248, 152, 29, 0.99);}
 	.rate_out {color: rgb(108, 117, 125, 0.99);}
 	[id ~= "content_"]{display: none;}
 	button{border:0; background-color: transparent; color:white;}
@@ -54,18 +58,16 @@
 	.review_modal-content {
 		width: 800px;
 		position: absolute;
-		top: 25%;
+		top: 15%;
 		left: 25%;
 		background-color: #fefefe;
-		padding: 20px;
 		border: 1px solid #888;
 	}
 </style>
 <script>
 	$(document).ready(function(){
-		/* let review_modal = $('.review_modal');
+		let review_modal = $('.review_modal');
 		let review_open = $('#review_modal_btn');
-		let review_close = $('.review_close'); */
 		
 		$('#review_modal_btn').click(function(){
 			$('.review_modal').css("display","block");
@@ -81,13 +83,16 @@
 	window.onclick = function(event){
 		if(event.target.className == 'review_modal'){
 			event.target.style.display = "none";
+			$('.review_modal').css("display","none");
+			$('.qna_modal').css("display","none");
 			$('body').css("overflow","unset");
 		};
 	}
 	
 	// 눌렀을때 드롭
-	function review_dropdown(review_list,number){
-		review_list.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
+	function review_dropdown(obj,number){
+		$('#review_list').css("background-color","transparent"); 
+		obj.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
 		
 		for(let i=0; i<${total_review}; i++){
 			let review_content = $('tr#review_content_'+i);
@@ -172,12 +177,20 @@
 							<td class="review_product_num">&nbsp;</td>
 							<td class="review_product_content" colspan="4" style="text-align: left;">${review.review_content}</td>
 						</tr>
-						<tr id="review_content_${num.index}" style="display:none;">
-							<td class="review_product_num">&nbsp;</td>
-							<td class="review_product_content" colspan="4" style="text-align: left;">
-								<img src="" alt="" />
-							</td>
-						</tr>
+						<c:forEach var="list" items="${review_fileList}">
+							<c:if test="${list.review_id == review.review_id}">
+								<tr id="review_content_${num.index}" style="display:none;">
+									<td class="review_product_num">&nbsp;</td>
+									<td class="review_product_content" colspan="4" style="text-align: left;">
+										<c:forEach var="item" items="${review_fileList}" varStatus="imgnum">
+											<div class="zoom">
+												<img class="product_review_image" src="${path}/review_download?review_id=${review.review_id}&review_fileName=${item.review_fileName}" style="padding: 10px;"/>
+											</div>
+										</c:forEach>
+									</td>
+								</tr>
+							</c:if>
+						</c:forEach>
 					</c:forEach>
 				</c:if>
 			</table>

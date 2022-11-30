@@ -66,9 +66,11 @@
 					</tr>
 				</c:if>
 			</table>
-			<div class="review_footer">
-				<input type="button" class="review_page_button" onclick="delete_page(${reviewDTO.review_id})" value="삭제하기"/>
-			</div>
+			<c:if test="${member_id == reviewDTO.review_writeId}">
+				<div class="review_footer">
+					<input type="button" class="review_page_button" onclick="delete_page(${reviewDTO.review_id})" value="삭제하기"/>
+				</div>
+			</c:if>
 		</div>
 	</div>
 </body>

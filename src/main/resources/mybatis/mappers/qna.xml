@@ -25,7 +25,7 @@
 	<select id="all_qna" resultMap="qna" parameterType="java.util.Map">
 		<![CDATA[
 			select * from 
-    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,q.product_code from qna q,product p 
+    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
     		where q.product_code = p.product_code) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
@@ -36,11 +36,20 @@
 		]]>
 	</select>
 	
+	<!-- 검색결과 -->
+	<select id="search_qna" resultMap="qna" parameterType="String">
+		<![CDATA[
+			select qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,product_code from 
+    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
+    		where q.product_code = p.product_code and qna_title like '%'||#{keyword}||'%' order by qna_regDate desc)
+		]]>
+	</select>
+	
 	<!-- 상품 상세페이지 내 문의글 -->
 	<select id="product_qna" resultMap="qna" parameterType="java.util.Map">
 		<![CDATA[
 			select qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,product_code from 
-    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,q.product_code from qna q,product p 
+    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
     		where q.product_code = #{product_code} and q.product_code = p.product_code) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
@@ -55,7 +64,7 @@
 	<select id="my_qna" resultMap="qna" parameterType="java.util.Map">
 		<![CDATA[
 			select * from 
-    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,q.product_code from qna q,product p 
+    		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
     		where qna_writeId=#{qna_writeId} and q.product_code = p.product_code) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
@@ -69,7 +78,7 @@
 	<!-- 문의글 상세페이지 -->
 	<select id="one_qna" resultMap="qna" parameterType="int">
 		<![CDATA[
-			select qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,q.product_code from qna q,product p where qna_id = #{qna_id} and q.product_code = p.product_code
+			select qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p where qna_id = #{qna_id} and q.product_code = p.product_code
 		]]>
 	</select>
 	

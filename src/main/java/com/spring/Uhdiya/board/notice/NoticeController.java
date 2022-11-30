@@ -99,7 +99,6 @@ public class NoticeController {
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String member_id = member.getMember_id();
-		System.out.println("컨트롤러에서 : " + member_id);
 		
 		if(isLogOn == true && member_id.equals("admin")) {
 			viewName = (String) request.getAttribute("viewName");

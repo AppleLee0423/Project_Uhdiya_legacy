@@ -11,7 +11,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 	.review_form_header{background-color:#353B4C; height:45px; }
-	.review_form_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px;}
+	.review_form_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px; text-align: left;}
 	.review_form_body{padding: 20px; padding-bottom: 20px;}
 	.review_form_ul{list-style: none; padding: 0;}
 	.review_form_li{padding-bottom: 10px;}
@@ -48,10 +48,21 @@
 		}
 	}
 	
-	function fn_close(){
+	function fn_review_close(){
 		$('.review_modal').css("display","none");
 		$('body').css("overflow","unset");
 	}
+	
+	window.onclick = function(event2){
+		if(event2.target.className == 'review_modal'){
+			event2.target.style.display = "none";
+			console.log(event2.target);
+			$('.review_modal').css("display","none");
+			$('.qna_modal').css("display","none");
+			$('body').css("overflow","unset");
+		};
+	}
+	
 	function review_submit(obj){
 		let form = document.review_form;
 		let review_star = $('input[name=review_star]:checked').val();
@@ -75,7 +86,7 @@
 <body>
 	<div class="review_form">
 		<div class="review_form_header">
-			<div class="review_form_header_title"><b>리뷰 남기기 ${param.review_writeId}</b></div>
+			<div class="review_form_header_title"><b>리뷰 남기기</b></div>
 		</div>
 		<div class="review_form_body">
 			<form name="review_form" action="" method="post" enctype="multipart/form-data">
@@ -114,10 +125,10 @@
 				</ul>
 				
 				<div class="ctrl_btn">
-					<input id="review_close_btn" type="button" onclick="fn_close()" value="취소"/>
+					<input id="review_close_btn" type="button" onclick="fn_review_close()" value="취소"/>
 					<input id="review_insert_btn" type="button" onclick="review_submit(this)" value="등록"/>
 				</div>
-				<input type="hidden" name="review_writeId" value="${param.review_writeId}"/>
+				<input type="hidden" name="review_writeId" value="${review_writeId}"/>
 				<input type="hidden" name="product_code" value="${param.product_code}"/>
 				<input type="hidden" name="product_cateL" value="${product_cateL}"/>
 				<input type="hidden" name="product_cateS" value="${product_cateS}"/>
