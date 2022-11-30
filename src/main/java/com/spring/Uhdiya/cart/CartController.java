@@ -149,7 +149,7 @@ public class CartController {
 	
 	// 장바구니 리스트
 	@RequestMapping("/cartList")
-	public ModelAndView reviewForm(
+	public ModelAndView cartList(
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);

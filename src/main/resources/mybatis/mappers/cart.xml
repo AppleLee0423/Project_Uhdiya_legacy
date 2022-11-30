@@ -21,6 +21,7 @@
 		<result property="cart_qty" column="cart_qty" />
 	</resultMap>	
 	
+	
 	<!-- 장바구니 수량변경 -->
 	<update id="qtyChange" parameterType="java.util.Map">
 		<![CDATA[

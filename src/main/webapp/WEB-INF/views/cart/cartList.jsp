@@ -15,6 +15,68 @@ request.setCharacterEncoding("UTF-8");
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
+
+/* 상품주문 */
+function order(part) {
+	// 선택주문 : partly , 전체주문 : all , partly 도 all도 아닌경우 (품목행에서 바로구매선택)
+	let exist=''; // 선택된 상품 없는경우 컷하기 위함.
+	let member_id = document.getElementById('member_id').value;
+	
+	let form = document.createElement('form');
+	let input_member_id = document.createElement('input');
+	
+	input_member_id.setAttribute('type', 'hidden');
+	input_member_id.setAttribute('name', 'member_id');
+	input_member_id.setAttribute('value', member_id);
+	form.appendChild(input_member_id);
+	
+	// 들어온값이 상품코드인경우 ( 품목행에서 바로 구매 선택)
+	if(part != 'partly' && part != 'all' ){
+		exist = 'exist'; // 구매할 상품이 있다
+		let input = document.createElement('input');
+		input.setAttribute('type', 'hidden');
+		input.setAttribute('name', 'product_code[]');
+		input.setAttribute('value', part);
+		form.appendChild(input);
+	} else {	// 들어온값이 상품코드가 아닌경우 (선택주문또는 전체주문)
+		let selectArr = new Array();
+		let chk = document.getElementsByName("chk[]");
+		let input = new Array();
+		
+		for(i=0;i<chk.length;i++){
+			if(chk[i].checked==true && part == 'partly'){
+				exist = 'exist'; // 선택된 상품이 있다
+				selectArr[i]=chk[i].value;
+				console.log(selectArr[i]);
+				
+				input[i] = document.createElement('input');
+				input[i].setAttribute('type', 'hidden');
+				input[i].setAttribute('name', 'product_code[]');
+				input[i].setAttribute('value', selectArr[i]);
+				form.appendChild(input[i]);
+			} else if (part == 'all'){	// 전체상품주문
+				selectArr[i]=chk[i].value;
+				console.log(selectArr[i]);
+				
+				input[i] = document.createElement('input');
+				input[i].setAttribute('type', 'hidden');
+				input[i].setAttribute('name', 'product_code[]');
+				input[i].setAttribute('value', selectArr[i]);
+				form.appendChild(input[i]);
+			}
+		}
+	}
+	// 선택된 상품이 있는경우 또는 전체주문의경우
+	if(exist=='exist' || part =='all' ){
+		document.body.appendChild(form);
+		
+		form.method="post";
+	 	form.action="${path}/order/addOrder";
+		form.submit();
+	} else {	//전체주문도 아니고 선택된 상품도없는경우
+		alert('선택된 상품이 없습니다. 선택 후 다시 시도해주세요.');
+	}
+}
 /* 새로고침 스크롤위치고정 */
 var element = document.querySelector("#layout-nav");
 var scroll_position = localStorage.getItem("sidebar-scroll");
@@ -501,7 +563,7 @@ function cartList_del(product_code){
 								
 									<!-- 수량표기 -->
 									<div class="qty_num">
-										<input id="quantity" name="quantity" type="text" value="${list.cart_qty }" readonly="readonly">
+										<input id="quantity" name="cart_qty" type="text" value="${list.cart_qty }" readonly="readonly">
 									</div>
 									<!-- 버튼 -->
 									<div class="qty_btn">
@@ -521,7 +583,7 @@ function cartList_del(product_code){
 				         			${each_total}원
 								</td>
 								<td class="cartList_obj_choose">
-									<button type="button" class="cartList_obj_btn" onclick="javascript:cartList_orderPartly()">
+									<button type="button" class="cartList_obj_btn" onclick="javascript:order('${list.product_code }')">
 										바로구매
 									</button>
 									<button type="button" class="cartList_obj_btn_del" onclick="javascript:cartList_del('${list.product_code }')">
@@ -567,10 +629,10 @@ function cartList_del(product_code){
 					<button type="button" class="selectOrder_btn" onclick="location.href='${path}/main'">
 						쇼핑계속하기
 					</button>
-					<button type="button" class="selectOrder_btn" onclick="javascript:orderPartly()">
+					<button type="button" class="selectOrder_btn" onclick="javascript:order('partly')">
 						선택상품주문
 					</button>
-					<button type="button" class="selectOrder_btn_all" onclick="javascript:orderAll()">
+					<button type="button" class="selectOrder_btn_all" onclick="javascript:order('all')">
 						전체상품주문
 					</button>
 				</div>
