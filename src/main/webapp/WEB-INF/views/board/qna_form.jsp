@@ -23,8 +23,8 @@
 				font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 	.btn-upload:hover {background: #fff; color: black;}
 	.ctrl_btn {text-align: center; display: flex; justify-content: space-between; padding: 0 200px;}
-	.ctrl_btn input[type=button] {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
-	.ctrl_btn input[type=reset] {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large;}
+	#qna_close_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
+	#qna_insert_btn {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large;}
 </style>
 <script>
 	let qna_cnt = 1;
@@ -43,20 +43,10 @@
 		}
 	}
 	
-	function cleandiv(){
-		let reset_btn = document.querySelector('input[type=reset]');
-		reset_btn.addEventListener('click',function(){
-			$('.modal').close();	
-		});
+	function fn_close(){
+		$('.review_modal').css("display","none");
+		$('body').css("overflow","unset");
 	}
-	
-	/* function cleandiv(){
-		let reset_btn = document.querySelector('input[type=reset]');
-		reset_btn.addEventListener('click',function(){
-			$('#d_file').empty();
-			$('.image_preview').empty();
-		});
-	} */
 	
 	function insert_qna(obj){
 		let form = document.qna_form;
@@ -69,6 +59,7 @@
 			obj.action='${path}/board/addQna';
 			obj.submit();
 			qna_cnt = 1;
+			$('body').css("overflow","unset");
 		}
 	}
 </script>
@@ -105,8 +96,8 @@
 				</ul>
 				
 				<div class="ctrl_btn">
-					<input type="reset" value="취소"/>
-					<input type="button" onclick="insert_qna(this.form)" value="등록"/>
+					<input id="qna_close_btn" type="button" onclick="fn_close()" value="취소"/>
+					<input id="qna_insert_btn" type="button" onclick="insert_qna(this.form)" value="등록"/>
 				</div>
 				<input type="hidden" name="qna_writeId" value="${param.qna_writeId}"/>
 				<input type="hidden" name="product_code" value="${param.product_code}"/>

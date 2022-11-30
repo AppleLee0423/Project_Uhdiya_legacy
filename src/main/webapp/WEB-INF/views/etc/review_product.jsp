@@ -13,12 +13,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Remember to include jQuery :) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+<!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 	.review{width:900px; margin:0 auto;}
+	.modal{max-width: 800px; padding: 0;}
+	.blocker{rgba(0,0,0,0.5);}
 	.review_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
 	.review_header_one{display: block;}
 	.review_header_two{display: block; padding-right: 5px;}
@@ -39,52 +47,8 @@
 	.rate_out {color: rgb(108, 117, 125, 0.99);}
 	[id ~= "content_"]{display: none;}
 	button{border:0; background-color: transparent; color:white;}
-	.review_modal {
-		display: none;
-		position: fixed;
-		z-index: 999;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		overflow: auto;
-		background-color: rgb(0,0,0);
-		background-color: rgba(0,0,0,0.4);
-	}
-	.review_modal-content {
-		width: 800px;
-		position: absolute;
-		top: 25%;
-		left: 25%;
-		background-color: #fefefe;
-		padding: 20px;
-		border: 1px solid #888;
-	}
 </style>
 <script>
-	$(document).ready(function(){
-		/* let review_modal = $('.review_modal');
-		let review_open = $('#review_modal_btn');
-		let review_close = $('.review_close'); */
-		
-		$('#review_modal_btn').click(function(){
-			$('.review_modal').css("display","block");
-			$('body').css("overflow","hidden");
-		});
-		
-		$('.review_close').click(function(){
-			$('.review_modal').css("display","none");
-			$('body').css("overflow","unset");
-		});
-	});
-	
-	window.onclick = function(event){
-		if(event.target.className == 'review_modal'){
-			event.target.style.display = "none";
-			$('body').css("overflow","unset");
-		};
-	}
-	
 	// 눌렀을때 드롭
 	function review_dropdown(review_list,number){
 		review_list.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
@@ -101,6 +65,16 @@
 	function req_login(){
 		alert('로그인이 필요한 서비스입니다.');
 		location.href='${path}/member/login';
+	}
+	
+	function modal_set2(){
+		let review_modal_btn = document.querySelect('#review_modal_btn');
+		let review_form = document.querySelect('#review_form');
+		let qna_form = document.querySelect('#qna_form');
+		qna_modal_btn.addEventListener('click', function(){
+			review_form.css("display","block");
+			qna_form.css("display","none");
+		});
 	}
 </script>
 </head>
@@ -189,19 +163,16 @@
 			</c:if>
 			<c:if test="${not empty member_id}">
 				<div class="review_add">
-					<p class="review_add_button" align="right"><button id="review_modal_btn">리뷰작성</button></p>
+					<p class="review_add_button" align="right"><a id="review_modal_btn" href="#review_form"  rel="review_modal:open">리뷰작성</a></p>
 				</div>
 				
-				<!-- Modal의 내용 -->
-				<div class="review_modal"> 
-					<div class="review_modal-content">
-						<!-- <span class="review_close">&times;</span>        -->                  
-						<c:import url="/board/reviewForm">
-							<c:param name="product_code" value="${product_code}" />
-							<c:param name="product_cateL" value="${param.product_cateL}" />
-							<c:param name="product_cateS" value="${param.product_cateS}" />
-						</c:import>
-					</div>
+				<!-- 리뷰 등록창 -->
+				<div id="reivew_form" class="review_modal" style="display:none;">
+					<c:import url="/board/reviewForm">
+						<c:param name="product_code" value="${product_code}" />
+						<c:param name="product_cateL" value="${param.product_cateL}" />
+						<c:param name="product_cateS" value="${param.product_cateS}" />
+					</c:import>
 				</div>
 			</c:if>
 

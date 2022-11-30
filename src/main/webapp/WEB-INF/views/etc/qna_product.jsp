@@ -44,51 +44,8 @@
 	.qna_add{text-align:-webkit-right;	padding-top: 5px;}
 	.qna_add_button {width:100px; height: 25px; border-radius: 2px; background-color: #474948; color: white; text-align: center; padding:0; padding-top:8px; font-size:12pt;}
 	button{border:0; background-color: transparent; color:white;}
-	.qna_modal {
-		display: none;
-		position: fixed;
-		z-index: 999;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		overflow: auto;
-		background-color: rgb(0,0,0);
-		background-color: rgba(0,0,0,0.4);
-	}
-	.qna_modal-content {
-		width: 800px;
-		position: absolute;
-		top: 25%;
-		left: 25%;
-		background-color: #fefefe;
-		padding: 20px;
-		border: 1px solid #888;
-	}
 </style>
 <script>
-	$(document).ready(function(){
-		let qna_modal = $('.qna_modal');
-		let qna_open = $('#qna_modal_btn');
-		
-		$('#qna_modal_btn').click(function(){
-			$('.qna_modal').css("display","block");
-			$('.qna_modal').css("overflow","hidden");
-		});
-		
-		$('.qna_close').click(function(){
-			$('.qna_modal').css("display","none");
-			$('.qna_modal').css("overflow","unset");
-		});
-	});
-	
-	window.onclick = function(event){
-		if(event.target.className == 'qna_modal'){
-			event.target.style.display = "none";
-			event.target.style.overflow = "unset";
-		};
-	}
-
 	function req_login(){
 		alert('로그인이 필요한 서비스입니다.');
 		location.href='${path}/member/login';
@@ -173,19 +130,16 @@
 			
 			<c:if test="${not empty member_id}">
 				<div class="qna_add">
-					<p class="qna_add_button" align="right"><button id="qna_modal_btn">문의하기</button></p>
+					<p class="qna_add_button" align="right"><a id="qna_modal_btn" href="#qna_form"  rel="modal:open">문의하기</a></p>
 				</div>
 				
-				<!-- Modal의 내용 -->
-				<div class="qna_modal"> 
-					<div class="qna_modal-content">
-						<!-- <span class="review_close">&times;</span>        -->                  
-						<c:import url="/board/qnaForm">
-							<c:param name="product_code" value="${product_code}" />
-							<c:param name="product_cateL" value="${param.product_cateL}" />
-							<c:param name="product_cateS" value="${param.product_cateS}" />
-						</c:import>
-					</div>
+				<!-- 문의사항 등록창 -->
+				<div id="qna_form" class="modal" style="display:none;">
+					<c:import url="/board/qnaForm">
+						<c:param name="product_code" value="${product_code}" />
+						<c:param name="product_cateL" value="${param.product_cateL}" />
+						<c:param name="product_cateS" value="${param.product_cateS}" />
+					</c:import>
 				</div>
 			</c:if>
 			

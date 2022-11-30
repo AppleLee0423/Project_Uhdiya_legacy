@@ -12,11 +12,58 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <style>
 	.modal{max-width: 800px; padding: 0;}
+	.qna_header{background-color:#353B4C; height:45px; }
+	.qna_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px;}
+	.qna_body{padding: 0 20px; padding-bottom: 20px;}
+	.qna_form_ul{list-style: none; padding: 0;}
+	.qna_form_li{padding-bottom: 10px;}
+	.qna_form_li_seceond{padding: 10px 0;}
+	.qna_form_title{width:100%; height:30px;}
+	.qna_form_content{width:100%; resize: none;}
+	#file {display: none;}
+	.btn-upload {width: 100px; height: 30px; background: #474948; color: #fff; border: 1px solid rgb(77,77,77); border-radius: 10px; 
+				font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+	.btn-upload:hover {background: #fff; color: black;}
+	.ctrl_btn {text-align: center; display: flex; justify-content: space-between; padding: 0 200px;}
+	.ctrl_btn input[type=button] {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
+	.ctrl_btn input[type=reset] {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large;}
 </style>
 <script>
-	$(function(){
-		$('#qna_form').load('test4.html');
+	let cnt = 1;
+	function fn_addFile(){
+		$("#d_file").append("<br><input type='file' name='qna_fileName"+cnt+"' onchange='readURL(this)'>'");
+		$(".image_preview").append("<img src='#' id='preview"+cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
+		cnt++;
+	}
+	function readURL(input){
+		if(input.files && input.files[0]){
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$("#preview"+(cnt-1)).attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	function cleandiv(){
+		let reset_btn = document.querySelector('input[type=reset]');
+		reset_btn.addEventListener('click',function(){
+		$('#d_file').empty();
+		$('.image_preview').empty();
 	});
+	}
+	function insert_qna(obj){
+		let form = document.qna_form;
+		let title = form.qna_title.value;
+		if(title==''){
+			alert('제목은 빈 칸일 수 없습니다.');
+			form.title.select();
+			return;
+		} else {
+			obj.action='${path}/board/addQna';
+			obj.submit();
+		}
+	}
 </script>
 </head>
 <body>
@@ -25,6 +72,48 @@
 	</div>
 
 	<div id="qna_form" class="modal">
+	<div class="qna">
+		<div class="qna_header">
+			<div class="qna_header_title"><b>문의하기</b></div>
+		</div>
+		<div class="qna_body">
+			<form name="qna_form" action="" method="post" enctype="multipart/form-data">
+				<ul class="qna_form_ul">
+					<li class="qna_form_li"><input type="text" name="qna_title" class="qna_form_title" placeholder="문의글의 제목을 입력해주세요."/></li>
+					
+					<li class="qna_form_li" style="border-bottom: 1px solid #6C757D">
+						<textarea name="qna_content" class="qna_form_content" cols="30" rows="15" placeholder="문의하실 내용을 입력해주세요."></textarea>
+					</li>
+					
+					<li class="qna_form_li_seceond">
+						<label for="file">
+  							<div class="btn-upload">파일추가</div>
+						</label>
+						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
+						<div id="d_file"></div>	
+					</li>
+					
+					<li class="qna_form_li" style="border-bottom: 1px solid #6C757D">
+						<div class="image_preview"></div>
+					</li>
+					
+					<li class="qna_form_li">
+						<span style="font-size: small; color: #6C757D">문의하신 내용에 대한 답변은 <font color="black" style="font-weight: bold;">마이페이지>문의내역</font> 에서 확인가능합니다.</span>
+					</li>
+				</ul>
+				
+				<div class="ctrl_btn">
+					<input type="reset" value="취소"/>
+					<input type="button" class="qna_add" onclick="insert_qna(this.form)" value="등록"/>
+				</div>
+				<input type="hidden" name="qna_writeId" value="${param.qna_writeId}"/>
+				<input type="hidden" name="product_code" value="${param.product_code}"/>
+				<input type="hidden" name="product_cateL" value="${product_cateL}"/>
+				<input type="hidden" name="product_cateS" value="${product_cateS}"/>
+			</form>
+		</div>
+	</div>
+	
 	</div>
 </body>
 </html>
