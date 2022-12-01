@@ -10,8 +10,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="${path}/resources/css/reset.css" />
-<link rel="stylesheet" href="${path}/resources/css/qna.css" />
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,13 +21,118 @@
 </script>
 <style>
 	.qna{margin:50px auto; padding:0 350px;}
+	.qna_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
+	.qna_header_one{display: block;}
+	.qna_header_two{display: block; padding-right: 5px;}
+	.qna_header_title{font-size: large;}
+	.qna_my_table {
+	border: 2px outset #D6DCD8;
+	border-collapse: collapse;
+}
+.qna_my_table td{vertical-align: middle;}
+.qna_my_table tr, td {
+	border: 1px solid #D6DCD8;
+	border-collapse: collapse;
+	height: 40px;
+}
+
+.qna_my_table thead tr td {
+	background-color: #FBFAFA;
+}
+
+.qna_my_num {
+	width: 3%;
+	text-align: center;
+	min-width: 30px;
+}
+
+.qna_my_product_code {
+	width: 10%;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100px;
+	font-size: small;
+	padding-left: 5px;
+}
+
+.qna_my_title {
+	width: 20%;
+	padding-left: 10px;
+	min-width: 300px;
+}
+
+.qna_my_writeDate {
+	width: 5%;
+	text-align: center;
+	min-width: 90px;
+}
+
+.qna_my_status {
+	width: 5%;
+	text-align: center;
+	min-width: 90px;
+}
+.qna_paging {
+	width: 10%;
+	margin: 0 auto;
+	display: flex;
+	padding-top: 20px;
+	justify-content: space-evenly;
+}
+
+.prev, .next {
+	text-align: center;
+	width: 30px;
+	cursor: pointer;
+}
+
+.prev {
+	margin-right: 10px;
+}
+
+.next {
+	margin-left: 10px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.qna_search {
+	padding-top: 20px;
+}
+
+#search_box {
+	border: 2px solid #474948;
+	border-radius: 2px;
+	height: 20px;
+	padding-left: 5px;
+}
+
+#search_button {
+	border-radius: 2px;
+	width: 50px;
+	height: 25px;
+	background-color: #474948;
+	color: white;
+}
+.qna_button{height: 30px; border-radius: 2px; background-color: #474948; color: white; cursor: pointer;}
 </style>
 </head>
 <body>
  	<div class="qna">
 		<div class="qna_header">
-			<div class="qna_header_title"><b>QnA</b></div>
-			<div class="qna_header_count">총 ${total_qna}건</div>
+			<div class="qna_header_one">
+				<div class="qna_header_title"><b>QnA / <font style="font-weight: bolder;">${sessionScope.member.member_id}님</font></b></div>
+				<div class="qna_header_count" style="padding-top:10px;">총 ${total_qna}건</div>
+			</div>
+			<div class="qna_header_two">
+				<div class="empty">&nbsp;</div>
+				<div class="qna_header_back"><input type="button" class="qna_button" onclick="history.back()" value="목록보기"/></div>
+			</div>
 		</div>
 		<div class="qna_body">
 			<table class="qna_my_table">
@@ -52,7 +155,7 @@
 						<c:forEach var="qna" items="${qna_list}" varStatus="num">
 							<tr>
 								<td class="qna_my_num">${(total_qna) - (num.index)}</td>
-								<td class="qna_my_product_code">${qna.product_code}</td>
+								<td class="qna_my_product_code">${qna.product_name}</td>
 								<td class="qna_my_title"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}">${qna.qna_title}</a></td>
 								<td class="qna_my_writeDate">${qna.qna_regDate}</td>
 								<c:if test="${qna.qna_status == 0}">

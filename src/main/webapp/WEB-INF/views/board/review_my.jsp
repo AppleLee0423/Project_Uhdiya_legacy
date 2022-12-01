@@ -10,13 +10,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="${path}/resources/css/reset.css" />
-<link rel="stylesheet" href="${path}/resources/css/review.css" />
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-	.review{margin:50px auto; padding:0 350px;}
+	.review{margin:50px auto; padding: 0 350px;}
+	.review_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
+	.review_header_one{display: block;}
+	.review_header_two{display: block; padding-right: 5px;}
+	.review_header_title{font-size: large;}
+	.review_body{margin: 20px auto; width:100%;}
+	.review_my_table{border: 2px outset #D6DCD8; border-collapse: collapse; width:100%;}
+	.review_my_table thead tr td {background-color: #FBFAFA;}
+	.review_my_table tr{border-bottom: 1px solid #D6DCD8; text-align: center;}
+	.review_my_table td {height:40px; vertical-align: middle;}
+	.review_my_num{width:50px;}
+	.review_my_product_code{width:100px; font-size: small; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+	.review_my_title{width:300px;}
+	.review_my_star{width:100px;}
+	.review_my_writeDate{width:100px;}
+	.my_review_image{width:100px; transition: all 1.0s;}
+	.my_review_image:hover{transform:scale(3.0); overflow: hidden; z-index: 3;}
+	.review_add{text-align:-webkit-right;	padding-top: 5px;}
+	.review_add_button {width:100px; height: 25px; border-radius: 2px; background-color: #474948; color: white; text-align: center; padding:0; padding-top:8px; font-size:12pt;}
+	.rate_in {color: rgb(248, 152, 29, 0.99);}
+	.rate_out {color: rgb(108, 117, 125, 0.99);}
+	.review_page_button{height: 30px; border-radius: 2px; background-color: #474948; color: white; cursor: pointer;}
+	button{border:0; background-color: transparent; color:white;}
+	.review_paging {
+	width: 10%;
+	margin: 0 auto;
+	display: flex;
+	padding-top: 20px;
+	justify-content: space-evenly;
+}
+
+.review_search {
+	padding-top: 20px;
+}
+
+.prev, .next {
+	text-align: center;
+	width: 30px;
+	cursor: pointer;
+}
+
+.prev {
+	margin-right: 10px;
+}
+
+.next {
+	margin-left: 10px;
+}
+
+#search_box {
+	border: 2px solid #474948;
+	border-radius: 2px;
+	height: 20px;
+	padding-left: 5px;
+}
+
+#search_button {
+	border-radius: 2px;
+	width: 50px;
+	height: 25px;
+	background-color: #474948;
+	color: white;
+}
 </style>
 <script>
 	function search(){
@@ -28,15 +88,21 @@
 <body>
 	<div class="review">
 		<div class="review_header">
-			<div class="review_header_title"><b>MY REVIEW</b></div>
-			<div class="review_header_count">총 ${total_review}건</div>
+			<div class="review_header_one">
+				<div class="review_header_title"><b>MY REVIEW / <font style="font-weight: bolder;">${sessionScope.member.member_id}님</font></b></div>
+				<div class="review_header_count" style="padding-top:10px;">총 ${total_review}건</div>
+			</div>
+			<div class="review_header_two">
+				<div class="empty">&nbsp;</div>
+				<div class="review_header_back"><input type="button" class="review_page_button" onclick="history.back()" value="목록보기"/></div>
+			</div>
 		</div>
 		<div class="review_body">
 			<table class="review_my_table">
 				<thead>
 					<tr>
 						<td class="review_my_num">번호</td>
-						<td class="review_my_product_code" width="100px">상품</td>
+						<td class="review_my_product_code">상품</td>
 						<td class="review_my_title">제목</td>
 						<td class="review_my_star">별점</td>
 						<td class="review_my_writeDate">작성일</td>
@@ -52,7 +118,7 @@
 					<c:forEach var="review" items="${review_list}" varStatus="num">
 						<tr>
 						<td class="review_my_num">${total_review - num.index}</td>
-						<td class="review_my_product_code">${review.product_code}</td>
+						<td class="review_my_product_code">${review.product_name}</td>
 						<td class="review_my_title"><a href="${path}/board/review_page?review_writeId=${review.review_writeId}&review_id=${review.review_id}">${review.review_title}</a></td>
 						<td class="review_my_star">
 							<span class="rate_in">

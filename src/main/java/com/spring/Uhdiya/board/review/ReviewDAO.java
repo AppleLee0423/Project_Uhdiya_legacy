@@ -1,11 +1,15 @@
 package com.spring.Uhdiya.board.review;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.spring.Uhdiya.board.qna.QnaDTO;
+import com.spring.Uhdiya.board.qna.QnaFileDTO;
 
 @Repository
 public class ReviewDAO {
@@ -24,6 +28,11 @@ public class ReviewDAO {
 	public List<ReviewDTO> product_review(Map<String, Object> pageMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.review.product_review",pageMap);
+	}
+	
+	public List<ReviewFileDTO> product_review_file(Map<String, Object> pageMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.review.product_review_file",pageMap);
 	}
 
 	public int total_product_review(String product_code) {
@@ -91,4 +100,16 @@ public class ReviewDAO {
 		sqlSession.delete("mapper.review.delete_review",review_id);
 		sqlSession.delete("mapper.review.delete_review_file",review_id);
 	}
+
+	public Map<String, Object> one_review(int review_id) {
+		// TODO Auto-generated method stub
+		ReviewDTO reviewDTO = sqlSession.selectOne("mapper.review.one_review", review_id);
+		List<ReviewFileDTO> reviewFileList = sqlSession.selectList("mapper.review.one_review_file", review_id);
+		Map<String, Object> reviewMap = new HashMap<String, Object>();
+		reviewMap.put("reviewDTO", reviewDTO);
+		reviewMap.put("reviewFileList", reviewFileList);
+		return reviewMap;
+	}
+
+	
 }

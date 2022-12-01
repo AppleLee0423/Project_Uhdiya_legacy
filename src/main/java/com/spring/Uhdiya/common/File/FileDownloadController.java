@@ -18,7 +18,6 @@ public class FileDownloadController {
 	@RequestMapping("/product_download")
 	public void product_download
 	(@RequestParam("product_fileName") String product_fileName, @RequestParam("product_code") String product_code, HttpServletResponse response) throws Exception {
-//		String UHDIYA_IMAGE_REPO = "C:\\najin\\uhdiya";
 		String UHDIYA_IMAGE_REPO = FILE_REPO + "\\product";
 		OutputStream out = response.getOutputStream();
 		String downFile = UHDIYA_IMAGE_REPO + "\\" + product_code + "\\" + product_fileName;

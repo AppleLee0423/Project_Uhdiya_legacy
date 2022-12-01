@@ -41,6 +41,7 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	
 	// 로그인처리
 	@RequestMapping(value="loginMember", method=RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response)
@@ -48,27 +49,37 @@ public class MemberController {
 		// TODO Auto-generated method stub
 		ModelAndView mav = new ModelAndView();
 		
-		System.err.println(member.getMember_id());
-		System.err.println(member.getMember_password());
-		
 		MemberDTO memberDTO = memberService.login(member);
-		System.err.println(memberDTO.toString());
 		if(memberDTO != null) {
 			HttpSession session = request.getSession();
-			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
-			String viewName = (String) request.getAttribute("viewName");
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
 			
 			mav.setViewName("redirect:/main");
-			
-			if( "admin".equals(memberDTO.getMember_id()) ) {
-				mav.setViewName("redirect:/main");
-			}
 		} else {
 			rAttr.addAttribute("result", "loginFailed");
 			mav.setViewName("redirect:/member/login");
 		}
+		return mav;
+	}
+	
+	// 로그아웃
+	@RequestMapping("logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		
+		session.invalidate();
+		
+		out.println("<script>");
+		out.println("alert('로그아웃 되었습니다.');");
+		out.println("</script>");
+		
+		mav.setViewName("redirect:/main");
+		
 		return mav;
 	}
 	
@@ -100,15 +111,8 @@ public class MemberController {
 			rAttr.addAttribute("result","joinfailed");
 			mav.setViewName("redirect:/member/memberForm");
 			System.out.println("가입실패");
-			return mav;
-//			pw.println("<script>");
-//			pw.println( "alert('회원가입이 되지않았습니다. 다시 시도해주세요');");
-//			pw.println("</script>");
-//			return null;
-			
+			return mav;			
 		}
-	
-		
 	}
     // 아이디중복체크
 	

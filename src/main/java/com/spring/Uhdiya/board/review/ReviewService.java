@@ -28,9 +28,11 @@ public class ReviewService {
 		// TODO Auto-generated method stub
 		Map<String,Object> reviewMap = new HashMap<String, Object>();
 		List<ReviewDTO> review_list = reviewDAO.product_review(pageMap);
+		List<ReviewFileDTO> review_fileList = reviewDAO.product_review_file(pageMap);
 		String product_code = (String) pageMap.get("product_code");
 		int total_review = reviewDAO.total_product_review(product_code);
 		reviewMap.put("review_list", review_list);
+		reviewMap.put("review_fileList", review_fileList);
 		reviewMap.put("total_review", total_review);
 		return reviewMap;
 	}
@@ -59,5 +61,10 @@ public class ReviewService {
 	public void delete_review(int review_id) {
 		// TODO Auto-generated method stub
 		reviewDAO.delete_review(review_id);
+	}
+
+	public Map<String, Object> one_review(int review_id) {
+		// TODO Auto-generated method stub
+		return reviewDAO.one_review(review_id);
 	}
 }

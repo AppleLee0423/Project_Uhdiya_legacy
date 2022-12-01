@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.Uhdiya.member.MemberDTO;
+
 @Controller
 @RequestMapping("/board/**")
 public class NoticeController {
@@ -72,12 +74,13 @@ public class NoticeController {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
-		/*
 		HttpSession session = request.getSession();
-		MemderDTO dto = session.getAttribute("member");
-		String member_id = dto.getMember_id;
-		mav.addObject("member_id", member_id);
-		*/
+		MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		
+		if(dto != null) {
+			String member_id = dto.getMember_id();
+			mav.addObject("member_id", member_id);
+		}
 		
 		Map<String, Object> noticeMap = noticeService.one_notice(notice_id);
 		mav.addObject("noticeMap", noticeMap);
@@ -88,27 +91,24 @@ public class NoticeController {
 	@RequestMapping("noticeForm")
 	public ModelAndView noticeForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		ModelAndView mav = null;
 		String viewName = (String) request.getAttribute("viewName");
-		mav = new ModelAndView(viewName);
+		ModelAndView mav = null;
+		PrintWriter out = response.getWriter();
 		
-		/* 
-		session 값 받아서 admin 일때만 가능하게
-
 		HttpSession session = request.getSession();
-		MemberDTO member = session.getAttribute("member");
-		if(member.getMember_id == "admin") {
-			String viewName = (String) request.getAttribute("viewName");
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
+		
+		if(isLogOn == true && member_id.equals("admin")) {
+			viewName = (String) request.getAttribute("viewName");
 			mav = new ModelAndView(viewName);
 		} else {
 			out.println("<script>");
 			out.println("alert('관리자 로그인이 필요합니다.');");
-			out.println("location.href='"+request.getContextPath()+"/board/login';");
+			out.println("location.href='"+request.getContextPath()+"/member/login';");
 			out.println("</script>");
 		}
-		*/
-		
 		return mav;
 	}
 	
@@ -136,14 +136,13 @@ public class NoticeController {
 			}
 			noticeMap.put("imageList", imageList);
 		}
-		/*
+		
 		HttpSession session = multiRequest.getSession();
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
-		*/
-		noticeMap.put("notice_writeId", "admin");
-
+		String notice_writeId = member.getMember_id();
 		
+		noticeMap.put("notice_writeId", notice_writeId);
+
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
@@ -231,14 +230,6 @@ public class NoticeController {
 			}
 			noticeMap.put("imageList", imageList);
 		}
-		
-		/*
-		HttpSession session = multiRequest.getSession();
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
-		String notice_writeId = member.getId();
-		*/
-		
-		noticeMap.put("notice_writeId", "admin");
 		
 		String message;
 		HttpHeaders headers = new HttpHeaders();

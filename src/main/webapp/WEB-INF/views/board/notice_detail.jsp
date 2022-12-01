@@ -8,7 +8,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- <link rel="stylesheet" href="${path}/resources/css/reset.css" /> --%>
 <link rel="stylesheet" href="${path}/resources/css/notice.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +21,6 @@
 	}
 	#notice_form_content_view{
 		width: 100%;
-		/* min-height: 200px; */
 		overflow: hidden;
 		display: block;
 		background-color: transparent;
@@ -40,23 +38,16 @@
 	text-align: right;
 	padding-top: 5px;
 	}
-	.notice_detail_button{
-		background-color: transparent; border: none;
-		font-size: medium;
-	}
+	.notice_detail_button{background-color: transparent; border: none; font-size: medium; cursor: pointer;}
 	.update_set{display: none;}
+	#image_insert{margin:10px 0;}
 </style>
 <script>
 	let cnt = 1;
+	// 내용 오토사이징
 	$(function(){
 		autosize(document.querySelector('textarea'));
 	});
-	/* 
-	$('textarea').each(function(){
-		  autosize(this);
-		}).on('autosize:resized', function(){
-		  console.log('textarea height updated');
-	}); */
 	
 	// 파일추가 버튼
 	function fn_addFile(){
@@ -142,7 +133,7 @@
 								<span class="notice_detail_count">${noticeDTO.notice_count}</span>
 							</div>
 							<div class="update_set">
-								<h3 class="notice_detail_title"><input type="text" name="notice_title" value="${noticeDTO.notice_title}"/></h3>
+								<h3 class="notice_detail_title"><input type="text" id="notice_form_title" name="notice_title" value="${noticeDTO.notice_title}"/></h3>
 								<span class="notice_detail_writeDate">${noticeDTO.notice_regDate}</span>
 								<span class="notice_detail_partition">I</span>
 								<span class="notice_detail_count">${noticeDTO.notice_count}</span>
@@ -164,7 +155,7 @@
 									</li>
 								</c:if>
 							</div>
-							<div class="update_set">
+							<div class="update_set" id="image_insert">
 								<label for="file">
   									<div class="btn-upload">파일추가</div>
 								</label>
@@ -177,17 +168,16 @@
 						</li>
 					</ul>
 				</div>
-				<%-- <c:if test="${member.member_id == 'admin'}"></c:if> --%>
+				<c:if test="${member_id != null && member_id == 'admin'}">
 				<div class="view_set" id="notice_detail_button_on">
 					<input type="button" class="notice_detail_button" onclick="update_set(this.form)" value="수정하기"/>
 					<input type="button" class="notice_detail_button" onclick="delete_notice('${path}/board/delete_notice',${noticeDTO.notice_id})" value="삭제하기"/>
-					
 				</div>
 				<div class="update_set" id="notice_detail_button_off" >
 					<input type="button" class="notice_detail_button" onclick="update_notice(this.form)" value="수정하기"/>
 					<input type="button" class="notice_detail_button" onclick="form_reset(${noticeDTO.notice_id})" value="취소"/>
-					
 				</div>
+				</c:if>
 			</form>
 		</div>
 	</div>

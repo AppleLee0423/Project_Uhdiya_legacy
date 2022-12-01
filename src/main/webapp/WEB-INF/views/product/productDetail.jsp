@@ -124,6 +124,7 @@ function cateS() {
 	margin: 40px auto;
 	min-height: 520px;
 }
+hr{width:900px;}
 </style>
 </head>
 <body>
@@ -295,18 +296,30 @@ function cateS() {
 			
 		</div>
 		
+		<hr>
+		
 		<!-- 상품후기 -->
 		<p class="boardReview"></p> <!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_review" align="center"> 
 			<p id="boardReview"></p><!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
-			<jsp:include page="/WEB-INF/views/board/review_product.jsp" ></jsp:include>
+			<c:import url="/board/review_product">
+				<c:param name="product_code" value="${product.product_code}" />
+				<c:param name="product_cateL" value="${param.product_cateL}" />
+				<c:param name="product_cateS" value="${param.product_cateS}" />
+			</c:import>
 		</div>
+		
+		<hr>
 		
 		<!-- 상품문의  -->
 		<p class="boardQna"></p><!-- 메뉴바 스크롤반응위치  -->
 		<div class="contentsMain_board_qna" align="center"> 
 			<p id="boardQna"></p> <!-- 클릭이동한곳(스크롤반응 위치 보다 아래있어야 버튼색상이 클릭할때 변경됨) -->
-			<jsp:include page="/WEB-INF/views/board/qna_product.jsp" ></jsp:include>
+			<c:import url="/board/qna_product">
+				<c:param name="product_code" value="${product.product_code}" />
+				<c:param name="product_cateL" value="${param.product_cateL}" />
+				<c:param name="product_cateS" value="${param.product_cateS}" />
+			</c:import>
 		</div>
 	</div>
 </div>

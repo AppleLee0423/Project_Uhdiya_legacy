@@ -91,12 +91,4 @@ public class MemberDTO {
 	public void setAddDetail(String addDetail) {
 		this.addDetail = addDetail;
 	}
-	
 }
-
-	
-	
-	
-	
-
-
