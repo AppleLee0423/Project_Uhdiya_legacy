@@ -84,6 +84,18 @@ function del_product(del_product_code){
 		alert('상품정보 삭제가 취소되었습니다. 상품코드('+del_product_code+')의 정보가 삭제되지 않았습니다.');
 	}
 }
+function cateLitemChange(){
+	let selectItemL = $('#product_cateL').val();
+	if(selectItemL != ''){
+		$('#product_cateS').val('').prop('selected',true);
+	}
+}
+function cateSitemChange(){
+	let selectItemS = $('#product_cateS').val();
+	if(selectItemS != ''){
+		$('#product_cateL').val('').prop('selected',true);
+	}
+}
 </script>
 <style>
 .modProductList{
@@ -304,7 +316,7 @@ function del_product(del_product_code){
 						<span class="search_box_form_sub_txt">상품 대분류로 검색</span>
 					</div>
 					<div class="search_box_form_obj">
-						<select class="cateSel" onchange="itemChange()" id="product_cateL">
+						<select class="cateSel" id="product_cateL" onchange="cateLitemChange()">
 							<option value="">전체</option>
 							<option value="커피">커피</option>
 							<option value="스틱커피">스틱커피</option>
@@ -316,7 +328,7 @@ function del_product(del_product_code){
 						<span class="search_box_form_sub_txt">상품 소분류로 검색</span>
 					</div>
 					<div class="search_box_form_obj">
-						<select class="cateSel"  id="product_cateS">
+						<select class="cateSel"  id="product_cateS" onchange="cateSitemChange()">
 							<option value="">전체</option>
 							
 							<option value="홀빈원두">커피 > 홀빈원두</option>

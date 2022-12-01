@@ -20,6 +20,9 @@
 		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
 		
 		<!-- shoppingList -->
+		<typeAlias type="com.spring.Uhdiya.cart.CartDTO" alias="cartDTO" />
+		<typeAlias type="com.spring.Uhdiya.cart.CartListDTO" alias="cartListDTO" />
+		<typeAlias type="com.spring.Uhdiya.order.OrderDTO" alias="orderDTO" />
 		
 		<!-- product -->
 		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />

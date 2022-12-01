@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cart">
+<!-- 리절트 맵 정의 -->	
+	<resultMap id="cartResult" type="CartDTO">
+		<result property="member_id" column="member_id" />
+		<result property="product_code" column="product_code" />
+		<result property="cart_qty" column="cart_qty" />
+	</resultMap>	
+	
+	<resultMap id="cartListResult" type="CartListDTO">
+		<result property="cart_seq_num" column="cart_seq_num" />
+		<result property="member_id" column="member_id" />
+		<result property="product_code" column="product_code" />
+		<result property="product_name" column="product_name" />
+		<result property="product_fileName" column="product_fileName" />
+		<result property="product_price" column="product_price" />
+		<result property="cart_qty" column="cart_qty" />
+	</resultMap>	
+	
+	
+	<!-- 장바구니 수량변경 -->
+	<update id="qtyChange" parameterType="java.util.Map">
+		<![CDATA[
+			update cart set cart_qty=#{cart_qty}
+			    where member_id = #{member_id}
+			        and product_code = #{product_code}
+		]]>
+	</update>
+
+	<!-- 장바구니 중복체크 -->
+	<select id="cartSameCode" parameterType="CartDTO" resultType="int">
+        <![CDATA[
+       select count(*) from cart
+    		where member_id = #{member_id}
+        		and product_code = #{product_code}
+	    ]]>
+	</select>
+	
+
+	<!-- 상품삭제 -->
+	<delete id="del" parameterType="java.util.Map">
+		<![CDATA[
+			delete from cart 
+				where product_code=#{product_code} 
+					and member_id = #{member_id}
+		]]>
+	</delete>
+
+	<!-- 장바구니 상품수 카운트 -->
+    <select id="cartListCount" parameterType="String" resultType="int">
+        <![CDATA[
+       select count(*) from cart where member_id = #{member_id}
+	    ]]>
+	</select>
+
+	<!-- 장바구니리스트 -->
+    <select id="cartList" parameterType="String" resultMap="cartListResult"   >
+        <![CDATA[
+        select c.*,p.product_name,f.product_fileName,p.product_price
+   			 from cart c, product p, product_file f
+		        where c.product_code = p.product_code
+		        and c.member_id = #{member_id}
+		        and p.product_code = f.product_code
+		        and f.product_fileType = 'main'
+		            order by c.cart_seq_num desc
+	    ]]>
+	</select>
+	
+
+
+	<!-- 장바구니추가 -->
+	<insert id="addCart" parameterType="CartDTO">
+		<![CDATA[
+		INSERT INTO cart
+		VALUES(cart_seq.nextval, #{member_id}, #{product_code},#{cart_qty})
+		]]>
+	</insert>
+	
+	
+
+	
+	
+	
+</mapper>
