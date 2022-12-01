@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="${path}/resources/css/mypage.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+	.between>button{width:225px;}
+</style>
 </head>
 <body>
     <div class="mypageAll">
