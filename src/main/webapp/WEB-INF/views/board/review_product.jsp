@@ -63,6 +63,8 @@
 		background-color: #fefefe;
 		border: 1px solid #888;
 	}
+	.content_show{display: table-row;}
+	.content_hide{display: none;}
 </style>
 <script>
 	$(document).ready(function(){
@@ -87,20 +89,6 @@
 			$('.qna_modal').css("display","none");
 			$('body').css("overflow","unset");
 		};
-	}
-	
-	// 눌렀을때 드롭
-	function review_dropdown(obj,number){
-		$('#review_list').css("background-color","transparent"); 
-		obj.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
-		
-		for(let i=0; i<${total_review}; i++){
-			let review_content = $('tr#review_content_'+i);
-			review_content.css("display","none");
-		}
-		
-		let review_content = $('tr#review_content_'+number); 
-		review_content.css("display","table-row");
 	}
 	
 	function req_login(){
@@ -143,10 +131,11 @@
 						<tr id="review_list" onclick="review_dropdown(this,${num.index})">
 							<td class="review_product_num">${total_review - num.index}</td>
 							<td class="review_product_title" style="text-align: left;">
-								<a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">${review.review_title}</a> 
+								<%-- <a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">${review.review_title}</a>  --%>
+								<a href="${path}/board/review_page?review_id=${review.review_id}">${review.review_title}</a> 
 							</td>
 							<td class="review_product_writer">
-								<c:if test="${fn:length(review.review_writeId) < 5}">
+								<c:if test="${fn:length(review.review_writeId) < 5 || fn:length(review.review_writeId) == 5}">
 									${fn:substring(review.review_writeId,0,2)}
 									<c:forEach begin="3" end="${fn:length(review.review_writeId)}" step="1">
 										*
@@ -173,20 +162,18 @@
 								</span>
 							</td>
 						</tr>
-						<tr id="review_content_${num.index}" style="display:none;">
+						<tr id="review_content_${num.index}" class="content_hide">
 							<td class="review_product_num">&nbsp;</td>
 							<td class="review_product_content" colspan="4" style="text-align: left;">${review.review_content}</td>
 						</tr>
 						<c:forEach var="list" items="${review_fileList}">
 							<c:if test="${list.review_id == review.review_id}">
-								<tr id="review_content_${num.index}" style="display:none;">
+								<tr id="review_image_${num.index}" class="content_hide">
 									<td class="review_product_num">&nbsp;</td>
 									<td class="review_product_content" colspan="4" style="text-align: left;">
-										<c:forEach var="item" items="${review_fileList}" varStatus="imgnum">
-											<div class="zoom">
-												<img class="product_review_image" src="${path}/review_download?review_id=${review.review_id}&review_fileName=${item.review_fileName}" style="padding: 10px;"/>
-											</div>
-										</c:forEach>
+										<div class="zoom">
+											<img class="product_review_image" src="${path}/review_download?review_id=${review.review_id}&review_fileName=${list.review_fileName}" style="padding: 10px;"/>
+										</div>
 									</td>
 								</tr>
 							</c:if>
@@ -254,5 +241,21 @@
 		</c:if>
 		</div>
 	</div>
+	
+<script>
+//눌렀을때 드롭
+function review_dropdown(obj,number){
+	let type = $('#review_content_'+number).attr('class');
+	
+	if(type == 'content_hide'){
+		$('#review_content_'+number).attr('class','content_show');
+		$('#review_image_'+number).attr('class','content_show');
+		obj.style.backgroundColor = 'rgba(139, 163, 167, 0.1)';
+	} else if(type == 'content_show'){
+		$('#review_content_'+number).attr('class','content_hide');
+		$('#review_image_'+number).attr('class','content_hide');
+		obj.style.backgroundColor = 'transparent';
+	}
+}</script>
 </body>
 </html>

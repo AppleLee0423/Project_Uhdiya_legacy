@@ -36,7 +36,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/board/review_my.jsp" />
 	</definition>
 	<definition name="/board/review_page" extends="baseLayout">
-		<put-attribute name="title" value="QNA - UHDIYA STORE" />
+		<put-attribute name="title" value="REVIEW - UHDIYA STORE" />
 		<put-attribute name="body" value="/WEB-INF/views/board/review_detail.jsp" />
 	</definition>
 	

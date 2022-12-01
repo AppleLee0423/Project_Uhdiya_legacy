@@ -143,8 +143,8 @@ public class ReviewController {
 	// 리뷰 상세페이지
 	@RequestMapping("/review_page")
 	public ModelAndView review_page
-	(@RequestParam("review_id")int review_id, @RequestParam("review_writeId")String review_writeId, HttpServletRequest request, HttpServletResponse response) 
-			throws Exception{
+	(@RequestParam("review_id")int review_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		//, @RequestParam("review_writeId")String review_writeId, 
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
@@ -223,7 +223,7 @@ public class ReviewController {
 			
 			message = "<script>";
 			message += "alert('상품후기를 추가했습니다.');";
-			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+			message += "location.href='"+request.getContextPath()+"/product/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
 //			message += "history.go(-2);";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
@@ -271,8 +271,8 @@ public class ReviewController {
 	}
 
 	// Review 수정
-	@RequestMapping("/updateReview")
-	public ResponseEntity<String> updateReview(@RequestParam("review_id")int review_id, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/update_review")
+	public ResponseEntity<String> update_review(@RequestParam("review_id")int review_id, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("UTF-8");
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> reviewMap = new HashMap<String, Object>();
@@ -336,12 +336,14 @@ public class ReviewController {
 	}
 	
 	// Review 삭제
-	@RequestMapping("/deleteReview")
-	public ResponseEntity<String> deleteReview(@RequestParam("review_id")int review_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping("/delete_review")
+	public ResponseEntity<String> delete_review(@RequestParam("review_id")int review_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ResponseEntity<String> resEnt = null;
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
+		
+//		Integer review_id = Integer.parseInt(request.getParameter("review_id"));
 		
 		try {
 			File destDir = new File(UHDIYA_IMAGE_REPO+"\\"+review_id);

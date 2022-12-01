@@ -38,11 +38,9 @@
 	text-align: right;
 	padding-top: 5px;
 	}
-	.notice_detail_button{
-		background-color: transparent; border: none;
-		font-size: medium;
-	}
+	.notice_detail_button{background-color: transparent; border: none; font-size: medium; cursor: pointer;}
 	.update_set{display: none;}
+	#image_insert{margin:10px 0;}
 </style>
 <script>
 	let cnt = 1;
@@ -135,7 +133,7 @@
 								<span class="notice_detail_count">${noticeDTO.notice_count}</span>
 							</div>
 							<div class="update_set">
-								<h3 class="notice_detail_title"><input type="text" name="notice_title" value="${noticeDTO.notice_title}"/></h3>
+								<h3 class="notice_detail_title"><input type="text" id="notice_form_title" name="notice_title" value="${noticeDTO.notice_title}"/></h3>
 								<span class="notice_detail_writeDate">${noticeDTO.notice_regDate}</span>
 								<span class="notice_detail_partition">I</span>
 								<span class="notice_detail_count">${noticeDTO.notice_count}</span>
@@ -157,7 +155,7 @@
 									</li>
 								</c:if>
 							</div>
-							<div class="update_set">
+							<div class="update_set" id="image_insert">
 								<label for="file">
   									<div class="btn-upload">파일추가</div>
 								</label>

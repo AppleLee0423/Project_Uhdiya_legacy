@@ -18,7 +18,7 @@
 	.qna_form_li_seceond{padding: 10px 0;}
 	.qna_form_title{width:100%; height:30px;}
 	.qna_form_content{width:100%; resize: none;}
-	#file {display: none;}
+	#file_qna {display: none;}
 	.btn-upload {width: 100px; height: 30px; background: #474948; color: #fff; border: 1px solid rgb(77,77,77); border-radius: 10px; 
 				font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 	.btn-upload:hover {background: #fff; color: black;}
@@ -28,22 +28,27 @@
 </style>
 <script>
 	let qna_cnt = 1;
-	function fn_addFile(){
-		$("#d_file").append("<br><input type='file' name='qna_fileName"+qna_cnt+"' onchange='readURL(this)'>'");
-		$(".image_preview").append("<img src='#' id='preview"+qna_cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
+	function qna_addFile(){
+		$("#e_file").append("<br><input type='file' name='qna_fileName"+qna_cnt+"' onchange='q_readURL(this)'>");
+		$(".image_q_preview").append("<img src='#' id='q_preview"+qna_cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
 		qna_cnt++;
 	}
-	function readURL(input){
+	function q_readURL(input){
 		if(input.files && input.files[0]){
 			let reader = new FileReader();
 			reader.onload = function(e) {
-				$("#preview"+(qna_cnt-1)).attr('src', e.target.result);
+				$("#q_preview"+(qna_cnt-1)).attr('src', e.target.result);
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
 	}
 	
 	function fn_qna_close(){
+		$('#e_file').empty();
+		$('.image_q_preview').empty();
+		$('.qna_form_title').val('');
+		$('.qna_form_content').val('');
+		
 		$('.qna_modal').css("display","none");
 		$('body').css("overflow","unset");
 	}
@@ -55,6 +60,11 @@
 			$('.review_modal').css("display","none");
 			$('.qna_modal').css("display","none");
 			$('body').css("overflow","unset");
+			
+			$('#e_file').empty();
+			$('.image_q_preview').empty();
+			$('.qna_form_title').val('');
+			$('.qna_form_content').val('');
 		};
 	}
 	
@@ -89,19 +99,19 @@
 					</li>
 					
 					<li class="qna_form_li_seceond">
-						<label for="file">
+						<label for="file_qna">
   							<div class="btn-upload">파일추가</div>
 						</label>
-						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
-						<div id="d_file"></div>	
+						<input type="button" id="file_qna" value="파일추가" onclick="qna_addFile()"/>
+						<div id="e_file" style="text-align: left;"></div>	
 					</li>
 					
 					<li class="qna_form_li" style="border-bottom: 1px solid #6C757D">
-						<div class="image_preview"></div>
+						<div class="image_q_preview" style="text-align: left;"></div>
 					</li>
 					
 					<li class="qna_form_li" style="text-align: left;">
-						<span style="font-size: small; color: #6C757D">문의하신 내용에 대한 답변은 <font color="black" style="font-weight: bold;">마이페이지>문의내역</font> 에서 확인가능합니다.</span>
+						<span style="font-size: small; color: #6C757D">문의하신 ${qna_writeId} 내용에 대한 답변은 <font color="black" style="font-weight: bold;">마이페이지>문의내역</font> 에서 확인가능합니다.</span>
 						<br><br>
 					</li>
 				</ul>

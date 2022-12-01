@@ -8,13 +8,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- <link rel="stylesheet" href="${path}/resources/css/qna.css" /> --%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <script>
-	function delete_page(qna_id){
+	function delete_qna(qna_id){
 		if(confirm('삭제하시겠습니까?')){
 			location.href='${path}/board/delete_qna?qna_id='+qna_id;
 		} else{
@@ -30,7 +29,7 @@
 	.qna_header{display:flex; text-align: left; padding-bottom: 10px; justify-content: space-between;}
 	.qna_header_title{font-size: large;}
 	.qna_header_back{height:30px;}
-	.qna_page_button{height: 30px; border-radius: 2px; background-color: #474948; color: white;}
+	.qna_page_button{height: 30px; border-radius: 2px; background-color: #474948; color: white; cursor: pointer;}
 	.qna_body{margin: 20px auto; width:100%;}
 	.qna_page_table{border: 2px outset #D6DCD8; border-collapse: collapse; width:100%;}
 	.qna_page_table tr{border-bottom: 1px solid #D6DCD8;}
@@ -49,7 +48,9 @@
 		resize: none;
 		padding-left: 5px;
 		}
-	.qna_page_image img {width:70px; height:70px;}
+	.qna_detail_image{width:70px; height:70px; transition: all 1.0s;}
+	.qna_detail_image:hover {transform:scale(3.0); overflow: hidden; z-index: 3;}
+	tr{height:60px;}
 </style>
 </head>
 <body>
@@ -85,11 +86,11 @@
 				<c:if test="${not empty qnaFileList}">
 					<tr>
 						<td class="qna_page_td">첨부파일</td>
-						<td class="qna_page_image" height="100px">
+						<td class="qna_page_image">
 							<ul>
 								<c:forEach var="item" items="${qnaFileList}">
 									<li>
-										<img src="${path}/qna_download?qna_id=${qnaDTO.qna_id}&qna_fileName=${item.qna_fileName}" style="padding: 10px;"/><br>
+										<img class="qna_detail_image" src="${path}/qna_download?qna_id=${qnaDTO.qna_id}&qna_fileName=${item.qna_fileName}" style="padding: 10px;"/><br>
 									</li>
 								</c:forEach>
 							</ul>
@@ -98,7 +99,8 @@
 				</c:if>
 			</table>
 			<div class="qna_footer">
-				<input type="button" class="qna_page_button" onclick="delete_page(${qnaDTO.qna_id})" value="삭제하기"/>
+				<input type="button" class="qna_page_button" onclick="delete_qna(${qnaDTO.qna_id})" value="삭제하기"/>
+				<br><br>
 			</div>
 		</div>
 	</div>

@@ -160,6 +160,9 @@ public class QnaController {
 				mav = new ModelAndView(viewName);
 				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
 				mav.addObject("qnaMap",qnaMap);
+			} else {
+				message2(request, response);
+				return null;
 			}
 		} else {
 			message2(request, response);
@@ -237,7 +240,7 @@ public class QnaController {
 			String product_code = request.getParameter("product_code");
 			message = "<script>";
 			message += "alert('문의글을 추가했습니다.');";
-			message += "location.href='"+request.getContextPath()+"/board/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
+			message += "location.href='"+request.getContextPath()+"/product/productDetail?product_cateL="+product_cateL+"&product_cateS="+product_cateS+"&product_code="+product_code+"';";
 			//message += "history.go(-2);";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
@@ -290,7 +293,7 @@ public class QnaController {
 
 	// Qna 수정
 	@RequestMapping("/update_qna")
-	public ResponseEntity<String> updateQna(@RequestParam("qna_id")int qna_id, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ResponseEntity<String> update_qna(@RequestParam("qna_id")int qna_id, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("UTF-8");
 		ResponseEntity<String> resEnt = null;
 		Map<String, Object> qnaMap = new HashMap<String, Object>();
@@ -355,7 +358,7 @@ public class QnaController {
 	
 	// Qna 삭제
 	@RequestMapping("/delete_qna")
-	public ResponseEntity<String> deleteQna(@RequestParam("qna_id")int qna_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ResponseEntity<String> delete_qna(@RequestParam("qna_id")int qna_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ResponseEntity<String> resEnt = null;
 		String message;
 		HttpHeaders headers = new HttpHeaders();

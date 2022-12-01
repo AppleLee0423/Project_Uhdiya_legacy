@@ -41,6 +41,7 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	
 	// 로그인처리
 	@RequestMapping(value="loginMember", method=RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response)
@@ -68,6 +69,26 @@ public class MemberController {
 			rAttr.addAttribute("result", "loginFailed");
 			mav.setViewName("redirect:/member/login");
 		}
+		return mav;
+	}
+	
+	// 로그아웃
+	@RequestMapping("logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		
+		session.invalidate();
+		
+		out.println("<script>");
+		out.println("alert('로그아웃 되었습니다.');");
+		out.println("</script>");
+		
+		mav.setViewName("redirect:/main");
+		
 		return mav;
 	}
 	

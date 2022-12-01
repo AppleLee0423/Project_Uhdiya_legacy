@@ -140,8 +140,9 @@
 						<tr>
 							<td class="qna_product_num">${total_qna - num.index}</td>
 							<td class="qna_product_title" style="text-align: left;"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}&qna_writeId=${qna.qna_writeId}"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;${qna.qna_title}</a></td>
+							<%-- <td class="qna_product_title" style="text-align: left;"><a href="${path}/board/qna_page?qna_id=${qna.qna_id}"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;${qna.qna_title}</a></td> --%>
 							<td class="qna_product_writer">
-								<c:if test="${fn:length(qna.qna_writeId) < 5}">
+								<c:if test="${fn:length(qna.qna_writeId) < 5 || fn:length(qna.qna_writeId) == 5}">
 									${fn:substring(qna.qna_writeId,0,2)}
 									<c:forEach begin="3" end="${fn:length(qna.qna_writeId)}" step="1">
 										*

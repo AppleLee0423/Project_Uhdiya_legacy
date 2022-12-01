@@ -23,7 +23,7 @@
 	.review_form_star input[type=radio]:checked ~ label {text-shadow: 0 0 0 rgb(248, 152, 29, 0.99);}
 	.review_form_title{width:100%; height:30px;}
 	.review_form_content{width:100%; resize: none;}
-	#file {display: none;}
+	#file_review {display: none;}
 	.btn-upload {width: 100px; height: 30px; background: #474948; color: #fff; border: 1px solid rgb(77,77,77); border-radius: 10px; 
 				font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 	.btn-upload:hover {background: #fff; color: black;}
@@ -33,16 +33,16 @@
 </style>
 <script>
 	let review_cnt = 1;
-	function fn_addFile(){
-		$("#d_file").append("<br><input type='file' name='review_fileName"+review_cnt+"' onchange='readURL(this)'>'");
-		$(".image_preview").append("<img src='#' id='preview"+review_cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
-		cnt++;
+	function review_addFile(){
+		$("#d_file").append("<br><input type='file' name='review_fileName"+review_cnt+"' onchange='r_readURL(this)'>");
+		$(".image_r_preview").append("<img src='#' id='r_preview"+review_cnt+"' width='100px' height='100px' style='padding-top:10px;'>");
+		review_cnt++;
 	}
-	function readURL(input){
+	function r_readURL(input){
 		if(input.files && input.files[0]){
 			let reader = new FileReader();
 			reader.onload = function(e) {
-				$("#preview"+(review_cnt-1)).attr('src', e.target.result);
+				$("#r_preview"+(review_cnt-1)).attr('src', e.target.result);
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
@@ -51,6 +51,11 @@
 	function fn_review_close(){
 		$('.review_modal').css("display","none");
 		$('body').css("overflow","unset");
+		
+		$('#d_file').empty();
+		$('.image_r_preview').empty();
+		$('.review_form_title').val('');
+		$('.review_form_content').val('');
 	}
 	
 	window.onclick = function(event2){
@@ -60,6 +65,11 @@
 			$('.review_modal').css("display","none");
 			$('.qna_modal').css("display","none");
 			$('body').css("overflow","unset");
+			
+			$('#d_file').empty();
+			$('.image_r_preview').empty();
+			$('.review_form_title').val('');
+			$('.review_form_content').val('');
 		};
 	}
 	
@@ -108,15 +118,15 @@
 					</li>
 					
 					<li class="review_form_li_seceond">
-						<label for="file">
+						<label for="file_review">
   							<div class="btn-upload">파일추가</div>
 						</label>
-						<input type="button" id="file" value="파일추가" onclick="fn_addFile()"/>
-						<div id="d_file"></div>	
+						<input type="button" id="file_review" value="파일추가" onclick="review_addFile()"/>
+						<div id="d_file" style="text-align: left;"></div>	
 					</li>
 					
 					<li class="review_form_li" style="border-bottom: 1px solid #6C757D">
-						<div class="image_preview"></div>
+						<div class="image_r_preview" style="text-align: left;"></div>
 					</li>
 					
 					<li class="review_form_li" style="text-align: left;">
