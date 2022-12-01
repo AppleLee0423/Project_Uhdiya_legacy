@@ -101,14 +101,42 @@ function cateS() {
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS.value;
 }
 function buyNow() {
-	let member_id = document.getElementById('member_id');
+	let member_id = document.getElementById('member_id').value;
+	let product_code = document.getElementById('product_code').value;
+	let order_qty = document.getElementById('quantity').value;
 	console.log('바로구매하기 클릭');
 	let isLogOn = '<%=(Boolean)session.getAttribute("isLogOn") %>';
-	
-	console.log(member_id.value);
-	if(isLogOn){
+	console.log(isLogOn);
+	console.log(member_id);
+	console.log(product_code);
+	if(isLogOn=='true' && member_id!='' ){
 		console.log('로그인되어있음.');
 		
+		let form = document.createElement('form');
+		
+		let input_member_id = document.createElement('input');
+		input_member_id.setAttribute('type', 'hidden');
+		input_member_id.setAttribute('name', 'member_id');
+		input_member_id.setAttribute('value', member_id);
+		form.appendChild(input_member_id);
+		
+		let input = document.createElement('input');
+		input.setAttribute('type', 'hidden');
+		input.setAttribute('name', 'product_code');
+		input.setAttribute('value', product_code);
+		form.appendChild(input);
+		
+		let input2 = document.createElement('input');
+		input2.setAttribute('type', 'hidden');
+		input2.setAttribute('name', 'order_qty');
+		input2.setAttribute('value', order_qty);
+		form.appendChild(input2);
+		
+		document.body.appendChild(form);
+		
+		form.method="post";
+	 	form.action="${path}/order/addOrderDirect";
+		form.submit();		
 	}else {
 		alert('로그인 후 구매가능합니다.');
 		window.location.href='${path}/member/login';
@@ -216,6 +244,7 @@ function addCart() {
 			<!-- 페이지상단 우측 결제정보의 상품명과 가격정보 /////@@@@데이터베이스에서 상품명 가격 가져와야함@@@@-->
 			<div class="contentsIntro_productName">
 				<h1>${product.product_name }</h1>
+				<input type="hidden" id="product_code" value="${product.product_code }">
 			</div>
 			<div class="contentsIntro_payInfo">
 				<span>원산지&nbsp;&nbsp;&nbsp;</span>

@@ -118,7 +118,7 @@ function qty_change(sign,product_code,qty){
 			error: function() {
 	           alert('에러');
 	        }
-		}); 
+		});// ajax end
 	}
 }
 /* 행에서 상품선택시 총상품수 금액 업데이트 */
@@ -163,26 +163,30 @@ function selectDel(){
 			}
 		}
 		console.log(selectArr);
-		$.ajax({
-	    	url : "selectDel",
-	    	type : "post",
-	    	dataType : 'text',
-	   		data : { selectArr : selectArr,
-	   				member_id : member_id
-	   		},
-	    	success : function(data){
-	    		if(data=='y'){
-	    			alert('성공적으로 삭제되었습니다.');
-		     		location.href = "${path}/cart/cartList";
-	    		} else {
-	    			alert('오류발생하였습니다. 다시시도해주세요.');
-	    			location.href = "${path}/cart/cartList";
-	    		}
-	    	},
-			error: function() {
-	           alert('에러');
-	        }
-		}); 
+		if(selectArr==''){
+			alert('선택된 상품이 없습니다.');
+		}else {
+			$.ajax({
+		    	url : "selectDel",
+		    	type : "post",
+		    	dataType : 'text',
+		   		data : { selectArr : selectArr,
+		   				member_id : member_id
+		   		},
+		    	success : function(data){
+		    		if(data=='y'){
+		    			alert('성공적으로 삭제되었습니다.');
+			     		location.href = "${path}/cart/cartList";
+		    		} else {
+		    			alert('오류발생하였습니다. 다시시도해주세요.');
+		    			location.href = "${path}/cart/cartList";
+		    		}
+		    	},
+				error: function() {
+		           alert('에러');
+		        }
+			}); // ajax end
+		}
 	}
 }
 /* 전체선택 */

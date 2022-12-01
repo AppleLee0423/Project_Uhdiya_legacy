@@ -43,13 +43,17 @@ public class OrderController {
 	
 	@Autowired OrderService orderService;
 	
-
-	// 주문추가 (주문서작성단계)
+	// 주문서작성 리스트페이지
+	
+	
+	
+	// 장바구니에서 주문추가 (주문서작성단계)
 	@RequestMapping(value="/addOrder" ,  method =RequestMethod.POST )
 	public void addOrder(
 			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("member_id")  String member_id,
-			@RequestParam("product_code[]") List<String> product_code			) throws Exception{
+			@RequestParam("product_code[]") List<String> product_code	
+			) throws Exception{
 		//시리얼생성
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat date_format = new SimpleDateFormat("yyyyMMddHHmmss"); 
@@ -73,7 +77,6 @@ public class OrderController {
 			qtyMap.put("member_id", member_id);
 			qtyMap.put("product_code", i);
 			
-			System.out.println(qtyMap.get("member_id"));
 			System.out.println(qtyMap.get("product_code"));
 			
 			int qty = orderService.countQty(qtyMap);
@@ -84,15 +87,41 @@ public class OrderController {
 			int result = orderService.addOrder(orderMap);
 			
 			System.out.println(result);
-			
 		}
+		//return mav;  addOrderDirect
+	}
+	// 상품디테일에서 바로구매 (주문서작성단계)
+	@RequestMapping(value="/addOrderDirect" ,  method =RequestMethod.POST )
+	public void addOrderDirect(
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("member_id")  String member_id,
+			@RequestParam("product_code") String product_code,	
+			@RequestParam("order_qty") int order_qty			
+			) throws Exception{
+		//시리얼생성
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat date_format = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		String serialNum = date_format.format(date) + "-" + member_id ;  
+		
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		Map orderMap = new HashMap();
+		orderMap.put("order_id", serialNum);
+		orderMap.put("member_id", member_id);
+		orderMap.put("product_code",product_code);
+		orderMap.put("order_qty", order_qty);
+		
+		System.out.println(serialNum);
+		System.out.println(member_id);
+		System.out.println(product_code);
+		System.out.println(order_qty);
 		
 		
-		
-		
-		
-		
-		//return mav;
+		int result = orderService.addOrder(orderMap);
+		System.out.println(result);
+	
+		//return mav;  addOrderDirect
 	}
 
 	
