@@ -28,7 +28,7 @@ a{text-decoration:none; color:black;}
             		<c:when test="${isLogOn == true && member.member_id == 'admin'}">
 	            		<p id="one">${member.member_id}님</p>&nbsp;&nbsp;
 	            		<p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
-	            		<p><a href="${path}/mypage">관리자페이지</a></p>&nbsp;&nbsp;
+	            		<p><a href="${path}/adminpage">어둠이</a></p>&nbsp;&nbsp;
             		</c:when>
             		<c:otherwise>
             		  <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;

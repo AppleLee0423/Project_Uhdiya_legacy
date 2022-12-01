@@ -16,15 +16,21 @@ public class HomeController {
 		return "main";
 	}
 	
-	// 임시로 설정해놓음
+	// About us
 	@RequestMapping(value="/about")
 	public String about(Locale local, Model model) {
 		return "about";
 	}
 	
-	// 임시로 설정해놓음
+	// 회원 마이페이지
 	@RequestMapping(value="/mypage")
 	public String mypage(Locale local, Model model) {
 		return "mypage";
+	}
+	
+	// 관리자 페이지
+	@RequestMapping(value="/adminpage")
+	public String adminpage(Locale local, Model model) {
+		return "adminpage";
 	}
 }

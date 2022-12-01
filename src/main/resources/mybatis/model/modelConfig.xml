@@ -16,10 +16,8 @@
 		<typeAlias type="com.spring.Uhdiya.member.MemberDTO" alias="memberDTO"/>
 		<!-- mem -->
 		<typeAlias type="com.spring.Uhdiya.mem.MemberBean" alias="memberBean"/>
-		<!-- memJ -->
-		<typeAlias type="com.spring.Uhdiya.memJ.MemJDTO" alias="memJDTO"/>
 		
-		<!-- shoppingList -->
+		<!-- Cart & Order -->
 		<typeAlias type="com.spring.Uhdiya.cart.CartDTO" alias="cartDTO" />
 		<typeAlias type="com.spring.Uhdiya.cart.CartListDTO" alias="cartListDTO" />
 		<typeAlias type="com.spring.Uhdiya.order.OrderDTO" alias="orderDTO" />
