@@ -13,72 +13,104 @@ request.setCharacterEncoding("UTF-8");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	let cnt = 1;
-	function save() {
-		let form = document.frm;
-		let product_code = document.getElementById('product_code');
-		let product_cateL = document.getElementById('select1');
-		let product_cateS = document.getElementById('select2');
-		console.log(product_cateL.value);
-		console.log(product_cateS.value);
-		if(product_code.value==''){
-			alert('제품고유코드는 필수입력사항입니다.');
-		} 
-		else if(product_cateL.value=='대분류'){
-			alert('대분류를 반드시 선택해주세요.');
-		} 
-		else{
-			form.method="post";
-			form.action = '${path }/product/addProduct';
-			form.enctype="multipart/form-data";
-			form.submit();
-		}
+let cnt = 1;
+function save() {
+	let form = document.frm;
+	let product_code = document.getElementById('product_code');
+	let product_cateL = document.getElementById('select1');
+	let product_name = document.getElementById('product_name');
+	let product_price = document.getElementById('product_price');
+	if(product_code.value==''){
+		alert('제품고유코드는 필수입력사항입니다.');
+	} 
+	else if(product_cateL.value=='대분류'){
+		alert('대분류를 반드시 선택해주세요.');
+	} else if(product_name.value==''){
+		alert('상품명을 반드시 입력해주세요.');
+	} else if(product_price.value==''){
+		alert('상품가격을 반드시 입력해주세요.');
+	} else if(isNaN(product_price.value)) {
+		alert('상품가격은 숫자만 입력가능합니다.')
 	}
-	function cancel() {
-		let form = document.frm;
-		form.action = '${path}/product/addProductForm';
+ 	else{
+		form.method="post";
+		form.action = '${path }/product/addProduct';
+		form.enctype="multipart/form-data";
 		form.submit();
+	} 
+}
+function cancel() {
+	let form = document.frm;
+	form.action = '${path}/product/addProductForm';
+	form.submit();
+}
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			$("#preview").attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
 	}
-	function readURL(input) {
-		if (input.files && input.files[0]) {
-			let reader = new FileReader();
-			reader.onload = function(e) {
-				$("#preview").attr('src', e.target.result);
-			}
-			reader.readAsDataURL(input.files[0]);
-		}
+}
+function itemChange(){
+	var coffee = ["홀빈원두","핸드드립","캡슐커피","커피머신"];
+	var stick = ["아메리카노","라떼","커피믹스"];
+	var juice = ["주스","컵커피"];
+	var tea = ["블렌딩티","전통차"];
+	 
+	var selectItem = $("#select1").val();
+	console.log(selectItem);
+	
+	var changeItem;
+	  
+	if(selectItem == "커피"){
+	  changeItem = coffee;
 	}
-	function itemChange(){
-		var coffee = ["홀빈원두","핸드드립","캡슐커피","커피머신"];
-		var stick = ["아메리카노","라떼","커피믹스"];
-		var juice = ["주스","컵커피"];
-		var tea = ["블렌딩티","전통차"];
-		 
-		var selectItem = $("#select1").val();
-		console.log(selectItem);
-		
-		var changeItem;
-		  
-		if(selectItem == "커피"){
-		  changeItem = coffee;
-		}
-		else if(selectItem == "스틱커피"){
-		  changeItem = stick;
-		}
-		else if(selectItem == "음료"){
-		  changeItem =  juice;
-		}
-		else if(selectItem == "티"){
-		  changeItem =  tea;
-		}
-		$('#select2').empty();
-		 
-		for(var i = 0; i<changeItem.length; i++){                
-			var option = $("<option value="+changeItem[i]+">"+changeItem[i]+"</option>");
-		    $('#select2').append(option);
-		}
+	else if(selectItem == "스틱커피"){
+	  changeItem = stick;
 	}
-
+	else if(selectItem == "음료"){
+	  changeItem =  juice;
+	}
+	else if(selectItem == "티"){
+	  changeItem =  tea;
+	}
+	$('#select2').empty();
+	 
+	for(var i = 0; i<changeItem.length; i++){                
+		var option = $("<option value="+changeItem[i]+">"+changeItem[i]+"</option>");
+	    $('#select2').append(option);
+	}
+}
+function check_code() {
+	   let product_code = $('#product_code').val();
+       $.ajax({
+          url : 'productCodeCheck',
+          type : 'post',
+          dataType : 'text',
+          data : {
+             'product_code' : product_code
+          },
+          success : function(data) {
+             if( data == 'y' ) {
+                $('.possible').css("display","inline-block");
+                $('.impossible').css("display","none");
+                console.log('ajax카운트0');
+             } else {
+            	$('.possible').css("display","none");
+                $('.impossible').css("display","inline-block");
+                /* alert("이미 등록된 코드입니다. 제품고유코드를 다시입력해주세요."); */
+                /* $('#product_code').val(''); */
+                console.log('ajax카운트0아님');
+                console.log(data);
+             }
+          },
+          error: function() {
+             alert('에러');
+          }
+       });
+};
 </script>
 
 <style>
@@ -183,6 +215,56 @@ request.setCharacterEncoding("UTF-8");
   padding-left: 10px;
   background-color: rgb(233, 233, 233);
 }
+/* .addProductForm_input_code {
+  width: 400px;
+  height: 28px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
+} */
+/* .addProductForm_input_code_checkBtn{
+	background-color: #4a5164;
+	border-radius: 8px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: normal;
+	vertical-align: middle;
+	margin-left: 50px;
+	height: 28px;
+	margin-top: 20px;
+	width: 100px;
+	border: 1px solid transparent;
+	margin-top: 0px;
+	margin-left:0px;
+} */
+.addProduct_txt_check{
+	float: left;
+	width: 800px;
+	font-size:small;
+	margin-bottom:5px;
+}
+/* .needCheck{
+	color:red;
+	padding-left:250px;
+	font-size:10px;
+	display:inline-block;
+} */
+.impossible{
+	color:#6A82FB;
+	padding-left:250px;
+	font-size:10px;
+	display:none;
+}
+.possible{
+	color:#008000;
+	padding-left:250px;
+	font-size:10px;
+	display:none;
+}
+
 </style>
 </head>
 <body>
@@ -204,7 +286,15 @@ request.setCharacterEncoding("UTF-8");
 					<div class="addProductform_txt">
 						<div class="addProduct_txt_sub">제품고유코드<span style="color:red;font-size:x-small"> (중복불가)</span></div>
 						<div class="addProduct_txt_obj">
-							<input class="addProductForm_input" type="text" name="product_code" id="product_code" />
+							<input class="addProductForm_input" type="text" name="product_code" id="product_code" oninput="check_code()">
+							<!-- <button type="button" class="addProductForm_input_code_checkBtn" onclick="javascript:code_checkBtn()">
+								중복체크
+							</button> -->
+						</div>
+						<div class="addProduct_txt_check">
+							<!-- <span class="needCheck">제품고유코드 중복체크를 해주세요!</span> -->
+							<span class="impossible">이미 사용중입니다. 다시 입력해주세요.</span>
+							<span class="possible">입력하신 제품고유코드는 사용 가능합니다.</span>
 						</div>
 						<div class="addProduct_txt_sub">대분류</div>
 						<div class="addProduct_txt_obj">

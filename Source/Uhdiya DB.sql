@@ -1,0 +1,360 @@
+DROP TABLE MEMBER;
+DROP TABLE ADDRESS;
+
+DROP TABLE PRODUCT;
+DROP TABLE PRODUCT_FILE;
+
+DROP TABLE U_ORDER;
+DROP TABLE CART;
+
+DROP TABLE NOTICE;
+DROP TABLE NOTICE_FILE;
+DROP TABLE QNA;
+DROP TABLE QNA_FILE;
+DROP TABLE REVIEW;
+DROP TABLE REVIEW_FILE;
+
+DROP SEQUENCE mem_seq;
+DROP SEQUENCE pro_seq;
+DROP SEQUENCE proFile_seq;
+DROP SEQUENCE u_order_seq;
+DROP SEQUENCE cart_seq;
+
+-- 회원정보 테이블
+CREATE TABLE MEMBER (
+    ID NUMBER NOT NULL,
+    MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY, -- 유저 아이디
+    MEMBER_PASSWORD VARCHAR2(255), -- 유저 비밀번호
+    MEMBER_NAME VARCHAR2(255), -- 유저 이름
+    MEMBER_PHONE VARCHAR2(255) UNIQUE NOT NULL, -- 유저 전화번호(PHONE1+PHONE2_PHONE3)
+    MEMBER_EMAIL VARCHAR2(255) UNIQUE NOT NULL, -- 유저 이메일
+    MEMBER_JOINDATE DATE DEFAULT SYSDATE-- 유저 가입일자
+);
+
+CREATE TABLE ADDRESS (
+    MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY,
+    ZIPNO VARCHAR2(255),
+    ROADFULLADDR VARCHAR2(255), --도로명(지번) 주소
+    ADDDETAIL varchar2(255) -- 상세주소
+);
+
+-- 상품 테이블
+CREATE TABLE PRODUCT (
+    PRODUCT_ID NUMBER NOT NULL,
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- 제품고유코드
+    PRODUCT_NAME VARCHAR2(255), -- 제품명
+    PRODUCT_CATEL VARCHAR2(255), -- 대분류
+    PRODUCT_CATES VARCHAR2(255), -- 소분류
+    PRODUCT_PRICE NUMBER, -- 제품가격
+    CONSTRAINT PK_product PRIMARY KEY (product_code)
+);
+
+-- 상품 이미지 테이블
+CREATE TABLE PRODUCT_FILE (
+    PRODUCT_FILEID NUMBER NOT NULL,
+    PRODUCT_FILENAME VARCHAR2(255), --파일명
+    PRODUCT_FILETYPE VARCHAR2(255), -- main(제품사진) 또는 info(제품상세설명사진)
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- 제품고유코드 (product테이블)
+    CONSTRAINT PK_product_file PRIMARY KEY (product_fileId),
+    CONSTRAINT FK_product_TO_product_file
+        FOREIGN KEY (product_code)
+        REFERENCES product (product_code)
+);
+
+-- 장바구니 테이블
+CREATE TABLE CART (
+    CART_SEQ_NUM NUMBER NOT NULL PRIMARY KEY,-- 시퀀스 자동번호
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- 아이디
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --제품고유코드 (product 테이블 참조)
+    CARY_QTY NUMBER NOT NULL -- 장바구니 수량(품목당
+);
+
+-- 구매 테이블
+CREATE TABLE U_ORDER (
+    ORDER_SEQ_NUM NUMBER NOT NULL PRIMARY KEY, -- 시퀀스 자동번호
+    ORDER_ID VARCHAR2(255) NOT NULL, -- 구매고유번호(주문번호) (@ 여러품목이어도 한번호로) 
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- 아이디
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --제품고유코드
+    ORDER_QTY NUMBER NOT NULL, -- 구매 수량(품목당)
+    ORDER_DATE DATE, -- 구매일자 -> 주문서작성 완료시 생성
+    ORDER_STATE VARCHAR2(255) DEFAULT 'onorder' -- 상태( 'onorder' , 'ordered' , 'paid' )
+);
+
+-- 주소
+CREATE TABLE ADDRESS (
+    RECEIVER_ZIPCODE VARCHAR2(13),
+    RECEIVER_ADDR1 VARCHAR2(255),
+    RECEIVER_ADDR2 VARCHAR2(255)
+);
+
+-- 공지사항
+Create Table notice(
+    notice_id number not null primary key,
+    notice_writeId varchar2(255) not null,
+    notice_title varchar2(255),
+    notice_content varchar2(4000),
+    notice_regDate date default sysdate not null,
+    notice_count number default 0
+);
+
+-- 공지사항 이미지 테이블
+create table notice_file(
+    notice_fileId number not null primary key,
+    notice_id number,
+    notice_fileName varchar2(255)
+);
+
+-- 문의글
+create table qna (
+    qna_id number not null primary key,
+    qna_parentId number default 0,
+    qna_writeId varchar2(255),
+    qna_title varchar2(255),
+    qna_content varchar2(4000),
+    qna_regDate date default sysdate,
+    qna_status number default 0,
+    product_code varchar2(255)
+);
+
+-- 문의글 이미지 테이블
+create table qna_file(
+    qna_fileId number not null primary key,
+    qna_id number,
+    qna_fileName varchar2(255)
+);
+
+-- 상품후기
+create table review (
+    review_id number not null primary key,
+    review_writeId varchar2(255),
+    review_star number,
+    review_title varchar2(255),
+    review_content varchar2(4000),
+    review_regDate date default sysdate,
+    product_code varchar2(255)
+);
+
+-- 상품후기 이미지 테이블
+create table review_file(
+    review_fileId number not null primary key,
+    review_id number,
+    review_fileName varchar2(255)
+);
+
+-- 시퀀스
+CREATE SEQUENCE mem_seq
+    INCREMENT BY 1
+    START WITH 1
+    NOCACHE;
+
+CREATE SEQUENCE pro_seq
+    INCREMENT BY 1
+    START WITH 100
+    NOCACHE;
+    
+CREATE SEQUENCE proFile_seq
+    INCREMENT BY 1
+    START WITH 100
+    NOCACHE;
+
+create SEQUENCE u_order_seq
+    increment by 1
+    start with 100
+    nocache;
+
+create SEQUENCE cart_seq
+    increment by 1
+    start with 100
+    nocache;
+select * from cart;
+
+-- 데이터
+INSERT INTO MEMBER VALUES ('admin','1234','관리자','01012345678','admin@uhdiya.com');
+INSERT INTO MEMBER VALUES ('dayeun', 1111, 'dayeun', '01011112222', 'jdy010431@gmail.com');
+
+INSERT INTO TOTAL_ORDER VALUES (order_list_num_seq.nextval, 'dayeun', 25000, sysdate, 'f');
+INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans001', 1);
+INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans002', 1);
+INSERT INTO PAYMENT VALUES ('1111222233334444', 'shinhan', '26', '06', '23', 1);
+INSERT INTO RECEIVER VALUES ('04038', '01022225555', 'seonarea', 1);
+INSERT INTO ADDRESS VALUES ('04038', '서울특별시 마포구 양화로 122(서교동)' ,'3층');
+
+INSERT INTO product VALUES (pro_seq.nextval,'beans001','[어디야] 홀빈커피 페르소나 블렌드 200g X 2개','커피','홀빈원두',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans002','[어디야] 홀빈커피 콜롬비아 슈프리모 200g X 2개','커피','홀빈원두',24000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans003','[어디야] 홀빈커피 케냐 오리진 200g X 2개','커피','홀빈원두',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans004','[어디야] 홀빈커피 브라질 세라도 200g X 2개','커피','홀빈원두',24000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans005','[어디야] 홀빈커피 에티오피아 리무 200g X 2개','커피','홀빈원두',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'drip001','[어디야] 커피랩 핸드드립 페르소나 7T x 3개','커피','핸드드립',16500);
+INSERT INTO product VALUES (pro_seq.nextval,'drip002','[어디야] 커피랩 핸드드립 에티오피아 7T x 3개','커피','핸드드립',15500);
+INSERT INTO product VALUES (pro_seq.nextval,'drip003','[어디야] 커피랩 핸드드립 콜롬비아 슈프리모 7T x 3개','커피','핸드드립',15500);
+INSERT INTO product VALUES (pro_seq.nextval,'cupcoffee001','[어디야] 컵커피 5종 X 2개 (토피넛/카페라떼/돌체 콜드브루/바닐라/쇼콜라 모카)','음료','컵커피',18900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule001','[어디야] 커피랩 캡슐커피 페르소나 블렌드 8T x 3팩','커피','캡슐커피',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule002','[어디야] 커피랩 캡슐커피 콜롬비아 슈프리모 8T x 3팩','커피','캡슐커피',18900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule003','[어디야] 커피랩 캡슐커피 에티오피아 리무 8T x 3팩','커피','캡슐커피',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'machine001','[어디야] 캡슐 커피 머신 풀패키지 세트(캡슐 커피 머신 1대+비니스트 스페셜에디션 100T 틴케이스+캡슐3종 120개)','커피','커피머신',159000);
+INSERT INTO product VALUES (pro_seq.nextval,'americano001','[어디야] 비니스트 디카페인 아메리카노 130T','스틱커피','아메리카노',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'americano002','[어디야] 비니스트 마일드 아메리카노 150T','스틱커피','아메리카노',25900);
+INSERT INTO product VALUES (pro_seq.nextval,'ice001','[어디야] 아이스 자몽오렌지 190mlX30개','음료','주스',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'ice002','[어디야] 아이스 레몬자두 190mlX30개','음료','주스',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'latte001','[어디야] 비니스트 바닐라라떼 50T','스틱커피','라떼',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'latte002','[어디야] 비니스트 카페라떼 50T','스틱커피','라떼',19500);
+INSERT INTO product VALUES (pro_seq.nextval,'mix001','[어디야] 스페셜 모카블렌드 커피믹스 50T','스틱커피','커피믹스',19500);
+INSERT INTO product VALUES (pro_seq.nextval,'mix002','[어디야] 스페셜 골드블렌드 커피믹스 280T','스틱커피','커피믹스',34500);
+INSERT INTO product VALUES (pro_seq.nextval,'blending001','[어디야] 블렌딩티 스트로베리 루바브 10T x 4팩','티','블렌딩티',34500);
+INSERT INTO product VALUES (pro_seq.nextval,'tea001','[어디야] 대추쌍화차 50T','티','전통차',16500);
+
+
+
+
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001.jpg','main','beans001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002.jpg','main','beans002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans003.jpg','main','beans003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans004.jpg','main','beans004');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans005.jpg','main','beans005');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip001.jpg','main','drip001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip002.jpg','main','drip002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip003.jpg','main','drip003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'cupcoffee001.jpg','main','cupcoffee001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule001.jpg','main','capsule001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule002.jpg','main','capsule002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule003.jpg','main','capsule003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'machine001.jpg','main','machine001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'americano001.jpg','main','americano001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'americano002.jpg','main','americano002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'ice001.jpg','main','ice001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'ice002.jpg','main','ice002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'latte001.png','main','latte001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'latte002.jpg','main','latte002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'mix001.jpg','main','mix001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002.jpg','main','mix002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001.png','main','blending001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001.png','main','tea001');
+
+
+
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001_info.jpg','info','beans001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002_info.jpg','info','beans002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans003_info.jpg','info','beans003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans004_info.jpg','info','beans004');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'beans005_info.jpg','info','beans005');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip001_info.jpg','info','drip001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip002_info.jpg','info','drip002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'drip003_info.jpg','info','drip003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'cupcoffee001_info.jpg','info','cupcoffee001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule001_info.jpg','info','capsule001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule002_info.jpg','info','capsule002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'capsule003_info.jpg','info','capsule003');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'machine001_info.jpg','info','machine001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'americano001_info.jpg','info','americano001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'americano002_info.jpg','info','americano002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'ice001_info.jpg','info','ice001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'ice002_info.jpg','info','ice002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'latte001_info.jpg','info','latte001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'latte002_info.jpg','info','latte002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'mix001_info.jpg','info','mix001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002_info.jpg','info','mix002');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001_info.png','info','blending001');
+INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001_info.jpg','info','tea001');
+
+Insert into NOTICE values (1,'admin','2018 명절 배송 마감안내',null,to_date('18/02/01','RR/MM/DD'),678);
+Insert into NOTICE values (2,'admin','2018년 여름에도 이디야와 함께!',null,to_date('18/05/02','RR/MM/DD'),602);
+Insert into NOTICE values (3,'admin','카카오 플러스 친구 이벤트!','카카오 플러스 친구에게만 주는 특별한 혜택!
+
+이디야 카카오 플친 추가를 하면
+
+이디야 블렌딩 원두 200g 무료증정 해준다고!?
+
+
+날씨좋고 ~ 커피 마시기 딱 좋은 지금 ~ ?
+
+과일의 밝고 상큼한 산미와 은은한 풍미가 느껴지는
+
+바이올렛 원두 받아가자 ?
+
+
+?비니스트 180T? 취향대로 구매하고
+
+바이올렛원두 득템까지!?
+
+
+지금 바로 확인해 보세요 !!
+
+
+구매처 링크
+https://store.kakao.com/ediyastore/products/10213933',to_date('18/05/17','RR/MM/DD'),947);
+Insert into NOTICE values (4,'admin','핸드드립 커피 바이올렛 구매시 즉시할인','행사기간
+
+2018.06.11 ~ 2018.07.31',to_date('18/06/11','RR/MM/DD'),621);
+Insert into NOTICE values (5,'admin','신제품 출시 비니스트 스페셜 에디션 !','?바리스타 세계 챔피언?
+
+데일해리스 의 모든 것을 담았다!!
+
+
+
+이디야 신제품 ?비니스트 스페셜 에디션? 출시
+
+
+
+월드바리스타 대회 챔피언 ''데일 해리스''와
+
+이디야커피가 공동 개발하여 더 특별해진
+
+비니스트스페셜에디션
+
+
+
+언제 어디서나 간편하게
+
+세계 최고 바리스타의 커피를 즐겨보세요!
+
+
+
+
+#함께즐기는_세계최고바리스타커피
+
+#비니스트신제품 #데일해리스비니스트
+
+#이디야커피 #이디야 #ediya #ediyacoffee',to_date('18/07/27','RR/MM/DD'),842);
+Insert into NOTICE values (6,'admin','2018 추석연휴 배송 공지사항','2018 추석이 돌아왔습니다.
+
+즐겁고 풍요로운 한가위 되시고 이디야커피 선물세트로 정성을 전하세요.
+
+배송마감일은 09월 19일 (수) PM 11시 59분 주문건에 한하여 연휴 전 배송 가능합니다.
+그 이후 주문건은 09월 27일 (목) 부터 순차적으로 발송처리 됩니다.
+
+추석물량으로 인해 택배배송이 1~2일 지연 될 수 있다는 점 양해부탁드리며
+조금 넉넉한 일자안에 주문 부탁드리겠습니다.
+
+감사합니다. 더욱 노력하는 이디야가 되겠습니다.^_^',to_date('18/09/05','RR/MM/DD'),817);
+Insert into NOTICE values (7,'admin','NEW 신제품 비니스트 토피 넛 라떼 !','?(소근소근) 좋은 정보 가져왔어요!!!
+#이디야메이트도 인정한
+이디야 베스트셀링 메뉴 #토피넛라떼
+이제 집에서 즐길 수 있다구요 ?
+
+?비니스트 토피 넛 라떼 출시?
+달콤한 카라멜과 아몬드의 고소함이 느껴지는
+오직 이디야에서만 맛볼 수 있는
+#비니스트토피넛라떼
+
+오늘부터 이디야에서 만나보세요 ?',to_date('18/09/27','RR/MM/DD'),882);
+Insert into NOTICE values (8,'admin','2019 이디야커피 선물세트','2019 이디야가 준비한 선물세트 오픈!
+
+황금돼지띠 2019년에는 행복한일만 가득하기 바라며
+이디야커피로 정성 전하는 센스까지~
+
+2019년에는 원하는대로 다~돼지!',to_date('19/01/08','RR/MM/DD'),741);
+Insert into NOTICE values (9,'admin','이디야커피, 카카오프렌즈와 연간 협업 진행','이디야커피, 카카오프렌즈와 연간 협업 진행',to_date('19/03/13','RR/MM/DD'),748);
+
+Insert into NOTICE_FILE values (1,1,'notice_1.jpg');
+Insert into NOTICE_FILE values (2,2,'notice_2.jpg');
+Insert into NOTICE_FILE values (3,4,'notice_4.jpg');
+Insert into NOTICE_FILE values (4,5,'notice_5.jpg');
+Insert into NOTICE_FILE values (5,6,'notice_6.jpg');
+Insert into NOTICE_FILE values (6,7,'notice_7.jpg');
+Insert into NOTICE_FILE values (7,8,'notice_8.jpg');
+Insert into NOTICE_FILE values (8,9,'notice_9.jpg');
+
+Insert into QNA values (1,0,'hong','맛이 좋네요','향도 좋고 가격도 좋고 코딩하는 나는 안 좋고',to_date('22/11/22','RR/MM/DD'),0,'001');
+Insert into QNA values (2,0,'lee','게시판 쉽게봤는데..','쉬운데 내가 못 하는겁니다.',to_date('22/11/22','RR/MM/DD'),1,'001');
+
+Insert into REVIEW values (1,'hong',4,'샤이닝스타','밤하늘의 e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'001');

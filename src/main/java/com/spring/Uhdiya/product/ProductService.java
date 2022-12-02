@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 	@Autowired ProductDAO productDAO;
 	
+	//상품등록(제품고유코드 중복체크)
+	public int productCodeCheck(String product_code) {
+		int cnt = productDAO.productCodeCheck(product_code);
+		return cnt;
+	}
 	//상품삭제
 	public int delProduct(String del_product_code) {
 		int result = productDAO.delProduct(del_product_code);
@@ -78,5 +83,6 @@ public class ProductService {
 	public void addNewGoodsImage(List imageFileList) throws Exception{
 		productDAO.insertGoodsImageFile(imageFileList);
 	}
+
 
 }

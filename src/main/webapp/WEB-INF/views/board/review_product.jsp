@@ -131,7 +131,6 @@
 						<tr id="review_list" onclick="review_dropdown(this,${num.index})">
 							<td class="review_product_num">${total_review - num.index}</td>
 							<td class="review_product_title" style="text-align: left;">
-								<%-- <a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">${review.review_title}</a>  --%>
 								<a href="${path}/board/review_page?review_id=${review.review_id}">${review.review_title}</a> 
 							</td>
 							<td class="review_product_writer">

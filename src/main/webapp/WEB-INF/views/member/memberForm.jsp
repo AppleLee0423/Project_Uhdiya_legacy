@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+         pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -71,8 +72,15 @@
    <script type="text/javascript">
       
       function jsSubmit() {
-   
+    	 
          // 입력값 유효성 체크 추가
+         
+         // 아이디 확인
+         var idCheck = $("#idcheck").val();
+         if( idCheck != "Y" ) {
+        	 alert("아이디 중복확인을 해주세요");
+        	 return;
+         }
          
          $("#frm").submit();
       }
@@ -87,7 +95,10 @@
                $(".checkTarget").prop("checked", false);
             }
          });
-
+         
+         $("#member_id").change(function() {
+             $("#idcheck").val("N");
+         });
       });
 
       function checkId() {
@@ -108,7 +119,7 @@
             success : function(data) {
 
                if( data == "Y" ) {
-                  $("#idcheck").attr("value","Y");
+                  $("#idcheck").val("Y");
                   alert("사용가능한 아이디 입니다.");
                } else {
                   alert("중복된 아이디 입니다.");
@@ -267,8 +278,8 @@
                <td width="15%">비밀번호</td>
                <td>
                   <input type="password" name="member_password"
-                     id="member_password" onchange="checkPw()" />
-                  &nbsp;(영문 소문자/숫자/특수문자 조합, 6자~16자)
+                     id="member_password" autocomplete="new-password"/>
+                  &nbsp;(영문 소문자/숫자/특수문자, 6자~16자)
                </td>
             </tr>
             <tr height="7">
@@ -278,7 +289,7 @@
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호 확인</td>
                <td><input type="password" name="member_password2"
-                  id="member_password2" onchange="check_pwd()" /> <a href="#"
+                  id="member_password2"/> <a href="#"
                   onclick="checkPw()">확인</a></td>
             </tr>
             <tr height="7">
@@ -656,9 +667,9 @@
             </p>
             <tr height="40">
                <td>
-                  <button id="submit" class="w-100 btn btn-lg btn-primary"
+                  <button class="w-100 btn btn-lg btn-primary"
                      style="margin-left: auto; margin-right: auto;" type="button"
-                     onclick="jsSubmit" value="회원가입">회원가입</button>
+                     onclick="jsSubmit()" value="회원가입">회원가입</button>
                </td>
             </tr>
          </table>

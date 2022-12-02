@@ -78,7 +78,7 @@
 <body>
 <body class="text-center">
 	<main class="form-signin">
-		<form method="post" action="${path}/member/loginMember" >
+		<form method="post" action="${path }/member/loginMember" >
 			<div class="sss"
 				style="border: 1px solid black; width: 1200px; height: 400px; margin-left: auto; margin-right: auto; margin-top: 75px;">
 				<div class="ni">

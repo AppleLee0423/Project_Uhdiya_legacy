@@ -1,43 +1,32 @@
 package com.spring.Uhdiya.member;
 
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import jdk.internal.org.jline.utils.Log;
-
-
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 	@Autowired MemberService memberService;
-		
 
 	//  http://localhost:8080/Uhdiya/member/login
 	// 로그인
 	@RequestMapping("login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
+		System.err.println(viewName);
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
@@ -53,18 +42,15 @@ public class MemberController {
 		System.err.println(member.getMember_password());
 		
 		MemberDTO memberDTO = memberService.login(member);
+		System.err.println(memberDTO.toString());
 		if(memberDTO != null) {
 			HttpSession session = request.getSession();
-//			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+			Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 			String viewName = (String) request.getAttribute("viewName");
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
 			
 			mav.setViewName("redirect:/main");
-			
-//			if( "admin".equals(memberDTO.getMember_id()) ) {
-//				mav.setViewName("redirect:/main");
-//			}
 		} else {
 			rAttr.addAttribute("result", "loginFailed");
 			mav.setViewName("redirect:/member/login");
@@ -73,8 +59,9 @@ public class MemberController {
 	}
 	
 	// 로그아웃
-	@RequestMapping("logout")
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value="/member/logout", method=RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
@@ -90,7 +77,7 @@ public class MemberController {
 		mav.setViewName("redirect:/main");
 		
 		return mav;
-	}
+	}	
 	
 	//  http://localhost:8080/Uhdiya/member/memberForm
 	// 회원가입
@@ -121,17 +108,10 @@ public class MemberController {
 			mav.setViewName("redirect:/member/memberForm");
 			System.out.println("가입실패");
 			return mav;
-//			pw.println("<script>");
-//			pw.println( "alert('회원가입이 되지않았습니다. 다시 시도해주세요');");
-//			pw.println("</script>");
-//			return null;
-			
 		}
-	
-		
 	}
-    // 아이디중복체크
 	
+    // 아이디중복체크
     @ResponseBody
     @RequestMapping("/idcheck")
     public String idcheck(MemberDTO member) throws Exception {
@@ -146,6 +126,7 @@ public class MemberController {
     	
     	return res;
     }
+    
     // 전화번호중복체크
      @ResponseBody
      @RequestMapping("/phonecheck")
@@ -178,15 +159,36 @@ public class MemberController {
     	return res;
      }
 
-	
 	//  http://localhost:8080/Uhdiya/member/find_id
-	// 아이디 찾기
+	// 아이디 찾기 폼
 	@RequestMapping("find_id")
 	public ModelAndView find_id(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	
+	// 아이디 찾기 실행
+	@RequestMapping(value = "/findid", method = RequestMethod.POST)
+	@ResponseBody
+	public String findingId(@ModelAttribute MemberDTO member, Model model , HttpServletResponse response)throws Exception {
+		
+		System.out.println(member.getMember_name());
+		System.out.println(member.getMember_email());
+		
+		MemberDTO id = memberService.findid(member);
+		
+		String findid = null;
+		
+		if( id != null ) {
+			findid = id.getMember_id();
+		}
+		
+		System.out.println(findid);
+		
+		return findid;
+	}
+
 	//  http://localhost:8080/Uhdiya/member/find_pw
 	// 비밀번호 찾기
 	@RequestMapping("find_pw")
@@ -195,5 +197,91 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
+	
+	// 비밀번호 찾기 실행
+	@RequestMapping(value = "/findpassword", method = RequestMethod.POST)
+	@ResponseBody
+	public String findingPassword(@ModelAttribute MemberDTO member, Model model , HttpServletResponse response)throws Exception {
+		
+//		System.out.println(member.getMember_phone1());
+//		System.out.println(member.getMember_phone2());
+		
+		member.setMember_phone(member.getMember_phone().replaceAll("-", ""));
+		
+		System.out.println(member.getMember_name());
+		System.out.println(member.getMember_email());
+		System.out.println(member.getMember_phone());
+		
+		MemberDTO password = memberService.findpassword(member);
+		
+		String findpassword = null;
+		
+		if( password != null ) {
+			findpassword = password.getMember_password();
+		}
+		
+		System.out.println(findpassword);
+		
+		return findpassword;
+	}
+		
+	// 관리자페이지 리스트
+	@RequestMapping("/member_list")
+	public ModelAndView memberList( HttpServletRequest request, MemberDTO param ) {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("list", memberService.getMemList(param));
+		return mav;
+	}
+	
+	@RequestMapping(value = "/member_delete", method = RequestMethod.POST)
+	@ResponseBody
+	public String memberDelete( MemberDTO param ) {
+		
+		String res = "N";
+		
+		int cnt = memberService.deleteMember(param);
+		
+		if( cnt > 0 ) {
+			res = "Y";
+		}
+		
+		return res;
+	}
 
+   // 회원정보수정	
+	@RequestMapping("edit_member")
+	public ModelAndView c_member(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String) request.getAttribute("viewName");
+		System.err.println(viewName);
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		HttpSession session = request.getSession();
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		if( member == null ) {
+			return new ModelAndView("redirect:/member/login");
+		}
+		
+		mav.addObject("m", member);
+		
+		return mav;
+	}
+	
+	// 회원수정처리
+	@RequestMapping(value="editMember", method=RequestMethod.POST)
+	@ResponseBody
+	public String editMember(@ModelAttribute("editMember") MemberDTO member, RedirectAttributes rAttr,
+										HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String res = "N";
+		
+		int result = memberService.editMember(member);
+		
+		if( result > 0 ) {
+			res = "Y";
+		}
+		
+		return res;
+	}
 }

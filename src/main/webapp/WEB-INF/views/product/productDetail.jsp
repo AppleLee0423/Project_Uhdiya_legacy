@@ -8,6 +8,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }" />
  <c:set var="product"  value="${productsMap.productDTO}"  />
 <c:set var="infoFileList"  value="${productsMap.infoFileList }"  />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
 $(function(){
 	  var $header1 = $('.list_info'); //헤더를 변수에 넣기
 	  var $header2 = $('.list_review'); 
@@ -98,6 +100,87 @@ function cateS() {
 	let cateS = document.getElementById('cateS');
 	window.location.href='${path}/product/productList?product_cateL='+cateL.value+'&product_cateS='+cateS.value;
 }
+function buyNow() {
+	let member_id = document.getElementById('member_id').value;
+	let product_code = document.getElementById('product_code').value;
+	let order_qty = document.getElementById('quantity').value;
+	console.log('바로구매하기 클릭');
+	let isLogOn = '<%=(Boolean)session.getAttribute("isLogOn") %>';
+	console.log(isLogOn);
+	console.log(member_id);
+	console.log(product_code);
+	if(isLogOn=='true' && member_id!='' ){
+		console.log('로그인되어있음.');
+		
+		let form = document.createElement('form');
+		
+		let input_member_id = document.createElement('input');
+		input_member_id.setAttribute('type', 'hidden');
+		input_member_id.setAttribute('name', 'member_id');
+		input_member_id.setAttribute('value', member_id);
+		form.appendChild(input_member_id);
+		
+		let input = document.createElement('input');
+		input.setAttribute('type', 'hidden');
+		input.setAttribute('name', 'product_code');
+		input.setAttribute('value', product_code);
+		form.appendChild(input);
+		
+		let input2 = document.createElement('input');
+		input2.setAttribute('type', 'hidden');
+		input2.setAttribute('name', 'order_qty');
+		input2.setAttribute('value', order_qty);
+		form.appendChild(input2);
+		
+		document.body.appendChild(form);
+		
+		form.method="post";
+	 	form.action="${path}/order/addOrderDirect";
+		form.submit();		
+	}else {
+		alert('로그인 후 구매가능합니다.');
+		window.location.href='${path}/member/login';
+	}
+}
+function addCart() {
+	let member_id = document.getElementById('member_id').value;
+	let product_code = document.getElementById('product_code').value;
+	let cart_qty = document.getElementById('quantity').value;
+	if(member_id!=''){
+		console.log(member_id);
+		console.log(product_code);
+		console.log(cart_qty);
+		$.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "${path}/cart/addCart",
+			data : {
+				member_id:member_id,
+				product_code:product_code,
+				cart_qty:cart_qty
+			},
+			success : function(data, textStatus) {
+				if(data=='y'){
+					let confirm_val = confirm('장바구니에 상품이 성공적으로 추가되었습니다. 장바구니로 이동하시겠습니까?');
+					if(confirm_val){
+						window.location.href='${path}/cart/cartList';
+					}
+				} else if(data=='e'){
+					let confirm_val = confirm('장바구니에 이미 추가되어있는 상품입니다. 장바구니로 이동하시겠습니까?');
+					if(confirm_val){
+						window.location.href='${path}/cart/cartList';
+					}
+				}
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			}
+		}); 
+	} else {
+		alert('로그인 후 이용가능합니다.');
+		window.location.href='${path}/member/login';
+	}
+}
 </script>
 <style>
 /* ㅅ 버튼 */
@@ -128,6 +211,7 @@ hr{width:900px;}
 </style>
 </head>
 <body>
+
 <!-- 전체페이지 : 상품 디테일 -->
 <div class="productDetailPage">
 
@@ -161,6 +245,7 @@ hr{width:900px;}
 			<!-- 페이지상단 우측 결제정보의 상품명과 가격정보 /////@@@@데이터베이스에서 상품명 가격 가져와야함@@@@-->
 			<div class="contentsIntro_productName">
 				<h1>${product.product_name }</h1>
+				<input type="hidden" id="product_code" value="${product.product_code }">
 			</div>
 			<div class="contentsIntro_payInfo">
 				<span>원산지&nbsp;&nbsp;&nbsp;</span>
@@ -244,14 +329,16 @@ hr{width:900px;}
 			</div>
 			
 			<!-- 페이지상단 우측 결제정보 하단의 버튼들(장바구니,구매) -->
+			<input type="hidden" id="member_id" value="${member.member_id }">
+			<input type="hidden" id="product_code" value="${product.product_code}">
 			<div class="contentsIntro_buttons">
 				<div class="contentsIntro_buttons_cart">
-					<a href="#" class="btn_cart"> 
+					<a href="javascript:addCart()" class="btn_cart"> 
 						<span class="btn_cart_txt">CART 장바구니담기</span>
 					</a>
 				</div>
 				<div class="contentsIntro_buttons_buy">
-					<a href="#" class="btn_buy"> 
+					<a href="javascript:buyNow()" class="btn_buy"> 
 						<span class="btn_buy_txt">BUT NOW 바로구매하기</span>
 					</a>
 				</div>

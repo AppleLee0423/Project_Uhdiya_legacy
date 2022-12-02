@@ -22,12 +22,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.Uhdiya.board.qna.QnaService;
-import com.spring.Uhdiya.board.review.ReviewService;
 import com.spring.Uhdiya.common.interceptor.ViewNameInterceptor;
 
 
@@ -37,8 +36,7 @@ import com.spring.Uhdiya.common.interceptor.ViewNameInterceptor;
 @RequestMapping("/product/**")
 public class ProductController {
 	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\product"; 
-	@Autowired QnaService qnaService;
-	@Autowired ReviewService reviewService;
+	
 	@Autowired ProductService productService;
 	
 //소분류리스트페이지 : http://localhost:8080/Uhdiya/product/productList?product_cateL=커피&product_cateS=홀빈원두
@@ -46,6 +44,21 @@ public class ProductController {
 //디테일 페이지 : http://localhost:8080/Uhdiya/product/productDetail?product_cateL=커피&product_cateS=홀빈원두&product_code=beans001
 //관리자 상품추가 :  http://localhost:8080/Uhdiya/product/addProductForm
 //관리자 상품검색삭제 : http://localhost:8080/Uhdiya/product/modProductList?searchSel=product_name
+	
+	
+	//상품등록(제품고유코드 중복체크)
+	@RequestMapping("productCodeCheck")
+	@ResponseBody
+	public String productCodeCheck(@RequestParam("product_code") String product_code)	{
+		int cnt=productService.productCodeCheck(product_code);
+		String res = "";
+    	if( cnt > 0 ) {
+    		res = "n";
+    	} else if (cnt==0) {
+    		res="y";
+    	}
+    	return res;
+	}
 	
 	//상품삭제
 	@RequestMapping("/delProduct")
@@ -158,33 +171,6 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		Map productsMap=productService.productsDetail(product_code);
 		mav.addObject("productsMap", productsMap);
-		/*
-		// Qna 페이지 데이터
-		String _section = request.getParameter("section"); 
-		String _pageNum = request.getParameter("pageNum");
-		int section = Integer.parseInt((_section == null) ? "1" : _section);  
-		int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-		
-		Map<String, Object> pageMap = new HashMap<String, Object>();
-		
-		pageMap.put("section", section);
-		pageMap.put("pageNum", pageNum);
-		pageMap.put("product_code", product_code);
-		
-		Map<String,Object> qnaMap = new HashMap<String, Object>();
-		Map<String,Object> reviewMap = new HashMap<String, Object>();
-		
-		qnaMap = qnaService.product_qna(pageMap);
-		qnaMap.put("section", section);
-		qnaMap.put("pageNum", pageNum);
-		
-		reviewMap = reviewService.product_review(pageMap);
-		reviewMap.put("section", section);
-		reviewMap.put("pageNum", pageNum);
-		
-		mav.addObject("qnaMap",qnaMap);
-		mav.addObject("reviewMap",reviewMap);
-		*/
 		return mav;
 	}
 
@@ -306,5 +292,4 @@ public class ProductController {
 		}
 		return fileList;
 	}
-
 }

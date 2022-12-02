@@ -5,14 +5,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="${path}/resources/css/reset.css" />
 
-<link href= "${path}/resources/css/memJ/bootstrap.min.css" rel = "stylesheet">
-<link href= "${path}/resources/css/memJ/signin.css" rel="stylesheet">
+     <title>비밀번호 찾기</title>
+     
+<link rel="stylesheet" href="${path}/resources/css/reset.css" />
+<link href= "${path}/resources/css/member/bootstrap.min.css" rel = "stylesheet">
+<link href= "${path}/resources/css/member/signin.css" rel="stylesheet">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>비밀번호 찾기</title>
+    
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+	<script>
+		
+		function isNull( object ) {
+			
+			return object == null || object == undefined || !object.trim().length > 0;
+		}
+		
+		function findpassword() {
+			
+			var name = $("#inputName").val().trim();
+			if( isNull(name) ) {
+				alert("이름을 입력하세요");
+				$("#inputName").focus();
+				return;
+			}
+			
+			var email = $("#inputEmail").val().trim();
+			if( isNull(email) ) {
+				alert("이메일을 입력하세요");
+				$("#inputEmail").focus();
+				return;
+			}
+			
+			var phone = $("#inputPhone").val().trim();
+			if( isNull(phone) ) {
+				alert("전화번호를 입력하세요");
+				$("#inputPhone").focus();
+				return;
+			}
+			
+			$.ajax({
+				url : '/member/findpassword',
+				type : 'POST',
+				data : {
+					member_name : name,
+					member_email : email,
+					member_phone : phone
+				},
+				dataType : "text",
+				success : function(data) {
+					
+					if( !isNull(data) ) {
+						$("#form_div").hide();
+						$("#result_password").text("회원님의 정보로 등록된 비밀번호는 : " + data + " 입니다.");
+						$("#result_password").show();
+					} else {
+						alert("일치하는 회원정보가 없습니다.\n정보를 다시 입력해주시길 바랍니다.");
+					}
+				},
+		        error : function(XMLHttpRequest, textStatus, errorThrown) {
+		        	alert("정보를 다시 입력해주시길 바랍니다.");
+		        }
+		    });
+		}
+		
+	</script>
     
         <style>
             .bd-placeholder-img{
@@ -62,20 +121,22 @@
     <main class="form-signin">
         <form>
         <div class="sss" style="border: 1px solid black; width: 1200px; height: 400px; margin-left: auto; margin-right: auto; margin-top : 75px;"> 
-        <div class = "ni">
+        <div id="form_div" class = "ni">
             <h1 class="h3 mb-3 fw-normal">비밀번호 찾기</h1>
             <label for="inputName" class="visually-hidden">Name</label>
-            <input type="name" id="inputName" class="form-control" placeholder="이름" required>
+            <input type="text" id="inputName" class="form-control" placeholder="이름" required>
             <label for="inputEmail" class="visually-hidden">Email</label>
-            <input type="Email" id="inputEmail" class="form-control" placeholder="이메일" required>
+            <input type="email" id="inputEmail" class="form-control" placeholder="이메일" required>
             <label for="inputPhone" class="visually-hidden">Phone</label>
-            <input type="Phone" id="inputPhone" class="form-control" placeholder="휴대폰" required>                   
-        </div>
-        <button class="w-100 btn btn-lg" style="position: relative; margin: 25px 9px 0 0; padding: 25px 0 0 0; color: #757575; border-top: 1px solid #e9e9e9;" type="submit">비밀번호 찾기</button>    </div>
+            <input type="text" id="inputPhone" class="form-control" placeholder="휴대폰" required>                   
+            <button class="w-100 btn btn-lg"
+            	style="position: relative; margin: 25px 9px 0 0; padding: 25px 0 0 0; color: #757575; border-top: 1px solid #e9e9e9;" 
+            	type="button" onclick="findpassword()">비밀번호 찾기</button>    
+         </div>
+         <h1 id="result_password" style="display: none; margin-top: 200px;"></h1>
+         </div>
         </form>
     </main>
-    
-        
-      </body>
-    
-    </html>
+   </body>
+   
+</html>

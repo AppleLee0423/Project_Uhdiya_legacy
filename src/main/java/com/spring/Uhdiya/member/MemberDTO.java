@@ -3,8 +3,9 @@ package com.spring.Uhdiya.member;
 import java.sql.Date;
 
 public class MemberDTO {
+	
 	private int id;
-	private String member_id;	
+	private String member_id;
 	private String member_password;
 	private String member_name;
 	private String member_phone;
@@ -16,8 +17,6 @@ public class MemberDTO {
 	private String roadFullAddr;    // 도로명주소
 	private String addDetail;       // 상세주소
 	
-	
-
 	public int getId() {
 		return id;
 	}
@@ -42,7 +41,6 @@ public class MemberDTO {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	
 	public String getMember_phone() {
 		return member_phone;
 	}
@@ -93,10 +91,3 @@ public class MemberDTO {
 	}
 	
 }
-
-	
-	
-	
-	
-
-
