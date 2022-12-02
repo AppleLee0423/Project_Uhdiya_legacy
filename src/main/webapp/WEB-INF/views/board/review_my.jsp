@@ -77,11 +77,22 @@
 	background-color: #474948;
 	color: white;
 }
+	.review_my_delete{width:65px;}
+	.delete_icon{font-size: large; cursor: pointer;}
+	.fa-solid fa-xmark:hover {transform: scale(1.2); color:#2F2F2F;}
+	.review_my_button{display: none;}
 </style>
 <script>
 	function search(){
 		let keyword = document.getElementById('search_box').value;
 		location.href='${path}/board/review_my?keyword='+keyword;
+	}
+	function delete_review(review_id){
+		if(confirm('삭제하시겠습니까?')){
+			location.href='${path}/board/delete_review?review_id='+review_id;
+		} else{
+			alert('취소되었습니다.');
+		}
 	}
 </script>
 </head>
@@ -106,12 +117,13 @@
 						<td class="review_my_title">제목</td>
 						<td class="review_my_star">별점</td>
 						<td class="review_my_writeDate">작성일</td>
+						<td class="review_my_delete">삭제</td>
 					</tr>
 				</thead>
 				<tbody>
 				<c:if test="${empty review_list}">
 					<tr>
-						<td align="center" colspan="5">작성된 문의가 없습니다.</td>
+						<td align="center" colspan="6">작성된 문의가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:if test="${not empty review_list}">
@@ -133,6 +145,10 @@
 							</span>
 						</td>
 						<td class="review_my_writeDate">${review.review_regDate}</td>
+						<td class="review_my_delete">
+							<label class="delete_icon" for="#delete_review_btn"><i class="fa-solid fa-xmark"></i></label>
+							<button id="delete_review_btn" class="review_my_button" onclick="delete_review(${review.review_id})" ></button>
+						</td>
 					</tr>
 					</c:forEach>
 				</c:if>

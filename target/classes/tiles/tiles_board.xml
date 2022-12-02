@@ -66,5 +66,8 @@
 	<definition name="/board/reviewForm" extends="default">
 		<put-attribute name="content" value="/WEB-INF/views/board/review_form.jsp" />
 	</definition>
+	<definition name="/board/reply" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/reply.jsp" />
+	</definition>
 	
 </tiles-definitions>

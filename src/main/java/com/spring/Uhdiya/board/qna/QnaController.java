@@ -387,6 +387,34 @@ public class QnaController {
 		return resEnt;
 	}
 	
+	// 답변
+	@RequestMapping("/reply")
+	public ModelAndView reply(@RequestParam("qna_id")int qna_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = null;
+		
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if(member_id.equals("admin")) {
+				mav = new ModelAndView(viewName);
+				mav.addObject("qna_id", qna_id);
+			} else {
+				message(request, response);
+				return null;
+			}
+		} else {
+			message(request, response);
+			return null;
+		}
+		return mav;
+	}
+	
+	
 	// 에러메세지(to 로그인)
 	public void message(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
