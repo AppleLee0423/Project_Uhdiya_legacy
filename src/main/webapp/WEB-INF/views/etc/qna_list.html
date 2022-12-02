@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
+	*{margin:0; padding:0; font-family: Noto Sans Korean;}
+	.qna_list{margin:45px auto; width:1200px; background-color: #EDF0F5;}
+	.qna_list_header{margin-left:10px; height:60px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
+	.qna_list_header_title{margin-left:10px; padding-top:10px;}
+	.qna_list_search{margin-top: 10px;margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
+	.qna_search_table{width:100%;}
+	.qna_search_title{padding-left:20px; width:20%; height:50px;}
+	.qna_search_date{width:80%; display: flex; margin-top:5px;}
+	.date_btn{width:60px; font-size: small; height: 35px; border:1px solid #474948; background-color: #F8F9FD; color:black; margin-right: 5px;}
+	.date_btn:hover{background-color:#474948; color:white;}
+	input[type=date] {width:150px; text-align: center; font-weight: bold;}
+	input[type=checkbox] {transform:scale(1.3);}
+	.qna_search_detail{height:50px;}
+	select{width:100px; height:35px;}
+	#keyword {width:480px; height:35px;}
+	.qna_search_button input{margin-bottom: 0px;}
+	#qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
+	#search_reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:100px;}
+</style>
+<script>
+	$(function(){
+		let today = new Date();
+		today = get_day(1);
+		let year_day = get_day(2);
+		let week_day = get_day(3);
+		let one_month = get_day(4);
+		let three_month = get_day(5);
+		
+		$('input[name=startDate]').attr('min',year_day);
+		$('input[name=endDate]').attr('max',today);
+		$('input[name=startDate]').val(today);
+		$('input[name=endDate]').val(today);
+		
+		$('#today').click(function(){
+			$('input[name=startDate]').val(today);
+			$('input[name=startDate]').val(today);
+			$('.date_btn').css('background-color','#F8F9FD');
+			$('.date_btn').css('color','black');
+			$('#today').css('background-color','#474948');
+			$('#today').css('color','white');
+			
+		});
+		
+		$('#week').click(function(){
+			$('input[name=startDate]').val(week_day);
+			$('.date_btn').css('background-color','#F8F9FD');
+			$('.date_btn').css('color','black');
+			$('#week').css('background-color','#474948');
+			$('#week').css('color','white');
+		});
+		
+		$('#1month').click(function(){
+			$('input[name=startDate]').val(one_month);
+			$('.date_btn').css('background-color','#F8F9FD');
+			$('.date_btn').css('color','black');
+			$('#1month').css('background-color','#474948');
+			$('#1month').css('color','white');
+		});
+		
+		$('#3month').click(function(){
+			$('input[name=startDate]').val(three_month);
+			$('.date_btn').css('background-color','#F8F9FD');
+			$('.date_btn').css('color','black');
+			$('#3month').css('background-color','#474948');
+			$('#3month').css('color','white');
+		});
+		
+		$('input[type="checkbox"][name="status"]').click(function(){
+			if($(this).prop('checked')){
+				$('input[type="checkbox"][name="status"]').prop('checked',false);
+				$(this).prop('checked',true);
+			}
+		});
+	});
+	
+	function get_day(num){
+		let today = new Date();
+		
+		switch(num){
+		case 1: today = new Date(); break;
+		case 2: today = new Date(today.setDate(today.getDate()-365)); break;
+		case 3: today = new Date(today.setDate(today.getDate()-7)); break;
+		case 4: today = new Date(today.setMonth(today.getMonth()-1)); break;
+		case 5: today = new Date(today.setMonth(today.getMonth()-3)); break;
+		}
+		
+		let day = today.getDate();
+		let month = today.getMonth()+1;
+		let year = today.getFullYear();
+		if(day < 10) day = '0'+day;
+		if(month < 10) month = '0'+month;
+		today = year + '-' + month + '-' + day;
+		return today;
+	}
+	
+	
+</script>
+</head>
+<body>
+	<div class="qna_list">
+		<div class="qna_list_header">
+			<div class="qna_list_header_title"><h2>문의글 관리</h2></div>
+		</div>
+		
+		<div class="qna_list_search">
+			<table class="qna_search_table">
+				<tr>
+					<td class="qna_search_title">작성일</td>
+					<td class="qna_search_date">
+						<input type="date" name="startDate" max="" min=""/>&nbsp;~
+						<input type="date" name="endDate" max="" min=""/>&nbsp;&nbsp;
+						<button class="date_btn" id="today">오늘</button>
+						<button class="date_btn" id="week">1주일</button>
+						<button class="date_btn" id="1month">1개월</button>
+						<button class="date_btn" id="3month">3개월</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="qna_search_title">답변구분</td>
+					<td class="qna_search_status">
+						<input type="checkbox" id="reply_on" name="status" value="0"/>
+						<label for="reply_on">답변대기</label>
+						<input type="checkbox" id="reply_off" name="status" value="1"/>
+						<label for="reply_off">답변완료</label>
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="qna_search_title">상세구분</td>
+					<td class="qna_search_detail">
+						<select name="keyword_set">
+							<option>검색조건</option>
+							<option value="title">글제목</option>
+							<option value="qna_writeId">작성자</option>
+							<option value="product_name">상품명</option>
+						</select>
+						<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요."/>
+					</td>
+				</tr>
+				<tr>
+					<td class="qna_search_button" colspan="2" style="text-align: center; height:100px;">
+						<input type="button" id="search_reset" onclick="" value="취소"/>
+						<input type="button" id="qna_search_btn" onclick="" value="검색"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="qna_list_body">
+			
+		</div>
+		
+		<div class="qna_list_footer">
+		
+		</div>
+	</div>
+</body>
+</html>

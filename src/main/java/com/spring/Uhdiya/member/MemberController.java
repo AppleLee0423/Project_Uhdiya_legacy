@@ -55,7 +55,7 @@ public class MemberController {
 	}
 	
 	// 로그아웃
-	@RequestMapping(value="/member/logout", method=RequestMethod.GET)
+	@RequestMapping(value="logout", method=RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=utf-8");
