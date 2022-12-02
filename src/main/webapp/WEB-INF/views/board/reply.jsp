@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="qna" value="${qnaMap.qnaDTO}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,8 +53,8 @@
 		<div class="reply_body">
 			<form name="reply_form" action="">
 				<ul class="qna_info">
-					<li class="reply_product_name">상품이름</li>
-					<li class="member_qna_content">문의내역</li>
+					<li class="reply_product_name">${qna.product_name}</li>
+					<li class="member_qna_content">${qna.qna_content}</li>
 				</ul>
 				<ul class="reply_info">
 					<li><textarea name="qna_content" id="reply_content" cols="30" rows="15" placeholder="문의에 대한 답변을 입력해주세요."></textarea></li>
@@ -62,7 +63,7 @@
 				<div class="ctrl_btn">
 					<input id="reply_close_btn" type="button" onclick="fn_reply_close()" value="취소"/>
 					<input id="reply_insert_btn" type="button" onclick="reply_submit(this)" value="등록"/>
-					<input type="hidden" name="qna_parentId" value="${param.qna_id}"/>
+					<input type="hidden" name="qna_parentId" value="${qna.qna_id}"/>
 				</div>
 			</form>
 		</div>

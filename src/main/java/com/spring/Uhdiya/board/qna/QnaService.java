@@ -55,9 +55,11 @@ public class QnaService {
 		// TODO Auto-generated method stub
 		Map<String,Object> qnaMap = new HashMap<String, Object>();
 		List<QnaDTO> qna_list = qnaDAO.my_qna(pageMap);
+		List<QnaDTO> reply_list = qnaDAO.my_qna_reply(pageMap);
 		String qna_writeId = (String) pageMap.get("qna_writeId");
 		int total_qna = qnaDAO.total_my_qna(qna_writeId);
 		qnaMap.put("qna_list", qna_list);
+		qnaMap.put("reply_list", reply_list);
 		qnaMap.put("total_qna", total_qna);
 		return qnaMap;
 	}
@@ -65,5 +67,15 @@ public class QnaService {
 	public Map<String, Object> one_qna(int qna_id) {
 		// TODO Auto-generated method stub
 		return qnaDAO.one_qna(qna_id);
+	}
+
+	public int update_parentId(int qna_id) {
+		// TODO Auto-generated method stub
+		return qnaDAO.update_parentId(qna_id);
+	}
+
+	public int insert_reply(QnaDTO qnaDTO) {
+		// TODO Auto-generated method stub
+		return qnaDAO.insert_reply(qnaDTO);
 	}
 }

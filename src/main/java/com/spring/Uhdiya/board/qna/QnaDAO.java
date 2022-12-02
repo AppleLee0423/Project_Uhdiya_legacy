@@ -102,4 +102,19 @@ public class QnaDAO {
 		qnaMap.put("qnaFileList", qnaFileList);
 		return qnaMap;
 	}
+
+	public int update_parentId(int qna_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mapper.qna.update_parentId",qna_id);
+	}
+
+	public int insert_reply(QnaDTO qnaDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mapper.qna.insert_reply",qnaDTO);
+	}
+
+	public List<QnaDTO> my_qna_reply(Map<String, Object> pageMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.qna.my_qna_reply",pageMap);
+	}
 }

@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -402,16 +403,46 @@ public class QnaController {
 			String member_id = member.getMember_id();
 			if(member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
-				mav.addObject("qna_id", qna_id);
+				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+				mav.addObject("qnaMap",qnaMap);
 			} else {
 				message(request, response);
 				return null;
 			}
-		} else {
+		} else { 
 			message(request, response);
 			return null;
 		}
 		return mav;
+	}
+	
+	@RequestMapping("/addReply")
+	public ResponseEntity<String> addReply(@RequestBody QnaDTO qnaDTO, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity<String> resEnt = null;
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		try {
+			int qna_id = qnaDTO.getQna_id();
+			int update = qnaService.update_parentId(qna_id);
+			int insert = qnaService.insert_reply(qnaDTO);
+			
+			if(update == 1 && insert == 1) {
+				message = "<script>";
+				message += "alert('문의에 대한 답변을 입력했습니다.');";
+				message += "location.href='"+request.getContextPath()+"/board/qna_list';";
+				message += "</script>";
+				resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			message = "<script>";
+			message += "alert('작성에 실패했습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+		}
+		return resEnt;
 	}
 	
 	

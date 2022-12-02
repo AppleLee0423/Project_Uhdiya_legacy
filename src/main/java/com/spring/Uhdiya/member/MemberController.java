@@ -26,7 +26,6 @@ public class MemberController {
 	@RequestMapping("login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
-		System.err.println(viewName);
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	}
@@ -37,9 +36,6 @@ public class MemberController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		ModelAndView mav = new ModelAndView();
-		
-		System.err.println(member.getMember_id());
-		System.err.println(member.getMember_password());
 		
 		MemberDTO memberDTO = memberService.login(member);
 		System.err.println(memberDTO.toString());

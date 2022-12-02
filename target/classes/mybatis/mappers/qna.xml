@@ -70,6 +70,12 @@
 		]]>
 	</select>
 	
+	<select id="my_qna_reply" resultMap="qna" parameterType="java.util.Map">
+		<![CDATA[
+			select qna_Id, qna_parentId, qna_content, qna_regDate from (select * from qna where qna_writeId = #{qna_writeId}) where qna_parentId = 1
+		]]>
+	</select>
+	
 	<select id="total_my_qna" resultType="int" parameterType="String">
 		<![CDATA[
 			select count(qna_id) from qna where qna_writeId=#{qna_writeId}
@@ -134,13 +140,13 @@
 	</delete>
 	
 	<!-- 문의글 답변 -->
-	<insert id="reply_qna" parameterType="java.util.Map">
+	<insert id="insert_reply" parameterType="java.util.Map">
 		<![CDATA[
 			insert into qna values(#{qna_id},#{qna_parentId},'관리자',#{qna_title},#{qna_content},sysdate,1,#{product_code})
 		]]>
 	</insert>
 	
-	<update id="status_set_qna" parameterType="int">
+	<update id="update_parentId" parameterType="int">
 		<![CDATA[
 			update qna set qna_status=1 where qna_id=#{qna_id}
 		]]>
