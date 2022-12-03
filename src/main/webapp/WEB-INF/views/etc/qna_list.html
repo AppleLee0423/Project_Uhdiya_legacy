@@ -2,8 +2,94 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(function(){
+		let now = new Date();
+		let ago = new Date(now.setDate(now.getDate()-365));
+		let today = date_setting(now);
+		let year = date_setting(ago);
+		
+		$('input[name=startDate]').attr('min',year);
+		$('input[name=endDate]').attr('max',today);
+		$('input[name=startDate]').val(today);
+		$('input[name=endDate]').val(today);
+		
+		checkbox_setting();
+		
+		let list_count = $('#list_count').val();
+		paging_set(list_count);
+	});
+	
+	function paging_set(list_count){
+		let total_qna = 5;
+		
+		let total = (total_qna / list_count) + 1;
+		$('.list_paging').append('<button id="prev"><i class="fa-solid fa-angle-left"></i></button>');
+		for(let i=1; i<total; i++){
+			$('.list_paging').append('<button id="page" onclick="page_go(this)">'+i+'</button>');
+		}
+		$('.list_paging').append('<button id="prev"><i class="fa-solid fa-angle-right"></i></button>');
+	}
+
+	/* function select_list_day(arr){
+		$.ajax({
+			url:path+'/board/qna',
+			data: {arr_type : arr},
+			success:function(data){
+				
+			}
+		});
+	} */
+		
+		
+		// 최근등록일
+		// 오래된 순
+		// 검색 조건에 따른 검색
+		// 20개씩
+		// 50개씩
+	
+	function page_go(obj){
+		let button = $(obj).text();
+		console.log(button);
+	}
+	
+	function checkbox_setting(){
+		$('input[type="checkbox"][name="status"]').click(function(){
+			if($(this).prop('checked')){
+				$('input[type="checkbox"][name="status"]').prop('checked',false);
+				$(this).prop('checked',true);
+			}
+		});
+	}
+		
+	function getDay(obj){
+		let today = new Date();
+		let select_date = $(obj).attr('id');
+		
+		switch(select_date){
+		case 'today': today = new Date(); break;
+		case 'week': today = new Date(today.setDate(today.getDate()-7)); break;
+		case '1month': today = new Date(today.setMonth(today.getMonth()-1)); break;
+		case '3month': today = new Date(today.setMonth(today.getMonth()-3)); break;
+		}
+		
+		date = date_setting(today);
+		
+		$('input[name=startDate]').val(date);
+	}
+	 
+	 function date_setting(today){
+		let day = today.getDate();
+		let month = today.getMonth()+1;
+		let year = today.getFullYear();
+		if(day < 10) day = '0'+day;
+		if(month < 10) month = '0'+month;
+		today = year + '-' + month + '-' + day;
+		return today;
+	 }
+</script>
 <style>
 	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
 	*{margin:0; padding:0; font-family: Noto Sans Korean;}
@@ -24,85 +110,41 @@
 	.qna_search_button input{margin-bottom: 0px;}
 	#qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
 	#search_reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:100px;}
+	.qna_list_body_header{margin-left:10px; height:60px; margin-top:20px; display: flex; justify-content: space-between;}
+	.body_header_one{display:flex; padding-top:25px;}
+	.body_header_two{margin-right:10px;padding-top:15px;}
+	.body_header_two>select {width:110px;}
+	.qna_list_body_content{margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
+	
+	.list_header{display:flex; justify-content:space-between; height:50px; border-bottom: 2px solid #A6A7AB; background-color: #F8F9FD;}
+	.list_header span{text-align: center; font-weight: bold; padding-top:13px; margin-right:10px;}
+	.list_content {min-height:50px;}
+	.list_content span{margin-top:13px; margin-right:10px;}
+	summary{display: flex; justify-content: space-between; text-align: center; min-height:50px;}
+	#num{width:5%; text-align: center;}
+	#product{width:15%; overflow: hidden; white-space: nowrap; text-align: center;}
+	.list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
+	#title{width:40%;}
+	#writer{width:10%; text-align: center;}
+	#date{width:10%; text-align: center;}
+	#status{width:10%; text-align: center;}
+	#delete{width:10%; text-align: center; margin-right:0;}
+	summary>#title{text-align: left;}
+	.content_inner{border-top:1px solid #A6A7AB; border-bottom:1px solid #A6A7AB; background-color: #F7F8FA; padding-left: 100px;}
+	.user_content{min-height: 50px; display: flex;}
+	.reply_content{display: flex; min-height: 50px; justify-content: space-between;}
+	#reply_front{color:#525253; width:20px;}
+	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:35px;}
+	#reply_content{width:795px; border-bottom:1px solid #A6A7AB;}
+	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
+	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
+	
+	.qna_list_footer{margin:20px auto; margin-left:10px;}
+	.list_paging{height: 50px; display: flex; justify-content: space-between; padding: 0 475px;}
+	.list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
+	.list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
+	.list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
 </style>
-<script>
-	$(function(){
-		let today = new Date();
-		today = get_day(1);
-		let year_day = get_day(2);
-		let week_day = get_day(3);
-		let one_month = get_day(4);
-		let three_month = get_day(5);
-		
-		$('input[name=startDate]').attr('min',year_day);
-		$('input[name=endDate]').attr('max',today);
-		$('input[name=startDate]').val(today);
-		$('input[name=endDate]').val(today);
-		
-		$('#today').click(function(){
-			$('input[name=startDate]').val(today);
-			$('input[name=startDate]').val(today);
-			$('.date_btn').css('background-color','#F8F9FD');
-			$('.date_btn').css('color','black');
-			$('#today').css('background-color','#474948');
-			$('#today').css('color','white');
-			
-		});
-		
-		$('#week').click(function(){
-			$('input[name=startDate]').val(week_day);
-			$('.date_btn').css('background-color','#F8F9FD');
-			$('.date_btn').css('color','black');
-			$('#week').css('background-color','#474948');
-			$('#week').css('color','white');
-		});
-		
-		$('#1month').click(function(){
-			$('input[name=startDate]').val(one_month);
-			$('.date_btn').css('background-color','#F8F9FD');
-			$('.date_btn').css('color','black');
-			$('#1month').css('background-color','#474948');
-			$('#1month').css('color','white');
-		});
-		
-		$('#3month').click(function(){
-			$('input[name=startDate]').val(three_month);
-			$('.date_btn').css('background-color','#F8F9FD');
-			$('.date_btn').css('color','black');
-			$('#3month').css('background-color','#474948');
-			$('#3month').css('color','white');
-		});
-		
-		$('input[type="checkbox"][name="status"]').click(function(){
-			if($(this).prop('checked')){
-				$('input[type="checkbox"][name="status"]').prop('checked',false);
-				$(this).prop('checked',true);
-			}
-		});
-	});
-	
-	function get_day(num){
-		let today = new Date();
-		
-		switch(num){
-		case 1: today = new Date(); break;
-		case 2: today = new Date(today.setDate(today.getDate()-365)); break;
-		case 3: today = new Date(today.setDate(today.getDate()-7)); break;
-		case 4: today = new Date(today.setMonth(today.getMonth()-1)); break;
-		case 5: today = new Date(today.setMonth(today.getMonth()-3)); break;
-		}
-		
-		let day = today.getDate();
-		let month = today.getMonth()+1;
-		let year = today.getFullYear();
-		if(day < 10) day = '0'+day;
-		if(month < 10) month = '0'+month;
-		today = year + '-' + month + '-' + day;
-		return today;
-	}
-	
-	
-</script>
 </head>
 <body>
 	<div class="qna_list">
@@ -117,17 +159,17 @@
 					<td class="qna_search_date">
 						<input type="date" name="startDate" max="" min=""/>&nbsp;~
 						<input type="date" name="endDate" max="" min=""/>&nbsp;&nbsp;
-						<button class="date_btn" id="today">오늘</button>
-						<button class="date_btn" id="week">1주일</button>
-						<button class="date_btn" id="1month">1개월</button>
-						<button class="date_btn" id="3month">3개월</button>
+						<button class="date_btn" id="today" onclick="getDay(this)">오늘</button>
+						<button class="date_btn" id="week" onclick="getDay(this)">1주일</button>
+						<button class="date_btn" id="1month" onclick="getDay(this)">1개월</button>
+						<button class="date_btn" id="3month" onclick="getDay(this)">3개월</button>
 					</td>
 				</tr>
 				<tr>
 					<td class="qna_search_title">답변구분</td>
 					<td class="qna_search_status">
 						<input type="checkbox" id="reply_on" name="status" value="0"/>
-						<label for="reply_on">답변대기</label>
+						<label for="reply_on">답변대기</label>&nbsp;&nbsp;
 						<input type="checkbox" id="reply_off" name="status" value="1"/>
 						<label for="reply_off">답변완료</label>
 						
@@ -155,11 +197,91 @@
 		</div>
 		
 		<div class="qna_list_body">
+			<div class="qna_list_body_header">
+				<div class="body_header_one">
+					<div class="qna_list_body_header_title"><h4>문의글 목록&nbsp;&nbsp;</h4></div>(총&nbsp;<font color="blue">${total_qna}</font>개&nbsp;)
+				</div>
+				<div class="body_header_two">
+					<select name="list_day" id="list_day" onchange="select_list_day(this.value)">
+						<option value="desc">최근등록일순</option>
+						<option value="asc">등록일순</option>
+					</select>
+				
+					<select name="list_count" id="list_count">
+						<option value="20">20개씩</option>
+						<option value="50">50개씩</option>
+					</select>
+				</div>
+			</div>
 			
+			<div class="qna_list_body_content">
+				<div class="list_header">
+					<span id="num">번호</span>
+					<span id="product">상품명</span>
+					<span id="title">제목</span>
+					<span id="writer">작성자</span>
+					<span id="date">작성일</span>
+					<span id="status">답변상태</span>
+					<span id="delete">삭제</span>
+				</div>
+				<div class="list_content" style="border-bottom: 1px solid #A6A7AB; display: block;">
+					<p id="empty_content" align="center" style="padding-top:13px;">작성된 문의가 없습니다.</p>
+				</div>
+				<div class="list_content">
+					<details>
+						<summary>
+							<span id="num">999</span>
+							<span id="product">[어디야] 홀빈커피 페르소나..................</span>
+							<span id="title">&nbsp;&nbsp;장은진은 이충주를 사랑하나요?</span>
+							<span id="writer">honghonghong</span>
+							<span id="date">2022-11-26</span>
+							<span id="status"><button id="reply_btn">답변하기</button></span>
+							<span id="delete"><button id="delete_btn">삭제</button></span>
+						</summary>
+							<div class="content_inner">
+								<div class="user_content">
+									<span>궁금하네요</span>
+								</div>
+							</div>
+					</details>
+					<details>
+						<summary>
+							<span id="num">998</span>
+							<span id="product">[어디야] 홀빈커피 페르소나..................</span>
+							<span id="title">&nbsp;&nbsp;이충주는 장은진을 사랑하나요?</span>
+							<span id="writer">honghonghong</span>
+							<span id="date">2022-11-26</span>
+							<span id="status">답변완료</span>
+							<span id="delete"><button id="delete_btn">삭제</button></span>
+						</summary>
+							<div class="content_inner">
+								<div class="user_content">
+									<span>궁금하네요</span>
+								</div>
+								<div class="reply_content">
+									<span id="reply_front">└</span>
+									<span id="reply_second">답변</span>
+									<span id="reply_content">진심으로 사랑하고 있습니다~~</span>
+									<span id="date" >2022-11-30</span>
+									<span id="writer">신</span>
+								</div>
+							</div>
+					</details>
+				</div>
+			</div>
 		</div>
 		
 		<div class="qna_list_footer">
-		
+			<div class="list_paging">
+				<!-- <button id="prev"><i class="fa-solid fa-angle-left"></i></button>
+				<div id="page_num"></div>
+				<button id="page" onclick="page_go(this)">1</button>
+				<button id="page" onclick="page_go(this)">2</button>
+				<button id="page" onclick="page_go(this)">3</button>
+				<button id="page" onclick="page_go(this)">4</button>
+				<button id="page" onclick="page_go(this)">5</button>
+				<button id="next"><i class="fa-solid fa-angle-right"></i></button> -->
+			</div>
 		</div>
 	</div>
 </body>

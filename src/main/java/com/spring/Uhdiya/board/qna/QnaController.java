@@ -50,23 +50,19 @@ public class QnaController {
 			String member_id = member.getMember_id();
 			if(member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
-
-				String _section = request.getParameter("section"); 
-				String _pageNum = request.getParameter("pageNum");
-				int section = Integer.parseInt((_section == null) ? "1" : _section);  
-				int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+				String page = request.getParameter("current_page");
 				
-				Map<String, Object> pageMap = new HashMap<String, Object>();
+				Integer current_page = Integer.parseInt(request.getParameter("current_page"));
+				Integer list_count = Integer.parseInt(request.getParameter("list_count"));
+				String list_day = request.getParameter("list_day");
 				
-				pageMap.put("section", section);
-				pageMap.put("pageNum", pageNum);
-				Map<String,Object> qnaMap = new HashMap<String, Object>();
-				
-				qnaMap = qnaService.qna_list(pageMap);
-				qnaMap.put("section", section);
-				qnaMap.put("pageNum", pageNum);
+				Map<String, Object> qnaMap = new HashMap<String, Object>();
+				qnaMap = qnaService.all_qna(current_page, list_count, list_day);
 				
 				mav.addObject("qnaMap",qnaMap);
+			} else {
+				message(request,response);
+				return null;
 			}
 		} else {
 			message(request,response);
@@ -75,6 +71,36 @@ public class QnaController {
 		return mav;
 	}
 
+	/*
+	 * @RequestMapping("/qna_list") public ModelAndView qna_list(HttpServletRequest
+	 * request, HttpServletResponse response) throws Exception{
+	 * response.setContentType("text/html;charset=utf-8"); String viewName =
+	 * (String) request.getAttribute("viewName"); ModelAndView mav = null;
+	 * 
+	 * HttpSession session = request.getSession(); Boolean isLogOn = (Boolean)
+	 * session.getAttribute("isLogOn"); MemberDTO member = (MemberDTO)
+	 * session.getAttribute("member");
+	 * 
+	 * if(isLogOn != null && isLogOn == true && member != null) { String member_id =
+	 * member.getMember_id(); if(member_id.equals("admin")) { mav = new
+	 * ModelAndView(viewName);
+	 * 
+	 * String _section = request.getParameter("section"); String _pageNum =
+	 * request.getParameter("pageNum"); int section = Integer.parseInt((_section ==
+	 * null) ? "1" : _section); int pageNum = Integer.parseInt((_pageNum == null) ?
+	 * "1" : _pageNum);
+	 * 
+	 * Map<String, Object> pageMap = new HashMap<String, Object>();
+	 * 
+	 * pageMap.put("section", section); pageMap.put("pageNum", pageNum);
+	 * Map<String,Object> qnaMap = new HashMap<String, Object>();
+	 * 
+	 * qnaMap = qnaService.qna_list(pageMap); qnaMap.put("section", section);
+	 * qnaMap.put("pageNum", pageNum);
+	 * 
+	 * mav.addObject("qnaMap",qnaMap); } } else { message(request,response); return
+	 * null; } return mav; }
+	 */
 	// 상품 QnA
 	@RequestMapping("/qna_product")
 	public ModelAndView qna_product(HttpServletRequest request, HttpServletResponse response) throws Exception{

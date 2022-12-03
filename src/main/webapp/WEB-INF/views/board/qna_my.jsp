@@ -88,7 +88,6 @@
 				<span id="num">번호</span>
 				<span id="product">상품명</span>
 				<span id="title">제목</span>
-				<!-- <span id="writer">작성자</span> -->
 				<span id="date">작성일</span>
 				<span id="status">답변상태</span>
 				<span id="delete">삭제</span>
@@ -124,7 +123,7 @@
 								<span>아주 맛있는 커피군요</span>
 							</div>
 							<c:forEach var="reply" items="${reply_list}">
-								<c:if test="${reply.parentId == qna.qna_id}">
+								<c:if test="${reply.qna_parentId == qna.qna_id}">
 									<div class="reply_content">
 										<span id="reply_front">└</span>
 										<span id="reply_second">답변</span>

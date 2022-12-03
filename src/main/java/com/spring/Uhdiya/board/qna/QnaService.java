@@ -78,4 +78,13 @@ public class QnaService {
 		// TODO Auto-generated method stub
 		return qnaDAO.insert_reply(qnaDTO);
 	}
+
+	public Map<String, Object> all_qna(Integer current_page, Integer list_count, String list_day) {
+		// TODO Auto-generated method stub
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("current_page", current_page);
+		pageMap.put("list_count", list_count);
+		pageMap.put("list_day", list_day);
+		return qnaDAO.all_qna(pageMap);
+	}
 }

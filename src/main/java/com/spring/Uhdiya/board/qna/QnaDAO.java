@@ -117,4 +117,14 @@ public class QnaDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.qna.my_qna_reply",pageMap);
 	}
+
+	public Map<String, Object> all_qna(Map<String, Object> pageMap) {
+		// TODO Auto-generated method stub
+		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		List<QnaDTO> qna_list = sqlSession.selectList("mapper.qna.all_all_qna",pageMap);
+		int total_qna = total_qna();
+		qnaMap.put("total_qna", total_qna);
+		qnaMap.put("qna_list", qna_list);
+		return qnaMap;
+	}
 }

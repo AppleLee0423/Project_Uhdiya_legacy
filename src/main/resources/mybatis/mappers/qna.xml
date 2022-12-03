@@ -151,4 +151,12 @@
 			update qna set qna_status=1 where qna_id=#{qna_id}
 		]]>
 	</update>
+	
+	<select id="all_all_qna" resultMap="qna" parameterType="java.util.Map">
+		<![CDATA[
+			select rn,qna_id, product_name, qna_title, qna_writeId, qna_regDate, qna_status, product_code from 
+		    	(select rownum rn, qna_id, product_name, qna_title, qna_writeId, qna_regDate, qna_status, q.product_code from qna q, product p
+		    	where q.product_code = p.product_code order by qna_regDate #{list_day}) where rn between (#{current_page}-1)*{list_count}+1 and #{current_page}*#{list_count}
+		]]>
+	</select>
 </mapper>
