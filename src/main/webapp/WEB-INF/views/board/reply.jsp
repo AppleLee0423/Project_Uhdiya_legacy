@@ -55,7 +55,7 @@
 			<form name="reply_form" action="">
 				<ul class="qna_info">
 					<li class="reply_product_name"><b>${qna.product_name}</b></li>
-					<li class="member_qna_content">${qna.qna_content}</li>
+					<li class="member_qna_content">/ ${qna.qna_content}</li>
 				</ul>
 				<ul class="reply_info">
 					<li><textarea name="qna_content" id="reply_content" cols="30" rows="15" placeholder="문의에 대한 답변을 입력해주세요."></textarea></li>
