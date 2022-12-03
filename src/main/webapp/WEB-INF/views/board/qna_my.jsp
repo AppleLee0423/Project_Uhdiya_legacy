@@ -120,7 +120,7 @@
 					</summary>
 						<div class="content_inner">
 							<div class="user_content">
-								<span>아주 맛있는 커피군요</span>
+								<span>${qna.qna_content}</span>
 							</div>
 							<c:forEach var="reply" items="${reply_list}">
 								<c:if test="${reply.qna_parentId == qna.qna_id}">

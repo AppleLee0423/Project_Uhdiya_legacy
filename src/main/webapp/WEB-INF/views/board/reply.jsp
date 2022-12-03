@@ -16,7 +16,8 @@
 	.reply_header_title{font-size:large; color:white; padding-left:20px; padding-top:10px; text-align: left;}
 	.reply_body{padding: 10px;}
 	.qna_info{background-color: #F3F4F5; padding: 10px 0;}
-	.reply_product_name{padding-bottom: 5px; border-bottom: #8BA3A7;}
+	.reply_product_name{padding-bottom: 5px; border-bottom: #8BA3A7; height: 30px; font-weight: bold;}
+	.member_qna_content{height:30px; font-size: small;}
 	#reply_content{width:100%; margin-top: 10px; resize: none;}
 	.reply_info{margin-bottom:20px;}
 	.ctrl_btn {text-align: center; display: flex; justify-content: space-between; padding: 0 200px;}
@@ -53,7 +54,7 @@
 		<div class="reply_body">
 			<form name="reply_form" action="">
 				<ul class="qna_info">
-					<li class="reply_product_name">${qna.product_name}</li>
+					<li class="reply_product_name"><b>${qna.product_name}</b></li>
 					<li class="member_qna_content">${qna.qna_content}</li>
 				</ul>
 				<ul class="reply_info">

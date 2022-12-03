@@ -4,7 +4,7 @@
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:set var="total_qna" value="${qnaMap.total_qna }" />
-<c:set var="qna_list" value="${qnaMap.qna_lsit}" />
+<c:set var="qna_list" value="${qnaMap.qna_list}" />
 <c:set var="reply_list" value="${qnaMap.reply_list}" />
 <!DOCTYPE html>
 <html>
@@ -14,6 +14,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <script>
+	let current_page = 1; // 현재 페이지
 	$(function(){
 		let now = new Date();
 		let ago = new Date(now.setDate(now.getDate()-365));
@@ -29,31 +30,42 @@
 		
 		paging_set();
 		
-		get_page(number);
+		let reply_modal = $('.reply_modal');
+		let reply_open = $('#reply_btn');
+		
+		$('#reply_btn').click(function(){
+			$('.reply_modal').css("display","block");
+			$('body').css("overflow","hidden");
+		});
+		
+		$('#reply_close_btn').click(function(){
+			$('.reply_modal').css("display","none");
+			$('body').css("overflow","unset");
+		});
 		
 	});
 	
-	function get_page(number){
-		let _list_day = $('#list_day').val();
-		let _list_count = $('#list_count').val();
+	function get_page(){
+		let list_day = $('#list_day').val();
+		let list_count = $('#list_count').val();
 		/* let start_date = $('input[name=startDate]').val();
 		let end_date = $('input[name=endDate]').val(); */
-		if(number == null || number == ''){
-			let _current_page = 1;
-		} else {
-			let _current_page = number;
-		}
 		
-		$.ajax({
+		location.href="${path}/board/qna_list";
+		
+		/* $.ajax({
 			url:${path}+'/board/qna_list',
-			data:{
-				'current_page' : _current_page,
-				'list_count' : _list_count,
-				'list_day' : _list_day
-			},success:function(data){
+			dataType:'text',
+			contentType : "application/json",
+			data:JSON.stringify{
+				'current_page' : current_page,
+				'list_count' : list_count,
+				'list_day' : list_day
+			},
+			success:function(data){
 				alert('해치웠나?');
 			}
-		});
+		}); */
 	}
 	
 	function paging_set(){
@@ -113,12 +125,21 @@
 		today = year + '-' + month + '-' + day;
 		return today;
 	 }
+	 
+	 function modal_set(){
+			let reply_modal_btn = document.querySelect('#reply_btn');
+			let reply = document.querySelect('.reply');
+			reply_modal_btn.addEventListener('click', function(){
+				reply.css("display","block");
+			});
+		}
+	 
 </script>
 <style>
 	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
 	*{margin:0; padding:0; font-family: Noto Sans Korean;}
-	.qna_list{margin:45px auto; width:1200px; background-color: #EDF0F5;}
-	.qna_list_header{margin-left:10px; height:60px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
+	.qna_list{margin:45px auto; width:1200px; background-color: #EDF0F5; padding-top: 10px;}
+	.qna_list_header{margin-left:10px;height:60px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
 	.qna_list_header_title{margin-left:10px; padding-top:10px;}
 	.qna_list_search{margin-top: 10px;margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
 	.qna_search_table{width:100%;}
@@ -168,6 +189,10 @@
 	.list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
 	.list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
 	.list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
+	
+	.reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
+		background-color: rgba(0,0,0,0.4);}
+	.reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
 </style>
 </head>
 <body>
@@ -183,10 +208,10 @@
 					<td class="qna_search_date">
 						<input type="date" name="startDate" max="" min=""/>&nbsp;~
 						<input type="date" name="endDate" max="" min=""/>&nbsp;&nbsp;
-						<button class="date_btn" id="today">오늘</button>
-						<button class="date_btn" id="week">1주일</button>
-						<button class="date_btn" id="1month">1개월</button>
-						<button class="date_btn" id="3month">3개월</button>
+						<button class="date_btn" id="today" onclick="getDay(this)">오늘</button>
+						<button class="date_btn" id="week" onclick="getDay(this)">1주일</button>
+						<button class="date_btn" id="1month" onclick="getDay(this)">1개월</button>
+						<button class="date_btn" id="3month" onclick="getDay(this)">3개월</button>
 					</td>
 				</tr>
 				<tr>
@@ -288,6 +313,15 @@
 								</c:forEach>
 							</div>
 					</details>
+					
+					<!-- Modal의 내용 -->
+					<div class="reply_modal"> 
+						<div class="reply_modal-content">             
+							<c:import url="/board/reply">
+								<c:param name="qna_id" value="${qna.qna_id}"></c:param>
+							</c:import>
+						</div>
+					</div>
 				</c:forEach>
 				</div>
 			</div>

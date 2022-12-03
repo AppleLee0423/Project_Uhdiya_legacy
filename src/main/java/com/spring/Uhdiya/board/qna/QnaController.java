@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,11 +51,20 @@ public class QnaController {
 			String member_id = member.getMember_id();
 			if(member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
-				String page = request.getParameter("current_page");
 				
-				Integer current_page = Integer.parseInt(request.getParameter("current_page"));
-				Integer list_count = Integer.parseInt(request.getParameter("list_count"));
-				String list_day = request.getParameter("list_day");
+				int current_page = 1;
+				int list_count = 20;
+				String list_day = "desc";
+				
+				/*
+				 * if(qna_list != null) { current_page = qna_list.getCurrent_page(); list_count
+				 * = qna_list.getList_count(); list_day = qna_list.getList_day(); }
+				 */
+				
+				/*
+				 * Integer current_page = Integer.parseInt(page); Integer list_count =
+				 * Integer.parseInt(count); String list_day = request.getParameter("list_day");
+				 */
 				
 				Map<String, Object> qnaMap = new HashMap<String, Object>();
 				qnaMap = qnaService.all_qna(current_page, list_count, list_day);
