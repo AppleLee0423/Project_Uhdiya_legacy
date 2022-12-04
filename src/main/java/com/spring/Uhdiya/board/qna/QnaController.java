@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +38,7 @@ public class QnaController {
 	@Autowired QnaService qnaService;
 	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\qna";
 	
-	// 전체 QnA(관리자만)
+	/* 전체 QnA(관리자만)
 	@RequestMapping("/qna_list")
 	public ModelAndView qna_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
@@ -51,25 +53,9 @@ public class QnaController {
 			String member_id = member.getMember_id();
 			if(member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
+				int total_qna = qnaService.total_qna();
 				
-				int current_page = 1;
-				int list_count = 20;
-				String list_day = "desc";
-				
-				/*
-				 * if(qna_list != null) { current_page = qna_list.getCurrent_page(); list_count
-				 * = qna_list.getList_count(); list_day = qna_list.getList_day(); }
-				 */
-				
-				/*
-				 * Integer current_page = Integer.parseInt(page); Integer list_count =
-				 * Integer.parseInt(count); String list_day = request.getParameter("list_day");
-				 */
-				
-				Map<String, Object> qnaMap = new HashMap<String, Object>();
-				qnaMap = qnaService.all_qna(current_page, list_count, list_day);
-				
-				mav.addObject("qnaMap",qnaMap);
+				mav.addObject("total_qna",total_qna);
 			} else {
 				message(request,response);
 				return null;
@@ -80,7 +66,75 @@ public class QnaController {
 		}		
 		return mav;
 	}
+	*/
+	
+	// 리스트 받아오기
+//	@RequestMapping("/do_qna_list")
+//	public @ResponseBody Map<String,Object> do_qna_list(@RequestParam Map<String, Object> param, HttpServletRequest request) throws Exception {
+//		Map<String, Object> qnaMap = new HashMap<String, Object>();
+//		qnaMap = qnaService.test(param);
+//		//return qnaMap;
+//		System.out.println("controller : " + param.get("keyword_set"));
+//		return qnaMap;
+//	}
+	
+	
+	@RequestMapping("/do_qna_list")
+	public @ResponseBody String do_qna_list(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model) throws Exception {
+		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap = qnaService.test(param);
+		//return qnaMap;
+		System.out.println("controller : " + param.get("keyword_set"));
+		model.addAttribute("qnaMap",qnaMap);
+		return "/board/test";
+	}
+	
+	
+	// 전체 QnA(관리자만)
+	@RequestMapping("/qna_list")
+	public ModelAndView qna_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = null;
+		
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		if (isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if (member_id.equals("admin")) {
+				mav = new ModelAndView(viewName);
 
+				int current_page = 1;
+				int list_count = 20;
+				String list_day = "desc";
+				/*
+				if (qna_list != null) {
+					current_page = qna_list.getCurrent_page();
+					list_count = qna_list.getList_count();
+					list_day = qna_list.getList_day();
+				}
+
+				Integer current_page = Integer.parseInt(page);
+				Integer list_count = Integer.parseInt(count);
+				String list_day = request.getParameter("list_day");
+				*/
+				Map<String, Object> qnaMap = new HashMap<String, Object>();
+				qnaMap = qnaService.all_qna(current_page, list_count, list_day);
+				mav.addObject("qnaMap", qnaMap);
+			} else {
+				message(request, response);
+				return null;
+			}
+		} else {
+			message(request, response);
+			return null;
+		}
+		return mav;
+	}
+	
+	
 	/*
 	 * @RequestMapping("/qna_list") public ModelAndView qna_list(HttpServletRequest
 	 * request, HttpServletResponse response) throws Exception{

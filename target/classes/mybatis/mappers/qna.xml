@@ -21,6 +21,19 @@
 		<result property="qna_fileName" column="qna_fileName"/>
 	</resultMap>
 	
+	<!-- 
+	<resultMap type="qna_list" id="qna_list">
+		<result property="current_page" column="current_page"/>
+		<result property="list_count" column="list_count"/>
+		<result property="list_day" column="list_day"/>
+		<result property="startDate" column="startDate"/>
+		<result property="endDate" column="endDate"/>
+		<result property="status" column="status"/>
+		<result property="keyword_set" column="keyword_set"/>
+		<result property="keyword" column="keyword"/>
+	</resultMap>
+	 -->
+	
 	<!-- 관리자 페이지 문의글 전체 -->
 	<select id="all_qna" resultMap="qna" parameterType="java.util.Map">
 		<![CDATA[
@@ -157,6 +170,54 @@
 			select rn,qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code from 
 		    	(select rownum rn, qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code from qna q, product p
 		    	where q.product_code = p.product_code order by qna_regDate desc) where rn between (#{current_page}-1)*#{list_count}+1 and #{current_page}*#{list_count}
+		]]>
+	</select>
+	
+	<!-- private int current_page; // 현재 페이지
+	private int list_count; // 페이지당 결과수 [20,50]
+	private String list_day; // 등록일 순 [[desc,asc]
+	
+	private Date startDate; //시작일
+	private Date endDate; // 종료일
+	private int status; // 답변상태[0:답변대기,1:답변완료]
+	private String keyword_set; //검색조건[title,qna_writeId,product_name]
+	private String keyword; // 검색어 -->
+	
+	<parameterMap type="com.spring.Uhdiya.board.qna.Qna_list" id="list" />
+	<select id="test" resultMap="qna" parameterType="java.util.Map">
+		select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
+		from (select rownum as rn, qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
+		from qna q, product p where q.product_code = p.product_code
+		
+		<if test="startDate != null and endDate != null">
+			and qna_regDate between #{startDate, jdbcType=DATE} and #{endDate, jdbcType=DATE} 
+		</if>
+		
+		<if test='keyword_set != "검색조건" and keyword != null'>
+			and #{keyword_set} like '%' || #{keyword, jdbcType=VARCHAR} || '%' 
+		</if>
+		
+		and qna_status = #{status})
+		
+		where rn between #{startNum} and #{endNum} order by qna_regDate ${list_day} 
+		
+		<!-- 
+		<choose>
+			<when test="current_page == null or current_page == 1">
+				) where rn between (1 - 1) * #{list_count} + 1 and 1 * #{list_count} 
+			</when>
+			<otherwise>
+				) where rn between (#{current_page} - 1) * #{list_count} + 1 and #{current_page} * #{list_count}
+			</otherwise>
+		</choose>
+		 -->
+	</select>
+	
+	<select id="test2" resultMap="qna">
+		<![CDATA[
+			select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
+		from (select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
+		from qna q, product p where q.product_code = p.product_code and qna_parentId = 1)
 		]]>
 	</select>
 </mapper>

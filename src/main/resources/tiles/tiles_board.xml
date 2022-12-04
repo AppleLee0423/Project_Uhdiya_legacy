@@ -69,5 +69,8 @@
 	<definition name="/board/reply" extends="default">
 		<put-attribute name="content" value="/WEB-INF/views/board/reply.jsp" />
 	</definition>
+	<definition name="/board/test" extends="default">
+		<put-attribute name="content" value="/WEB-INF/views/board/list_table.jsp" />
+	</definition>
 	
 </tiles-definitions>

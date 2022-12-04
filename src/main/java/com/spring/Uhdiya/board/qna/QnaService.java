@@ -87,4 +87,46 @@ public class QnaService {
 		pageMap.put("list_day", list_day);
 		return qnaDAO.all_qna(pageMap);
 	}
+
+//	public Map<String, Object> test(Qna_list list) {
+//		// TODO Auto-generated method stub
+//		 Map<String, Object> qnaMap = new HashMap<String, Object>();
+//		 List<QnaDTO> qna_list = qnaDAO.test(list);
+//		 List<QnaDTO> reply_list = qnaDAO.test2(list);
+//		 int total_qna = qnaDAO.total_qna();
+//		 System.out.println("start : " + list.getStartNum());
+//		 System.out.println("end : " + list.getEndNum());
+//		 System.out.println("day1 : " + list.getCurrent_page());
+//
+//		 qnaMap.put("qna_list", qna_list);
+//		 qnaMap.put("reply_list", reply_list);
+//		 qnaMap.put("total_qna", total_qna);
+//		return qnaMap;
+//	}
+
+	public int total_qna() {
+		// TODO Auto-generated method stub
+		return qnaDAO.total_qna();
+	}
+
+	public Map<String, Object> test(Map<String, Object> dataMap) {
+		// TODO Auto-generated method stub
+		int current_page = Integer.parseInt((String) dataMap.get("current_page"));
+		int list_count = Integer.parseInt((String) dataMap.get("list_count"));
+		int startNum = (current_page - 1) * list_count + 1;
+		int endNum = current_page * list_count;
+		dataMap.put("startNum", startNum);
+		dataMap.put("endNum", endNum);
+		
+		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		 List<QnaDTO> qna_list = qnaDAO.test(dataMap);
+		 List<QnaDTO> reply_list = qnaDAO.test2(dataMap);
+		 int total_qna = qnaDAO.total_qna();
+		 System.out.println("service : " + dataMap.get("list_day"));
+		 
+		 qnaMap.put("qna_list", qna_list);
+		 qnaMap.put("reply_list", reply_list);
+		 qnaMap.put("total_qna", total_qna);
+		return qnaMap;
+	}
 }

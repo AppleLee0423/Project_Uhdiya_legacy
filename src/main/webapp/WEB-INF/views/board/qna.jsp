@@ -3,9 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<c:set var="total_qna" value="${qnaMap.total_qna }" />
-<c:set var="qna_list" value="${qnaMap.qna_list}" />
-<c:set var="reply_list" value="${qnaMap.reply_list}" />
+<c:set var="total_qna" value="${qnaMap.total_qna}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,49 +21,69 @@
 		
 		$('input[name=startDate]').attr('min',year);
 		$('input[name=endDate]').attr('max',today);
-		$('input[name=startDate]').val(today);
-		$('input[name=endDate]').val(today);
 		
 		checkbox_setting();
 		
 		paging_set();
 		
-		let reply_modal = $('.reply_modal');
-		let reply_open = $('#reply_btn');
-		
-		$('#reply_btn').click(function(){
-			$('.reply_modal').css("display","block");
-			$('body').css("overflow","hidden");
-		});
-		
-		$('#reply_close_btn').click(function(){
-			$('.reply_modal').css("display","none");
-			$('body').css("overflow","unset");
-		});
-		
+		get_page();
 	});
 	
-	function get_page(){
+	function get_page(){		
 		let list_day = $('#list_day').val();
 		let list_count = $('#list_count').val();
-		/* let start_date = $('input[name=startDate]').val();
-		let end_date = $('input[name=endDate]').val(); */
+		let start_date = $('input[name=startDate]').val();
+		let end_date = $('input[name=endDate]').val();
+		/*
+		var data_str = 'current_page' : current_page;
+		data_str += ',list_day : ' + list_day;
+		data_str += ',list_count : ' + list_count;
+		*/
+		if(start_date == null || end_date == null){
+			start_date = $('input[name=startDate]').attr('min');
+			end_date = $('input[name=startDate]').attr('max');
+		}
+		/*
+		data_str += ',start_date : ' + start_date;
+		data_str += ',end_date : ' + end_date;
+		*/
+		/*
+		if($('#keyword_set').val() != null){
+			data_str += ',keyword_set : ' + $('#keyword_set').val();
+		}
+		if($('#keyword').val() != null){
+			data_str += ',keyword : ' + $('#keyword').val();
+		}
+		if($('input[name=status]').val() != null){
+			data_str += ',status : ' + $('input[name=status]').val();
+		}
+		*/
+		let keyword_set = $('#keyword_set').val();
+		let keyword = $('#keyword').val();
+		let status = $('input[name=status]').val();
 		
-		location.href="${path}/board/qna_list";
+		var data_str = 
+		{
+			'current_page' : current_page,
+			'list_count' : list_count,
+			'list_day' : list_day,
+			'start_date' : start_date,
+			'end_date' : end_date,
+			'keyword_set' : keyword_set,
+			'keyword' : keyword,
+			'status' : status
+		}
 		
-		/* $.ajax({
-			url:${path}+'/board/qna_list',
-			dataType:'text',
-			contentType : "application/json",
-			data:JSON.stringify{
-				'current_page' : current_page,
-				'list_count' : list_count,
-				'list_day' : list_day
-			},
+		$.ajax({
+			url:'/Uhdiya/board/do_qna_list',
+			data:data_str,
+			dataType:'json',
+			contentType: "application/json;charset=UTF-8" ,
 			success:function(data){
-				alert('해치웠나?');
+				$('.qna_list_body_content').html(data);
+				console.log(data);
 			}
-		}); */
+		});
 	}
 	
 	function paging_set(){
@@ -79,12 +97,6 @@
 		}
 		$('.list_paging').append('<button id="prev"><i class="fa-solid fa-angle-right"></i></button>');
 	}
-	
-		// 최근등록일
-		// 오래된 순
-		// 검색 조건에 따른 검색
-		// 20개씩
-		// 50개씩
 	
 	function page_go(obj){
 		let button = $(obj).text();
@@ -126,14 +138,28 @@
 		return today;
 	 }
 	 
-	 function modal_set(){
+	 $(function(){
+			let reply_modal = $('.reply_modal');
+			let reply_open = $('#reply_btn');
+			
+			$('#reply_btn').click(function(){
+				$('.reply_modal').css("display","block");
+				$('body').css("overflow","hidden");
+			});
+			
+			$('#reply_close_btn').click(function(){
+				$('.reply_modal').css("display","none");
+				$('body').css("overflow","unset");
+			});
+		});
+
+		function modal_set(){
 			let reply_modal_btn = document.querySelect('#reply_btn');
 			let reply = document.querySelect('.reply');
 			reply_modal_btn.addEventListener('click', function(){
 				reply.css("display","block");
 			});
 		}
-	 
 </script>
 <style>
 	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
@@ -155,6 +181,7 @@
 	.qna_search_button input{margin-bottom: 0px;}
 	#qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
 	#search_reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:100px;}
+	
 	.qna_list_body_header{margin-left:10px; height:60px; margin-top:20px; display: flex; justify-content: space-between;}
 	.body_header_one{display:flex; padding-top:25px;}
 	.body_header_two{margin-right:10px;padding-top:15px;}
@@ -183,16 +210,16 @@
 	#reply_content{width:795px; border-bottom:1px solid #A6A7AB;}
 	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
 	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
+
+	.reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
+		background-color: rgba(0,0,0,0.4);}
+	.reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
 	
 	.qna_list_footer{margin:20px auto; margin-left:10px;}
 	.list_paging{height: 50px; display: flex; justify-content: space-between; padding: 0 475px;}
 	.list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
 	.list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
 	.list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
-	
-	.reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
-		background-color: rgba(0,0,0,0.4);}
-	.reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
 </style>
 </head>
 <body>
@@ -227,7 +254,7 @@
 				<tr>
 					<td class="qna_search_title">상세구분</td>
 					<td class="qna_search_detail">
-						<select name="keyword_set">
+						<select name="keyword_set" id="keyword_set">
 							<option>검색조건</option>
 							<option value="title">글제목</option>
 							<option value="qna_writeId">작성자</option>
@@ -263,67 +290,75 @@
 				</div>
 			</div>
 			
+			<div class="data_table">
+			
+			</div>
+			
 			<div class="qna_list_body_content">
-				<div class="list_header">
-					<span id="num">번호</span>
-					<span id="product">상품명</span>
-					<span id="title">제목</span>
-					<span id="writer">작성자</span>
-					<span id="date">작성일</span>
-					<span id="status">답변상태</span>
-					<span id="delete">삭제</span>
-				</div>
-				<c:if test="${empty qna_list}">
+				<c:set var="qna_list" value="${qnaMap.qna_list}" />
+				<c:set var="reply_list" value="${qnaMap.reply_list}" />
+					<div class="list_header">
+						<span id="num">번호</span>
+						<span id="product">상품명</span>
+						<span id="title">제목</span>
+						<span id="writer">작성자</span>
+						<span id="date">작성일</span>
+						<span id="status">답변상태</span>
+						<span id="delete">삭제</span>
+					</div>
+					<c:if test="${empty qna_list}">
 				<div class="list_content" style="border-bottom: 1px solid #A6A7AB; display: block;">
-					<p id="empty_content" align="center" style="padding-top:13px;">작성된 문의가 없습니다.</p>
+				<p id="empty_content" align="center" style="padding-top:13px;">작성된 문의가 없습니다.</p>
+				<p id="empty_content" align="center" style="padding-top:13px;">${qna_list}</p>
+				<p id="empty_content" align="center" style="padding-top:13px;">${reply_list}</p>
 				</div>
 				</c:if>
 				<c:if test="${not empty qna_list}"></c:if>
 				<div class="list_content">
 				<c:forEach var="qna" items="${qna_list}" varStatus="qna_num">
-					<details>
-						<summary>
-							<span id="num">${total_qna - qna_num.index}</span>
-							<span id="product">${qna.product_name}</span>
-							<span id="title">&nbsp;&nbsp;${qna.qna_title}</span>
-							<span id="writer">${qna.qna_writeId}</span>
-							<span id="date">${qna.qna_regDate}</span>
-							<c:if test="${qna.qna_status == 0}">
-								<span id="status"><button id="reply_btn">답변하기</button></span>
-							</c:if>
-							<c:if test="${qna.qna_status == 1}">
-								<span id="status">답변완료</span>
-							</c:if>
-							<span id="delete"><button id="delete_btn">삭제</button></span>
-						</summary>
-							<div class="content_inner">
-								<div class="user_content">
-									<span id="content">${qna.qna_content}</span>
-								</div>
-								<c:forEach var="reply" items="${reply_list}">
-									<c:if test="${reply.qna_parentId == qna.qna_id}">
-										<div class="reply_content">
-											<span id="reply_front">└</span>
-											<span id="reply_second">답변</span>
-											<span id="reply_content">${reply.qna_content}</span>
-											<span id="date" >${reply.qna_regDate}</span>
-											<span id="writer">관리자</span>
-										</div>
-									</c:if>
-								</c:forEach>
-							</div>
-					</details>
-					
-					<!-- Modal의 내용 -->
-					<div class="reply_modal"> 
-						<div class="reply_modal-content">             
-							<c:import url="/board/reply">
-								<c:param name="qna_id" value="${qna.qna_id}"></c:param>
-							</c:import>
-						</div>
-					</div>
-				</c:forEach>
+				<details>
+					<summary>
+						<span id="num">${total_qna - qna_num.index}</span>
+				<span id="product">${qna.product_name}</span>
+				<span id="title">&nbsp;&nbsp;${qna.qna_title}</span>
+				<span id="writer">${qna.qna_writeId}</span>
+				<span id="date">${qna.qna_regDate}</span>
+				<c:if test="${qna.qna_status == 0}">
+				<span id="status"><button id="reply_btn">답변하기</button></span>
+				</c:if>
+				<c:if test="${qna.qna_status == 1}">
+				<span id="status">답변완료</span>
+				</c:if>
+					<span id="delete"><button id="delete_btn">삭제</button></span>
+				</summary>
+					<div class="content_inner">
+						<div class="user_content">
+							<span id="content">${qna.qna_content}</span>
 				</div>
+				<c:forEach var="reply" items="${reply_list}">
+				<c:if test="${reply.qna_parentId == qna.qna_id}">
+				<div class="reply_content">
+					<span id="reply_front">└</span>
+					<span id="reply_second">답변</span>
+					<span id="reply_content">${reply.qna_content}</span>
+				<span id="date" >${reply.qna_regDate}</span>
+					<span id="writer">관리자</span>
+				</div>
+				</c:if>
+				</c:forEach>
+			</div>
+	</details>
+	
+	<!-- Modal의 내용 -->
+	<div class="reply_modal"> 
+		<div class="reply_modal-content">             
+			<c:import url="/board/reply">
+	<c:param name="qna_id" value="${qna.qna_id}"></c:param>
+	</c:import>
+		</div>
+	</div>
+	</c:forEach>
+		</div>
 			</div>
 		</div>
 		

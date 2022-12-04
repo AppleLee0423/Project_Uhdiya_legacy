@@ -33,14 +33,12 @@
 	
 	function reply_submit(obj){
 		let form = document.reply_form;
-		let reply_content = $('#reply_content').val();
-		if (reply_content == "" || reply_content == null){
+		if (form.qna_content.value.length == 0){
 			alert('답변이 입력되지 않았습니다.');
-			reply_content.select();
 			return;
 		} else {
-			form.action = '${path}/board/addReply';
-			form.submit();
+			obj.action = '${path}/board/addReply';
+			obj.submit();
 			$('body').css("overflow","unset");
 		}
 	}
@@ -63,7 +61,7 @@
 				
 				<div class="ctrl_btn">
 					<input id="reply_close_btn" type="button" onclick="fn_reply_close()" value="취소"/>
-					<input id="reply_insert_btn" type="button" onclick="reply_submit(this)" value="등록"/>
+					<input id="reply_insert_btn" type="button" onclick="reply_submit(this.form)" value="등록"/>
 					<input type="hidden" name="qna_parentId" value="${qna.qna_id}"/>
 				</div>
 			</form>
