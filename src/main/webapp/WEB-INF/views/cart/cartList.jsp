@@ -465,12 +465,29 @@ function cartList_del(product_code){
 .qty_btn_minus {
   height: 11px;
 }
+.menuMap{
+	width: 1200px;
+	margin-top:35px;
+	min-height:20px;
+	text-align:right;
+	font-size:small;
+	color:gray;
+}
 </style>
 </head>
 <body>
 	<input type="hidden" id="member_id" value="${member.member_id }">
 
 	<div class="cartListPage">
+		<!-- 메뉴맵 -->
+		<div class="menuMap">
+			<a href="${path }/main">
+				홈 > 
+			</a>
+			<a href="${path }/cart/cartList">
+				<span >장바구니  </span>
+			</a>
+		</div>
 		<div class="title">
 			<span class="title_txt">장바구니</span>
 		</div>
@@ -507,13 +524,13 @@ function cartList_del(product_code){
 			<c:choose>
 				<c:when test="${member.member_id==null || empty cartsMap.cartList }">
 						<tr>
-							<td colspan="7" height="300">
+							<td colspan="6" height="300">
 								<c:choose>
-									<c:when test="${empty cartsMap.cartList }" >
-										장바구니가 비었습니다. 상품을 추가해주세요.
+									<c:when test="${member.member_id==null}" > 
+										로그인 후 사용 가능합니다. 
 									</c:when>
 									<c:otherwise>
-										로그인 후 사용 가능합니다.
+										선택된 상품이 없습니다. 상품상세 또는 장바구니에서 구매를 선택해주세요.
 									</c:otherwise>
 								</c:choose>
 							</td>
@@ -530,20 +547,20 @@ function cartList_del(product_code){
 					</table>
 					
 					<c:choose>
-						<c:when test="${empty cartsMap.cartList }" >
-							<div class="notUser">
-								<button type="button" class="selectOrder_btn" onclick="location.href='${path}/main'">
-									쇼핑계속하기
-								</button>
-							</div>
-						</c:when>
-						<c:otherwise>
+						<c:when test="${member.member_id==null}" >
 							<div class="notUser">
 								<button type="button" class="notUser_btn" onclick="location.href='${path}/member/login'">
 									로그인
 								</button>
 							</div>
-						</c:otherwise>
+						</c:when>
+						<c:when test ="${empty cartsMap.cartList }" >
+							<div class="notUser">
+								<button type="button" class="selectOrder_btn" onclick="location.href='${path}/main'">
+									쇼핑계속하기
+								</button>
+							</div>
+								</c:when>
 					</c:choose>
 				</c:when>
 				

@@ -207,7 +207,7 @@ function addCart() {
 	margin: 40px auto;
 	min-height: 520px;
 }
-hr{width:900px;}
+
 </style>
 </head>
 <body>

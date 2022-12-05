@@ -21,6 +21,10 @@
 		<typeAlias type="com.spring.Uhdiya.cart.CartDTO" alias="cartDTO" />
 		<typeAlias type="com.spring.Uhdiya.cart.CartListDTO" alias="cartListDTO" />
 		<typeAlias type="com.spring.Uhdiya.order.OrderDTO" alias="orderDTO" />
+		<typeAlias type="com.spring.Uhdiya.order.OrderListDTO" alias="orderListDTO" />
+		<typeAlias type="com.spring.Uhdiya.order.OrderAddressDTO" alias="orderAddressDTO" />
+		<typeAlias type="com.spring.Uhdiya.order.OrderCntDTO" alias="orderCntDTO" />
+		<typeAlias type="com.spring.Uhdiya.order.OrderDetailDTO" alias="orderDetailDTO" />
 		
 		<!-- product -->
 		<typeAlias type="com.spring.Uhdiya.product.ProductDTO" alias="productDTO" />

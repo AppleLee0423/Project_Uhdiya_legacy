@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="between">
-                    <button>
+                    <button onclick="location.href='${path}/order/orderList';">
                         <p>📃</p>
                         <h2>Purchase</h2>
                         <h3>구매내역</h3>
@@ -43,7 +43,7 @@
                         <h3>회원 정보</h3>
                         <h4>회원이신 고객님의 개인정보를 관리하는 공간입니다.</h4>
                     </button>
-                    <button>
+                    <button onclick="location.href='${path}/cart/cartList';">
                         <p>🛒</p>
                         <h2>Basket</h2>
                         <h3>장바구니</h3>

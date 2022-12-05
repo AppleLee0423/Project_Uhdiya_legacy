@@ -83,6 +83,19 @@ public class ProductService {
 	public void addNewGoodsImage(List imageFileList) throws Exception{
 		productDAO.insertGoodsImageFile(imageFileList);
 	}
+	//메인에서 상품리스트
+	public Map listMain(String cateL) {
+		Map productsMap = new HashMap();
+		List<ProductDTO> productsList = productDAO.listMain(cateL);
+		productsMap.put("productsList", productsList);
+		return productsMap;
+	}
+	public Map listMainDesc(String cateL) {
+		Map productsMap3 = new HashMap();
+		List<ProductDTO> productsList = productDAO.listMainDesc(cateL);
+		productsMap3.put("productsList", productsList);
+		return productsMap3;
+	}
 
 
 }

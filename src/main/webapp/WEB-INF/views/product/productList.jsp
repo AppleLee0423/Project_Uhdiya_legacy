@@ -124,7 +124,7 @@ function btn_next(){
 .listCateS_buttons {
 	margin-rignt:0px;
 	margin-top:20px;
-	width: 1200px;
+	width: 1240px;
 }
 .listCateS_menu li{
 	height:30px;
@@ -170,8 +170,8 @@ function btn_next(){
 }
 /* 제품 한칸 */
 .product {
-	padding: 0 1px 100px 1px;
-	max-width: 310px;
+	padding: 0 7px 100px 7px;
+	width: 295px;
 	height: 350px;
 	float:left;
 }
@@ -300,14 +300,11 @@ function btn_next(){
 				
 					<!-- 상품사진 -->
 						<a href ="${path }/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
-							<%-- <img width="305" height="305"
-								src="${path }/resources/img/product/${list.product_fileName }">  --%>
-								
-							<img width="305" height="305" src="${path }/product_download?product_fileName=${list.product_fileName }&product_code=${list.product_code}" 
+							<img width="294" height="294" src="${path }/product_download?product_fileName=${list.product_fileName }&product_code=${list.product_code}" 
 								 id="preview"> 
+							<br><br>
 							<hr style="border-width: 1px 0 0 0; border-color: #fff;">
 						</a>
-					
 					<!-- 상품명 -->
 					<div class="product_title">
 						<h1 style="font-weight:lighter">${list.product_name}</h1>
