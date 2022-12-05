@@ -115,6 +115,8 @@ public class QnaService {
 		int list_count = Integer.parseInt((String) dataMap.get("list_count"));
 		int startNum = (current_page - 1) * list_count + 1;
 		int endNum = current_page * list_count;
+		String keyword = (String) dataMap.get("keyword");
+		dataMap.put("keyword", keyword);
 		dataMap.put("startNum", startNum);
 		dataMap.put("endNum", endNum);
 		
@@ -122,7 +124,6 @@ public class QnaService {
 		 List<QnaDTO> qna_list = qnaDAO.test(dataMap);
 		 List<QnaDTO> reply_list = qnaDAO.test2(dataMap);
 		 int total_qna = qnaDAO.total_qna();
-		 System.out.println("service : " + dataMap.get("list_day"));
 		 
 		 qnaMap.put("qna_list", qna_list);
 		 qnaMap.put("reply_list", reply_list);

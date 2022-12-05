@@ -189,17 +189,19 @@
 		from (select rownum as rn, qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
 		from qna q, product p where q.product_code = p.product_code
 		
-		<if test="startDate != null and endDate != null">
+		<if test='startDate != null and endDate != null and startDate != "" and endDate != ""'>
 			and qna_regDate between #{startDate, jdbcType=DATE} and #{endDate, jdbcType=DATE} 
 		</if>
 		
 		<if test='keyword_set != "검색조건" and keyword != null'>
-			and #{keyword_set} like '%' || #{keyword, jdbcType=VARCHAR} || '%' 
+			and #{keyword_set} like '%'||#{keyword}||'%'
 		</if>
-		
-		and qna_status = #{status})
-		
-		where rn between #{startNum} and #{endNum} order by qna_regDate ${list_day} 
+		 
+		<if test="status != 2">
+			and qna_status = #{status}
+		</if>
+
+		) where rn between #{startNum} and #{endNum} order by qna_regDate ${list_day} 
 		
 		<!-- 
 		<choose>
