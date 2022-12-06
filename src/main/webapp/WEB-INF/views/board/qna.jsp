@@ -32,8 +32,22 @@
 		paging_set();
 		
 		get_page();
+		
+		let reply_modal = $('.reply_modal');
+		let reply_open = $('#reply_btn');
+		
+		$('#reply_btn').click(function(){
+			$('.reply_modal').css("display","block");
+			$('body').css("overflow","hidden");
+		});
+		
+		$('#reply_close_btn').click(function(){
+			$('.reply_modal').css("display","none");
+			$('body').css("overflow","unset");
+		});
 	});
 	
+	// 테이블 불러오기
 	function get_page(){		
 		let list_day = $('#list_day').val();
 		let list_count = $('#list_count').val();
@@ -51,10 +65,6 @@
 		if($('input[name=status]:checked' != null)){
 			status = 2;
 		}
-		
-		console.log(keyword_set);
-		console.log(keyword);
-		console.log(status);
 		
 		var data_str = 
 		{
@@ -98,12 +108,14 @@
 						list_content += '<span id="date">'+qna_list[i].qna_regDate+'</span>';
 
 						if(qna_list[i].qna_status == 0){
-							list_content += '<span id="status"><button id="reply_btn">답변하기</button></span>';
+							//list_content += '<span id="status"><button id="reply_btn">답변하기</button></span>';
+							list_content += '<span id="status"><button id="reply_btn" onclick="modal_set('+qna_list[i].qna_id+')">답변하기</button></span>';
+							list_content += '<input type="hidden" name="qna_id" value="'+qna_list[i].qna_id+'>"';
 						} else if(qna_list[i].qna_status == 1){
 							list_content += '<span id="status">답변완료</span>';
 						}
 						
-						list_content += '<span id="delete"><button id="delete_btn">삭제</button></span>';
+						list_content += '<span id="delete"><button id="delete_btn" onclick="delete_qna('+qna_list[i].qna_id+')">삭제</button></span>';
 						list_content += '</summary>';
 						list_content += '<div class="content_inner">';
 						list_content += '<div class="user_content">';
@@ -123,12 +135,15 @@
 							}
 						}
 						$('.list_content').append(list_content);
+						let send_id = $('input[name=qna_id]').val();
+						
 					}
 				}
 			}
 		});
 	}
 	
+	// 검색
 	function fn_search(){
 		keyword_set = $('#keyword_set').val();
 		keyword = $('#keyword').val();
@@ -142,6 +157,32 @@
 		get_page();
 	}
 	
+	// 취소 버튼
+	function fn_reset(){
+		let now = new Date();
+		let today = date_setting(now);
+		$('input[type=date]').val('');
+		$('input[name=endDate]').val(today);
+		$('input[name=status]').prop("checked",false);
+		$("#keyword_set option:eq(0)").prop("selected", true);
+		$('#keyword').val(null);
+	}
+	
+	// 초기화 버튼
+	function fn_allset(){
+		let now = new Date();
+		let today = date_setting(now);
+		$('input[type=date]').val('');
+		$('input[name=endDate]').val(today);
+		$('input[type=date]').val('');
+		$('input[name=status]').prop("checked",false);
+		$("#keyword_set option:eq(0)").prop("selected", true);
+		$('#keyword').val(null);
+		
+		get_page();
+	}
+	
+	// 페이징 세팅
 	function paging_set(){
 		let list_count = $('#list_count').val();
 		let total_qna = ${total_qna};
@@ -154,6 +195,7 @@
 		$('.list_paging').append('<button id="prev"><i class="fa-solid fa-angle-right"></i></button>');
 	}
 	
+	// 검색란 답변대기, 완료 다중체크 방지 
 	function checkbox_setting(){
 		$('input[type="checkbox"][name="status"]').click(function(){
 			if($(this).prop('checked')){
@@ -162,7 +204,8 @@
 			}
 		});
 	}
-		
+	
+	// 날짜 계산
 	function getDay(obj){
 		let today = new Date();
 		let select_date = $(obj).attr('id');
@@ -178,7 +221,8 @@
 		
 		$('input[name=startDate]').val(date);
 	}
-	 
+	
+	// 날짜값 형식 세팅
 	 function date_setting(today){
 		let day = today.getDate();
 		let month = today.getMonth()+1;
@@ -188,29 +232,45 @@
 		today = year + '-' + month + '-' + day;
 		return today;
 	 }
-	 
-	 $(function(){
-			let reply_modal = $('.reply_modal');
-			let reply_open = $('#reply_btn');
-			
-			$('#reply_btn').click(function(){
-				$('.reply_modal').css("display","block");
-				$('body').css("overflow","hidden");
-			});
-			
-			$('#reply_close_btn').click(function(){
-				$('.reply_modal').css("display","none");
-				$('body').css("overflow","unset");
-			});
-		});
 
-		function modal_set(){
-			let reply_modal_btn = document.querySelect('#reply_btn');
-			let reply = document.querySelect('.reply');
-			reply_modal_btn.addEventListener('click', function(){
-				reply.css("display","block");
-			});
+	// 답변창 모달 (작동x)
+	function modal_setttt(){
+		let reply_modal_btn = document.querySelect('#reply_btn');
+		let reply = document.querySelect('.reply');
+		//let reply = $('.reply_modal_content');
+		//obj.addEventListener('click', function(){}
+		reply_modal_btn.addEventListener('click', function(){
+		
+			reply.css("display","block");
+		});
+	}
+	
+	// 답변창 모달 수정
+	function modal_set(qna_id){
+		$.ajax({
+			url:'/Uhdiya/board/reply?qna_id='+qna_id,
+			contentType: "application/json;charset=UTF-8" ,
+			success:function(data){
+				$('.reply_modal').empty();
+				$('.reply_modal').append(
+						$('<div>').prop({
+							class:'reply_modal-content'
+							})
+						);
+				$('.reply_modal-content').html(data); 
+				$('.reply_modal').css("display","block");
+			}
+		});
+	}
+	
+	// 삭제 버튼
+	function delete_qna(qna_id){
+		if(confirm('삭제하시겠습니까?')){
+			location.href='${path}/board/delete_qna?qna_id='+qna_id;
+		} else{
+			alert('취소되었습니다.');
 		}
+	}
 </script>
 <style>
 	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
@@ -227,11 +287,12 @@
 	input[type=date] {width:150px; text-align: center; font-weight: bold;}
 	input[type=checkbox] {transform:scale(1.3);}
 	.qna_search_detail{height:50px;}
+	.qna_search_status{padding-top:13px;}
 	select{width:100px; height:35px;}
 	#keyword {width:480px; height:35px;}
 	.qna_search_button input{margin-bottom: 0px;}
 	#qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
-	#search_reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:100px;}
+	#search_reset, #reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:50px; margin-top: 25px;}
 	
 	.qna_list_body_header{margin-left:10px; height:60px; margin-top:20px; display: flex; justify-content: space-between;}
 	.body_header_one{display:flex; padding-top:25px;}
@@ -261,11 +322,15 @@
 	#reply_front{color:#525253; width:20px;}
 	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:35px;}
 	#reply_content{width:795px; border-bottom:1px solid #A6A7AB;}
+	#delete_btn {margin-right:20px; margin-top:13px;}
+	#reply_btn{margin-right:10px;}
 	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
 	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
 
 	.reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
 		background-color: rgba(0,0,0,0.4);}
+	/* .reply_modal:first-child {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
+	.reply_modal:last-child {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;} */
 	.reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
 	
 	.qna_list_footer{margin:20px auto; margin-left:10px;}
@@ -318,7 +383,8 @@
 				</tr>
 				<tr>
 					<td class="qna_search_button" colspan="2" style="text-align: center; height:100px;">
-						<input type="button" id="search_reset" onclick="" value="취소"/>
+						<input type="button" id="search_reset" onclick="fn_reset()" value="취소"/>
+						<input type="button" id="reset" onclick="fn_allset()" value="목록 초기화"/>
 						<input type="button" id="qna_search_btn" onclick="fn_search()" value="검색"/>
 					</td>
 				</tr>
@@ -330,90 +396,41 @@
 				<div class="body_header_one">
 					<div class="qna_list_body_header_title"><h4>문의글 목록&nbsp;&nbsp;</h4></div>(총&nbsp;<font color="blue">${total_qna}</font>개&nbsp;)
 				</div>
+				
 				<div class="body_header_two">
 					<select name="list_day" id="list_day" onchange="get_page()">
 						<option value="desc">최근등록일순</option>
 						<option value="asc">등록일순</option>
 					</select>
 				
-					<select name="list_count" id="list_count" onchange="get_page()">
+					<select name="list_count" id="list_count" onchange="get_page()" style="text-align: center;">
 						<option value="20">20개씩</option>
 						<option value="50">50개씩</option>
 					</select>
 				</div>
 			</div>
 			
-			<div class="data_table">
-			
-			</div>
-			
 			<div class="qna_list_body_content">
-				<c:set var="qna_list" value="${qnaMap.qna_list}" />
-				<c:set var="reply_list" value="${qnaMap.reply_list}" />
-					<div class="list_header">
-						<span id="num">번호</span>
-						<span id="product">상품명</span>
-						<span id="title">제목</span>
-						<span id="writer">작성자</span>
-						<span id="date">작성일</span>
-						<span id="status">답변상태</span>
-						<span id="delete">삭제</span>
-					</div>
-				<div class="no_content" style="border-bottom: 1px solid #A6A7AB; display: block;"></div>	
+				<div class="list_header">
+					<span id="num">번호</span>
+					<span id="product">상품명</span>
+					<span id="title">제목</span>
+					<span id="writer">작성자</span>
+					<span id="date">작성일</span>
+					<span id="status">답변상태</span>
+					<span id="delete">삭제</span>
+				</div>
+				
+				<!-- 데이터 없을때  -->
+				<div class="no_content" style="border-bottom: 1px solid #A6A7AB; display: block;"></div>
+				<!-- 데이터 있을때  -->	
 				<div class="list_content"></div>
-				<%-- 	
-					<c:if test="${empty qna_list}">
-				<div class="no_content" style="border-bottom: 1px solid #A6A7AB; display: block;">
-				<p id="empty_content" align="center" style="padding-top:13px;">작성된 문의가 없습니다.</p>
-				</div>
-				</c:if>
-				<c:if test="${not empty qna_list}"></c:if>
-				<div class="list_content">
-				<c:forEach var="qna" items="${qna_list}" varStatus="qna_num">
-				<details>
-					<summary>
-						<span id="num">${total_qna - qna_num.index}</span>
-				<span id="product">${qna.product_name}</span>
-				<span id="title">&nbsp;&nbsp;${qna.qna_title}</span>
-				<span id="writer">${qna.qna_writeId}</span>
-				<span id="date">${qna.qna_regDate}</span>
-				<c:if test="${qna.qna_status == 0}">
-				<span id="status"><button id="reply_btn">답변하기</button></span>
-				</c:if>
-				<c:if test="${qna.qna_status == 1}">
-				<span id="status">답변완료</span>
-				</c:if>
-					<span id="delete"><button id="delete_btn">삭제</button></span>
-				</summary>
-					<div class="content_inner">
-						<div class="user_content">
-							<span id="content">${qna.qna_content}</span>
-				</div>
-				<c:forEach var="reply" items="${reply_list}">
-				<c:if test="${reply.qna_parentId == qna.qna_id}">
-				<div class="reply_content">
-					<span id="reply_front">└</span>
-					<span id="reply_second">답변</span>
-					<span id="reply_content">${reply.qna_content}</span>
-				<span id="date" >${reply.qna_regDate}</span>
-					<span id="writer">관리자</span>
-				</div>
-				</c:if>
-				</c:forEach>
-			</div>
-	</details> --%>
 	
-	<!-- Modal의 내용 -->
-	<div class="reply_modal"> 
-		<div class="reply_modal-content">             
-			<c:import url="/board/reply">
-				<c:param name="qna_id" value="${qna.qna_id}"></c:param>
-			</c:import>
-		</div>
-	</div>
-<%-- 	</c:forEach>
-		</div>
-			</div> --%>
+				<!-- Modal의 내용 -->
+				<div class="reply_modal"> 
+					<!-- <div class="reply_modal-content"></div> -->
+				</div>
+			</div>
 		</div>
 		
 		<div class="qna_list_footer">

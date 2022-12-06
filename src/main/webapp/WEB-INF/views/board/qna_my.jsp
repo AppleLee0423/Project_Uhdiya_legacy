@@ -105,7 +105,6 @@
 						<span id="num">${total_qna - num.index}</span>
 						<span id="product">${qna.product_name}</span>
 						<span id="title">&nbsp;&nbsp;${qna.qna_title}</span>
-						<!-- <span id="writer">작성자</span> -->
 						<span id="date">${qna.qna_regDate}</span>
 						<c:if test="${qna.qna_status == 0}">
 							<span id="status">답변대기</span>
