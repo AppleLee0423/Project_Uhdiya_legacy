@@ -123,14 +123,4 @@ public class OrderController {
 	
 		//return mav;  addOrderDirect
 	}
-
-	
-	
-	
-	
-	
-	
-	
-
-
 }

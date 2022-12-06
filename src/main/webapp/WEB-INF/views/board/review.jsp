@@ -16,11 +16,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
+	// 검색버튼
 	function search(){
 		let keyword = document.getElementById('search_box').value;
 		location.href='${path}/board/qna?keyword='+keyword;
 	}
 </script>
+<style>
+	.review{margin: 50px auto; padding: 0px; width:1200px;}
+	.review_my_star{width:100px;}
+	.review_table{width:1200px;}
+	.review_num{min-width:80px;}
+	.review_product_code{width:200px;}
+	.review_title{width:300px;}
+	.review_star{width:80px;}
+	.review_writer{width:80px;}
+	.review_writeDate{width:80px;}
+	.review_delete_button{width:80px;}
+</style>
 </head>
 <body>
 	<div class="review">
@@ -48,7 +61,7 @@
 						<c:forEach var="review" items="${review_list}" varStatus="num">
 							<tr>
 								<td class="review_my_num">${(total_review) - (num.index)}</td>
-								<td class="review_my_product_code">${review.product_code}</td>
+								<td class="review_my_product_code">${review.product_name}</td>
 								<td class="review_my_title"><a href="${path}/board/review_page?review_id=${review.review_id}&review_writeId=${review.review_writeId}">${review.review_title}</a></td>
 								<td class="review_my_star">
 									<span class="rate_in">
@@ -62,9 +75,9 @@
 										</c:forEach>
 									</span>
 								</td>
-								<td class="review_writeId">${review.review_writeId}</td>
-								<td class="review_my_writeDate">${review.review_regDate}</td>
-								<td class="review_delete_button"><a href="${path}/board/delete_review?review_id=${review.review_id}"></a></td>
+								<td class="review_writer">${review.review_writeId}</td>
+								<td class="review_writeDate">${review.review_regDate}</td>
+								<td class="review_delete_button"><a href="${path}/board/delete_review?review_id=${review.review_id}" style="background-color: black; color:white; border-radius: 3px; margin-top:3px;">삭제</a></td>
 							</tr>
 						</c:forEach>
 					</c:if>

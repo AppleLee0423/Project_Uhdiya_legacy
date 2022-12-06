@@ -3,6 +3,11 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+	<!-- 파라미터 타입이 null 일때 오류가 안 나도록 형식을 선언해 줄 수 있음 -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
 	<typeAliases>
 		<!-- board -->
 		<typeAlias type="com.spring.Uhdiya.board.notice.NoticeDTO" alias="noticeDTO"/>
@@ -14,8 +19,6 @@
 		
 		<!-- member -->
 		<typeAlias type="com.spring.Uhdiya.member.MemberDTO" alias="memberDTO"/>
-		<!-- mem -->
-		<typeAlias type="com.spring.Uhdiya.mem.MemberBean" alias="memberBean"/>
 		
 		<!-- Cart & Order -->
 		<typeAlias type="com.spring.Uhdiya.cart.CartDTO" alias="cartDTO" />

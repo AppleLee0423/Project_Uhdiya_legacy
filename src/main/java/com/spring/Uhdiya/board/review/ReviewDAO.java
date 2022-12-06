@@ -8,9 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.Uhdiya.board.qna.QnaDTO;
-import com.spring.Uhdiya.board.qna.QnaFileDTO;
-
 @Repository
 public class ReviewDAO {
 	@Autowired SqlSession sqlSession;

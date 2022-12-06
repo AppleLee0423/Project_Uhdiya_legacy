@@ -120,6 +120,7 @@
 			<div class="notice_header_title"><b>NOTICE</b> <span class="notice_header_partition">I</span> ${noticeDTO.notice_id} </div>
 			<a href="${path}/board/notice" id="notice_detail_list">목록보기</a>
 		</div>
+		
 		<div class="notice_content">
 			<form name="update_form" action="" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="notice_id" value="${noticeDTO.notice_id}"/>

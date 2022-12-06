@@ -20,8 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,7 +36,7 @@ public class QnaController {
 	@Autowired QnaService qnaService;
 	private static final String UHDIYA_IMAGE_REPO  = "C:\\Uhdiya" + "\\qna";
 	
-	// 전체 QnA(관리자만)
+	//전체 QnA(관리자만)
 	@RequestMapping("/qna_list")
 	public ModelAndView qna_list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setContentType("text/html;charset=utf-8");
@@ -49,29 +51,26 @@ public class QnaController {
 			String member_id = member.getMember_id();
 			if(member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
-
-				String _section = request.getParameter("section"); 
-				String _pageNum = request.getParameter("pageNum");
-				int section = Integer.parseInt((_section == null) ? "1" : _section);  
-				int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+				int total_qna = qnaService.total_qna();
 				
-				Map<String, Object> pageMap = new HashMap<String, Object>();
-				
-				pageMap.put("section", section);
-				pageMap.put("pageNum", pageNum);
-				Map<String,Object> qnaMap = new HashMap<String, Object>();
-				
-				qnaMap = qnaService.qna_list(pageMap);
-				qnaMap.put("section", section);
-				qnaMap.put("pageNum", pageNum);
-				
-				mav.addObject("qnaMap",qnaMap);
+				mav.addObject("total_qna",total_qna);
+			} else {
+				message(request,response);
+				return null;
 			}
 		} else {
 			message(request,response);
 			return null;
 		}		
 		return mav;
+	}
+	
+	// 리스트 받아오기
+	@RequestMapping("/do_qna_list")
+	public @ResponseBody Map<String, Object> do_qna_list(@RequestParam Map<String, Object> dataMap, HttpServletRequest request, Model model) throws Exception {
+		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap = qnaService.qna_list(dataMap);
+		return qnaMap;
 	}
 
 	// 상품 QnA
@@ -386,6 +385,65 @@ public class QnaController {
 		}
 		return resEnt;
 	}
+	
+	// 답변
+	@RequestMapping("/reply")
+	public ModelAndView reply(@RequestParam("qna_id")int qna_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = null;
+		
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		if(isLogOn != null && isLogOn == true && member != null) {
+			String member_id = member.getMember_id();
+			if(member_id.equals("admin")) {
+				mav = new ModelAndView(viewName);
+				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
+				mav.addObject("qnaMap",qnaMap);
+			} else {
+				message(request, response);
+				return null;
+			}
+		} else { 
+			message(request, response);
+			return null;
+		}
+		return mav;
+	}
+	
+	// 답변 추가
+	@RequestMapping("/addReply")
+	public ResponseEntity<String> addReply(@RequestBody QnaDTO qnaDTO, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity<String> resEnt = null;
+		String message;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","text/html;charset=utf-8");
+		try {
+			int qna_id = qnaDTO.getQna_id();
+			int update = qnaService.update_parentId(qna_id);
+			int insert = qnaService.insert_reply(qnaDTO);
+			
+			if(update == 1 && insert == 1) {
+				message = "<script>";
+				message += "alert('문의에 대한 답변을 입력했습니다.');";
+				message += "location.href='"+request.getContextPath()+"/board/qna_list';";
+				message += "</script>";
+				resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			message = "<script>";
+			message += "alert('작성에 실패했습니다.');";
+			message += "history.back();";
+			message += "</script>";
+			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+		}
+		return resEnt;
+	}
+	
 	
 	// 에러메세지(to 로그인)
 	public void message(HttpServletRequest request, HttpServletResponse response) throws Exception {

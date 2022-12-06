@@ -42,6 +42,7 @@
 		<div class="notice_header">
 			<div class="notice_header_title"><b>NOTICE</b></div>
 		</div>
+		
 		<div class="notice_content">
 			<form id="notice_form" action="${path}/board/addNotice" method="post" enctype="multipart/form-data">
 				<table class="notice_form_table">
