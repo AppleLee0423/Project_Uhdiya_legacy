@@ -6,6 +6,8 @@ DROP TABLE PRODUCT_FILE;
 
 DROP TABLE U_ORDER;
 DROP TABLE CART;
+DROP TABLE PAYMENT;
+DROP TABLE RECEIVER;
 
 DROP TABLE NOTICE;
 DROP TABLE NOTICE_FILE;
@@ -19,75 +21,97 @@ DROP SEQUENCE pro_seq;
 DROP SEQUENCE proFile_seq;
 DROP SEQUENCE u_order_seq;
 DROP SEQUENCE cart_seq;
+DROP SEQUENCE payment_seq;
+DROP SEQUENCE receiver_seq;
 
--- È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- È¸¿øÁ¤º¸ Å×ÀÌºí
 CREATE TABLE MEMBER (
     ID NUMBER NOT NULL,
-    MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY, -- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
-    MEMBER_PASSWORD VARCHAR2(255), -- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£
-    MEMBER_NAME VARCHAR2(255), -- ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
-    MEMBER_PHONE VARCHAR2(255) UNIQUE NOT NULL, -- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½È£(PHONE1+PHONE2_PHONE3)
-    MEMBER_EMAIL VARCHAR2(255) UNIQUE NOT NULL, -- ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
-    MEMBER_JOINDATE DATE DEFAULT SYSDATE-- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY, -- À¯Àú ¾ÆÀÌµð
+    MEMBER_PASSWORD VARCHAR2(255), -- À¯Àú ºñ¹Ð¹øÈ£
+    MEMBER_NAME VARCHAR2(255), -- À¯Àú ÀÌ¸§
+    MEMBER_PHONE VARCHAR2(255) UNIQUE NOT NULL, -- À¯Àú ÀüÈ­¹øÈ£(PHONE1+PHONE2_PHONE3)
+    MEMBER_EMAIL VARCHAR2(255) UNIQUE NOT NULL, -- À¯Àú ÀÌ¸ÞÀÏ
+    MEMBER_JOINDATE DATE DEFAULT SYSDATE-- À¯Àú °¡ÀÔÀÏÀÚ
 );
 
+-- ÁÖ¼Ò
 CREATE TABLE ADDRESS (
     MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY,
-    ZIPNO VARCHAR2(255),
-    ROADFULLADDR VARCHAR2(255), --ï¿½ï¿½ï¿½Î¸ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½Ö¼ï¿½
-    ADDDETAIL varchar2(255) -- ï¿½ï¿½ï¿½Ö¼ï¿½
+    ZIPNO VARCHAR2(255), -- ¿ìÆí¹øÈ£
+    ROADFULLADDR VARCHAR2(255), --µµ·Î¸í(Áö¹ø) ÁÖ¼Ò
+    ADDDETAIL varchar2(255) -- »ó¼¼ÁÖ¼Ò
 );
 
--- ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Ìºï¿½
+-- »óÇ° Å×ÀÌºí
 CREATE TABLE PRODUCT (
     PRODUCT_ID NUMBER NOT NULL,
-    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
-    PRODUCT_NAME VARCHAR2(255), -- ï¿½ï¿½Ç°ï¿½ï¿½
-    PRODUCT_CATEL VARCHAR2(255), -- ï¿½ï¿½Ð·ï¿½
-    PRODUCT_CATES VARCHAR2(255), -- ï¿½ÒºÐ·ï¿½
-    PRODUCT_PRICE NUMBER, -- ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- Á¦Ç°°íÀ¯ÄÚµå
+    PRODUCT_NAME VARCHAR2(255), -- Á¦Ç°¸í
+    PRODUCT_CATEL VARCHAR2(255), -- ´ëºÐ·ù
+    PRODUCT_CATES VARCHAR2(255), -- ¼ÒºÐ·ù
+    PRODUCT_PRICE NUMBER, -- Á¦Ç°°¡°Ý
     CONSTRAINT PK_product PRIMARY KEY (product_code)
 );
 
--- ï¿½ï¿½Ç° ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- »óÇ° ÀÌ¹ÌÁö Å×ÀÌºí
 CREATE TABLE PRODUCT_FILE (
     PRODUCT_FILEID NUMBER NOT NULL,
-    PRODUCT_FILENAME VARCHAR2(255), --ï¿½ï¿½ï¿½Ï¸ï¿½
-    PRODUCT_FILETYPE VARCHAR2(255), -- main(ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½) ï¿½Ç´ï¿½ info(ï¿½ï¿½Ç°ï¿½ó¼¼¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ (productï¿½ï¿½ï¿½Ìºï¿½)
+    PRODUCT_FILENAME VARCHAR2(255), --ÆÄÀÏ¸í
+    PRODUCT_FILETYPE VARCHAR2(255), -- main(Á¦Ç°»çÁø) ¶Ç´Â info(Á¦Ç°»ó¼¼¼³¸í»çÁø)
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, -- Á¦Ç°°íÀ¯ÄÚµå (productÅ×ÀÌºí)
     CONSTRAINT PK_product_file PRIMARY KEY (product_fileId),
     CONSTRAINT FK_product_TO_product_file
         FOREIGN KEY (product_code)
         REFERENCES product (product_code)
 );
 
--- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- Àå¹Ù±¸´Ï Å×ÀÌºí
 CREATE TABLE CART (
-    CART_SEQ_NUM NUMBER NOT NULL PRIMARY KEY,-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½È£
-    MEMBER_ID VARCHAR2(255) NOT NULL, -- ï¿½ï¿½ï¿½Ìµï¿½
-    PRODUCT_CODE VARCHAR2(255) NOT NULL, --ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ (product ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½)
-    CARY_QTY NUMBER NOT NULL -- ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(Ç°ï¿½ï¿½ï¿½
+    CART_SEQ_NUM NUMBER NOT NULL PRIMARY KEY,-- ½ÃÄö½º ÀÚµ¿¹øÈ£
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- ¾ÆÀÌµð
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --Á¦Ç°°íÀ¯ÄÚµå (product Å×ÀÌºí ÂüÁ¶)
+    CARY_QTY NUMBER NOT NULL -- Àå¹Ù±¸´Ï ¼ö·®(Ç°¸ñ´ç)
 );
 
--- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- ±¸¸Å Å×ÀÌºí
 CREATE TABLE U_ORDER (
-    ORDER_SEQ_NUM NUMBER NOT NULL PRIMARY KEY, -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½È£
-    ORDER_ID VARCHAR2(255) NOT NULL, -- ï¿½ï¿½ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½È£(ï¿½Ö¹ï¿½ï¿½ï¿½È£) (@ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ì¾îµµ ï¿½Ñ¹ï¿½È£ï¿½ï¿½) 
-    MEMBER_ID VARCHAR2(255) NOT NULL, -- ï¿½ï¿½ï¿½Ìµï¿½
-    PRODUCT_CODE VARCHAR2(255) NOT NULL, --ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
-    ORDER_QTY NUMBER NOT NULL, -- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(Ç°ï¿½ï¿½ï¿½)
-    ORDER_DATE DATE, -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-    ORDER_STATE VARCHAR2(255) DEFAULT 'onorder' -- ï¿½ï¿½ï¿½ï¿½( 'onorder' , 'ordered' , 'paid' )
+    ORDER_SEQ_NUM NUMBER NOT NULL PRIMARY KEY, -- ½ÃÄö½º ÀÚµ¿¹øÈ£
+    ORDER_ID VARCHAR2(255) NOT NULL, -- ±¸¸Å°íÀ¯¹øÈ£(ÁÖ¹®¹øÈ£) (@ ¿©·¯Ç°¸ñÀÌ¾îµµ ÇÑ¹øÈ£·Î) 
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- ¾ÆÀÌµð
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --Á¦Ç°°íÀ¯ÄÚµå
+    ORDER_QTY NUMBER NOT NULL, -- ±¸¸Å ¼ö·®(Ç°¸ñ´ç)
+    ORDER_DATE DATE, -- ±¸¸ÅÀÏÀÚ -> ÁÖ¹®¼­ÀÛ¼º ¿Ï·á½Ã »ý¼º
+    ORDER_STATE VARCHAR2(255) DEFAULT 'onorder' -- »óÅÂ( 'onorder' , 'ordered' , 'paid' )
 );
 
--- ï¿½Ö¼ï¿½
-CREATE TABLE ADDRESS (
-    RECEIVER_ZIPCODE VARCHAR2(13),
-    RECEIVER_ADDR1 VARCHAR2(255),
-    RECEIVER_ADDR2 VARCHAR2(255)
+-- °áÁ¦ Á¤º¸
+create table payment (
+	payment_seq_num number not null primary key, -- ½ÃÄö½º ÀÚµ¿¹øÈ£
+	order_id varchar2(255) not null, --±¸¸Å°íÀ¯¹øÈ£(½Ã¸®¾ó³Ñ¹ö) (order Å×ÀÌºí ÂüÁ¶)
+	payment_cardCo varchar2(255) not null, --Ä«µå»ç
+	payment_cardNum varchar2(255) not null, -- Ä«µå¹øÈ£
+	payment_cardExM number not null, -- ¸¸·á ¿ù
+	payment_cardExY number not null, -- ¸¸·á ³â
+	payment_cardCVS number not null -- cvs¹øÈ£
 );
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+-- ¼ö·ÉÀÎ Á¤º¸ Å×ÀÌºí
+create table receiver (
+	receiver_seq_num number not null primary key, -- ½ÃÄö½º ÀÚµ¿¹øÈ£
+	member_id varchar2(255) not null, --¾ÆÀÌµð
+	order_id varchar2(255) not null, --±¸¸Å°íÀ¯¹øÈ£ (order Å×ÀÌºí ÂüÁ¶)
+
+	receiver_name varchar2(255) not null, --¹Þ´ÂºÐÀÌ¸§
+	receiver_phone varchar2(255) not null, -- ±¸¸ÅÀÚ ÀüÈ­¹øÈ£
+	receiver_zipno varchar2(255), -- ±¸¸ÅÀÚ ÁÖ¼Ò
+	receiver_roadFullAddr varchar2(255), -- (µµ·Î¸íÁÖ¼Ò,Áö¹øÁÖ¼Ò)
+	receiver_addDetail varchar2(255),-- (³ª¸ÓÁöÁÖ¼Ò)
+
+	receiver_content varchar2(512) -- ¹è¼Û¸Þ¼¼Áö
+);
+
+-- °øÁö»çÇ×
 Create Table notice(
     notice_id number not null primary key,
     notice_writeId varchar2(255) not null,
@@ -97,14 +121,14 @@ Create Table notice(
     notice_count number default 0
 );
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- °øÁö»çÇ× ÀÌ¹ÌÁö Å×ÀÌºí
 create table notice_file(
     notice_fileId number not null primary key,
     notice_id number,
     notice_fileName varchar2(255)
 );
 
--- ï¿½ï¿½ï¿½Ç±ï¿½
+-- ¹®ÀÇ±Û
 create table qna (
     qna_id number not null primary key,
     qna_parentId number default 0,
@@ -116,14 +140,14 @@ create table qna (
     product_code varchar2(255)
 );
 
--- ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- ¹®ÀÇ±Û ÀÌ¹ÌÁö Å×ÀÌºí
 create table qna_file(
     qna_fileId number not null primary key,
     qna_id number,
     qna_fileName varchar2(255)
 );
 
--- ï¿½ï¿½Ç°ï¿½Ä±ï¿½
+-- »óÇ°ÈÄ±â
 create table review (
     review_id number not null primary key,
     review_writeId varchar2(255),
@@ -134,14 +158,14 @@ create table review (
     product_code varchar2(255)
 );
 
--- ï¿½ï¿½Ç°ï¿½Ä±ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½
+-- »óÇ°ÈÄ±â ÀÌ¹ÌÁö Å×ÀÌºí
 create table review_file(
     review_fileId number not null primary key,
     review_id number,
     review_fileName varchar2(255)
 );
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+-- ½ÃÄö½º
 CREATE SEQUENCE mem_seq
     INCREMENT BY 1
     START WITH 1
@@ -166,45 +190,44 @@ create SEQUENCE cart_seq
     increment by 1
     start with 100
     nocache;
-select * from cart;
+create SEQUENCE payment_seq
+    increment by 1
+    start with 100
+    nocache;
+create SEQUENCE receiver_seq
+    increment by 1
+    start with 100
+    nocache;
+    
+-- È¸¿øÁ¤º¸ µ¥ÀÌÅÍ
+INSERT INTO MEMBER VALUES ('admin','1234','°ü¸®ÀÚ','01012345678','admin@uhdiya.com');
+INSERT INTO MEMBER VALUES ('hong','1234','È«±æµ¿','01011112222','hong@test.com');
+INSERT INTO ADDRESS VALUES('hong','04038','¼­¿ï ¸¶Æ÷±¸ ¾çÈ­·Î 122 3Ãþ, 4Ãþ','¿¡ÀÌÄÜ¾ÆÄ«µ¥¹Ì');
 
--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-INSERT INTO MEMBER VALUES ('admin','1234','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','01012345678','admin@uhdiya.com');
-INSERT INTO MEMBER VALUES ('dayeun', 1111, 'dayeun', '01011112222', 'jdy010431@gmail.com');
-
-INSERT INTO TOTAL_ORDER VALUES (order_list_num_seq.nextval, 'dayeun', 25000, sysdate, 'f');
-INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans001', 1);
-INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans002', 1);
-INSERT INTO PAYMENT VALUES ('1111222233334444', 'shinhan', '26', '06', '23', 1);
-INSERT INTO RECEIVER VALUES ('04038', '01022225555', 'seonarea', 1);
-INSERT INTO ADDRESS VALUES ('04038', 'ï¿½ï¿½ï¿½ï¿½Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ 122(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)' ,'3ï¿½ï¿½');
-
-INSERT INTO product VALUES (pro_seq.nextval,'beans001','[ï¿½ï¿½ï¿½ï¿½] È¦ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ä¸£ï¿½Ò³ï¿½ ï¿½ï¿½ï¿½ï¿½ 200g X 2ï¿½ï¿½','Ä¿ï¿½ï¿½','È¦ï¿½ï¿½ï¿½ï¿½ï¿½',26000);
-INSERT INTO product VALUES (pro_seq.nextval,'beans002','[ï¿½ï¿½ï¿½ï¿½] È¦ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½Ý·Òºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 200g X 2ï¿½ï¿½','Ä¿ï¿½ï¿½','È¦ï¿½ï¿½ï¿½ï¿½ï¿½',24000);
-INSERT INTO product VALUES (pro_seq.nextval,'beans003','[ï¿½ï¿½ï¿½ï¿½] È¦ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½É³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 200g X 2ï¿½ï¿½','Ä¿ï¿½ï¿½','È¦ï¿½ï¿½ï¿½ï¿½ï¿½',26000);
-INSERT INTO product VALUES (pro_seq.nextval,'beans004','[ï¿½ï¿½ï¿½ï¿½] È¦ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 200g X 2ï¿½ï¿½','Ä¿ï¿½ï¿½','È¦ï¿½ï¿½ï¿½ï¿½ï¿½',24000);
-INSERT INTO product VALUES (pro_seq.nextval,'beans005','[ï¿½ï¿½ï¿½ï¿½] È¦ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ 200g X 2ï¿½ï¿½','Ä¿ï¿½ï¿½','È¦ï¿½ï¿½ï¿½ï¿½ï¿½',26000);
-INSERT INTO product VALUES (pro_seq.nextval,'drip001','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ ï¿½Úµï¿½å¸³ ï¿½ä¸£ï¿½Ò³ï¿½ 7T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','ï¿½Úµï¿½å¸³',16500);
-INSERT INTO product VALUES (pro_seq.nextval,'drip002','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ ï¿½Úµï¿½å¸³ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Ç¾ï¿½ 7T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','ï¿½Úµï¿½å¸³',15500);
-INSERT INTO product VALUES (pro_seq.nextval,'drip003','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ ï¿½Úµï¿½å¸³ ï¿½Ý·Òºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','ï¿½Úµï¿½å¸³',15500);
-INSERT INTO product VALUES (pro_seq.nextval,'cupcoffee001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ä¿ï¿½ï¿½ 5ï¿½ï¿½ X 2ï¿½ï¿½ (ï¿½ï¿½ï¿½Ç³ï¿½/Ä«ï¿½ï¿½ï¿½/ï¿½ï¿½Ã¼ ï¿½Ýµï¿½ï¿½ï¿½/ï¿½Ù´Ò¶ï¿½/ï¿½ï¿½ï¿½Ý¶ï¿½ ï¿½ï¿½Ä«)','ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½Ä¿ï¿½ï¿½',18900);
-INSERT INTO product VALUES (pro_seq.nextval,'capsule001','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ä¸£ï¿½Ò³ï¿½ ï¿½ï¿½ï¿½ï¿½ 8T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½',19900);
-INSERT INTO product VALUES (pro_seq.nextval,'capsule002','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½Ý·Òºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½',18900);
-INSERT INTO product VALUES (pro_seq.nextval,'capsule003','[ï¿½ï¿½ï¿½ï¿½] Ä¿ï¿½Ç·ï¿½ Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ 8T x 3ï¿½ï¿½','Ä¿ï¿½ï¿½','Ä¸ï¿½ï¿½Ä¿ï¿½ï¿½',19900);
-INSERT INTO product VALUES (pro_seq.nextval,'machine001','[ï¿½ï¿½ï¿½ï¿½] Ä¸ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½Ó½ï¿½ Ç®ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½Æ®(Ä¸ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½Ó½ï¿½ 1ï¿½ï¿½+ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ 100T Æ¾ï¿½ï¿½ï¿½Ì½ï¿½+Ä¸ï¿½ï¿½3ï¿½ï¿½ 120ï¿½ï¿½)','Ä¿ï¿½ï¿½','Ä¿ï¿½Ç¸Ó½ï¿½',159000);
-INSERT INTO product VALUES (pro_seq.nextval,'americano001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¸Þ¸ï¿½Ä«ï¿½ï¿½ 130T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','ï¿½Æ¸Þ¸ï¿½Ä«ï¿½ï¿½',19900);
-INSERT INTO product VALUES (pro_seq.nextval,'americano002','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½Ïµï¿½ ï¿½Æ¸Þ¸ï¿½Ä«ï¿½ï¿½ 150T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','ï¿½Æ¸Þ¸ï¿½Ä«ï¿½ï¿½',25900);
-INSERT INTO product VALUES (pro_seq.nextval,'ice001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 190mlX30ï¿½ï¿½','ï¿½ï¿½ï¿½ï¿½','ï¿½Ö½ï¿½',21900);
-INSERT INTO product VALUES (pro_seq.nextval,'ice002','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ 190mlX30ï¿½ï¿½','ï¿½ï¿½ï¿½ï¿½','ï¿½Ö½ï¿½',21900);
-INSERT INTO product VALUES (pro_seq.nextval,'latte001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ï½ï¿½Æ® ï¿½Ù´Ò¶ï¿½ï¿½ 50T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','ï¿½ï¿½',21900);
-INSERT INTO product VALUES (pro_seq.nextval,'latte002','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ï½ï¿½Æ® Ä«ï¿½ï¿½ï¿½ 50T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','ï¿½ï¿½',19500);
-INSERT INTO product VALUES (pro_seq.nextval,'mix001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä«ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ç¹Í½ï¿½ 50T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','Ä¿ï¿½Ç¹Í½ï¿½',19500);
-INSERT INTO product VALUES (pro_seq.nextval,'mix002','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ç¹Í½ï¿½ 280T','ï¿½ï¿½Æ½Ä¿ï¿½ï¿½','Ä¿ï¿½Ç¹Í½ï¿½',34500);
-INSERT INTO product VALUES (pro_seq.nextval,'blending001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½Æ®ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½Ùºï¿½ 10T x 4ï¿½ï¿½','Æ¼','ï¿½ï¿½ï¿½ï¿½Æ¼',34500);
-INSERT INTO product VALUES (pro_seq.nextval,'tea001','[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ß½ï¿½È­ï¿½ï¿½ 50T','Æ¼','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',16500);
-
-
-
+-- »óÇ°Á¤º¸ µ¥ÀÌÅÍ
+INSERT INTO product VALUES (pro_seq.nextval,'beans001','[¾îµð¾ß] È¦ºóÄ¿ÇÇ Æä¸£¼Ò³ª ºí·»µå 200g X 2°³','Ä¿ÇÇ','È¦ºó¿øµÎ',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans002','[¾îµð¾ß] È¦ºóÄ¿ÇÇ ÄÝ·Òºñ¾Æ ½´ÇÁ¸®¸ð 200g X 2°³','Ä¿ÇÇ','È¦ºó¿øµÎ',24000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans003','[¾îµð¾ß] È¦ºóÄ¿ÇÇ ÄÉ³Ä ¿À¸®Áø 200g X 2°³','Ä¿ÇÇ','È¦ºó¿øµÎ',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans004','[¾îµð¾ß] È¦ºóÄ¿ÇÇ ºê¶óÁú ¼¼¶óµµ 200g X 2°³','Ä¿ÇÇ','È¦ºó¿øµÎ',24000);
+INSERT INTO product VALUES (pro_seq.nextval,'beans005','[¾îµð¾ß] È¦ºóÄ¿ÇÇ ¿¡Æ¼¿ÀÇÇ¾Æ ¸®¹« 200g X 2°³','Ä¿ÇÇ','È¦ºó¿øµÎ',26000);
+INSERT INTO product VALUES (pro_seq.nextval,'drip001','[¾îµð¾ß] Ä¿ÇÇ·¦ ÇÚµåµå¸³ Æä¸£¼Ò³ª 7T x 3°³','Ä¿ÇÇ','ÇÚµåµå¸³',16500);
+INSERT INTO product VALUES (pro_seq.nextval,'drip002','[¾îµð¾ß] Ä¿ÇÇ·¦ ÇÚµåµå¸³ ¿¡Æ¼¿ÀÇÇ¾Æ 7T x 3°³','Ä¿ÇÇ','ÇÚµåµå¸³',15500);
+INSERT INTO product VALUES (pro_seq.nextval,'drip003','[¾îµð¾ß] Ä¿ÇÇ·¦ ÇÚµåµå¸³ ÄÝ·Òºñ¾Æ ½´ÇÁ¸®¸ð 7T x 3°³','Ä¿ÇÇ','ÇÚµåµå¸³',15500);
+INSERT INTO product VALUES (pro_seq.nextval,'cupcoffee001','[¾îµð¾ß] ÄÅÄ¿ÇÇ 5Á¾ X 2°³ (ÅäÇÇ³Ó/Ä«Æä¶ó¶¼/µ¹Ã¼ ÄÝµåºê·ç/¹Ù´Ò¶ó/¼îÄÝ¶ó ¸ðÄ«)','À½·á','ÄÅÄ¿ÇÇ',18900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule001','[¾îµð¾ß] Ä¿ÇÇ·¦ Ä¸½¶Ä¿ÇÇ Æä¸£¼Ò³ª ºí·»µå 8T x 3ÆÑ','Ä¿ÇÇ','Ä¸½¶Ä¿ÇÇ',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule002','[¾îµð¾ß] Ä¿ÇÇ·¦ Ä¸½¶Ä¿ÇÇ ÄÝ·Òºñ¾Æ ½´ÇÁ¸®¸ð 8T x 3ÆÑ','Ä¿ÇÇ','Ä¸½¶Ä¿ÇÇ',18900);
+INSERT INTO product VALUES (pro_seq.nextval,'capsule003','[¾îµð¾ß] Ä¿ÇÇ·¦ Ä¸½¶Ä¿ÇÇ ¿¡Æ¼¿ÀÇÇ¾Æ ¸®¹« 8T x 3ÆÑ','Ä¿ÇÇ','Ä¸½¶Ä¿ÇÇ',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'machine001','[¾îµð¾ß] Ä¸½¶ Ä¿ÇÇ ¸Ó½Å Ç®ÆÐÅ°Áö ¼¼Æ®(Ä¸½¶ Ä¿ÇÇ ¸Ó½Å 1´ë+ºñ´Ï½ºÆ® ½ºÆä¼È¿¡µð¼Ç 100T Æ¾ÄÉÀÌ½º+Ä¸½¶3Á¾ 120°³)','Ä¿ÇÇ','Ä¿ÇÇ¸Ó½Å',159000);
+INSERT INTO product VALUES (pro_seq.nextval,'americano001','[¾îµð¾ß] ºñ´Ï½ºÆ® µðÄ«ÆäÀÎ ¾Æ¸Þ¸®Ä«³ë 130T','½ºÆ½Ä¿ÇÇ','¾Æ¸Þ¸®Ä«³ë',19900);
+INSERT INTO product VALUES (pro_seq.nextval,'americano002','[¾îµð¾ß] ºñ´Ï½ºÆ® ¸¶ÀÏµå ¾Æ¸Þ¸®Ä«³ë 150T','½ºÆ½Ä¿ÇÇ','¾Æ¸Þ¸®Ä«³ë',25900);
+INSERT INTO product VALUES (pro_seq.nextval,'ice001','[¾îµð¾ß] ¾ÆÀÌ½º ÀÚ¸ù¿À·»Áö 190mlX30°³','À½·á','ÁÖ½º',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'ice002','[¾îµð¾ß] ¾ÆÀÌ½º ·¹¸óÀÚµÎ 190mlX30°³','À½·á','ÁÖ½º',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'latte001','[¾îµð¾ß] ºñ´Ï½ºÆ® ¹Ù´Ò¶ó¶ó¶¼ 50T','½ºÆ½Ä¿ÇÇ','¶ó¶¼',21900);
+INSERT INTO product VALUES (pro_seq.nextval,'latte002','[¾îµð¾ß] ºñ´Ï½ºÆ® Ä«Æä¶ó¶¼ 50T','½ºÆ½Ä¿ÇÇ','¶ó¶¼',19500);
+INSERT INTO product VALUES (pro_seq.nextval,'mix001','[¾îµð¾ß] ½ºÆä¼È ¸ðÄ«ºí·»µå Ä¿ÇÇ¹Í½º 50T','½ºÆ½Ä¿ÇÇ','Ä¿ÇÇ¹Í½º',19500);
+INSERT INTO product VALUES (pro_seq.nextval,'mix002','[¾îµð¾ß] ½ºÆä¼È °ñµåºí·»µå Ä¿ÇÇ¹Í½º 280T','½ºÆ½Ä¿ÇÇ','Ä¿ÇÇ¹Í½º',34500);
+INSERT INTO product VALUES (pro_seq.nextval,'blending001','[¾îµð¾ß] ºí·»µùÆ¼ ½ºÆ®·Îº£¸® ·ç¹Ùºê 10T x 4ÆÑ','Æ¼','ºí·»µùÆ¼',34500);
+INSERT INTO product VALUES (pro_seq.nextval,'tea001','[¾îµð¾ß] ´ëÃß½ÖÈ­Â÷ 50T','Æ¼','ÀüÅëÂ÷',16500);
 
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001.jpg','main','beans001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002.jpg','main','beans002');
@@ -230,8 +253,6 @@ INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002.jpg','main','mix002
 INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001.png','main','blending001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001.png','main','tea001');
 
-
-
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001_info.jpg','info','beans001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002_info.jpg','info','beans002');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans003_info.jpg','info','beans003');
@@ -256,94 +277,95 @@ INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002_info.jpg','info','m
 INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001_info.png','info','blending001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001_info.jpg','info','tea001');
 
-Insert into NOTICE values (1,'admin','2018 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È³ï¿½',null,to_date('18/02/01','RR/MM/DD'),678);
-Insert into NOTICE values (2,'admin','2018ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ß¿ï¿½ ï¿½Ô²ï¿½!',null,to_date('18/05/02','RR/MM/DD'),602);
-Insert into NOTICE values (3,'admin','Ä«Ä«ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ìºï¿½Æ®!','Ä«Ä«ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ ï¿½Ö´ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
+-- °øÁö»çÇ× µ¥ÀÌÅÍ
+Insert into NOTICE values (1,'admin','2018 ¸íÀý ¹è¼Û ¸¶°¨¾È³»',null,to_date('18/02/01','RR/MM/DD'),678);
+Insert into NOTICE values (2,'admin','2018³â ¿©¸§¿¡µµ ÀÌµð¾ß¿Í ÇÔ²²!',null,to_date('18/05/02','RR/MM/DD'),602);
+Insert into NOTICE values (3,'admin','Ä«Ä«¿À ÇÃ·¯½º Ä£±¸ ÀÌº¥Æ®!','Ä«Ä«¿À ÇÃ·¯½º Ä£±¸¿¡°Ô¸¸ ÁÖ´Â Æ¯º°ÇÑ ÇýÅÃ!
 
-ï¿½Ìµï¿½ï¿½ Ä«Ä«ï¿½ï¿½ ï¿½ï¿½Ä£ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½
+ÀÌµð¾ß Ä«Ä«¿À ÇÃÄ£ Ãß°¡¸¦ ÇÏ¸é
 
-ï¿½Ìµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 200g ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´Ù°ï¿½!?
-
-
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ~ Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ~ ?
-
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ï¿½ï¿½ ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç³ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-
-ï¿½ï¿½ï¿½Ì¿Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ°ï¿½ï¿½ï¿½ ?
+ÀÌµð¾ß ºí·»µù ¿øµÎ 200g ¹«·áÁõÁ¤ ÇØÁØ´Ù°í!?
 
 
-?ï¿½ï¿½Ï½ï¿½Æ® 180T? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
+³¯¾¾ÁÁ°í ~ Ä¿ÇÇ ¸¶½Ã±â µü ÁÁÀº Áö±Ý ~ ?
 
-ï¿½ï¿½ï¿½Ì¿Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û±ï¿½ï¿½ï¿½!?
+°úÀÏÀÇ ¹à°í »óÅ­ÇÑ »ê¹Ì¿Í ÀºÀºÇÑ Ç³¹Ì°¡ ´À²¸Áö´Â
+
+¹ÙÀÌ¿Ã·¿ ¿øµÎ ¹Þ¾Æ°¡ÀÚ ?
 
 
-ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ !!
+?ºñ´Ï½ºÆ® 180T? ÃëÇâ´ë·Î ±¸¸ÅÇÏ°í
+
+¹ÙÀÌ¿Ã·¿¿øµÎ µæÅÛ±îÁö!?
 
 
-ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½Å©
+Áö±Ý ¹Ù·Î È®ÀÎÇØ º¸¼¼¿ä !!
+
+
+±¸¸ÅÃ³ ¸µÅ©
 https://store.kakao.com/ediyastore/products/10213933',to_date('18/05/17','RR/MM/DD'),947);
-Insert into NOTICE values (4,'admin','ï¿½Úµï¿½å¸³ Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¿Ã·ï¿½ ï¿½ï¿½ï¿½Å½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½ï¿½â°£
+Insert into NOTICE values (4,'admin','ÇÚµåµå¸³ Ä¿ÇÇ ¹ÙÀÌ¿Ã·¿ ±¸¸Å½Ã Áï½ÃÇÒÀÎ','Çà»ç±â°£
 
 2018.06.11 ~ 2018.07.31',to_date('18/06/11','RR/MM/DD'),621);
-Insert into NOTICE values (5,'admin','ï¿½ï¿½ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ !','?ï¿½Ù¸ï¿½ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ Ã¨ï¿½Ç¾ï¿½?
+Insert into NOTICE values (5,'admin','½ÅÁ¦Ç° Ãâ½Ã ºñ´Ï½ºÆ® ½ºÆä¼È ¿¡µð¼Ç !','?¹Ù¸®½ºÅ¸ ¼¼°è Ã¨ÇÇ¾ð?
 
-ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½!!
-
-
-
-ï¿½Ìµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç° ?ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½
+µ¥ÀÏÇØ¸®½º ÀÇ ¸ðµç °ÍÀ» ´ã¾Ò´Ù!!
 
 
 
-ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½Å¸ ï¿½ï¿½È¸ Ã¨ï¿½Ç¾ï¿½ ''ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¸ï¿½ï¿½ï¿½''ï¿½ï¿½
-
-ï¿½Ìµï¿½ï¿½Ä¿ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-
-ï¿½ï¿½Ï½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½
+ÀÌµð¾ß ½ÅÁ¦Ç° ?ºñ´Ï½ºÆ® ½ºÆä¼È ¿¡µð¼Ç? Ãâ½Ã
 
 
 
-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ð¼­³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
+¿ùµå¹Ù¸®½ºÅ¸ ´ëÈ¸ Ã¨ÇÇ¾ð ''µ¥ÀÏ ÇØ¸®½º''¿Í
 
-ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ Ä¿ï¿½Ç¸ï¿½ ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½!
+ÀÌµð¾ßÄ¿ÇÇ°¡ °øµ¿ °³¹ßÇÏ¿© ´õ Æ¯º°ÇØÁø
+
+ºñ´Ï½ºÆ®½ºÆä¼È¿¡µð¼Ç
+
+
+
+¾ðÁ¦ ¾îµð¼­³ª °£ÆíÇÏ°Ô
+
+¼¼°è ÃÖ°í ¹Ù¸®½ºÅ¸ÀÇ Ä¿ÇÇ¸¦ Áñ°Üº¸¼¼¿ä!
 
 
 
 
-#ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½Ù¸ï¿½ï¿½ï¿½Å¸Ä¿ï¿½ï¿½
+#ÇÔ²²Áñ±â´Â_¼¼°èÃÖ°í¹Ù¸®½ºÅ¸Ä¿ÇÇ
 
-#ï¿½ï¿½Ï½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½Ç° #ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½Æ®
+#ºñ´Ï½ºÆ®½ÅÁ¦Ç° #µ¥ÀÏÇØ¸®½ººñ´Ï½ºÆ®
 
-#ï¿½Ìµï¿½ï¿½Ä¿ï¿½ï¿½ #ï¿½Ìµï¿½ï¿½ #ediya #ediyacoffee',to_date('18/07/27','RR/MM/DD'),842);
-Insert into NOTICE values (6,'admin','2018 ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','2018 ï¿½ß¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Ô½ï¿½ï¿½Ï´ï¿½.
+#ÀÌµð¾ßÄ¿ÇÇ #ÀÌµð¾ß #ediya #ediyacoffee',to_date('18/07/27','RR/MM/DD'),842);
+Insert into NOTICE values (6,'admin','2018 Ãß¼®¿¬ÈÞ ¹è¼Û °øÁö»çÇ×','2018 Ãß¼®ÀÌ µ¹¾Æ¿Ô½À´Ï´Ù.
 
-ï¿½ï¿½Ì°ï¿½ Ç³ï¿½ï¿½Î¿ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½Ç½Ã°ï¿½ ï¿½Ìµï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
+Áñ°Ì°í Ç³¿ä·Î¿î ÇÑ°¡À§ µÇ½Ã°í ÀÌµð¾ßÄ¿ÇÇ ¼±¹°¼¼Æ®·Î Á¤¼ºÀ» ÀüÇÏ¼¼¿ä.
 
-ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 09ï¿½ï¿½ 19ï¿½ï¿½ (ï¿½ï¿½) PM 11ï¿½ï¿½ 59ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
-ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ 09ï¿½ï¿½ 27ï¿½ï¿½ (ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¼ï¿½Ã³ï¿½ï¿½ ï¿½Ë´Ï´ï¿½.
+¹è¼Û¸¶°¨ÀÏÀº 09¿ù 19ÀÏ (¼ö) PM 11½Ã 59ºÐ ÁÖ¹®°Ç¿¡ ÇÑÇÏ¿© ¿¬ÈÞ Àü ¹è¼Û °¡´ÉÇÕ´Ï´Ù.
+±× ÀÌÈÄ ÁÖ¹®°ÇÀº 09¿ù 27ÀÏ (¸ñ) ºÎÅÍ ¼øÂ÷ÀûÀ¸·Î ¹ß¼ÛÃ³¸® µË´Ï´Ù.
 
-ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ 1~2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Ù´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Øºï¿½Å¹ï¿½å¸®ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ ï¿½Ë³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¾È¿ï¿½ ï¿½Ö¹ï¿½ ï¿½ï¿½Å¹ï¿½å¸®ï¿½Ú½ï¿½ï¿½Ï´ï¿½.
+Ãß¼®¹°·®À¸·Î ÀÎÇØ ÅÃ¹è¹è¼ÛÀÌ 1~2ÀÏ Áö¿¬ µÉ ¼ö ÀÖ´Ù´Â Á¡ ¾çÇØºÎÅ¹µå¸®¸ç
+Á¶±Ý ³Ë³ËÇÑ ÀÏÀÚ¾È¿¡ ÁÖ¹® ºÎÅ¹µå¸®°Ú½À´Ï´Ù.
 
-ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ìµï¿½ß°ï¿½ ï¿½Ç°Ú½ï¿½ï¿½Ï´ï¿½.^_^',to_date('18/09/05','RR/MM/DD'),817);
-Insert into NOTICE values (7,'admin','NEW ï¿½ï¿½ï¿½ï¿½Ç° ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ !','?(ï¿½Ò±Ù¼Ò±ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½!!!
-#ï¿½Ìµï¿½ß¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ìµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ #ï¿½ï¿½ï¿½Ç³Ó¶ï¿½
-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Ù±ï¿½ï¿½ï¿½ ?
+°¨»çÇÕ´Ï´Ù. ´õ¿í ³ë·ÂÇÏ´Â ÀÌµð¾ß°¡ µÇ°Ú½À´Ï´Ù.^_^',to_date('18/09/05','RR/MM/DD'),817);
+Insert into NOTICE values (7,'admin','NEW ½ÅÁ¦Ç° ºñ´Ï½ºÆ® ÅäÇÇ ³Ó ¶ó¶¼ !','?(¼Ò±Ù¼Ò±Ù) ÁÁÀº Á¤º¸ °¡Á®¿Ô¾î¿ä!!!
+#ÀÌµð¾ß¸ÞÀÌÆ®µµ ÀÎÁ¤ÇÑ
+ÀÌµð¾ß º£½ºÆ®¼¿¸µ ¸Þ´º #ÅäÇÇ³Ó¶ó¶¼
+ÀÌÁ¦ Áý¿¡¼­ Áñ±æ ¼ö ÀÖ´Ù±¸¿ä ?
 
-?ï¿½ï¿½Ï½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½?
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ß¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½
-#ï¿½ï¿½Ï½ï¿½Æ®ï¿½ï¿½ï¿½Ç³Ó¶ï¿½
+?ºñ´Ï½ºÆ® ÅäÇÇ ³Ó ¶ó¶¼ Ãâ½Ã?
+´ÞÄÞÇÑ Ä«¶ó¸á°ú ¾Æ¸óµåÀÇ °í¼ÒÇÔÀÌ ´À²¸Áö´Â
+¿ÀÁ÷ ÀÌµð¾ß¿¡¼­¸¸ ¸Àº¼ ¼ö ÀÖ´Â
+#ºñ´Ï½ºÆ®ÅäÇÇ³Ó¶ó¶¼
 
-ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ ï¿½Ìµï¿½ß¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ?',to_date('18/09/27','RR/MM/DD'),882);
-Insert into NOTICE values (8,'admin','2019 ï¿½Ìµï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®','2019 ï¿½Ìµï¿½ß°ï¿½ ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½!
+¿À´ÃºÎÅÍ ÀÌµð¾ß¿¡¼­ ¸¸³ªº¸¼¼¿ä ?',to_date('18/09/27','RR/MM/DD'),882);
+Insert into NOTICE values (8,'admin','2019 ÀÌµð¾ßÄ¿ÇÇ ¼±¹°¼¼Æ®','2019 ÀÌµð¾ß°¡ ÁØºñÇÑ ¼±¹°¼¼Æ® ¿ÀÇÂ!
 
-È²ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ 2019ï¿½â¿¡ï¿½ï¿½ ï¿½àº¹ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½Ù¶ï¿½ï¿½
-ï¿½Ìµï¿½ï¿½Ä¿ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~
+È²±ÝµÅÁö¶ì 2019³â¿¡´Â Çàº¹ÇÑÀÏ¸¸ °¡µæÇÏ±â ¹Ù¶ó¸ç
+ÀÌµð¾ßÄ¿ÇÇ·Î Á¤¼º ÀüÇÏ´Â ¼¾½º±îÁö~
 
-2019ï¿½â¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´Â´ï¿½ï¿½ ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½!',to_date('19/01/08','RR/MM/DD'),741);
-Insert into NOTICE values (9,'admin','ï¿½Ìµï¿½ï¿½Ä¿ï¿½ï¿½, Ä«Ä«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½','ï¿½Ìµï¿½ï¿½Ä¿ï¿½ï¿½, Ä«Ä«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½',to_date('19/03/13','RR/MM/DD'),748);
+2019³â¿¡´Â ¿øÇÏ´Â´ë·Î ´Ù~µÅÁö!',to_date('19/01/08','RR/MM/DD'),741);
+Insert into NOTICE values (9,'admin','ÀÌµð¾ßÄ¿ÇÇ, Ä«Ä«¿ÀÇÁ·»Áî¿Í ¿¬°£ Çù¾÷ ÁøÇà','ÀÌµð¾ßÄ¿ÇÇ, Ä«Ä«¿ÀÇÁ·»Áî¿Í ¿¬°£ Çù¾÷ ÁøÇà',to_date('19/03/13','RR/MM/DD'),748);
 
 Insert into NOTICE_FILE values (1,1,'notice_1.jpg');
 Insert into NOTICE_FILE values (2,2,'notice_2.jpg');
@@ -354,7 +376,11 @@ Insert into NOTICE_FILE values (6,7,'notice_7.jpg');
 Insert into NOTICE_FILE values (7,8,'notice_8.jpg');
 Insert into NOTICE_FILE values (8,9,'notice_9.jpg');
 
-Insert into QNA values (1,0,'hong','ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¿ï¿½','ï¿½âµµ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ýµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½',to_date('22/11/22','RR/MM/DD'),0,'001');
-Insert into QNA values (2,0,'lee','ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔºÃ´Âµï¿½..','ï¿½ï¿½ï¿½îµ¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï´Â°Ì´Ï´ï¿½.',to_date('22/11/22','RR/MM/DD'),1,'001');
+-- ¹®ÀÇ»çÇ× µ¥ÀÌÅÍ
+Insert into QNA values (1,0,'hong','¸ÀÀÌ ÁÁ³×¿ä','Çâµµ ÁÁ°í °¡°Ýµµ ÁÁ°í ÄÚµùÇÏ´Â ³ª´Â ¾È ÁÁ°í',to_date('22/11/22','RR/MM/DD'),1,'beans001');
+Insert into QNA values (2,0,'lee','°Ô½ÃÆÇ ½±°ÔºÃ´Âµ¥..','½¬¿îµ¥ ³»°¡ ¸ø ÇÏ´Â°Ì´Ï´Ù.',to_date('22/11/22','RR/MM/DD'),1,'beans001');
+INSERT INTO QNA VALUES (3,1,'admin',null,'Ä÷¸®Æ¼µµ ¾È ÁÁ°í È¯ÀåÇÏ³×¿ä',sysdate,1,'beans001');
 
-Insert into REVIEW values (1,'hong',4,'ï¿½ï¿½ï¿½Ì´×½ï¿½Å¸','ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'001');
+-- ¸®ºä µ¥ÀÌÅÍ
+Insert into REVIEW values (1,'hong',4,'»þÀÌ´×½ºÅ¸','¹ãÇÏ´ÃÀÇ e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'beans001');
+Insert into REVIEW values (2,'lee',5,'»óÇ°°ú ¹«°üÇÏ¸é','Áö¿î´Ù´øµ¥ ¿Ö ¾È Áö¿ö¿ä?',to_date('22/11/24','RR/MM/DD'),'beans001');

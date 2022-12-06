@@ -1,12 +1,14 @@
 DROP TABLE MEMBER;
+DROP TABLE ADDRESS;
+
 DROP TABLE PRODUCT;
 DROP TABLE PRODUCT_FILE;
-DROP TABLE TOTAL_ORDER;
-DROP TABLE ORDERS;
+
+DROP TABLE U_ORDER;
+DROP TABLE CART;
 DROP TABLE PAYMENT;
 DROP TABLE RECEIVER;
-DROP TABLE BASKET;
-DROP TABLE ADDRESS;
+
 DROP TABLE NOTICE;
 DROP TABLE NOTICE_FILE;
 DROP TABLE QNA;
@@ -14,13 +16,31 @@ DROP TABLE QNA_FILE;
 DROP TABLE REVIEW;
 DROP TABLE REVIEW_FILE;
 
+DROP SEQUENCE mem_seq;
+DROP SEQUENCE pro_seq;
+DROP SEQUENCE proFile_seq;
+DROP SEQUENCE u_order_seq;
+DROP SEQUENCE cart_seq;
+DROP SEQUENCE payment_seq;
+DROP SEQUENCE receiver_seq;
+
 -- 회원정보 테이블
 CREATE TABLE MEMBER (
+    ID NUMBER NOT NULL,
+    MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY, -- 유저 아이디
+    MEMBER_PASSWORD VARCHAR2(255), -- 유저 비밀번호
+    MEMBER_NAME VARCHAR2(255), -- 유저 이름
+    MEMBER_PHONE VARCHAR2(255) UNIQUE NOT NULL, -- 유저 전화번호(PHONE1+PHONE2_PHONE3)
+    MEMBER_EMAIL VARCHAR2(255) UNIQUE NOT NULL, -- 유저 이메일
+    MEMBER_JOINDATE DATE DEFAULT SYSDATE-- 유저 가입일자
+);
+
+-- 주소
+CREATE TABLE ADDRESS (
     MEMBER_ID VARCHAR2(255) NOT NULL PRIMARY KEY,
-    MEMBER_PASSWORD VARCHAR2(255),
-    MEMBER_NAME VARCHAR2(255),
-    MEMBER_PHONE VARCHAR2(255) UNIQUE NOT NULL,
-    MEMBER_EMAIL VARCHAR2(255) UNIQUE NOT NULL
+    ZIPNO VARCHAR2(255), -- 우편번호
+    ROADFULLADDR VARCHAR2(255), --도로명(지번) 주소
+    ADDDETAIL varchar2(255) -- 상세주소
 );
 
 -- 상품 테이블
@@ -46,54 +66,49 @@ CREATE TABLE PRODUCT_FILE (
         REFERENCES product (product_code)
 );
 
--- TOTAL_ORDER
-CREATE TABLE TOTAL_ORDER (
-    ORDER_LIST_NUM CHAR(10) PRIMARY KEY,
-    TOTAL_PRICE VARCHAR2(255),
-    ORDER_LIST_DATE VARCHAR2(255),
-    CHK_CANCLE CHAR(1),
-    MEMBER_ID VARCHAR2(255) -- FK 설정?
+-- 장바구니 테이블
+CREATE TABLE CART (
+    CART_SEQ_NUM NUMBER NOT NULL PRIMARY KEY,-- 시퀀스 자동번호
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- 아이디
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --제품고유코드 (product 테이블 참조)
+    CARY_QTY NUMBER NOT NULL -- 장바구니 수량(품목당)
 );
 
- -- ORDERS
-CREATE TABLE ORDERS (
-    ORDER_NUM CHAR(10) PRIMARY KEY,
-    ORDER_DATE DATE,
-    QUANTITY NUMBER(3),
-    PRODUCT_CODE VARCHAR2(255), -- FK
-    ORDER_LIST_NUM CHAR(10) -- FK
+-- 구매 테이블
+CREATE TABLE U_ORDER (
+    ORDER_SEQ_NUM NUMBER NOT NULL PRIMARY KEY, -- 시퀀스 자동번호
+    ORDER_ID VARCHAR2(255) NOT NULL, -- 구매고유번호(주문번호) (@ 여러품목이어도 한번호로) 
+    MEMBER_ID VARCHAR2(255) NOT NULL, -- 아이디
+    PRODUCT_CODE VARCHAR2(255) NOT NULL, --제품고유코드
+    ORDER_QTY NUMBER NOT NULL, -- 구매 수량(품목당)
+    ORDER_DATE DATE, -- 구매일자 -> 주문서작성 완료시 생성
+    ORDER_STATE VARCHAR2(255) DEFAULT 'onorder' -- 상태( 'onorder' , 'ordered' , 'paid' )
 );
 
- -- PAYMENT
-CREATE TABLE PAYMENT (
-    CREDIT_NUM CHAR(16),
-    BANK VARCHAR2(60),
-    EXPIRATION_YEAR CHAR(2),
-    EXPIRATION_MONTH CHAR(2),
-    EXPIRATION_DATE CHAR(2),
-    ORDER_LIST_NUM CHAR(10)
+-- 결제 정보
+create table payment (
+	payment_seq_num number not null primary key, -- 시퀀스 자동번호
+	order_id varchar2(255) not null, --구매고유번호(시리얼넘버) (order 테이블 참조)
+	payment_cardCo varchar2(255) not null, --카드사
+	payment_cardNum varchar2(255) not null, -- 카드번호
+	payment_cardExM number not null, -- 만료 월
+	payment_cardExY number not null, -- 만료 년
+	payment_cardCVS number not null -- cvs번호
 );
 
--- RECEIVER
-CREATE TABLE RECEIVER (
-    RECEIVER_ZIPCODE VARCHAR2(13),
-    RECEIVER_PHONE VARCHAR2(255),
-    RECEIVER_NAME VARCHAR2(255),
-    ORDER_LIST_NUM CHAR(10)
-);
+-- 수령인 정보 테이블
+create table receiver (
+	receiver_seq_num number not null primary key, -- 시퀀스 자동번호
+	member_id varchar2(255) not null, --아이디
+	order_id varchar2(255) not null, --구매고유번호 (order 테이블 참조)
 
--- BASKET
-CREATE TABLE BASKET (
-    BASKET_NUM VARCHAR2(255),
-    PRODUCT_CODE VARCHAR2(255),
-    QUANTITY VARCHAR2(255)
-);
+	receiver_name varchar2(255) not null, --받는분이름
+	receiver_phone varchar2(255) not null, -- 구매자 전화번호
+	receiver_zipno varchar2(255), -- 구매자 주소
+	receiver_roadFullAddr varchar2(255), -- (도로명주소,지번주소)
+	receiver_addDetail varchar2(255),-- (나머지주소)
 
--- 주소
-CREATE TABLE ADDRESS (
-    RECEIVER_ZIPCODE VARCHAR2(13),
-    RECEIVER_ADDR1 VARCHAR2(255),
-    RECEIVER_ADDR2 VARCHAR2(255)
+	receiver_content varchar2(512) -- 배송메세지
 );
 
 -- 공지사항
@@ -151,13 +166,10 @@ create table review_file(
 );
 
 -- 시퀀스
-CREATE SEQUENCE order_num_seq
-INCREMENT BY 1
-START WITH 1;
-
-CREATE SEQUENCE order_list_num_seq
-INCREMENT BY 1
-START WITH 1;
+CREATE SEQUENCE mem_seq
+    INCREMENT BY 1
+    START WITH 1
+    NOCACHE;
 
 CREATE SEQUENCE pro_seq
     INCREMENT BY 1
@@ -169,17 +181,30 @@ CREATE SEQUENCE proFile_seq
     START WITH 100
     NOCACHE;
 
--- 데이터
+create SEQUENCE u_order_seq
+    increment by 1
+    start with 100
+    nocache;
+
+create SEQUENCE cart_seq
+    increment by 1
+    start with 100
+    nocache;
+create SEQUENCE payment_seq
+    increment by 1
+    start with 100
+    nocache;
+create SEQUENCE receiver_seq
+    increment by 1
+    start with 100
+    nocache;
+    
+-- 회원정보 데이터
 INSERT INTO MEMBER VALUES ('admin','1234','관리자','01012345678','admin@uhdiya.com');
-INSERT INTO MEMBER VALUES ('dayeun', 1111, 'dayeun', '01011112222', 'jdy010431@gmail.com');
+INSERT INTO MEMBER VALUES ('hong','1234','홍길동','01011112222','hong@test.com');
+INSERT INTO ADDRESS VALUES('hong','04038','서울 마포구 양화로 122 3층, 4층','에이콘아카데미');
 
-INSERT INTO TOTAL_ORDER VALUES (order_list_num_seq.nextval, 'dayeun', 25000, sysdate, 'f');
-INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans001', 1);
-INSERT INTO ORDERS VALUES (order_num_seq.nextval, sysdate, 1,'beans002', 1);
-INSERT INTO PAYMENT VALUES ('1111222233334444', 'shinhan', '26', '06', '23', 1);
-INSERT INTO RECEIVER VALUES ('04038', '01022225555', 'seonarea', 1);
-INSERT INTO ADDRESS VALUES ('04038', '서울특별시 마포구 양화로 122(서교동)' ,'3층');
-
+-- 상품정보 데이터
 INSERT INTO product VALUES (pro_seq.nextval,'beans001','[어디야] 홀빈커피 페르소나 블렌드 200g X 2개','커피','홀빈원두',26000);
 INSERT INTO product VALUES (pro_seq.nextval,'beans002','[어디야] 홀빈커피 콜롬비아 슈프리모 200g X 2개','커피','홀빈원두',24000);
 INSERT INTO product VALUES (pro_seq.nextval,'beans003','[어디야] 홀빈커피 케냐 오리진 200g X 2개','커피','홀빈원두',26000);
@@ -203,9 +228,6 @@ INSERT INTO product VALUES (pro_seq.nextval,'mix001','[어디야] 스페셜 모�
 INSERT INTO product VALUES (pro_seq.nextval,'mix002','[어디야] 스페셜 골드블렌드 커피믹스 280T','스틱커피','커피믹스',34500);
 INSERT INTO product VALUES (pro_seq.nextval,'blending001','[어디야] 블렌딩티 스트로베리 루바브 10T x 4팩','티','블렌딩티',34500);
 INSERT INTO product VALUES (pro_seq.nextval,'tea001','[어디야] 대추쌍화차 50T','티','전통차',16500);
-
-
-
 
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001.jpg','main','beans001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002.jpg','main','beans002');
@@ -231,8 +253,6 @@ INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002.jpg','main','mix002
 INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001.png','main','blending001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001.png','main','tea001');
 
-
-
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans001_info.jpg','info','beans001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans002_info.jpg','info','beans002');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'beans003_info.jpg','info','beans003');
@@ -257,6 +277,7 @@ INSERT INTO product_file VALUES (proFile_seq.nextval,'mix002_info.jpg','info','m
 INSERT INTO product_file VALUES (proFile_seq.nextval,'blending001_info.png','info','blending001');
 INSERT INTO product_file VALUES (proFile_seq.nextval,'tea001_info.jpg','info','tea001');
 
+-- 공지사항 데이터
 Insert into NOTICE values (1,'admin','2018 명절 배송 마감안내',null,to_date('18/02/01','RR/MM/DD'),678);
 Insert into NOTICE values (2,'admin','2018년 여름에도 이디야와 함께!',null,to_date('18/05/02','RR/MM/DD'),602);
 Insert into NOTICE values (3,'admin','카카오 플러스 친구 이벤트!','카카오 플러스 친구에게만 주는 특별한 혜택!
@@ -355,7 +376,11 @@ Insert into NOTICE_FILE values (6,7,'notice_7.jpg');
 Insert into NOTICE_FILE values (7,8,'notice_8.jpg');
 Insert into NOTICE_FILE values (8,9,'notice_9.jpg');
 
-Insert into QNA values (1,0,'hong','맛이 좋네요','향도 좋고 가격도 좋고 코딩하는 나는 안 좋고',to_date('22/11/22','RR/MM/DD'),0,'001');
-Insert into QNA values (2,0,'lee','게시판 쉽게봤는데..','쉬운데 내가 못 하는겁니다.',to_date('22/11/22','RR/MM/DD'),1,'001');
+-- 문의사항 데이터
+Insert into QNA values (1,0,'hong','맛이 좋네요','향도 좋고 가격도 좋고 코딩하는 나는 안 좋고',to_date('22/11/22','RR/MM/DD'),1,'beans001');
+Insert into QNA values (2,0,'lee','게시판 쉽게봤는데..','쉬운데 내가 못 하는겁니다.',to_date('22/11/22','RR/MM/DD'),1,'beans001');
+INSERT INTO QNA VALUES (3,1,'admin',null,'퀄리티도 안 좋고 환장하네요',sysdate,1,'beans001');
 
-Insert into REVIEW values (1,'hong',4,'샤이닝스타','밤하늘의 e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'001');
+-- 리뷰 데이터
+Insert into REVIEW values (1,'hong',4,'샤이닝스타','밤하늘의 e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'beans001');
+Insert into REVIEW values (2,'lee',5,'상품과 무관하면','지운다던데 왜 안 지워요?',to_date('22/11/24','RR/MM/DD'),'beans001');
