@@ -68,6 +68,7 @@
 									<tr>
 										<td>${m.member_id}</td>
 										<td>${m.member_name}</td>
+										<td>${m.member_phone}</td>
 										<td>${m.member_email}</td>
 										<td>
 											<button type="button" class="btn btn-danger" onclick="deleteMember('${m.member_id}')">삭제</button>

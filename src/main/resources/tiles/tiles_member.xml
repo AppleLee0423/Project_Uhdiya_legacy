@@ -40,4 +40,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/edit_member.jsp" />
 	</definition>
 	
+	<definition name="/member/widthdraw_page" extends="baseLayout">
+		<put-attribute name="title" value="회원탈퇴 - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/member/delete.jsp" />
+	</definition>
+	
 </tiles-definitions>

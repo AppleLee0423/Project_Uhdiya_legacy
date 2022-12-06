@@ -29,4 +29,5 @@
 	<definition name="adminpage" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/common/adminpage.jsp" />
 	</definition>
+	
 </tiles-definitions>

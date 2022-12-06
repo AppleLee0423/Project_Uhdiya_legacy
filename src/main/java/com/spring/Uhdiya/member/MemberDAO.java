@@ -61,6 +61,13 @@ public class MemberDAO {
 		return sqlSession.selectList("mapper.member.getMemList", param);
 	}
 	
+	// 회원정보수정
+	public int editMember(MemberDTO member) {
+		int result = sqlSession.update("mapper.member.editMember", member);
+		sqlSession.update("mapper.member.editAddress", member);
+		return result;
+	}
+	
 	/**
 	 * 회원정보 삭제
 	 * @param param
@@ -68,15 +75,10 @@ public class MemberDAO {
 	public int deleteMember(MemberDTO param) {
 		return sqlSession.delete("mapper.member.deleteMember", param);
 	}
-	
-//	public List<NoticeDTO> selectAllNotice() {
-//		// TODO Auto-generated method stub
-//		return sqlSession.selectList("mapper.board.selectAllNotice");
-//	}
-	
-	// 회원정보수정
-	public int editMember(MemberDTO member) {
-		return sqlSession.update("mapper.member.editMember", member);
+
+	// 회원 수정페이지 데이터
+	public MemberDTO one_member(MemberDTO member) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.member.one_member",member);
 	}
-	
 }

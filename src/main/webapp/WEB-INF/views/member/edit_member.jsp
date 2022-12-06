@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-
+<c:set var="member" value="${member}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +69,50 @@
        }
    </script>
 
-	<script type="text/javascript">
+	<script>
+		// 전화번호 기존값 설정
+		$(function(){
+			var phone = ${member.member_phone};
+			$("select[name='member_phone']").val(phone).prop("selected",true);
+		});
+	
+		// 지금 수정 버튼 누르면 이 jsSubmit 타는거같은뎅 응응 그렇게밑에 버튼에 해놨오!
+		function jsSubmit() {
+			
+			// 입력값 유효성 체크 추가
+			
+			$("#frm").submit();
+		}
+		
+		$("#member_password2").change(function() {
+			$("#memberpassword2").val("N");
+		});
+		
+		function checkPw() {
+			
+			var pw = document.getElementById("member_password").value; // 비밀번호
+			var pw2 = document.getElementById("member_password2").value; // 비밀번호 확인
+			
+			var pattern1 = /^[a-z0-9]/;
+			// var pattern2 = /[a-z]/;
+			// var pattern3 =  /[A-Z]/;
+			// var pattern4 = /[~!@\#$%<>^&*]/;
+			var pw_msg = "";
+			
+			if( pw.length == 0 ) {
+				alert("비밀번호를 입력해주세요");
+				return false;
+			} else if( pw  !=  pw2) {
+				alert("비밀번호가 일치하지 않습니다.");
+				return false;
+			} else if( !pattern1.test(pw) || pw.length < 6 || pw.length > 16 ) {
+				alert("영문+숫자+특수기호 6자리 이상 16글자 이하만 이용 가능합니다.");
+				return false;
+			} else if( pw == pw2 ) {
+				alert("비밀번호가 일치합니다.");
+				$("#memberpassword2").val("Y");
+			}
+		}
 		
 		function editMember() {
 			
@@ -80,77 +123,56 @@
 				return;
 			}
 			
-			if( !confirm("회원정보를 수정하시겠습니까?") ) {
+			// 비밀번호 확인
+			var memberpassword2 = $("#memberpassword2").val();
+			if( memberpassword2 != "Y" ) {
+				alert("비밀번호 확인을 해주세요");
 				return;
 			}
 			
-			$.ajax({
-	            url : "editMember",
-	            type : "post",
-	            dataType : "text",
-	            data : {
-	            	member_password : member_password
-	            },
-	            success : function(data) {
-
-	               if( data == "Y" ) {
-	                  alert("");
-	               } else {
-	                  alert("");
-	               }
-	            },
-	            error: function(e) {
-	               console.log(e);
-	               alert("error");
-	            }
-	         })
-			
-	        //폰번호 수정
-			var member_phone = $("input[name='member_phone']").val().trim();
+			var member_phone = $("select[name='member_phone']").val().trim();
 			var member_phone1 = $("input[name='member_phone1']").val().trim();
 			var member_phone2 = $("input[name='member_phone2']").val().trim();
-			if( member_phone == null || !(member_phone.length > 0) ) 
-            if( member_phone1 == null || !(member_phone1.length > 0) )
-            if( member_phone2 == null || !(member_phone2.length > 0) ){
+			var phoneChk = true;
+			
+			if( member_phone == null || !(member_phone.length > 0) ) {
+				phoneChk = false;
+			} else if( member_phone1 == null || !(member_phone1.length > 0) ) {
+				phoneChk = false;
+			} else if( member_phone2 == null || !(member_phone2.length > 0) ) {
+				phoneChk = false;
+				
+			}
+			
+			if( !phoneChk ) {
 				alert("번호를 입력하세요");
 				return;
 			}
 			
-			if( !confirm("회원정보를 수정하시겠습니까?") ) {
-				return;
-			}
-			
-			$.ajax({
-	            url : "editMember",
-	            type : "post",
-	            dataType : "text",
-	            data : {
-	            	member_phone : member_phone
-	            	member_phone1 : member_phone1
-	            	member_phone2 : member_phone2
-	            	
-	            },
-	            success : function(data) {
-
-	               if( data == "Y" ) {
-	                  alert("");
-	               } else {
-	                  alert("");
-	               }
-	            },
-	            error: function(e) {
-	               console.log(e);
-	               alert("error");
-	            }
-	         })
-	         
-			//이메일 수정
 			var member_email = $("input[name='member_email']").val().trim();
 			if( member_email == null || !(member_email.length > 0) ) {
 				alert("이메일을 입력하세요");
 				return;
 			}
 			
+			var zipno = $("input[name='zipno']").val().trim();
+			var roadFullAddr = $("input[name='roadFullAddr']").val().trim();
+			var addDetail = $("input[name='addDetail']").val().trim();
+			var addrChk = true;
+			
+			if( zipno == null || !(zipno.length > 0) ) {
+				addrChk = false;
+			} else if( roadFullAddr == null || !(roadFullAddr.length > 0) ) {
+				addrChk = false;
+			} else if( addDetail == null || !(addDetail.length > 0) ) {
+				addrChk = false;
+			}
+			
+			if( !addrChk ) {
+				alert("주소를 입력하세요");
+				return;
+			}
+			
 			if( !confirm("회원정보를 수정하시겠습니까?") ) {
 				return;
 			}
@@ -160,8 +182,15 @@
 	            type : "post",
 	            dataType : "text",
 	            data : {
-	            	member_email : member_email
-	            },
+	            	member_password : member_password,
+	            	member_phone : member_phone,
+	            	member_phone1 : member_phone1,
+	            	member_phone2 : member_phone2,
+	            	member_email : member_email,
+	            	zipno : zipno,
+	            	roadFullAddr : roadFullAddr,
+	            	addDetail : addDetail
+				},
 	            success : function(data) {
 
 	               if( data == "Y" ) {
@@ -176,48 +205,6 @@
 	            }
 	         })
 		}
-		
-             function checkPw() {
-	         
-	         var pw = document.getElementById("member_password").value; //비밀번호
-	         var pw2 = document.getElementById("member_password2").value; // 확인 비밀번호
-
-	         var pattern1 = /^[a-z0-9]/;
-	         // var pattern2 = /[a-z]/;
-	         // var pattern3 =  /[A-Z]/;
-	         // var pattern4 = /[~!@\#$%<>^&*]/;
-	         var pw_msg = "";
-
-	         if( pw.length == 0 ) {
-	            alert("비밀번호를 입력해주세요");
-	            return false;
-	         } else {
-
-	            if( pw  !=  pw2) {
-	               alert("비밀번호가 일치하지 않습니다.");
-	               return false;  
-	            } else {
-
-	               if( pw = pw2 ) {
-	                  alert("비밀번호가 일치합니다.")
-	               }
-	            }
-	         }    
-
-	         if( !pattern1.test(pw) || pw.length < 6 || pw.length > 16 ) {
-	            alert("영문+숫자+특수기호 6자리 이상 16글자 이하만 이용 가능합니다.");
-	            return false;
-	         }
-	      }
-             
-             function checkaddDetail() {
-
-             var add = $("#member_addDetail").val();
-             if( add == null || !(id.length > 0) ) {
-                alert("상세주소를 입력해주세요");
-                return;
-              }
-            }
 		
 	</script>
 	
@@ -239,7 +226,7 @@
 		align="center">
 		<form id="frm" method="post" action="${path }/member/edit">
 			<table width="800">
-				<tr height="40">
+				<tr height="100">
 					<td align="center" ><b>
 					<font size="5" color="black">[회원정보 수정]</font></b></td>
 				</tr>
@@ -249,7 +236,7 @@
 				<tr class="register" height="30">
 					<td width="5%" align="center">*</td>
 					<td width="15%">회원 ID</td>
-					<td>${m.member_id}</td>
+					<td>${member.member_id}</td>
 				</tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -259,6 +246,7 @@
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호</td>
                <td>
+               	  <input type="hidden" id="memberpassword2" value="N"/>
                   <input type="password" name="member_password"
                      id="member_password" autocomplete="new-password"/>
                   &nbsp;(영문 소문자/숫자/특수문자, 6자~16자)
@@ -270,9 +258,10 @@
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호 확인</td>
-               <td><input type="password" name="member_password2"
-                  id="member_password2"/> <a href="#"
-                  onclick="checkPw()">확인</a></td>
+               <td>
+               	<input type="password" name="member_password2" id="member_password2"/>
+               	<a href="javascript:void(0);" onclick="checkPw()">확인</a>
+               </td>
             </tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -280,7 +269,7 @@
 				<tr class="register" height="30">
 					<td width="5%" align="center">*</td>
 					<td width="15%">이 름</td>
-					<td><input type="text" value="${m.member_name}" name="member_name" /></td>
+					<td><input id="member_name" type="text" value="${member.member_name}" name="member_name" /></td>
 				</tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -288,12 +277,12 @@
 				<tr class="register" height="30">
 					<td width="5%" align="center">*</td>
 					<td width="15%">휴대전화</td>
-					<td><select name="member_phone">
-							<option value="" selected="selected">선택</option>
+					<td><select name="member_phone" id="member_phone">
+							<option value="">선택</option>
 							<option value="010">010</option>
 					</select> &nbsp;-&nbsp; <input type="text" name="member_phone1" size="4"
-						maxlength="4"> &nbsp;-&nbsp; <input type="text"
-						name="member_phone2" size="4" maxlength="4"></td>
+						maxlength="4" value="${member.member_phone1}"> &nbsp;-&nbsp; <input type="text"
+						name="member_phone2" size="4" maxlength="4" value="${member.member_phone2}"></td>
 
 				</tr>
 				<tr height="7">
@@ -302,7 +291,7 @@
 				<tr class="register" height="30">
 					<td width="5%" align="center">*</td>
 					<td width="15%">이메일</td>
-					<td><input type="email" name="member_email" /></td>
+					<td><input type="email" name="member_email" value="${member.member_email}"/></td>
 				</tr>
 				<tr height="7">
 					<td colspan="3"><hr /></td>
@@ -310,25 +299,33 @@
 				<tr>
 					<td width="5%" align="center">*</td>
 					<td width="15%">주 소</td>
-					<td><input type="text" size="10" name="zipno"
-						id="sample4_postcode" placeholder="우편번호" readonly="readonly"
-						onclick="DaumPostcode()"> <input type="button"
-						onclick="execution_daum_address()" value="우편번호 찾기"><br>
-						<br /> <input type="text" size="30" name="roadFullAddr"
-						id="sample4_roadAddress" placeholder="도로명주소" readonly="readonly"
-						onclick="DaumPostcode()"> <input type="text" size="30"
-						name="roadFullAddr" id="sample4_jibunAddress" placeholder="지번주소"
-						readonly="readonly" onclick="DaumPostcode()"> <br /> <span
-						id="guide" style="color: #999; font-size: 10px;"></span> <br /> <br />
+					<td>
+						<input type="text" size="10" name="zipno" id="sample4_postcode"
+							placeholder="우편번호" readonly="readonly" value="${member.zipno}">
+						<input type="button" onclick="execution_daum_address()" value="우편번호 찾기">
+						<br/>
+						<input type="text" size="30" name="roadFullAddr" id="sample4_roadAddress"
+							placeholder="도로명주소" readonly="readonly" value="${member.roadFullAddr}">
+						<input type="text" size="30" name="roadFullAddr" id="sample4_jibunAddress"
+							placeholder="지번주소" readonly="readonly">
+						<br/>
+						<span id="guide" style="color: #999; font-size: 10px;"></span>
+						<br/><br/>
 						<input type="text" name="addDetail" id="sample4_detailAddress"
-						placeholder="나머지 주소" size="70" /></td>
+							placeholder="나머지 주소" size="70" value="${member.addDetail}">/>
+					</td>
 				</tr>
 			</table>
-			
-			<input class="check" type="button" value="확인"
-				onclick="javascript:window.location='modmemPro'"/>
+<!-- 			<button class="w-100 btn btn-lg btn-primary"
+                     style="margin-left: auto; margin-right: auto;" type="button"
+                     onclick="jsSubmit()" value="수정하기">수정하기</button> -->
+                     
+			<input class="check" type="button" value="수정하기"
+				onclick="editMember()">
 				<input class="back" type="button" value="취소"
-				onclick="javascript:window.location='MainForm'"/>
+				onclick="javascript:window.location='/mypage'"/>
+				<input class="back" type="button" value="회원탈퇴"
+				onclick="javascript:window.location='/widthdraw_page'"/>
 				
 		</form>
 	</div>

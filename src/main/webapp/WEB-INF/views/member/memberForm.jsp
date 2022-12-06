@@ -68,41 +68,88 @@
            }).open();
        }
    </script>
-   
-   <script type="text/javascript">
-      
-      function jsSubmit() {
-    	 
-         // 입력값 유효성 체크 추가
-         
-         // 아이디 확인
-         var idCheck = $("#idcheck").val();
-         if( idCheck != "Y" ) {
-        	 alert("아이디 중복확인을 해주세요");
-        	 return;
-         }
-         
-         $("#frm").submit();
-      }
-      
-      $(document).ready(function() {
-
-         $("#checkAll").change(function() {
-            var bool = $("#checkAll").prop("checked");
-            if( bool ) {
-               $(".checkTarget").prop("checked", true);
-            } else {
-               $(".checkTarget").prop("checked", false);
-            }
-         });
-         
-         $("#member_id").change(function() {
-             $("#idcheck").val("N");
-         });
-      });
+	
+	<script type="text/javascript">
+		
+		function jsSubmit() {
+			
+			// 아이디 확인
+			var idCheck = $("#idcheck").val();
+			if( idCheck != "Y" ) {
+				alert("아이디 중복확인을 해주세요");
+				return;
+			}
+			
+			// 비밀번호 확인
+			var passCheck = $("#passCheck").val(); 
+			if( passCheck != "Y" ) {
+				alert("비밀번호 확인을 해주세요");
+				return;
+			}
+			
+			// 이름 확인
+			var member_name = $("#member_name").val();
+			if( member_name == null || !(member_name.length > 0) ) {
+				alert("이름을 입력해주세요");
+				return;
+			}
+			
+			var member_phone = $("#member_phone","#member_phone2","#member_phone3").val();
+			if( member_phone == null || !(member_phone.length > 0) ) {
+				alert("전화번호를 입력해주세요");
+				return;
+			}
+			
+			var member_email = $("#member_email").val();
+			if( member_email == null || !(member_email.length > 0) ) {
+				alert("email를 입력해주세요");
+				return;
+			}
+			
+			var add = $("#member_addDetail").val();
+			if( add == null || !(add.length > 0) ) {
+				alert("상세주소를 입력해주세요");
+				return;
+			}
+			
+			$("#frm").submit();
+		}
+		
+		
+		$(document).ready(function() {
+			
+			$("#checkAll").change(function() {
+				var bool = $("#checkAll").prop("checked");
+				if( bool ) {
+					$(".checkTarget").prop("checked", true);
+				} else {
+					$(".checkTarget").prop("checked", false);
+				}
+			});
+			
+			$(".checkTarget").change(function() {
+				
+				var bool = $(this).prop("checked");
+				if( !bool ) {
+					$("#checkAll").prop("checked", false);
+				} else {
+					
+					var bool1 = $("#check1").prop("checked");
+					var bool2 = $("#check2").prop("checked");
+					
+					if( bool1 && bool2 ) {
+						$("#checkAll").prop("checked", true);
+					}
+				}
+			});
+			
+			$("#member_id").change(function() {
+				$("#idcheck").val("N");
+			});
+		});
 
       function checkId() {
-
+    	  
          var id = $("#member_id").val();
          if( id == null || !(id.length > 0) ) {
             alert("아이디를 입력해주세요");
@@ -132,10 +179,65 @@
          })
       }
       
+	function checkPw() {
+		
+		var pw1 = $("#member_password").val();
+		var pw2 = $("#member_password2").val();
+		
+		if( !(pw1.length > 0) || !(pw2.length > 0) ) {
+			
+			alert("비밀번호를 입력해주세요");
+			return;
+			
+		} else if( pw1.length < 6 || pw1.length > 16 ) {
+			
+			alert("비밀번호는 6자리 이상 16자리 이하로 작성해주세요");
+			return;
+			
+		} else if( pw1 != pw2 ) {
+			
+			alert("비밀번호가 일치하지 않습니다");
+			return;
+		}
+		
+		var pattern1 = /[\d]/;
+		var pattern2 = /[a-z]/;
+		var pattern3 = /[A-Z]/;
+		var pattern4 = /[~!@\#$%<>^&*]/;
+		
+		var patternCnt = 0;
+		
+		if( pattern1.test(pw1) ) {
+			patternCnt++;
+		}
+		
+		if( pattern2.test(pw1) ) {
+			patternCnt++;
+		}
+		
+		if( pattern3.test(pw1) ) {
+			patternCnt++;
+		}
+		
+		if( pattern4.test(pw1) ) {
+			patternCnt++;
+		}
+		
+		if( patternCnt >= 2 ) {
+			alert("비밀번호 확인이 완료되었습니다");
+			$("#passCheck").val("Y");
+			return;
+		} else {
+			alert("비밀번호는 두개 이상의 문자를 조합하여 작성해주세요");
+			return;
+		}
+	}
+	
+      /*
       function checkPw() {
          
          var pw = document.getElementById("member_password").value; //비밀번호
-         var pw2 = document.getElementById("member_password2").value; // 확인 비밀번호
+         var pw2 = document.getElementById("member_password2").value; // 비밀번호 확인
 
          var pattern1 = /^[a-z0-9]/;
          // var pattern2 = /[a-z]/;
@@ -164,6 +266,7 @@
             return false;
          }
       }
+      */
       
       function checkname() {
 
@@ -239,14 +342,14 @@
          })
       }
 
-      function checkaddDetail() {
+      /* function checkaddDetail() {
 
-         var add = $("#member_addDetail").val();
-         if( add == null || !(id.length > 0) ) {
+         var member_email = $("#member_email").val();
+         if( member_email == null || !(id.length > 0) ) {
             alert("상세주소를 입력해주세요");
             return;
          }
-      }
+      } */
       
    </script>
    
@@ -277,6 +380,7 @@
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호</td>
                <td>
+                  <input type="hidden" id="passCheck" value="N"/>
                   <input type="password" name="member_password"
                      id="member_password" autocomplete="new-password"/>
                   &nbsp;(영문 소문자/숫자/특수문자, 6자~16자)
@@ -289,8 +393,8 @@
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호 확인</td>
                <td><input type="password" name="member_password2"
-                  id="member_password2"/> <a href="#"
-                  onclick="checkPw()">확인</a></td>
+                  id="member_password2"/>&nbsp; <a href="#"
+                  onclick="checkPw()" >확인</a></td>
             </tr>
             <tr height="7">
                <td colspan="3"><hr /></td>
@@ -298,7 +402,7 @@
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">이 름</td>
-               <td><input type="text" name="member_name" /></td>
+               <td><input type="text" id="member_name" name="member_name" /></td>
             </tr>
             <tr height="7">
                <td colspan="3"><hr /></td>
@@ -320,7 +424,9 @@
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">이메일</td>
-               <td><input type="email" name="member_email" /></td>
+               <td>
+               		<input type="email" id="member_email" name="member_email"/>
+               </td>
             </tr>
             <tr height="7">
                <td colspan="3"><hr /></td>

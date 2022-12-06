@@ -84,13 +84,25 @@
 	<!-- 회원정보 수정 -->
 	<update id="editMember" parameterType="MemberDTO">
 		UPDATE MEMBER SET 
-			MEMBER_PASSWORD = #{member_phone}, 
-			MEMBER_NAME = #{member_name},
-			ZIPNO = #{zipno},
-			ROADFULLADDR = #{roadFullAddr},
-			ADDDETAIL = #{addDetail},
-			MEMBER_PHONE = #{member_phone}
+			MEMBER_PASSWORD = #{member_password}, 
+			MEMBER_EMAIL = #{member_email},
+			MEMBER_PHONE = #{member_phone}||'-'||#{member_phone1}||'-'||#{member_phone2}
 		WHERE MEMBER_ID = #{member_id}
 	</update>
 	
+	<!-- 회원정보 주소 수정 -->
+	<update id="editAddress" parameterType="MemberDTO">
+		UPDATE ADDRESS SET 
+			ZIPNO = #{zipno},
+			ROADFULLADDR = #{roadFullAddr},
+			ADDDETAIL = #{addDetail}
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<!-- 회원수정 페이지 데이터 -->
+	<select id="one_member" resultMap="memberResult" parameterType="MemberDTO">
+		<![CDATA[
+			select * from member where member_id = #{member_id}
+		]]>
+	</select>
 </mapper>

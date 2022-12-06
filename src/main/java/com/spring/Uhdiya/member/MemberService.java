@@ -52,6 +52,11 @@ public class MemberService {
 		return memberDAO.getMemList(param);
 	}
 	
+	// 회원정보 수정
+	public int editMember(MemberDTO member) {
+		return memberDAO.editMember(member);
+	}
+	
 	/**
 	 * 회원정보 삭제
 	 * @param param
@@ -60,9 +65,9 @@ public class MemberService {
 		return memberDAO.deleteMember(param);
 	}
 	
-	// 회원정보 수정
-	public int editMember(MemberDTO member) {
-		return memberDAO.editMember(member);
+	// 회원수정 페이지 데이터
+	public MemberDTO one_member(MemberDTO member) {
+		// TODO Auto-generated method stub
+		return memberDAO.one_member(member);
 	}
-	
 }
