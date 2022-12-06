@@ -2,7 +2,7 @@ package com.spring.Uhdiya.order;
 
 import java.sql.Date;
 
-public class OrderDTO {
+public class OrderListDTO {
 	
 	private int order_seq_num;
 	private String order_id;
@@ -11,9 +11,31 @@ public class OrderDTO {
 	private int order_qty;
 	private Date order_date;
 	private String order_state;
+	private String product_name;
+	private String product_price;
+	private String product_fileName;
+	
+	public String getProduct_price() {
+		return product_price;
+	}
+	public void setProduct_price(String product_price) {
+		this.product_price = product_price;
+	}
 	
 	
 	
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	public String getProduct_fileName() {
+		return product_fileName;
+	}
+	public void setProduct_fileName(String product_fileName) {
+		this.product_fileName = product_fileName;
+	}
 	public int getOrder_seq_num() {
 		return order_seq_num;
 	}

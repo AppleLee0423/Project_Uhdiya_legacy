@@ -31,10 +31,10 @@ function btn_prev(){
 	console.log(page);
 	console.log(page_prev);
 	if(page=='1' || page==null){
-		window.location.href='${path}/product/modProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page=1';
+		window.location.href='${path}/product/searchProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page=1';
 		alert('첫 페이지입니다.');
 	} else {
-		window.location.href='${path}/product/modProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page_prev;
+		window.location.href='${path}/product/searchProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page_prev;
 	}
 }
 function btn_next(){
@@ -59,10 +59,10 @@ function btn_next(){
 	let page_next = parseInt(page) + 1;
  	let lastPage = document.getElementById('lastPage');
 	if(page_next > lastPage.value ){
-		window.location.href='${path}/product/modProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page;
+		window.location.href='${path}/product/searchProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page;
 		alert('마지막 페이지입니다.');
 	} else{
-		window.location.href='${path}/product/modProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page_next;
+		window.location.href='${path}/product/searchProductList?product_cateL='+product_cateL+'&product_cateS='+product_cateS+'&searchSel='+searchSel+'&searchSelTxt='+searchSelTxt+'&page='+page_next;
 	} 
 }
 function search() {
@@ -70,19 +70,7 @@ function search() {
 	let product_cateS = document.getElementById('product_cateS');
 	let searchSel = document.getElementById('searchSel');
 	let searchSelTxt = document.getElementById('searchSelTxt');
-	window.location.href='${path}/product/modProductList?product_cateL='+product_cateL.value+'&product_cateS='+product_cateS.value+'&searchSel='+searchSel.value+'&searchSelTxt='+searchSelTxt.value;
-}
-function del_product(del_product_code){
-	console.log('들어옴');
-	let url = window.location.href;
-	console.log(del_product_code);
-	let txt = prompt('선택하신 상품코드('+del_product_code+')의 상품정보를 완전삭제합니다. 해당 상품코드를 입력해주세요. 잘못 입력하실경우 삭제가 취소됩니다.');
-	if(txt==del_product_code){
-		//alert('상품코드('+txt+')의 정보가 삭제되었습니다.');	
-		window.location.href='${path}/product/delProduct?del_product_code='+txt+'&url='+url;
-	} else{
-		alert('상품정보 삭제가 취소되었습니다. 상품코드('+del_product_code+')의 정보가 삭제되지 않았습니다.');
-	}
+	window.location.href='${path}/product/searchProductList?product_cateL='+product_cateL.value+'&product_cateS='+product_cateS.value+'&searchSel='+searchSel.value+'&searchSelTxt='+searchSelTxt.value;
 }
 function cateLitemChange(){
 	let selectItemL = $('#product_cateL').val();
@@ -99,7 +87,7 @@ function cateSitemChange(){
 </script>
 <style>
 .modProductList{
-	width:1200px;
+	width:1240px;
 	margin:50px auto 30px auto;
 }
 .modProductList__title{
@@ -108,7 +96,7 @@ function cateSitemChange(){
 	color:gray;
 	font-size:large;
 	font-weight:bold;
-	width:1200px;
+	width:1240px;
 	height:30px;
 }
 
@@ -230,7 +218,7 @@ function cateSitemChange(){
 .product_list{
 	margin-top:20px;
 	text-align:left;
-	width:1200px;
+	width:1240px;
 	vertical-align: middle;
 	border: 1px solid gray;
 	margin-bottom:30px;
@@ -271,7 +259,7 @@ function cateSitemChange(){
 /* 페이지버튼 */
 .pageBtn {
 	margin: 35 auto;
-	width:1200px;
+	width:1240px;
 	min-height:60px;
 }
 .pageBtn_ul {
@@ -296,15 +284,58 @@ function cateSitemChange(){
     min-width: 33px;
     text-align:center;
 }
+/* 제품들(테이블) */
+.products {
+	position: static;
+	width:1240px;
+	border: "2";
+	margin: 60px auto;
+}
+/* 제품 한칸 */
+.product {
+	padding: 0 7px 100px 7px;
+	width: 295px;
+	height: 350px;
+	float:left;
+}
+/* 제품명 */
+.product_title {
+	text-align: left;
+	font-size: small;
+}
+/* 제품가격 */
+.product_price {
+	font-size: small;
+	font-weight: bold;
+	color: lightblue;
+	text-align: left;
+	padding-left: 2px;
+	color: #008BCC;
+}
+/* 메뉴맵 */
+.menuMap {
+	width: 1240px;
+	margin-top: 35px;
+	min-height: 20px;
+	text-align: right;
+	font-size: small;
+	color: gray;
+}
 </style>
 </head>
 <body>
 <c:set var="total" value="${productsMap.total }" />
 
 	<div class="modProductList">
-		<div class="modProductList__title">
-			상품 관리하기
-		</div>
+	<!-- 메뉴맵 -->
+	<div class="menuMap">
+		<a href="${path }/main">
+			홈 > 
+		</a>
+		<a href="${path }/product/searchProductList?searchSel=product_name">
+			<span > 상품검색 </span>
+		</a>
+	</div>
 		
 		<div class="search_title">
 			<span class="search_title_txt">상품검색</span>
@@ -371,51 +402,54 @@ function cateSitemChange(){
 			</div>
 		</div>
 		
-		<table class="product_list">
-			<tr>
-				<td class="list_title" style="padding-left:20px;">상품이미지</td>
-				<td class="list_title" >제품고유코드</td>
-				<td class="list_title" style="padding-left:80px;">상품명</td>
-				<td class="list_title">대분류명</td>
-				<td class="list_title" >소분류명</td>
-				<td class="list_title" >상품가격</td>
-				<td class="list_title" >관리</td>
-			</tr>
+	<!-- 메인 상품들 -->
+	<div class ="mainList">
+		<c:set var="i" value="0" />
+		<c:set var="j" value="4" /> 
+		
+		<!-- 상품들(테이블) -->
+	 	<table class="products">
+	
 			<c:forEach items="${productsMap.productsList }" var="list">
-				<tr>
-					<td class="list_obj">
-						<a href="${path}/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
-							<img src="${path }/product_download?product_fileName=${list.product_fileName }&product_code=${list.product_code}" id="preview">
+				<c:if test="${i%j == 0 }"> 
+					<tr>
+				</c:if>
+				
+				<!-- 각 상품 -->
+				<td class="product">
+				
+					<!-- 상품사진 -->
+						<a href ="${path }/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
+							<%-- <img width="305" height="305"
+								src="${path }/resources/img/product/${list.product_fileName }">  --%>
+								
+							<img width="294" height="294" src="${path }/product_download?product_fileName=${list.product_fileName }&product_code=${list.product_code}" 
+								 id="preview"> 
+							<br><br>
+							<hr style="border-width: 1px 0 0 0; border-color: #fff;">
+							
 						</a>
-					</td>	
-					<td class="list_obj">
-						<a href="${path}/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
-							<span class="list_obj_txt" >${list.product_code}</span>
-						</a>
-					</td>	
-					<td class="list_obj">	
-						<a href="${path}/product/productDetail?product_cateL=${list.product_cateL }&product_cateS=${list.product_cateS }&product_code=${list.product_code }">
-							<span class="list_obj_txt" >${list.product_name}</span>
-						</a>
-					</td>	
-					<td class="list_obj">	
-							<span class="list_obj_txt" >${list.product_cateL}</span>
-					</td>	
-					<td class="list_obj">	
-							<span class="list_obj_txt" >${list.product_cateS}</span>
-					</td>	
-					<td class="list_obj">	
-							<fmt:formatNumber  value="${list.product_price}" type="number" var="product_price" />
-							<span class="list_obj_txt" >${product_price }원</span>
-					</td>
-					<td class="list_obj">
-						<a href="javascript:del_product('${list.product_code }')">
-							<span style="width:30px; color :rgb(255,0,0); ">상품삭제</span>
-						</a>
-					</td>
-				</tr>
+					
+					<!-- 상품명 -->
+					<div class="product_title">
+						<h1 style="font-weight:lighter">${list.product_name}</h1>
+						<br>
+					</div>
+					
+					<!-- 상품가격 -->
+					<div class="product_price">
+						<fmt:formatNumber  value="${list.product_price}" type="number" var="product_price" />
+						${product_price }원
+					</div>
+				</td>
+				<c:if test="${i%j == j-1 }">
+					</tr>
+				</c:if>
+				<c:set var="i" value="${i+1 }" />
 			</c:forEach>
-		</table>
+		</table> 
+		
+		
 		<c:set var="k" value="${total }" />
 		<div class="pageBtn">
 			<ul class="pageBtn_ul">
@@ -427,7 +461,7 @@ function cateSitemChange(){
 				<c:forEach var="i" begin="1" end="${k }" step="1">
 					<c:if test="${k>(i-1)*10 }">
 						<li class="pageBtn_li_txt">
-							<a href="${path}/product/modProductList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&searchSel=${param.searchSel }&searchSelTxt=${param.searchSelTxt }&page=${i}">
+							<a href="${path}/product/searchProductList?product_cateL=${param.product_cateL }&product_cateS=${param.product_cateS }&searchSel=${param.searchSel }&searchSelTxt=${param.searchSelTxt }&page=${i}">
 								<span>${i }</span>
 								<c:if test="${param.page==i || (param.page==null) && i==1 }">
 									<hr style="border-width: 2px 0 0 0; border-color: #fff; margin-top:0px;">
@@ -439,7 +473,7 @@ function cateSitemChange(){
 				<li class="pageBtn_li">
 					<a href="javascript:btn_next()">
 						<img src="${path }/resources/img/product/btn_page_next.gif" style="border-left: 1px solid #d7d5d5;">
-						<input id = "lastPage" type="hidden" value="${k/10+1 }">
+						<input id = "lastPage" type="hidden" value="${k/8+1 }">
 					</a>
 				</li>
 			</ul>

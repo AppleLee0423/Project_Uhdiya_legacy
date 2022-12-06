@@ -93,7 +93,46 @@ public class ProductController {
 		out.println("</script>");
 	}
 	
-	// 상품검색,목록(관리자)
+	// 상품검색,목록(유저)
+	@RequestMapping("searchProductList")
+	public ModelAndView searchProductList(
+			@RequestParam Map<String, String> pageMap,
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		String page = pageMap.get("page");
+		if(page==null || page=="0" || page=="-1") {
+			page="1";
+		}
+		String product_cateL = pageMap.get("product_cateL");
+		if(product_cateL==null) {
+			product_cateL="";
+		}
+		String product_cateS = pageMap.get("product_cateS");
+		if(product_cateS==null) {
+			product_cateS="";
+		}
+		String searchSelTxt = pageMap.get("searchSelTxt");
+		if(searchSelTxt==null) {
+			searchSelTxt="";
+		}
+		Map search = new HashMap();
+		search.put("product_cateL", product_cateL);
+		search.put("product_cateS", product_cateS);
+		search.put("searchSel", pageMap.get("searchSel"));
+		search.put("searchSelTxt", searchSelTxt);
+		
+		String count = "8";
+		search.put("page", page);
+		search.put("count", count);
+		
+		Map productsMap = productService.searchProduct(search);
+		mav.addObject("productsMap", productsMap);
+		
+		return mav;
+	}
+	// 상품검색,목록,상품삭제(관리자)
 	@RequestMapping("modProductList")
 	public ModelAndView modProductList(
 			@RequestParam Map<String, String> pageMap,

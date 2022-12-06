@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+	
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="title" value="UHDIYA STORE - 어디야 스토어" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" /> 
+	</definition>
+	
+	<definition name="/order/onOrder" extends="baseLayout">
+		<put-attribute name="title" value="ORDER - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/order/onOrder.jsp" />
+	</definition>
+	<definition name="/order/orderList" extends="baseLayout">
+		<put-attribute name="title" value="주문내역 - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/order/orderList.jsp" />
+	</definition>
+	<definition name="/order/detail" extends="baseLayout">
+		<put-attribute name="title" value="배송정보,결제정보 - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/order/orderDetail.jsp" />
+	</definition>
+	
+
+
+</tiles-definitions>

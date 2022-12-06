@@ -31,6 +31,24 @@
 		<result property="cateS" column="cateS" />
 	</resultMap>
 	
+	<!-- 메인상품리스트 -->
+    <select id="listMain" parameterType="String" resultMap="productResult"   >
+        <![CDATA[
+       select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main' 
+        	and p.product_cateL=#{cateL}
+	    ]]>
+	</select>
+    <select id="listMainDesc" parameterType="String" resultMap="productResult"   >
+        <![CDATA[
+       select p.*,f.product_fileName from product p, product_file f
+        	where p.product_code=f.product_code
+            and f.product_fileType='main' 
+        	and p.product_cateL=#{cateL} order by product_id desc
+	    ]]>
+	</select>
+	
 	<!-- 상품등록 제품고유코드 카운트 -->
     <select id="productCodeCheck" parameterType="String" resultType="int">
         <![CDATA[

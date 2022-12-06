@@ -85,5 +85,14 @@ public class ProductDAO {
 			sqlSession.insert("mapper.product.insertGoodsImageFile",imageFileVO);
 		}
 	}
+	// 메인상품리스트
+	public List<ProductDTO> listMain(String cateL) {
+		List<ProductDTO> productList = (ArrayList)sqlSession.selectList("mapper.product.listMain",cateL);
+		return productList;
+	}
+	public List<ProductDTO> listMainDesc(String cateL) {
+		List<ProductDTO> productList = (ArrayList)sqlSession.selectList("mapper.product.listMainDesc",cateL);
+		return productList;
+	}
 
 }

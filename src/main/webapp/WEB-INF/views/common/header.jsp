@@ -9,6 +9,14 @@
 <link rel="stylesheet" href="${path}/resources/css/header.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function mainSearch() {
+	let searchSelTxt = document.getElementById('mainSearchTxt').value;
+	console.log(searchSelTxt);
+	window.location.href='${path}/product/searchProductList?product_cateL=&product_cateS=&searchSel=product_name&searchSelTxt='+searchSelTxt;
+}
+</script>
 <style>
 a{text-decoration:none; color:black;}
 </style>
@@ -44,8 +52,10 @@ a{text-decoration:none; color:black;}
                 </div>
             </div>
             <div class="search_mode">
-                <input type="text" class="searchbar" placeholder="#커피랩  #스페셜" maxlength="11" size="23" />
-                <img src="${path}/resources/img/topserch_b.png" class="searchimg"/>
+                <input type="text" id="mainSearchTxt" class="searchbar" placeholder="#커피랩  #스페셜" maxlength="11" size="23" />
+                <a href="javascript:mainSearch()">
+                	<img src="${path}/resources/img/topserch_b.png" class="searchimg"/>
+                </a>
             </div>
 
 
