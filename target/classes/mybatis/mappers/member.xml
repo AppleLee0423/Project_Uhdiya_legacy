@@ -100,9 +100,12 @@
 	</update>
 	
 	<!-- 회원수정 페이지 데이터 -->
-	<select id="one_member" resultMap="memberResult" parameterType="MemberDTO">
+	<select id="one_member" resultType="MemberDTO" parameterType="String">
 		<![CDATA[
-			select * from member where member_id = #{member_id}
+			select m.member_id, member_password, member_name, 
+				substr(member_phone,1,3) member_phone, substr(member_phone,4,4) member_phone1, substr(member_phone,8,4) member_phone2, 
+				member_email, zipno, roadFulladdr, addDetail
+				from member m, address a where m.member_id = a.member_id and m.member_id = #{member_id}
 		]]>
 	</select>
 </mapper>

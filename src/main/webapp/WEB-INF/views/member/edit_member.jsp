@@ -72,8 +72,9 @@
 	<script>
 		// 전화번호 기존값 설정
 		$(function(){
-			var phone = ${member.member_phone};
+			var phone = "${member.member_phone}";
 			$("select[name='member_phone']").val(phone).prop("selected",true);
+			console.log(phone);
 		});
 	
 		// 지금 수정 버튼 누르면 이 jsSubmit 타는거같은뎅 응응 그렇게밑에 버튼에 해놨오!
@@ -312,7 +313,7 @@
 						<span id="guide" style="color: #999; font-size: 10px;"></span>
 						<br/><br/>
 						<input type="text" name="addDetail" id="sample4_detailAddress"
-							placeholder="나머지 주소" size="70" value="${member.addDetail}">/>
+							placeholder="나머지 주소" size="70" value="${member.addDetail}"/>
 					</td>
 				</tr>
 			</table>
@@ -322,11 +323,10 @@
                      
 			<input class="check" type="button" value="수정하기"
 				onclick="editMember()">
-				<input class="back" type="button" value="취소"
-				onclick="javascript:window.location='/mypage'"/>
+				<input class="back" type="button" value="돌아가기"
+				onclick="history.back();"/>
 				<input class="back" type="button" value="회원탈퇴"
-				onclick="javascript:window.location='/widthdraw_page'"/>
-				
+				onclick="location.href='${path}/member/withdraw_page?member_id=${member.member_id}';"/>
 		</form>
 	</div>
 </body>

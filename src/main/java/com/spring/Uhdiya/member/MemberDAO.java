@@ -77,8 +77,8 @@ public class MemberDAO {
 	}
 
 	// 회원 수정페이지 데이터
-	public MemberDTO one_member(MemberDTO member) {
+	public MemberDTO one_member(String member_id) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("mapper.member.one_member",member);
+		return sqlSession.selectOne("mapper.member.one_member",member_id);
 	}
 }

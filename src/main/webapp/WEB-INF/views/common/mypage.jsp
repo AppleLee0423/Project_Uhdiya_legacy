@@ -49,7 +49,7 @@
                         <h3>장바구니</h3>
                         <h4>장바구니에 등록하신 상품의 목록을 보여드립니다.</h4>
                     </button>
-                    <button onclick="location.href='${path}/board/qna_my_';">
+                    <button onclick="location.href='${path}/board/qna_my';">
                         <p>📬</p>
                         <h2>Questions</h2>
                         <h3>문의 내역</h3>

@@ -34,23 +34,23 @@
                     </div>
                 </div>
                 <div class="between">
+                	<button onclick="location.href='${path}/product/addProductForm';">
+                        <p> ☕ </p>
+                        <h2>ADD-Product</h2>
+                        <h3>상품추가</h3>
+                        <h4>상품을 추가할 수 있습니다.</h4>
+                    </button>
                     <button onclick="location.href='${path}/product/modProductList';">
                         <p>📃</p>
                         <h2>Product</h2>
                         <h3>상품 관리</h3>
-                        <h4>전체 상품 조회 및 등록이 가능합니다.</h4>
+                        <h4>전체 상품 조회가 가능합니다.</h4>
                     </button>
                     <button onclick="location.href='${path}/member/member_list';">
                         <p>😄</p>
                         <h2>Profile</h2>
                         <h3>회원 관리</h3>
                         <h4>전체 회원 정보를 확인할 수 있습니다.</h4>
-                    </button>
-                    <button>
-                        <p>🛒</p>
-                        <h2>Basket</h2>
-                        <h3>장바구니</h3>
-                        <h4>장바구니에 등록하신 상품의 목록을 보여드립니다.</h4>
                     </button>
                     <button onclick="location.href='${path}/board/qna_list';">
                         <p>📬</p>

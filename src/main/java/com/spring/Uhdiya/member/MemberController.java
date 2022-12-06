@@ -74,7 +74,7 @@ public class MemberController {
 		session.invalidate();
 		
 		out.println("<script>");
-		out.println("alert('로그아웃 되었습니다.'); location.href='/main'");
+		out.println("alert('로그아웃 되었습니다.'); location.href='"+request.getContextPath()+"/main'");
 		out.println("</script>");
 		
 		out.flush();
@@ -227,7 +227,9 @@ public class MemberController {
 			return new ModelAndView("redirect:/member/login");
 		}
 		
-		MemberDTO dto = memberService.one_member(member);
+		String member_id = member.getMember_id();
+		MemberDTO dto = memberService.one_member(member_id);
+		
 		mav.addObject("member", dto);
 		
 		return mav;
@@ -271,8 +273,8 @@ public class MemberController {
 		return res;
 	}
 	
-	@RequestMapping(value="widthdraw_page")
-	public ModelAndView widthdraw_page(@RequestBody MemberDTO member, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value="withdraw_page")
+	public ModelAndView widthdraw_page(@RequestParam("member_id")String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = null;
 		PrintWriter out = response.getWriter();
@@ -280,10 +282,10 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
 		
-		if(isLogOn == true && member != null) {
+		if(isLogOn == true) {
 			mav = new ModelAndView(viewName);
 			
-			MemberDTO dto = memberService.one_member(member);
+			MemberDTO dto = memberService.one_member(member_id);
 			mav.addObject("member", dto);
 		} else {
 			out.println("<script>");

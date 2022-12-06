@@ -59,7 +59,7 @@ td {
 		}
 	}
 	
-	function delete(member_id){
+	function delete_member(member_id){
 		var pwd = ${member.member_password};
 		var input_pwd = $('input[name=password]').val();
 		if(pwd != input_pwd){
@@ -68,7 +68,7 @@ td {
 			$('input[name=password]').focus();
 		} else {
 			if(confirm('정말로 탈퇴하시겠습니까?')){
-				location.href='${path}/member/withdraw?member_id='+member_id;'
+				location.href='${path}/member/withdraw?member_id='+member_id;
 			} else {
 				alert('취소되었습니다.');
 				history.back();
@@ -79,27 +79,24 @@ td {
 </head>
 
 <body>
-
-	<form name="deleteform" method="post" action="/Uhdiya/mem/deletePro" onsubmit="return checkValue()">
-		<div class="deletePage">
+	<div class="deletePage">
+		<br>
+		<div class="deleteText">
+			<b><font size="6" color="black">회원탈퇴</font></b> <br> <br>
 			<br>
-			<div class="deleteText">
-				<b><font size="6" color="black">회원탈퇴</font></b> <br> <br>
-				<br>
-				<table class="pwd">
-					<tr>
-						<td>비밀번호 :</td>
-						<td><input class="txt" type="password" name="password"
-							maxlength="50"></td>
-					</tr>
-				</table>
+			<table class="pwd">
+				<tr>
+					<td>비밀번호 :</td>
+					<td><input class="txt" type="password" name="password"
+						maxlength="50"></td>
+				</tr>
+			</table>
 
-				<br> <input type="button" onclick="fn_delete(${member.member_id})" value="확인"/> <input
-				class="back" type="button" value="취소"
-				onclick="history.back()" />
+			<br> <input type="button" onclick="delete_member('${member.member_id}')" value="확인"/> <input
+			class="back" type="button" value="취소"
+			onclick="history.back()" />
 
-			</div>
 		</div>
-	</form>
+	</div>
 </body>
 </html>

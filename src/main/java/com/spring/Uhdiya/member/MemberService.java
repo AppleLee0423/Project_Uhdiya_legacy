@@ -66,8 +66,8 @@ public class MemberService {
 	}
 	
 	// 회원수정 페이지 데이터
-	public MemberDTO one_member(MemberDTO member) {
+	public MemberDTO one_member(String member_id) {
 		// TODO Auto-generated method stub
-		return memberDAO.one_member(member);
+		return memberDAO.one_member(member_id);
 	}
 }

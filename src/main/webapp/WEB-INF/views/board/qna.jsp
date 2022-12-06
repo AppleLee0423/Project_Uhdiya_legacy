@@ -307,6 +307,7 @@
 	.list_content span{margin-top:13px; margin-right:10px;}
 	.no_content span{margin-top:13px; margin-right:10px;}
 	summary{display: flex; justify-content: space-between; text-align: center; min-height:50px;}
+	summary:hover{background-color: rgb(108, 117, 125, 0.2);}
 	#num{width:5%; text-align: center;}
 	#product{width:15%; overflow: hidden; white-space: nowrap; text-align: center;}
 	.list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
