@@ -16,6 +16,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
+	// 검색버튼
 	function search(){
 		let keyword = document.getElementById('search_box').value;
 		location.href='${path}/board/qna?keyword='+keyword;
