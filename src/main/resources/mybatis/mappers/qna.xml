@@ -27,8 +27,8 @@
 		from (select rownum as rn, qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
 		from qna q, product p where q.product_code = p.product_code and qna_parentId = 0
 		
-		<if test='startDate != null and endDate != null and startDate != "" and endDate != ""'>
-			and qna_regDate between #{startDate, jdbcType=DATE} and #{endDate, jdbcType=DATE} 
+		<if test='start_date != null and end_date != null and start_date != "" and end_date != ""'>
+			and qna_regDate between #{start_date, jdbcType=DATE} and #{end_date, jdbcType=DATE} 
 		</if>
 		
 		<if test='keyword_set != "검색조건" and keyword != null and keyword_set == "qna_title"'>
@@ -41,17 +41,27 @@
 			and product_name like '%'||#{keyword}||'%'
 		</if>
 		 
-		<if test="status != 2">
-			and qna_status = #{status}
+		<if test='status == 0'>
+			and qna_status = 0
+		</if>
+		<if test='status == 1'>
+			and qna_status = 1
+		</if>
+		
+		<if test='list_day == "desc"'>
+			order by qna_id desc
+		</if>
+		<if test='list_day == "asc"'>
+			order by qna_id asc
 		</if>
 
-		) where rn between #{startNum} and #{endNum} order by qna_regDate ${list_day} 
+		 ) where rn between #{startNum} and #{endNum} order by qna_regDate ${list_day} 
 	</select>
 	<!-- 관리자 페이지 문의 답글 리스트 -->
 	<select id="reply_list" resultMap="qna">
 		<![CDATA[
-			select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
-		from (select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
+			select qna_id, qna_parentId, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
+		from (select qna_id, qna_parentId,product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
 		from qna q, product p where q.product_code = p.product_code and qna_parentId = 1)
 		]]>
 	</select>
@@ -158,7 +168,7 @@
 	</delete>
 	<delete id="delete_reply" parameterType="int">
 		<![CDATA[
-			delete from qna where qna_parentId={#qna_id}
+			delete from qna where qna_parentId=#{qna_id}
 		]]>
 	</delete>
 	

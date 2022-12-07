@@ -151,7 +151,7 @@
 								<c:if test="${not empty noticeFileList}">
 									<li class="notice_table_image">
 										<c:forEach var="item" items="${noticeFileList}">
-											<img src="${path}/notice_download?notice_id=${noticeDTO.notice_id}&notice_fileName=${item.notice_fileName}" style="padding-bottom: 10px;"/><br>
+											<img src="${path}/notice_download?notice_id=${noticeDTO.notice_id}&notice_fileName=${item.notice_fileName}" style="padding-bottom: 10px; width:600px;"/><br>
 										</c:forEach>
 									</li>
 								</c:if>

@@ -69,7 +69,11 @@ public class QnaController {
 	@RequestMapping("/do_qna_list")
 	public @ResponseBody Map<String, Object> do_qna_list(@RequestParam Map<String, Object> dataMap, HttpServletRequest request, Model model) throws Exception {
 		Map<String, Object> qnaMap = new HashMap<String, Object>();
+		System.out.println("startDate : " + dataMap.get("start_date"));
+		System.out.println("endDate : " + dataMap.get("end_date"));
 		qnaMap = qnaService.qna_list(dataMap);
+		
+		
 		return qnaMap;
 	}
 
@@ -155,7 +159,7 @@ public class QnaController {
 		
 		if(isLogOn != null && isLogOn == true && member != null) {
 			String member_id = member.getMember_id();
-			if(qna_writeId.equals(member_id)) {
+			if(qna_writeId.equals(member_id) || member_id.equals("admin")) {
 				mav = new ModelAndView(viewName);
 				Map<String, Object> qnaMap = qnaService.one_qna(qna_id);
 				mav.addObject("qnaMap",qnaMap);

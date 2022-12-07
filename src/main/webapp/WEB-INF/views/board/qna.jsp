@@ -17,11 +17,8 @@
 		let now = new Date();
 		let today = date_setting(now);
 		
-		console.log('1 : ' + today);
 		$('input[name=endDate]').attr('max',today);
-		console.log('2 : ' + today);
 		$('input[name=endDate]').val(today);
-		console.log('3 : ' + today);
 		
 		let ago = new Date(new Date(now.setDate(now.getDate()-365)));
 		let year = date_setting(ago);
@@ -45,15 +42,21 @@
 			$('.reply_modal').css("display","none");
 			$('body').css("overflow","unset");
 		});
+		
+		
 	});
 	
 	// 테이블 불러오기
 	function get_page(){		
 		let list_day = $('#list_day').val();
 		let list_count = $('#list_count').val();
-		let start_date = $('input[name=startDate]').val();
+		let start_date = null;
+		
+		if($('input[name=startDate]').val() != null){
+			start_date = $('input[name=startDate]').val();
+		}
+		
 		let end_date = $('input[name=endDate]').val();
-
 		if(start_date == null || end_date == null){
 			start_date = $('input[name=startDate]').attr('min');
 			end_date = $('input[name=endDate]').attr('max');
@@ -61,11 +64,17 @@
 
 		let keyword_set = $('#keyword_set').val();
 		let keyword = $('#keyword').val();
-		let status = $('input[name=status]').val();
-		if($('input[name=status]:checked' != null)){
+		
+		var status = null;
+		if ($('input[name="status"]:checked').length == 0){
 			status = 2;
+		} else {
+			$("input[name='status']:checked").each(function(i) {
+		        status = ($(this).val());
+		    });
 		}
 		
+		console.log(end_date);
 		var data_str = 
 		{
 			'current_page' : current_page,
@@ -98,19 +107,19 @@
 				} else {
 					$('.no_content').css("display","none");
 					var list_content = "";
+					$('#total_qna').text(qna_list.length);
 					for(let i=0; i<qna_list.length; i++){
 						list_content = '<details>';
 						list_content += '<summary>';
 						list_content += '<span id="num">'+(total_qna-i)+'</span>';
 						list_content += '<span id="product">'+qna_list[i].product_name+'</span>';
-						list_content += '<span id="title">&nbsp;&nbsp;'+qna_list[i].qna_title+'</span>';
+						list_content += '<span id="title" onclick="go_page('+qna_list[i].qna_id+')">&nbsp;&nbsp;'+qna_list[i].qna_title+'</span>';
 						list_content += '<span id="writer">'+qna_list[i].qna_writeId+'</span>';
 						list_content += '<span id="date">'+qna_list[i].qna_regDate+'</span>';
 
 						if(qna_list[i].qna_status == 0){
 							//list_content += '<span id="status"><button id="reply_btn">답변하기</button></span>';
 							list_content += '<span id="status"><button id="reply_btn" onclick="modal_set('+qna_list[i].qna_id+')">답변하기</button></span>';
-							list_content += '<input type="hidden" name="qna_id" value="'+qna_list[i].qna_id+'>"';
 						} else if(qna_list[i].qna_status == 1){
 							list_content += '<span id="status">답변완료</span>';
 						}
@@ -121,9 +130,13 @@
 						list_content += '<div class="user_content">';
 						list_content += '<span id="content">'+qna_list[i].qna_content+'</span>';
 						list_content += '</div>';
-
+						list_content += '<input type="hidden" name="qna_id" value="'+qna_list[i].qna_id+'>"';
+						list_content += '<input type="hidden" name="qna_writeId'+qna_list[i].qna_id+'" value="'+qna_list[i].qna_writeId+'>"';
+						let qna_num = qna_list[i].qna_id;
+						
 						for(let j=0; j<reply_list.length; j++){
-							if(qna_list[i].qna_id == reply_list[j].qna_id){
+							var reply_num = reply_list[j].qna_parentId;
+							if(qna_num == reply_num){
 								list_content += '<div class="reply_content">';
 								list_content += '<span id="reply_front">└</span>';
 								list_content += '<span id="reply_second">답변</span>';
@@ -159,8 +172,8 @@
 	
 	// 취소 버튼
 	function fn_reset(){
-		let now = new Date();
-		let today = date_setting(now);
+		now = new Date();
+		today = date_setting(now);
 		$('input[type=date]').val('');
 		$('input[name=endDate]').val(today);
 		$('input[name=status]').prop("checked",false);
@@ -170,16 +183,7 @@
 	
 	// 초기화 버튼
 	function fn_allset(){
-		let now = new Date();
-		let today = date_setting(now);
-		$('input[type=date]').val('');
-		$('input[name=endDate]').val(today);
-		$('input[type=date]').val('');
-		$('input[name=status]').prop("checked",false);
-		$("#keyword_set option:eq(0)").prop("selected", true);
-		$('#keyword').val(null);
-		
-		get_page();
+		location.href='${path}/board/qna_list';
 	}
 	
 	// 페이징 세팅
@@ -263,6 +267,12 @@
 		});
 	}
 	
+	function go_page(qna_id){
+		var qna_writeId = $('input[name=qna_writeId'+qna_id+']').val();
+		location.href='/Uhdiya/board/qna_page?qna_id='+qna_id+'&qna_writeId='+qna_writeId+'';
+	}
+		
+	
 	// 삭제 버튼
 	function delete_qna(qna_id){
 		if(confirm('삭제하시겠습니까?')){
@@ -311,7 +321,7 @@
 	#num{width:5%; text-align: center;}
 	#product{width:15%; overflow: hidden; white-space: nowrap; text-align: center;}
 	.list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
-	#title{width:40%;}
+	#title{width:40%; cursor: pointer;}
 	#writer{width:10%; text-align: center;}
 	#date{width:10%; text-align: center;}
 	#status{width:10%; text-align: center;}
@@ -322,9 +332,8 @@
 	.reply_content{display: flex; min-height: 50px; justify-content: space-between;}
 	#reply_front{color:#525253; width:20px;}
 	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:35px;}
-	#reply_content{width:795px; border-bottom:1px solid #A6A7AB;}
-	#delete_btn {margin-right:20px; margin-top:13px;}
-	#reply_btn{margin-right:10px;}
+	#reply_content{width:795px; border-bottom:1px solid #A6A7AB; border-top:1px solid #A6A7AB;}
+	#delete_btn {margin-right:20px;}
 	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
 	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
 
@@ -395,7 +404,7 @@
 		<div class="qna_list_body">
 			<div class="qna_list_body_header">
 				<div class="body_header_one">
-					<div class="qna_list_body_header_title"><h4>문의글 목록&nbsp;&nbsp;</h4></div>(총&nbsp;<font color="blue">${total_qna}</font>개&nbsp;)
+					<div class="qna_list_body_header_title"><h4>문의글 목록&nbsp;&nbsp;</h4></div>(총&nbsp;<font color="blue"><span id="total_qna"></span></font>개&nbsp;)
 				</div>
 				
 				<div class="body_header_two">

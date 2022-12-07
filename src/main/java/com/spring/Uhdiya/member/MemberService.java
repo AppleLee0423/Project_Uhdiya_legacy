@@ -70,4 +70,8 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return memberDAO.one_member(member_id);
 	}
+	public void delete_Member(String member_id) {
+		// TODO Auto-generated method stub
+		memberDAO.delete_Member(member_id);
+	}
 }

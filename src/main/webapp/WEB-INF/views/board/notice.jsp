@@ -86,7 +86,7 @@
 					</c:forEach>
 				</c:when>
 				<c:when test="${total_notice < 50}">
-					<c:forEach var="page" begin="1" end="${total_notice/5 + 1}" step="1">
+					<c:forEach var="page" begin="1" end="${total_notice/5}" step="1">
 						<c:choose>
 							<c:when test="${page == pageNum}">
 								<a href="${path}/board/notice?section=${section}&pageNum=${page}" class="page">${page}</a>

@@ -81,4 +81,9 @@ public class MemberDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.member.one_member",member_id);
 	}
+
+	public void delete_Member(String member_id) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("mapper.member.delete_member",member_id);
+	}
 }

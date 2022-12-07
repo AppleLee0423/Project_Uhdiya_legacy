@@ -60,7 +60,7 @@ td {
 	}
 	
 	function delete_member(member_id){
-		var pwd = ${member.member_password};
+		var pwd = '${member.member_password}';
 		var input_pwd = $('input[name=password]').val();
 		if(pwd != input_pwd){
 			alert('비밀번호가 맞지 않습니다.');

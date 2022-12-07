@@ -298,27 +298,27 @@ public class MemberController {
 	
 	@RequestMapping(value="withdraw")
 	public ResponseEntity<String> withdraw
-	(@RequestBody MemberDTO member, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	(@RequestParam("member_id")String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ResponseEntity<String> resEnt = null;
 		String message;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type","text/html;charset=utf-8");
 		
 		try {
-			memberService.deleteMember(member);
+			memberService.delete_Member(member_id);
 			
 			message = "<script>";
-			message = "alert('회원탈퇴 하였습니다.\n 커피향이 그리울 때 다시 만나요!');";
-			message = "location.href='"+request.getContextPath()+"/main';";
-			message = "</script>";
+			message += "alert('회원탈퇴 하였습니다.\n 커피향이 그리울 때 다시 만나요!');";
+			message += "location.href='"+request.getContextPath()+"/main';";
+			message += "</script>";
 			
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			message = "<script>";
-			message = "alert('회원탈퇴에 실패하였습니다.');";
-			message = "history.go(-2);";
-			message = "</script>";
+			message += "alert('회원탈퇴에 실패하였습니다.');";
+			message += "history.go(-2);";
+			message += "</script>";
 			
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
 		}

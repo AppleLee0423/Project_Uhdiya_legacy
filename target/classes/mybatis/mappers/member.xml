@@ -80,6 +80,11 @@
 	<delete id="deleteMember" parameterType="MemberDTO">
 		DELETE FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</delete>
+	<delete id="delete_member" parameterType="String">
+		<![CDATA[
+			delete from member where member_id = #{member_id}
+		]]>
+	</delete>
 	
 	<!-- 회원정보 수정 -->
 	<update id="editMember" parameterType="MemberDTO">

@@ -352,7 +352,7 @@ public class ReviewController {
 			
 			message = "<script>";
 			message += "alert('상품후기를 삭제했습니다.');";
-			message += "location.href='"+request.getContextPath()+"/board/review_my';";
+			message += "history.back();";
 			message += "</script>";
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {
