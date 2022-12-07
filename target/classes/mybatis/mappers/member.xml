@@ -84,6 +84,7 @@
 	<!-- 회원정보 수정 -->
 	<update id="editMember" parameterType="MemberDTO">
 		UPDATE MEMBER SET 
+			MEMBER_NAME = #{member_name},
 			MEMBER_PASSWORD = #{member_password}, 
 			MEMBER_EMAIL = #{member_email},
 			MEMBER_PHONE = #{member_phone}||'-'||#{member_phone1}||'-'||#{member_phone2}
@@ -103,7 +104,7 @@
 	<select id="one_member" resultType="MemberDTO" parameterType="String">
 		<![CDATA[
 			select m.member_id, member_password, member_name, 
-				substr(member_phone,1,3) member_phone, substr(member_phone,4,4) member_phone1, substr(member_phone,8,4) member_phone2, 
+				substr(member_phone,1,3) member_phone, substr(member_phone,5,4) member_phone1, substr(member_phone,10,4) member_phone2, 
 				member_email, zipno, roadFulladdr, addDetail
 				from member m, address a where m.member_id = a.member_id and m.member_id = #{member_id}
 		]]>

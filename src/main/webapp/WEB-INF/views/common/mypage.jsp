@@ -25,7 +25,7 @@
                             </p>
                             <div class="description">
                                 <span>저희 쇼핑몰을 이용해 주셔서 감사합니다.</span>
-                                <strong class="txtem">{sessionScope.member.member_id} 님 환영합니다.</strong>
+                                <strong class="txtem">${sessionScope.member.member_id} 님 환영합니다.</strong>
                             </div>
                         </div>
                     </div>

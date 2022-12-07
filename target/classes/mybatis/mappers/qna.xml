@@ -25,7 +25,7 @@
 	<select id="qna_list" resultMap="qna" parameterType="java.util.Map">
 		select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
 		from (select rownum as rn, qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
-		from qna q, product p where q.product_code = p.product_code
+		from qna q, product p where q.product_code = p.product_code and qna_parentId = 0
 		
 		<if test='startDate != null and endDate != null and startDate != "" and endDate != ""'>
 			and qna_regDate between #{startDate, jdbcType=DATE} and #{endDate, jdbcType=DATE} 
@@ -57,7 +57,7 @@
 	</select>
 	<select id="total_qna" resultType="int">
 		<![CDATA[
-			select count(qna_id) from qna
+			select count(qna_id) from qna where qna_parentId = 0
 		]]>
 	</select>
 	
@@ -66,7 +66,7 @@
 		<![CDATA[
 			select qna_id,product_name,qna_writeId,qna_title,qna_content,qna_regdate,qna_status,product_code from 
     		(select rownum rn, qna_id,product_name,qna_writeId,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
-    		where q.product_code = p.product_code and qna_title like '%'||#{keyword}||'%' order by qna_regDate desc)
+    		where q.product_code = p.product_code and qna_title like '%'||#{keyword}||'%' and qna_parentId = 0 order by qna_regDate desc)
 		]]>
 	</select>
 	
@@ -75,13 +75,13 @@
 		<![CDATA[
 			select qna_id,product_name,qna_writeId,qna_title,qna_content,qna_regDate,qna_status,product_code from 
     		(select rownum rn, qna_id,product_name,qna_writeId,qna_title,qna_content,qna_regDate,qna_status,p.product_code from qna q,product p 
-    		where q.product_code = #{product_code} and q.product_code = p.product_code order by qna_id desc) 
+    		where q.product_code = #{product_code} and q.product_code = p.product_code and qna_parentId = 0 order by qna_regDate desc) 
     		where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	<select id="total_product_qna" resultType="int" parameterType="String">
 		<![CDATA[
-			select count(qna_id) from qna where product_code=#{product_code}
+			select count(qna_id) from qna where product_code=#{product_code} and qna_parentId = 0
 		]]>
 	</select>
 	
@@ -90,17 +90,17 @@
 		<![CDATA[
 			select * from 
     		(select rownum rn, qna_id,product_name,qna_writeid,qna_title,qna_content,qna_regdate,qna_status,p.product_code from qna q,product p 
-    		where qna_writeId=#{qna_writeId} and q.product_code = p.product_code) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
+    		where qna_writeId=#{qna_writeId} and q.product_code = p.product_code and qna_parentId = 0 order by qna_regDate desc) where rn between (#{section}-1)*50 + (#{pageNum}-1)*5+1 and (#{section}-1)*50 + #{pageNum}*5
 		]]>
 	</select>
 	<select id="my_qna_reply" resultMap="qna" parameterType="java.util.Map">
 		<![CDATA[
-			select qna_Id, qna_parentId, qna_content, qna_regDate from (select * from qna where qna_writeId = #{qna_writeId}) where qna_parentId = 1
+			select qna_Id, qna_parentId, qna_content, qna_regDate from qna where qna_parentId != 0
 		]]>
 	</select>
 	<select id="total_my_qna" resultType="int" parameterType="String">
 		<![CDATA[
-			select count(qna_id) from qna where qna_writeId=#{qna_writeId}
+			select count(qna_id) from qna where qna_writeId=#{qna_writeId} and qna_parentId = 0
 		]]>
 	</select>
 	
@@ -154,6 +154,11 @@
 	<delete id="delete_qna_file" parameterType="int">
 		<![CDATA[
 			delete from qna_file where qna_id=#{qna_id}
+		]]>
+	</delete>
+	<delete id="delete_reply" parameterType="int">
+		<![CDATA[
+			delete from qna where qna_parentId={#qna_id}
 		]]>
 	</delete>
 	

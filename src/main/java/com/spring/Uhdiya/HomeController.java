@@ -1,11 +1,13 @@
 package com.spring.Uhdiya;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,13 +52,37 @@ public class HomeController {
 	
 	// 회원 마이페이지
 	@RequestMapping(value="/mypage")
-	public String mypage(Locale local, Model model) {
+	public String mypage(Locale local, Model model, HttpServletRequest request, HttpServletResponse response)throws Exception {
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		
+		if(!isLogOn) {
+			out.println("<script>");
+			out.println("alert('로그인 후 이용가능합니다.");
+			out.println("location.href="+request.getContextPath()+"/member/login");
+			out.println("</script>");
+			return null;
+		}
 		return "mypage";
 	}
 	
 	// 관리자 페이지
 	@RequestMapping(value="/adminpage")
-	public String adminpage(Locale local, Model model) {
+	public String adminpage(Locale local, Model model, HttpServletRequest request, HttpServletResponse response)throws Exception {
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		
+		if(!isLogOn) {
+			out.println("<script>");
+			out.println("alert('로그인 후 이용가능합니다.");
+			out.println("location.href="+request.getContextPath()+"/member/login");
+			out.println("</script>");
+			return null;
+		}
 		return "adminpage";
 	}
 }

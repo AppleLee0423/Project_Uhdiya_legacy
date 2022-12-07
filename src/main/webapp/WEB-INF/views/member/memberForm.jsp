@@ -94,7 +94,11 @@
 				return;
 			}
 			
-			var member_phone = $("#member_phone","#member_phone2","#member_phone3").val();
+			var phone = $('select[name="member_phone"]').val();
+			var phone1 = $('input[name="member_phone1"]').val();
+			var phone2 = $('input[name="member_phone2"]').val();
+
+			var member_phone = phone+phone1+phone2;
 			if( member_phone == null || !(member_phone.length > 0) ) {
 				alert("전화번호를 입력해주세요");
 				return;
@@ -106,7 +110,7 @@
 				return;
 			}
 			
-			var add = $("#member_addDetail").val();
+			var add = $("input[name=addDetail]").val();
 			if( add == null || !(add.length > 0) ) {
 				alert("상세주소를 입력해주세요");
 				return;
@@ -232,41 +236,6 @@
 			return;
 		}
 	}
-	
-      /*
-      function checkPw() {
-         
-         var pw = document.getElementById("member_password").value; //비밀번호
-         var pw2 = document.getElementById("member_password2").value; // 비밀번호 확인
-
-         var pattern1 = /^[a-z0-9]/;
-         // var pattern2 = /[a-z]/;
-         // var pattern3 =  /[A-Z]/;
-         // var pattern4 = /[~!@\#$%<>^&*]/;
-         var pw_msg = "";
-
-         if( pw.length == 0 ) {
-            alert("비밀번호를 입력해주세요");
-            return false;
-         } else {
-
-            if( pw  !=  pw2) {
-               alert("비밀번호가 일치하지 않습니다.");
-               return false;  
-            } else {
-
-               if( pw = pw2 ) {
-                  alert("비밀번호가 일치합니다.")
-               }
-            }
-         }    
-
-         if( !pattern1.test(pw) || pw.length < 6 || pw.length > 16 ) {
-            alert("영문+숫자+특수기호 6자리 이상 16글자 이하만 이용 가능합니다.");
-            return false;
-         }
-      }
-      */
       
       function checkname() {
 
@@ -279,9 +248,12 @@
       }
       
       function checkphone() {
+		var phone = $('select[name="member_phone"]').val();
+		var phone1 = $('input[name="member_phone1"]').val();
+		var phone2 = $('input[name="member_phone2"]').val();
+		var id = $('#member_id').val();
 
-         var phone = $("#member_phone","#member_phone2","#member_phone3").val();
-         if( phone == null || !(id.length > 0) ) {
+         if( phone == null || phone1 == null || phone2 == null || !(id.length > 0) ) {
             alert("전화번호를 입력해주세요");
             return;
          }

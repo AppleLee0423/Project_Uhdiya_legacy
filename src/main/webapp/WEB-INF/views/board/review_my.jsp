@@ -146,8 +146,8 @@
 						</td>
 						<td class="review_my_writeDate">${review.review_regDate}</td>
 						<td class="review_my_delete">
-							<label class="delete_icon" for="#delete_review_btn"><i class="fa-solid fa-xmark"></i></label>
-							<button id="delete_review_btn" class="review_my_button" onclick="delete_review(${review.review_id})" ></button>
+							<label class="delete_icon" for="delete_review_btn${num.index}"><i class="fa-solid fa-xmark"></i></label>
+							<button id="delete_review_btn${num.index}" class="review_my_button" onclick="delete_review(${review.review_id})" ></button>
 						</td>
 					</tr>
 					</c:forEach>

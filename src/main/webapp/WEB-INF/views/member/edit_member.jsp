@@ -74,7 +74,6 @@
 		$(function(){
 			var phone = "${member.member_phone}";
 			$("select[name='member_phone']").val(phone).prop("selected",true);
-			console.log(phone);
 		});
 	
 		// 지금 수정 버튼 누르면 이 jsSubmit 타는거같은뎅 응응 그렇게밑에 버튼에 해놨오!
@@ -195,9 +194,9 @@
 	            success : function(data) {
 
 	               if( data == "Y" ) {
-	                  alert("");
+	                  alert("회원정보가 수정되었습니다.");
 	               } else {
-	                  alert("");
+	                  alert("회원정보 수정에 실패했습니다.");
 	               }
 	            },
 	            error: function(e) {

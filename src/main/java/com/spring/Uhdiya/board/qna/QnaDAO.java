@@ -108,6 +108,7 @@ public class QnaDAO {
 		// TODO Auto-generated method stub
 		sqlSession.delete("mapper.qna.delete_qna",qna_id);
 		sqlSession.delete("mapper.qna.delete_qna_file",qna_id);
+		sqlSession.delete("mapper.qna.delete_reply",qna_id);
 	}
 
 	// 답글 추가 & 원글 parentId 수정

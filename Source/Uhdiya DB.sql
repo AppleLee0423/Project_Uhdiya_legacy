@@ -200,8 +200,8 @@ create SEQUENCE receiver_seq
     nocache;
     
 -- 회원정보 데이터
-INSERT INTO MEMBER VALUES ('admin','1234','관리자','01012345678','admin@uhdiya.com');
-INSERT INTO MEMBER VALUES ('hong','1234','홍길동','01011112222','hong@test.com');
+INSERT INTO MEMBER VALUES (1,'admin','1234','관리자','010-1234-5678','admin@uhdiya.com',sysdate);
+INSERT INTO MEMBER VALUES (2,'hong','1234','홍길동','010-1111-2222','hong@test.com',sysdate);
 INSERT INTO ADDRESS VALUES('hong','04038','서울 마포구 양화로 122 3층, 4층','에이콘아카데미');
 
 -- 상품정보 데이터
@@ -378,9 +378,11 @@ Insert into NOTICE_FILE values (8,9,'notice_9.jpg');
 
 -- 문의사항 데이터
 Insert into QNA values (1,0,'hong','맛이 좋네요','향도 좋고 가격도 좋고 코딩하는 나는 안 좋고',to_date('22/11/22','RR/MM/DD'),1,'beans001');
-Insert into QNA values (2,0,'lee','게시판 쉽게봤는데..','쉬운데 내가 못 하는겁니다.',to_date('22/11/22','RR/MM/DD'),1,'beans001');
+Insert into QNA values (2,0,'lee','게시판 쉽게봤는데..','쉬운데 내가 못 하는겁니다.',to_date('22/11/22','RR/MM/DD'),0,'beans001');
 INSERT INTO QNA VALUES (3,1,'admin',null,'퀄리티도 안 좋고 환장하네요',sysdate,1,'beans001');
 
 -- 리뷰 데이터
 Insert into REVIEW values (1,'hong',4,'샤이닝스타','밤하늘의 e.printstacktrace()',to_date('22/11/24','RR/MM/DD'),'beans001');
 Insert into REVIEW values (2,'lee',5,'상품과 무관하면','지운다던데 왜 안 지워요?',to_date('22/11/24','RR/MM/DD'),'beans001');
+
+commit;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% request.setCharacterEncoding("UTF-8");%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:set var="qna_list" value="${qnaMap.qna_list}" />
@@ -28,7 +29,7 @@
 	.list_header span{text-align: center; font-weight: bold; padding-top:13px; }
 	.list_content {min-height:50px;}
 	.list_content span{margin-top:13px;}
-	summary{display: flex; justify-content: space-between; text-align: center;}
+	summary{display: flex; justify-content: space-between; text-align: center;height:50px;}
 	#num{width:80px; text-align: center;}
 	#product{width:250px; overflow: hidden; white-space: nowrap; text-align: center;}
 	#title{width:600px;}
@@ -38,8 +39,8 @@
 	#delete{width:50px;}
 	summary>#title{text-align: left;}
 	.content_inner{border-top:1px solid #A6A7AB; border-bottom:1px solid #A6A7AB; background-color: #F7F8FA; margin-top:20px; padding-left: 100px;}
-	.user_content{min-height: 50px; border-bottom:1px solid #A6A7AB; display: flex;}
-	.reply_content{display: flex; min-height: 50px; justify-content: space-between;}
+	.user_content{min-height: 50px; display: flex;}
+	.reply_content{display: flex; min-height: 50px; justify-content: space-between; border-top:1px solid #A6A7AB;}
 	#reply_front{color:#525253; width:20px;}
 	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:35px;}
 	#reply_content{width:795px;}
@@ -56,16 +57,10 @@
 	.qna_my_button{display: none;}
 </style>
 <script>
+
 	function search(){
 		let keyword = document.getElementById('search_box').value;
 		location.href='${path}/board/qna_my?keyword='+keyword;
-	}
-	function delete_qna(qna_id){
-		if(confirm('삭제하시겠습니까?')){
-			location.href='${path}/board/delete_qna?qna_id='+qna_id;
-		} else{
-			alert('취소되었습니다.');
-		}
 	}
 </script>
 </head>
@@ -113,8 +108,8 @@
 							<span id="status" style="color:blue;">답변완료</span>
 						</c:if>
 						<span id="delete">
-							<label class="delete_icon" for="#delete_qna_btn"><i class="fa-solid fa-xmark"></i></label>
-							<button id="delete_qna_btn" class="qna_my_button" onclick="delete_qna(${qna.qna_id})" ></button>
+							<label class="delete_icon" for="delete_qna_btn${num.index}"><i class="fa-solid fa-xmark"></i></label>
+							<button id="delete_qna_btn${num.index}" class="qna_my_button" onclick="delete_qna(${qna.qna_id})" ></button>
 						</span>
 					</summary>
 						<div class="content_inner">
@@ -122,7 +117,7 @@
 								<span>${qna.qna_content}</span>
 							</div>
 							<c:forEach var="reply" items="${reply_list}">
-								<c:if test="${reply.qna_parentId == qna.qna_id}">
+								<c:if test="${reply.qna_parentId eq qna.qna_id}">
 									<div class="reply_content">
 										<span id="reply_front">└</span>
 										<span id="reply_second">답변</span>
@@ -186,5 +181,15 @@
 			</div>
 		</c:if>
 	</div>
+	
+<script>
+function delete_qna(qna_id){
+	if(confirm('삭제하시겠습니까?')){
+		location.href='${path}/board/delete_qna?qna_id='+qna_id;
+	} else{
+		alert('취소되었습니다.');
+	}
+}
+</script>
 </body>
 </html>
