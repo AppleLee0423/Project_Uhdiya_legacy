@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -263,9 +261,11 @@ public class MemberController {
 	public String memberDelete( MemberDTO param ) {
 		
 		String res = "N";
+		System.out.println(param.getMember_id());
 		
 		int cnt = memberService.deleteMember(param);
 		
+		System.out.println(cnt);
 		if( cnt > 0 ) {
 			res = "Y";
 		}
@@ -308,7 +308,7 @@ public class MemberController {
 			memberService.delete_Member(member_id);
 			
 			message = "<script>";
-			message += "alert('회원탈퇴 하였습니다.\n 커피향이 그리울 때 다시 만나요!');";
+			message += "alert('회원탈퇴 하였습니다.커피향이 그리울 때 다시 만나요!');";
 			message += "location.href='"+request.getContextPath()+"/main';";
 			message += "</script>";
 			

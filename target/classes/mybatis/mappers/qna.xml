@@ -20,7 +20,7 @@
 		<result property="qna_id" column="qna_id"/>
 		<result property="qna_fileName" column="qna_fileName"/>
 	</resultMap>
-	
+	<!-- and qna_regDate between #{start_date, jdbcType=DATE} and #{end_date, jdbcType=DATE} -->
 	<!-- 관리자 페이지 문의글 전체 -->
 	<select id="qna_list" resultMap="qna" parameterType="java.util.Map">
 		select qna_id, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
@@ -28,7 +28,7 @@
 		from qna q, product p where q.product_code = p.product_code and qna_parentId = 0
 		
 		<if test='start_date != null and end_date != null and start_date != "" and end_date != ""'>
-			and qna_regDate between #{start_date, jdbcType=DATE} and #{end_date, jdbcType=DATE} 
+			and qna_regDate between #{start_date, jdbcType=VARCHAR} and #{end_date,jdbcType=VARCHAR} 
 		</if>
 		
 		<if test='keyword_set != "검색조건" and keyword != null and keyword_set == "qna_title"'>
@@ -60,9 +60,7 @@
 	<!-- 관리자 페이지 문의 답글 리스트 -->
 	<select id="reply_list" resultMap="qna">
 		<![CDATA[
-			select qna_id, qna_parentId, product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, product_code 
-		from (select qna_id, qna_parentId,product_name, qna_title, qna_content, qna_writeId, qna_regDate, qna_status, q.product_code 
-		from qna q, product p where q.product_code = p.product_code and qna_parentId = 1)
+			select qna_id, qna_parentId, qna_content, qna_writeId, qna_regDate from qna where qna_parentId != 0
 		]]>
 	</select>
 	<select id="total_qna" resultType="int">
@@ -175,12 +173,12 @@
 	<!-- 문의글 답변 -->
 	<insert id="insert_reply" parameterType="java.util.Map">
 		<![CDATA[
-			insert into qna values(#{qna_id},#{qna_parentId},'관리자',#{qna_title},#{qna_content},sysdate,1,#{product_code})
+			insert into qna(qna_id,qna_parentId,qna_writeId,qna_content,qna_regDate,qna_status) values(#{qna_id},#{qna_parentId},'관리자',#{qna_content},sysdate,1)
 		]]>
 	</insert>
-	<update id="update_parentId" parameterType="int">
+	<update id="update_parentId" parameterType="java.util.Map">
 		<![CDATA[
-			update qna set qna_status=1 where qna_id=#{qna_id}
+			update qna set qna_status=1 where qna_id=#{qna_parentId}
 		]]>
 	</update>
 </mapper>

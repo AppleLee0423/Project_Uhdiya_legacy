@@ -71,7 +71,7 @@ CREATE TABLE CART (
     CART_SEQ_NUM NUMBER NOT NULL PRIMARY KEY,-- 시퀀스 자동번호
     MEMBER_ID VARCHAR2(255) NOT NULL, -- 아이디
     PRODUCT_CODE VARCHAR2(255) NOT NULL, --제품고유코드 (product 테이블 참조)
-    CARY_QTY NUMBER NOT NULL -- 장바구니 수량(품목당)
+    CART_QTY NUMBER NOT NULL -- 장바구니 수량(품목당)
 );
 
 -- 구매 테이블

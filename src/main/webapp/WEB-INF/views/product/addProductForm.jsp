@@ -264,7 +264,6 @@ function check_code() {
 	font-size:10px;
 	display:none;
 }
-
 </style>
 </head>
 <body>

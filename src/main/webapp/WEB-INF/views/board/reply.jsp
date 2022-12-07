@@ -33,13 +33,30 @@
 	
 	function reply_submit(obj){
 		let form = document.reply_form;
-		if (form.qna_content.value.length == 0){
+		let qna_content = form.qna_content.value;
+		if (qna_content.length == 0){
 			alert('답변이 입력되지 않았습니다.');
 			return;
 		} else {
-			obj.action = '${path}/board/addReply';
-			obj.submit();
-			$('body').css("overflow","unset");
+			let qna_parentId = $('input[name=qna_parentId]').val();
+			
+			$.ajax({
+				url : '/Uhdiya/board/addReply',
+				data : {'qna_parentId' : qna_parentId, 'qna_content' : qna_content},
+				success:function(result){
+					if(result == 1){
+						alert('답변 등록이 완료되었습니다.');
+						$('body').css("overflow","unset");
+						$('.reply_modal').css("display","none");
+						$('.reply_modal').empty();
+						location.reload();
+					} else {
+						alert('답변등록에 실패했습니다.' + result);
+					}
+				},error:function(result){
+					alert('답변등록에 실패했습니다.' + result);
+				}
+			});
 		}
 	}
 </script>

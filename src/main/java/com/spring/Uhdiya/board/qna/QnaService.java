@@ -16,6 +16,7 @@ public class QnaService {
 		// TODO Auto-generated method stub
 		int current_page = Integer.parseInt((String) dataMap.get("current_page"));
 		int list_count = Integer.parseInt((String) dataMap.get("list_count"));
+		
 		int startNum = (current_page - 1) * list_count + 1;
 		int endNum = current_page * list_count;
 		String keyword = (String) dataMap.get("keyword");
@@ -89,12 +90,15 @@ public class QnaService {
 	}
 
 	// 답글 추가 & 원글 상태 변경
-	public int update_parentId(int qna_id) {
+	public boolean insert_reply(Map<String,Object> reply_map) {
 		// TODO Auto-generated method stub
-		return qnaDAO.update_parentId(qna_id);
-	}
-	public int insert_reply(QnaDTO qnaDTO) {
-		// TODO Auto-generated method stub
-		return qnaDAO.insert_reply(qnaDTO);
+		boolean result = false;
+		int insert_result = qnaDAO.insert_reply(reply_map); 
+		int update_result = qnaDAO.update_parentId(reply_map);
+		
+		if(insert_result+update_result == 2) {
+			result = true;
+		}
+		return result;
 	}
 }

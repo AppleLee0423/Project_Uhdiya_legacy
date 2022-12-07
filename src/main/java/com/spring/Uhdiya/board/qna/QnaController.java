@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,11 +70,7 @@ public class QnaController {
 	@RequestMapping("/do_qna_list")
 	public @ResponseBody Map<String, Object> do_qna_list(@RequestParam Map<String, Object> dataMap, HttpServletRequest request, Model model) throws Exception {
 		Map<String, Object> qnaMap = new HashMap<String, Object>();
-		System.out.println("startDate : " + dataMap.get("start_date"));
-		System.out.println("endDate : " + dataMap.get("end_date"));
 		qnaMap = qnaService.qna_list(dataMap);
-		
-		
 		return qnaMap;
 	}
 
@@ -420,34 +417,14 @@ public class QnaController {
 	
 	// 답변 추가
 	@RequestMapping("/addReply")
-	public ResponseEntity<String> addReply(@RequestBody QnaDTO qnaDTO, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		ResponseEntity<String> resEnt = null;
-		String message;
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type","text/html;charset=utf-8");
-		try {
-			int qna_id = qnaDTO.getQna_id();
-			int update = qnaService.update_parentId(qna_id);
-			int insert = qnaService.insert_reply(qnaDTO);
-			
-			if(update == 1 && insert == 1) {
-				message = "<script>";
-				message += "alert('문의에 대한 답변을 입력했습니다.');";
-				message += "location.href='"+request.getContextPath()+"/board/qna_list';";
-				message += "</script>";
-				resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			message = "<script>";
-			message += "alert('작성에 실패했습니다.');";
-			message += "history.back();";
-			message += "</script>";
-			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+	public @ResponseBody String addReply(@RequestParam Map<String, Object> replyMap,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		String result = "0";
+		
+		if(qnaService.insert_reply(replyMap)) {
+			result = "1";
 		}
-		return resEnt;
+		return result;
 	}
-	
 	
 	// 에러메세지(to 로그인)
 	public void message(HttpServletRequest request, HttpServletResponse response) throws Exception {

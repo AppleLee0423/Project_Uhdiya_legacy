@@ -13,10 +13,11 @@
 <script src="https://kit.fontawesome.com/96e0fede2d.js" crossorigin="anonymous"></script>
 <script>
 	let current_page = 1; // 현재 페이지
+	let now = new Date();
+	const now_date = date_setting(now);
+	let today = date_setting(now);
+	
 	$(function(){
-		let now = new Date();
-		let today = date_setting(now);
-		
 		$('input[name=endDate]').attr('max',today);
 		$('input[name=endDate]').val(today);
 		
@@ -61,6 +62,18 @@
 			start_date = $('input[name=startDate]').attr('min');
 			end_date = $('input[name=endDate]').attr('max');
 		}
+		
+		if(end_date == now_date){
+			let new_day = new Date();
+			day = new_day.getDate()+1;
+			month = new_day.getMonth()+1;
+			year = new_day.getFullYear();
+			if(day < 10) day = '0'+day;
+			if(month < 10) month = '0'+month;
+			new_day = year + '-' + month + '-' + day;
+			
+			end_date = new_day;
+		}
 
 		let keyword_set = $('#keyword_set').val();
 		let keyword = $('#keyword').val();
@@ -104,7 +117,9 @@
 					var empty_content = '<p id="empty_content" align="center" style="padding-top:13px;">작성된 문의가 없습니다.</p>';
 					$('.no_content').append(empty_content);
 					$('.list_content').css("display","none");
+					$('.no_content').css("display","unset");
 				} else {
+					$('.list_content').css("display","unset");
 					$('.no_content').css("display","none");
 					var list_content = "";
 					$('#total_qna').text(qna_list.length);
@@ -113,12 +128,11 @@
 						list_content += '<summary>';
 						list_content += '<span id="num">'+(total_qna-i)+'</span>';
 						list_content += '<span id="product">'+qna_list[i].product_name+'</span>';
-						list_content += '<span id="title" onclick="go_page('+qna_list[i].qna_id+')">&nbsp;&nbsp;'+qna_list[i].qna_title+'</span>';
+						list_content += '<span id="title">&nbsp;&nbsp;<a href="javascript:go_page('+qna_list[i].qna_id+')">'+qna_list[i].qna_title+'</a></span>';
 						list_content += '<span id="writer">'+qna_list[i].qna_writeId+'</span>';
 						list_content += '<span id="date">'+qna_list[i].qna_regDate+'</span>';
 
 						if(qna_list[i].qna_status == 0){
-							//list_content += '<span id="status"><button id="reply_btn">답변하기</button></span>';
 							list_content += '<span id="status"><button id="reply_btn" onclick="modal_set('+qna_list[i].qna_id+')">답변하기</button></span>';
 						} else if(qna_list[i].qna_status == 1){
 							list_content += '<span id="status">답변완료</span>';
@@ -130,8 +144,10 @@
 						list_content += '<div class="user_content">';
 						list_content += '<span id="content">'+qna_list[i].qna_content+'</span>';
 						list_content += '</div>';
-						list_content += '<input type="hidden" name="qna_id" value="'+qna_list[i].qna_id+'>"';
-						list_content += '<input type="hidden" name="qna_writeId'+qna_list[i].qna_id+'" value="'+qna_list[i].qna_writeId+'>"';
+						list_content += '<div class="hidden_content">';
+						list_content += '<input type="hidden" name="qna_id" value="'+qna_list[i].qna_id+'">';
+						list_content += '<input type="hidden" name="qna_writeId'+qna_list[i].qna_id+'" value="'+qna_list[i].qna_writeId+'">';
+						list_content += '</div>';
 						let qna_num = qna_list[i].qna_id;
 						
 						for(let j=0; j<reply_list.length; j++){
@@ -263,8 +279,19 @@
 						);
 				$('.reply_modal-content').html(data); 
 				$('.reply_modal').css("display","block");
+				$('body').css("overflow","hidden");
 			}
 		});
+	}
+	
+	// 영역 밖 클릭 시 닫힘 이벤트
+	window.onclick = function(event){
+		if(event.target.className == 'reply_modal'){
+			event.target.style.display = "none";
+			$('.reply_modal').css("display","none");
+			$('.reply_modal').empty();
+			$('body').css("overflow","unset");
+		};
 	}
 	
 	function go_page(qna_id){
@@ -314,12 +341,13 @@
 	.list_header span{text-align: center; font-weight: bold; padding-top:13px; margin-right:10px;}
 	.list_content {min-height:50px;}
 	.no_content {min-height:50px;}
+	#empty_content{min-height:50px;}
 	.list_content span{margin-top:13px; margin-right:10px;}
 	.no_content span{margin-top:13px; margin-right:10px;}
 	summary{display: flex; justify-content: space-between; text-align: center; min-height:50px;}
 	summary:hover{background-color: rgb(108, 117, 125, 0.2);}
 	#num{width:5%; text-align: center;}
-	#product{width:15%; overflow: hidden; white-space: nowrap; text-align: center;}
+	#product{width:15%; overflow: hidden; white-space: nowrap; text-overflow:ellipsis; text-align: center;}
 	.list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
 	#title{width:40%; cursor: pointer;}
 	#writer{width:10%; text-align: center;}
@@ -329,10 +357,11 @@
 	summary>#title{text-align: left;}
 	.content_inner{border-top:1px solid #A6A7AB; border-bottom:1px solid #A6A7AB; background-color: #F7F8FA; padding-left: 100px;}
 	.user_content{min-height: 50px; display: flex;}
-	.reply_content{display: flex; min-height: 50px; justify-content: space-between;}
+	.reply_content{display: flex; min-height: 50px; justify-content: space-between;border-bottom:1px solid #A6A7AB; border-top:1px solid #A6A7AB;}
+	.reply_content span{padding-top:10px;}
 	#reply_front{color:#525253; width:20px;}
-	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:35px;}
-	#reply_content{width:795px; border-bottom:1px solid #A6A7AB; border-top:1px solid #A6A7AB;}
+	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:40px; text-align: center; padding:7px; margin-top:13px;}
+	#reply_content{width:795px;}
 	#delete_btn {margin-right:20px;}
 	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
 	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
@@ -348,6 +377,7 @@
 	.list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
 	.list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
 	.list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
+	input[type=hidden]{width:0;margin:0;padding:0;display:none;}
 </style>
 </head>
 <body>

@@ -45,6 +45,10 @@ public class QnaDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.qna.total_my_qna",qna_writeId);
 	}
+	public List<QnaDTO> my_qna_reply(Map<String, Object> pageMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.qna.my_qna_reply",pageMap);
+	}
 
 	// qna 상세페이지
 	public Map<String, Object> one_qna(int qna_id) {
@@ -112,16 +116,14 @@ public class QnaDAO {
 	}
 
 	// 답글 추가 & 원글 parentId 수정
-	public List<QnaDTO> my_qna_reply(Map<String, Object> pageMap) {
+	public int insert_reply(Map<String, Object> reply_map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.qna.my_qna_reply",pageMap);
+		int qna_id = new_qna_number()+1;
+		reply_map.put("qna_id", qna_id);
+		return sqlSession.insert("mapper.qna.insert_reply",reply_map);
 	}
-	public int update_parentId(int qna_id) {
+	public int update_parentId(Map<String, Object> reply_map) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("mapper.qna.update_parentId",qna_id);
-	}
-	public int insert_reply(QnaDTO qnaDTO) {
-		// TODO Auto-generated method stub
-		return sqlSession.insert("mapper.qna.insert_reply",qnaDTO);
+		return sqlSession.update("mapper.qna.update_parentId",reply_map);
 	}
 }

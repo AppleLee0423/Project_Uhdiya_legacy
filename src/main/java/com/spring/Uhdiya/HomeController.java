@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.Uhdiya.member.MemberDTO;
 import com.spring.Uhdiya.product.ProductService;
 
 @Controller
@@ -61,7 +62,7 @@ public class HomeController {
 		if(!isLogOn) {
 			out.println("<script>");
 			out.println("alert('로그인 후 이용가능합니다.");
-			out.println("location.href="+request.getContextPath()+"/member/login");
+			out.println("location.href="+request.getContextPath()+"/member/login;");
 			out.println("</script>");
 			return null;
 		}
@@ -75,11 +76,13 @@ public class HomeController {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String member_id = member.getMember_id();
 		
-		if(!isLogOn) {
+		if(!isLogOn || !(member_id.equals("admin"))) {
 			out.println("<script>");
 			out.println("alert('로그인 후 이용가능합니다.");
-			out.println("location.href="+request.getContextPath()+"/member/login");
+			out.println("location.href="+request.getContextPath()+"/member/login;");
 			out.println("</script>");
 			return null;
 		}

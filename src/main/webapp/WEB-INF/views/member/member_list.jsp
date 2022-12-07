@@ -22,14 +22,14 @@
 			}
 			
 			$.ajax({
-				url : "/member/member_delete",
+				url : "/Uhdiya/member/member_delete",
 				type : "POST",
 				data : {
 					member_id : no
 				},
 				dataType : "text",
 				success : function(data) {
-					
+					console.log(data);
 					if( data == "Y" ) {
 						alert("회원정보 삭제를 완료하였습니다");
 						location.reload();

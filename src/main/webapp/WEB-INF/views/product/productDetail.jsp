@@ -377,7 +377,7 @@ function addCart() {
 			
 			<c:forEach var="info" items="${infoFileList }">
 				<img src="${path }/product_download?product_fileName=${info.product_fileName}&product_code=${info.product_code}" 
-								 id="preview"> 
+								 id="preview" style="max-width: 860px;"> 
 			</c:forEach> 
 			
 			
