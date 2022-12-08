@@ -310,74 +310,72 @@
 	}
 </script>
 <style>
-	@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
-	*{margin:0; padding:0; font-family: Noto Sans Korean;}
-	.qna_list{margin:45px auto; width:1200px; background-color: #EDF0F5; padding-top: 10px;}
-	.qna_list_header{margin-left:10px;height:60px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
-	.qna_list_header_title{margin-left:10px; padding-top:10px;}
-	.qna_list_search{margin-top: 10px;margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
-	.qna_search_table{width:100%;}
-	.qna_search_title{padding-left:20px; width:20%; height:50px;}
-	.qna_search_date{width:80%; display: flex; margin-top:5px;}
-	.date_btn{width:60px; font-size: small; height: 35px; border:1px solid #474948; background-color: #F8F9FD; color:black; margin-right: 5px;}
-	.date_btn:hover{background-color:#474948; color:white;}
-	input[type=date] {width:150px; text-align: center; font-weight: bold;}
-	input[type=checkbox] {transform:scale(1.3);}
-	.qna_search_detail{height:50px;}
-	.qna_search_status{padding-top:13px;}
-	select{width:100px; height:35px;}
-	#keyword {width:480px; height:35px;}
-	.qna_search_button input{margin-bottom: 0px;}
-	#qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
-	#search_reset, #reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:50px; margin-top: 25px;}
-	
-	.qna_list_body_header{margin-left:10px; height:60px; margin-top:20px; display: flex; justify-content: space-between;}
-	.body_header_one{display:flex; padding-top:25px;}
-	.body_header_two{margin-right:10px;padding-top:15px;}
-	.body_header_two>select {width:110px;}
-	.qna_list_body_content{margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: #F8F9FD;}
-	
-	.list_header{display:flex; justify-content:space-between; height:50px; border-bottom: 2px solid #A6A7AB; background-color: #F8F9FD;}
-	.list_header span{text-align: center; font-weight: bold; padding-top:13px; margin-right:10px;}
-	.list_content {min-height:50px;}
-	.no_content {min-height:50px;}
-	#empty_content{min-height:50px;}
-	.list_content span{margin-top:13px; margin-right:10px;}
-	.no_content span{margin-top:13px; margin-right:10px;}
-	summary{display: flex; justify-content: space-between; text-align: center; min-height:50px;}
-	summary:hover{background-color: rgb(108, 117, 125, 0.2);}
-	#num{width:5%; text-align: center;}
-	#product{width:15%; overflow: hidden; white-space: nowrap; text-overflow:ellipsis; text-align: center;}
-	.list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
-	#title{width:40%; cursor: pointer;}
-	#writer{width:10%; text-align: center;}
-	#date{width:10%; text-align: center;}
-	#status{width:10%; text-align: center;}
-	#delete{width:10%; text-align: center; margin-right:0;}
-	summary>#title{text-align: left;}
-	.content_inner{border-top:1px solid #A6A7AB; border-bottom:1px solid #A6A7AB; background-color: #F7F8FA; padding-left: 100px;}
-	.user_content{min-height: 50px; display: flex;}
-	.reply_content{display: flex; min-height: 50px; justify-content: space-between;border-bottom:1px solid #A6A7AB; border-top:1px solid #A6A7AB;}
-	.reply_content span{padding-top:10px;}
-	#reply_front{color:#525253; width:20px;}
-	#reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:40px; text-align: center; padding:7px; margin-top:13px;}
-	#reply_content{width:795px;}
-	#delete_btn {margin-right:20px;}
-	#reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
-	#reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
+   @import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
+   *{margin:0; padding:0; font-family: Noto Sans Korean;}
+   .qna_list{margin:45px auto; width:1200px; background-color: #EDF0F5; padding-top: 10px;}
+   .qna_list_header{margin-left:10px;height:60px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: rgb(251, 250, 250);}
+   .qna_list_header_title{margin-left:10px; padding-top:10px;}
+   .qna_list_search{margin-top: 10px;margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: rgb(251, 250, 250);}
+   .qna_search_table{width:100%;}
+   .qna_search_title{padding-left:20px; width:20%; height:50px;}
+   .qna_search_date{width:80%; display: flex; margin-top:5px;}
+   .date_btn{width:60px; font-size: small; height: 35px; border:1px solid #474948; background-color: rgb(251, 250, 250); color:black; margin-right: 5px;}
+   .date_btn:hover{background-color:#474948; color:white;}
+   input[type=date] {width:150px; text-align: center; font-weight: bold;}
+   input[type=checkbox] {transform:scale(1.3);}
+   .qna_search_detail{height:50px;}
+   .qna_search_status{padding-top:13px;}
+   select{width:100px; height:35px;}
+   #keyword {width:480px; height:35px;}
+   .qna_search_button input{margin-bottom: 0px;}
+   #qna_search_btn {width: 150px; height: 50px; border-radius: 2px; background-color: #474948; color: white; font-size: large;}
+   #search_reset, #reset {width: 150px; height: 50px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size: large; margin-right:50px; margin-top: 25px;}
+   
+   .qna_list_body_header{margin-left:10px; height:60px; margin-top:20px; display: flex; justify-content: space-between;}
+   .body_header_one{display:flex; padding-top:25px;}
+   .body_header_two{margin-right:10px;padding-top:15px;}
+   .body_header_two>select {width:110px;}
+   .qna_list_body_content{margin-left:10px; box-shadow: 0 6px 6px -6px rgba(0,0,0,1); background-color: rgb(251, 250, 250);}
+   
+   .list_header{display:flex; justify-content:space-between; height:50px; border-bottom: 2px solid #A6A7AB; background-color: rgb(251, 250, 250);}
+   .list_header span{text-align: center; font-weight: bold; padding-top:13px; margin-right:10px;}
+   .list_content {min-height:50px;}
+   .no_content {min-height:50px;}
+   #empty_content{min-height:50px;}
+   .list_content span{margin-top:13px; margin-right:10px;}
+   .no_content span{margin-top:13px; margin-right:10px;}
+   summary{display: flex; justify-content: space-between; text-align: center; min-height:50px;}
+   summary:hover{background-color: rgb(108, 117, 125, 0.2);}
+   #num{width:5%; text-align: center;}
+   #product{width:15%; overflow: hidden; white-space: nowrap; text-overflow:ellipsis; text-align: center;}
+   .list_content #product {font-size: small; white-space: nowrap; text-align: center; display: block;}
+   #title{width:40%; cursor: pointer;}
+   #writer{width:10%; text-align: center;}
+   #date{width:10%; text-align: center;}
+   #status{width:10%; text-align: center;}
+   #delete{width:10%; text-align: center; margin-right:0;}
+   summary>#title{text-align: left;}
+   .content_inner{border-top:1px solid #A6A7AB; border-bottom:1px solid #A6A7AB; background-color: #F7F8FA; padding-left: 100px;}
+   .user_content{min-height: 50px; display: flex;}
+   .reply_content{display: flex; min-height: 50px; justify-content: space-between;border-bottom:1px solid #A6A7AB; border-top:1px solid #A6A7AB;}
+   .reply_content span{padding-top:10px;}
+   #reply_front{color:#525253; width:20px;}
+   #reply_second{background-color:#525253; color:white; border-radius: 3px; height:100%; width:40px; text-align: center; padding:7px; margin-top:13px;}
+   #reply_content{width:795px;}
+   #delete_btn {margin-right:20px;}
+   #reply_btn, #delete_btn {height: 30px; border-radius: 2px; border:1px solid #474948; cursor: pointer; width:75px; background-color: #F8F9FD;}
+   #reply_btn:hover, #delete_btn:hover {background-color: #474948; color:white;}
 
-	.reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
-		background-color: rgba(0,0,0,0.4);}
-	/* .reply_modal:first-child {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
-	.reply_modal:last-child {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;} */
-	.reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
-	
-	.qna_list_footer{margin:20px auto; margin-left:10px;}
-	.list_paging{height: 50px; display: flex; justify-content: space-between; padding: 0 475px;}
-	.list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
-	.list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
-	.list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
-	input[type=hidden]{width:0;margin:0;padding:0;display:none;}
+   .reply_modal {display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); 
+      background-color: rgba(0,0,0,0.4);}
+   .reply_modal-content {width: 800px; position: absolute; top: 15%; left: 25%; background-color: #fefefe; border: 1px solid #888;}
+   
+   .qna_list_footer{margin:20px auto; margin-left:10px;}
+   .list_paging{height: 50px; display: flex; justify-content: space-between; padding: 0 475px;}
+   .list_paging>button {width:25px; height:25px; border:0; background-color: transparent; cursor: pointer;}
+   .list_paging>button:hover {background-color: #474948; border-radius: 50%; color:white;}
+   .list_paging>#prev,#next {background-color: #474948; border-radius: 50%; color:white;}
+   input[type=hidden]{width:0;margin:0;padding:0;display:none;}
 </style>
 </head>
 <body>

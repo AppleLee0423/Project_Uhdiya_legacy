@@ -18,7 +18,7 @@
         <div class="container">
             <div id="contents">
                 <div class="first">
-                    <h2>마이 쇼핑</h2>
+                    <h2>어디야커피 관리자</h2>
                 </div>
                 <div class="second">
                     <div class="second2">

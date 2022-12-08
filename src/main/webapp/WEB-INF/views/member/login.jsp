@@ -36,18 +36,6 @@
    </c:when>
 </c:choose>
 <style>
-      .bd-placeholder-img{
-       font-size: 1.125rem;
-       text-anchor: middle;
-       -webkit-user-select: none;
-       user-select: none;
-   }
-   
-   @media (min-width: 768px){
-       .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-       } 
-   }
    
    
    ul {
@@ -105,7 +93,7 @@
             <div class="ni">
                <h1 class="h3 mb-3 fw-normal">로그인</h1>
                <label for="inputId" class="visually-hidden">ID</label>
-               <input type="ID" name="member_id" class="form-control" placeholder="아이디" required autofocus>
+               <input type="ID" name="member_id" class="form-control" placeholder="아이디" required autofocus style="margin-bottom: 3px;">
                <label for="inputPassword" class="visually-hidden">Password</label> 
                <input type="password" name="member_password" class="form-control" id="passwordcss" placeholder="비밀번호" required>
                <button class="w-100 btn btn-lg btn-primary" id="logcss" type="submit">
@@ -120,9 +108,6 @@
                   </div>
                </ul>
             </div>
-            <button class="w-100 btn btn-lg" id="signcss" style="position: relative; margin: 25px 9px 0 0; padding: 23px 0 0 0; color: #C26225; border-top: 1px solid #000000;" type="submit" onclick="javascript:window.location='/member/memberForm'">
-               회원가입
-            </button>
          </div>
       </form>
    </main>

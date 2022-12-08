@@ -19,9 +19,78 @@
    
    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
    <style>
-   
+   input:invalid {
+  border: 3px solid red;
+}
    </style>
    <script>
+   /* 새로고침 스크롤위치고정 */
+   var element = document.querySelector("#layout-nav");
+   var scroll_position = localStorage.getItem("sidebar-scroll");
+   if (scroll_position != null) {
+       console.log("scroll position : ",scroll_position)
+       element.scrollTop = parseInt(scroll_position, 10);
+   }
+   window.addEventListener("beforeunload", () => {
+       localStorage.setItem("sidebar-scroll", element.scrollTop);
+   });
+   function safetyPasswordPattern(str) {
+       var pass = str.value;
+       var message = "";
+       var color = "";
+       var checkPoint = 0;
+       // 입력값이 있을경우에만 실행
+       if(pass.length) {
+           // 최대 입력 글자수를 제한한다.
+           if(pass.length < 6 || pass.length > 16) {
+               message = ":: 최소 6자 이상, 최대 16자 이하 ::";
+               color = "#A23E48";
+           }
+           // 문자열의 길이가 8 ~ 16 인경우
+           else {
+               // 비밀번호 문자열에 숫자 존재 여부 검사
+               var pattern1 = /[0-9]/;  // 숫자
+               if(pattern1.test(pass) == false) {
+                   checkPoint = checkPoint + 1;
+               }
+               // 비밀번호 문자열에 영문 소문자 존재 여부 검사
+               var pattern2 = /[a-z]/;
+               if(pattern2.test(pass) == false) {
+                   checkPoint = checkPoint + 1;
+               }
+               // 비밀번호 문자열에 영문 대문자 존재 여부 검사
+               var pattern3 = /[A-Z]/;
+               if(pattern3.test(pass) == false) {
+                   checkPoint = checkPoint + 1;
+               }
+               // 비밀번호 문자열에 특수문자 존재 여부 검사
+               var pattern4 = /[~!@#$%^&*()_+|<>?:{}]/;  // 특수문자
+               if(pattern4.test(pass) == false) {
+                   checkPoint = checkPoint + 1;
+               }
+               if(checkPoint >= 3) {
+                   message = ":: 보안성이 취약한 비밀번호 ::";
+                   color = "#A23E48";
+               } else if(checkPoint == 2) {
+                   message = ":: 보안성이 낮은 비밀번호 ::";
+                   color = "#FF8C42";
+               } else if(checkPoint == 1) {
+                   message = ":: 보안성이 보통인 비밀번호 ::";
+                   color = "#FF8C42";
+               } else {
+                   message = ":: 보안성이 강력한 비밀번호 ::";
+                   color = "#0000CD";
+               }
+           }
+       }
+       else {
+           message = ":: 비밀번호를 입력해 주세요 ::";
+           color = "#000000";
+       }
+       console.log(checkPoint);
+       document.getElementById("checkTxt").innerHTML = message;
+       document.getElementById("checkTxt").style.color = color;
+   }
       /* 다음 주소 연동 */
        function execution_daum_address() {
            new daum.Postcode({
@@ -75,56 +144,56 @@
    <script type="text/javascript">
       
       function jsSubmit() {
-         
+      if(!($(check1).prop('checked'))||!($(check2).prop('checked'))){
+            alert("이용약관 및 개인정보 수집 이용에 미동의시 회원가입이 불가합니다.");
+            return;
+      }
          // 아이디 확인
          var idCheck = $("#idcheck").val();
          if( idCheck != "Y" ) {
             alert("아이디 중복확인을 해주세요");
             return;
          }
-         
+         // 아이디 확인
+         var emailCheck = $("#emailcheck").val();
+         if( emailCheck != "Y" ) {
+            alert("이메일 중복확인을 해주세요");
+            return;
+         }
          // 비밀번호 확인
          var passCheck = $("#passCheck").val(); 
          if( passCheck != "Y" ) {
             alert("비밀번호 확인을 해주세요");
             return;
          }
-         
          // 이름 확인
          var member_name = $("#member_name").val();
          if( member_name == null || !(member_name.length > 0) ) {
             alert("이름을 입력해주세요");
             return;
          }
-         
          var phone = $('select[name="member_phone"]').val();
          var phone1 = $('input[name="member_phone1"]').val();
          var phone2 = $('input[name="member_phone2"]').val();
-
          var member_phone = phone+phone1+phone2;
          if( member_phone == null || !(member_phone.length > 0) ) {
             alert("전화번호를 입력해주세요");
             return;
          }
-         
          var member_email = $("#member_email").val();
          if( member_email == null || !(member_email.length > 0) ) {
             alert("email를 입력해주세요");
             return;
          }
-         
          var add = $("input[name=addDetail]").val();
          if( add == null || !(add.length > 0) ) {
             alert("상세주소를 입력해주세요");
             return;
          }
-         
          $("#frm").submit();
       }
       
-      
       $(document).ready(function() {
-         
          $("#checkAll").change(function() {
             var bool = $("#checkAll").prop("checked");
             if( bool ) {
@@ -133,36 +202,40 @@
                $(".checkTarget").prop("checked", false);
             }
          });
-         
          $(".checkTarget").change(function() {
-            
             var bool = $(this).prop("checked");
             if( !bool ) {
                $("#checkAll").prop("checked", false);
             } else {
-               
                var bool1 = $("#check1").prop("checked");
                var bool2 = $("#check2").prop("checked");
-               
                if( bool1 && bool2 ) {
                   $("#checkAll").prop("checked", true);
                }
             }
          });
-         
          $("#member_id").change(function() {
             $("#idcheck").val("N");
          });
       });
 
       function checkId() {
-         
          var id = $("#member_id").val();
+         console.log(id);
+        var pattern5 = /[ㄱ-ㅎ|가-힣]/;
+         if(pattern5.test(id) == true) {
+            alert('한글은 입력 불가합니다.');
+            return;
+         }
+         var pattern4 = /[~!@#$%^&*()_+|<>?:{}]/;  // 특수문자
+         if(pattern4.test(id) == true) {
+            alert('특수문자는 입력 불가합니다.');
+            return;
+         }
          if( id == null || !(id.length > 0) ) {
             alert("아이디를 입력해주세요");
             return;
          }
-         
          $.ajax({
             url : "idcheck",
             type : "post",
@@ -175,6 +248,9 @@
                if( data == "Y" ) {
                   $("#idcheck").val("Y");
                   alert("사용가능한 아이디 입니다.");
+                $("#member_id").attr("readonly",true).attr("disabled",false); //입력불가
+                $("#member_id").css("background-color","silver");
+                $("#idcheck").attr("disabled", true);
                } else {
                   alert("중복된 아이디 입니다.");
                }
@@ -187,93 +263,86 @@
       }
       
    function checkPw() {
-      
       var pw1 = $("#member_password").val();
       var pw2 = $("#member_password2").val();
-      
       if( !(pw1.length > 0) || !(pw2.length > 0) ) {
-         
          alert("비밀번호를 입력해주세요");
          return;
-         
       } else if( pw1.length < 6 || pw1.length > 16 ) {
-         
          alert("비밀번호는 6자리 이상 16자리 이하로 작성해주세요");
          return;
-         
       } else if( pw1 != pw2 ) {
-         
          alert("비밀번호가 일치하지 않습니다");
          return;
       }
-      
-      var pattern1 = /[\d]/;
+      var pattern1 = /[0-9]/;  // 숫자
       var pattern2 = /[a-z]/;
       var pattern3 = /[A-Z]/;
-      var pattern4 = /[~!@\#$%<>^&*]/;
-      
+      var pattern4 = /[~!@#$%^&*()_+|<>?:{}]/;  // 특수문자
       var patternCnt = 0;
-      
       if( pattern1.test(pw1) ) {
          patternCnt++;
       }
-      
       if( pattern2.test(pw1) ) {
          patternCnt++;
       }
-      
       if( pattern3.test(pw1) ) {
          patternCnt++;
       }
-      
       if( pattern4.test(pw1) ) {
          patternCnt++;
       }
-      
       if( patternCnt >= 2 ) {
          alert("비밀번호 확인이 완료되었습니다");
          $("#passCheck").val("Y");
+         $("#Pcheck").attr("disabled", true);
+         $("#member_password").attr("readonly",true).attr("disabled",false); //입력불가
+         $("#member_password2").attr("readonly",true).attr("disabled",false); //입력불가
+         $("#member_password").css("background-color","silver");
+         $("#member_password2").css("background-color","silver");
          return;
       } else {
-         alert("비밀번호는 두개 이상의 문자를 조합하여 작성해주세요");
+         alert("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합으로 가능합니다.");
          return;
       }
    }
-      
       function checkname() {
-
          var name = $("#member_name").val();
          if( name == null || !(id.length > 0) ) {
             alert("이름을 입력해주세요");
             return;
          }
-         
       }
-      
       function checkphone() {
+         
       var phone = $('select[name="member_phone"]').val();
       var phone1 = $('input[name="member_phone1"]').val();
       var phone2 = $('input[name="member_phone2"]').val();
-      var id = $('#member_id').val();
-
-         if( phone == null || phone1 == null || phone2 == null || !(id.length > 0) ) {
+      var fullPhone = phone+'-'+phone1+'-'+phone2;
+      console.log(fullPhone);
+         if( phone == null || phone1 == null || phone2 == null || !(phone.length > 0) || !(phone1.length > 0) || !(phone2.length > 0)) {
             alert("전화번호를 입력해주세요");
             return;
          }
-
          $.ajax({
             url : "phonecheck",
             type : "post",
             dataType : "text",
             data : {
-               "member_phone" : phone
+               "member_phone" : fullPhone
             },
             success : function(data) {
-
                console.log(data);
-
                if( data == "Y" ) {
+                  alert("사용가능한 전화번호 입니다.");
                   $("#phonecheck").val("Y");
+                   $("#member_phone").attr("readonly",true); //입력불가
+                   $("#member_phone1").attr("readonly",true).attr("disabled",false); //입력불가
+                   $("#member_phone2").attr("readonly",true).attr("disabled",false); //입력불가
+                $("#member_phone0").css("background-color","silver");
+                $("#member_phone1").css("background-color","silver");
+                $("#member_phone2").css("background-color","silver");
+                $("#phonecheck").attr("disabled", true);
                } else {
                   alert("중복된 전화번호 입니다.");
                }
@@ -284,15 +353,12 @@
             }
          })
       }
-      
-      function checkemail() {
-
+      function checkEmail() {
          var email = $("#member_email").val();
-         if( email == null || !(id.length > 0) ) {
+         if( email == null || !(email.length > 0) ) {
             alert("email를 입력해주세요");
             return;
          }
-
          $.ajax({
             url : "emailcheck",
             type : "post",
@@ -301,11 +367,14 @@
                "member_email" : email
             },
             success : function(data) {
-
                console.log(data);
 
                if( data == "Y" ) {
+                  alert("사용가능한 email 입니다.");
                   $("#emailcheck").val("Y");
+                  $("#member_email").attr("readonly",true).attr("disabled",false); //입력불가
+                $("#member_email").css("background-color","silver");
+                $("#emailcheck").attr("disabled", true);
                } else {
                   alert("중복된 email 입니다.");
                }
@@ -316,7 +385,6 @@
             }
          })
       }
-
       /* function checkaddDetail() {
 
          var member_email = $("#member_email").val();
@@ -325,9 +393,7 @@
             return;
          }
       } */
-      
    </script>
-   
 </head>
 <body>
    <div class="div" style="margin-top: 75px; min-height: 200px;" align="center">
@@ -342,8 +408,8 @@
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">회원 ID</td>
-               <td><input type="text" id="member_id" name="member_id" />&nbsp;
-                  <button type="button" onclick="checkId();" id="idcheck" value="N">중복확인</button>
+               <td><input type="text" id="member_id" name="member_id" pattern="[A-Za-z0-9]+" />&nbsp;
+                  <button type="button" onclick="checkId();" id="idcheck" value="N" style="background-color: white; border-width: thin; border-radius: 10%;">중복확인</button>
 
                </td>
             </tr>
@@ -357,8 +423,8 @@
                <td>
                   <input type="hidden" id="passCheck" value="N"/>
                   <input type="password" name="member_password"
-                     id="member_password" autocomplete="new-password"/>
-                  &nbsp;(영문 소문자/숫자/특수문자, 6자~16자)
+                     id="member_password" onKeyup="safetyPasswordPattern(this);" />
+                  &nbsp;(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 6자~16자) <p id="checkTxt" style="margin-top:3px;">:: 비밀번호를 입력해 주세요 ::</p>
                </td>
             </tr>
             <tr height="7">
@@ -368,8 +434,8 @@
                <td width="5%" align="center">*</td>
                <td width="15%">비밀번호 확인</td>
                <td><input type="password" name="member_password2"
-                  id="member_password2"/>&nbsp; <a href="#"
-                  onclick="checkPw()" id="Pcheck">확인</a></td>
+                  id="member_password2"/>&nbsp; <button type="button" onclick="checkPw()" id="Pcheck" style="background-color: white; border-width: thin; border-radius: 10%;">비밀번호 확인</button>
+                </td>
             </tr>
             <tr height="7">
                <td colspan="3"><hr /></td>
@@ -382,15 +448,18 @@
             <tr height="7">
                <td colspan="3"><hr /></td>
             </tr>
+            
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">휴대전화</td>
-               <td><select name="member_phone">
+               <td><select name="member_phone" id="member_phone" >
                      <option value="" selected="selected">선택</option>
                      <option value="010">010</option>
-               </select> &nbsp;-&nbsp; <input type="text" name="member_phone1" size="4"
+               </select> &nbsp;-&nbsp; <input type="text" id="member_phone1" name="member_phone1" size="4"
                   maxlength="4"> &nbsp;-&nbsp; <input type="text"
-                  name="member_phone2" size="4" maxlength="4"></td>
+                  name="member_phone2" id="member_phone2" size="4" maxlength="4">
+                  <button type="button" onclick="checkphone();" id="phonecheck" value="N" style="background-color: white; border-width: thin; border-radius: 10%;">중복확인</button>
+                </td>
 
             </tr>
             <tr height="7">
@@ -401,6 +470,7 @@
                <td width="15%">이메일</td>
                <td>
                      <input type="email" id="member_email" name="member_email"/>
+                     <button type="button" onclick="checkEmail();" id="emailcheck" value="N" style="background-color: white; border-width: thin; border-radius: 10%;">중복확인</button>
                </td>
             </tr>
             <tr height="7">
@@ -412,7 +482,7 @@
                <td><input type="text" size="10" name="zipno"
                   id="sample4_postcode" placeholder="우편번호" readonly="readonly"
                   onclick="DaumPostcode()"> <input type="button"
-                  onclick="execution_daum_address()" value="우편번호 찾기"><br>
+                  onclick="execution_daum_address()" value="우편번호 찾기" style="background-color: white; border-width: thin; border-radius: 10%;"><br>
                <br /> <input type="text" size="30" name="roadFullAddr"
                   id="sample4_roadAddress" placeholder="도로명주소" readonly="readonly"
                   onclick="DaumPostcode()"> <input type="text" size="30"
@@ -426,7 +496,7 @@
          </table>
          <br />
          <table style="margin-bottom:40px;">
-            <h3>전체 동의</h3>
+            <h3 style="font-weight:bold; color: #2e2e2e; font: 0.70em "Lato",Nanum Gothic,Arial,Dotum,AppleGothic,sans-serif;">전체 동의</h3><br>
             <div class="ec-base-box typeThinBg gStrong" style="margin-bottom:10px;">
                <p>
                   <span class="ec-base-chk">
@@ -443,9 +513,9 @@
             
             <div class="ec-base-box typeThinBg agreeArea"
                style="overflow: scroll; height: 200px; width: 60%; font-size: xx-small; margin-top: 10px;">
-               <h3>[필수] 이용약관 동의</h3>
+               <h3 style="font-size:14px;">[필수] 이용약관 동의</h3>
                <div class="content">
-                  <div class="fr-view fr-view-mall-agreement">
+                  <div class="fr-view fr-view-mall-agreement" style="text-align:left !important;">
                      <p>제1조(목적)</p>
                      <p>이 약관은 이디야 회사(전자상거래 사업자)가 운영하는 이디야 사이버 몰(이하 “몰”이라 한다)에서
                         제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을
@@ -715,9 +785,9 @@
             
             <div class="ec-base-box typeThinBg agreeArea"
                style="overflow: scroll; height: 200px; width: 60%; font-size: xx-small;">
-               <h3>[필수] 개인정보 수집 및 이용 동의</h3>
+               <h3 style="font-size:14px;">[필수] 개인정보 수집 및 이용 동의</h3>
                <div class="content">
-                  <div class="fr-view fr-view-privacy-required">
+                  <div class="fr-view fr-view-privacy-required" style="text-align:left !important;">
                      ■ 수집하는 개인정보 항목<br> 회사는 회원가입, 상담, 서비스 신청 등등을 위해 아래와 같은 개인정보를
                      수집하고 있습니다.
                      <p>
@@ -744,12 +814,12 @@
             <p class="check">
                <span>개인정보 수집 및 이용에 동의하십니까?</span>
                <input id="check2" class="ec-base-chk checkTarget" value="1" type="checkbox"/>
-               <label for="check2" style="margin-top: 25px;">동의함</label>
+               <label for="check2" style="margin-top: 25px; margin-bottom: 15px;">동의함</label>
             </p>
             <tr height="40">
                <td>
                   <button class="w-100 btn btn-lg btn-primary"
-                     style="margin-left: auto; margin-right: auto; margin-top:25px; margin-bottom:45px; background-color: white; color: #C58F69;
+                     style="margin-left: auto; margin-right: auto; margin-top:40px; margin-bottom:66px; background-color: #C26225; color: white;
                      border: none; font-size: 30px;" type="button"
                      onclick="jsSubmit()" value="회원가입">회원가입</button>
                </td>

@@ -52,7 +52,7 @@
 	<main class="form-signin" style="margin-bottom: 75px;">
 		<div class="container">
 			<div class="table-responsive pt-3" style="max-height: 500px;">
-				<table class="table table-bordered table-hover mt-3">
+				<table class="table table-bordered table-hover mt-3" style="margin-bottom: 400px;">
 					<thead>
 						<tr>
 							<th>아이디</th>
