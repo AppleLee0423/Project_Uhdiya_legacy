@@ -101,4 +101,9 @@ public class QnaService {
 		}
 		return result;
 	}
+	
+	// 회원 탈퇴 시 문의글 삭제
+	public void delete_member_qna(String member_id) {
+		qnaDAO.delete_member_qna(member_id);
+	}
 }

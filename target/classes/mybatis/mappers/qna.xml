@@ -181,4 +181,11 @@
 			update qna set qna_status=1 where qna_id=#{qna_parentId}
 		]]>
 	</update>
+	
+	<!-- 회원 탈퇴 시 문의글 삭제 -->
+	<select id="delete_member_list" resultType="int" parameterType="String">
+		<![CDATA[
+			select qna_id from qna start with qna_id in (select qna_id from qna where qna_writeId = #{qna_writeId) connect by prior qna_id = qna_parentId;
+		]]>
+	</select>
 </mapper>

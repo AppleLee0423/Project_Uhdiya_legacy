@@ -20,10 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.Uhdiya.board.qna.QnaService;
+import com.spring.Uhdiya.board.review.ReviewService;
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 	@Autowired MemberService memberService;
+	@Autowired QnaService qnaService;
+	@Autowired ReviewService reviewService;
 
 	// 로그인
 	@RequestMapping("login")
@@ -273,6 +278,7 @@ public class MemberController {
 		return res;
 	}
 	
+	// 회원탈퇴 페이지(비밀번호 재확인)
 	@RequestMapping(value="withdraw_page")
 	public ModelAndView widthdraw_page(@RequestParam("member_id")String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String) request.getAttribute("viewName");
@@ -296,6 +302,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	// 회원탈퇴 처리
 	@RequestMapping(value="withdraw")
 	public ResponseEntity<String> withdraw
 	(@RequestParam("member_id")String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -305,10 +312,15 @@ public class MemberController {
 		headers.add("Content-Type","text/html;charset=utf-8");
 		
 		try {
-			memberService.delete_Member(member_id);
+			HttpSession session = request.getSession();
+			
+			memberService.delete_Member(member_id);	
+			qnaService.delete_member_qna(member_id);
+			reviewService.delete_member_review(member_id);
 			
 			message = "<script>";
 			message += "alert('회원탈퇴 하였습니다.커피향이 그리울 때 다시 만나요!');";
+			session.invalidate();
 			message += "location.href='"+request.getContextPath()+"/main';";
 			message += "</script>";
 			

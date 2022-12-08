@@ -12,10 +12,15 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 function mainSearch() {
-	let searchSelTxt = document.getElementById('mainSearchTxt').value;
-	console.log(searchSelTxt);
-	window.location.href='${path}/product/searchProductList?product_cateL=&product_cateS=&searchSel=product_name&searchSelTxt='+searchSelTxt;
+   let searchSelTxt = document.getElementById('mainSearchTxt').value;
+   console.log(searchSelTxt);
+   window.location.href='${path}/product/searchProductList?product_cateL=&product_cateS=&searchSel=product_name&searchSelTxt='+searchSelTxt;
 }
+function enterkey() {
+   let searchSelTxt = document.getElementById('mainSearchTxt').value;
+   window.location.href='${path}/product/searchProductList?product_cateL=&product_cateS=&searchSel=product_name&searchSelTxt='+searchSelTxt;
+}
+
 </script>
 <style>
 a{text-decoration:none; color:black;}
@@ -26,23 +31,23 @@ a{text-decoration:none; color:black;}
         <div class="header_padding">
 
             <div class="first_section">
-            	<c:choose>
-            		<c:when test="${isLogOn == true && member != null && member.member_id != 'admin'}">
-            			<p id="one">${member.member_id}님</p>&nbsp;&nbsp;
-						<p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
-						<p><a href="${path}/cart/cartList">장바구니</a></p>&nbsp;&nbsp;
-						<p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
-            		</c:when>
-            		<c:when test="${isLogOn == true && member.member_id == 'admin'}">
-	            		<p id="one">${member.member_id}님</p>&nbsp;&nbsp;
-	            		<p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
-	            		<p><a href="${path}/adminpage">관리자페이지</a></p>&nbsp;&nbsp;
-            		</c:when>
-            		<c:otherwise>
-            		  <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
-						<p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
-            		</c:otherwise>
-            	</c:choose>
+               <c:choose>
+                  <c:when test="${isLogOn == true && member != null && member.member_id != 'admin'}">
+                     <p id="one">${member.member_id}님</p>&nbsp;&nbsp;
+                  <p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
+                  <p><a href="${path}/cart/cartList">장바구니</a></p>&nbsp;&nbsp;
+                  <p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
+                  </c:when>
+                  <c:when test="${isLogOn == true && member.member_id == 'admin'}">
+                     <p id="one">${member.member_id}님</p>&nbsp;&nbsp;
+                     <p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
+                     <p><a href="${path}/adminpage">관리자페이지</a></p>&nbsp;&nbsp;
+                  </c:when>
+                  <c:otherwise>
+                    <p id="one"><a href="${path}/member/login">로그인</a></p>&nbsp;&nbsp;
+                  <p id="two"><a href="${path}/member/memberForm">회원가입</a></p>&nbsp;&nbsp;
+                  </c:otherwise>
+               </c:choose>
 
                 <div class="second_section">
                     <a href="#"><img src="${path}/resources/img/top_sns01.gif"></a>
@@ -52,9 +57,9 @@ a{text-decoration:none; color:black;}
                 </div>
             </div>
             <div class="search_mode">
-                <input type="text" id="mainSearchTxt" class="searchbar" placeholder="#커피랩  #스페셜" maxlength="11" size="23" />
+                <input type="text" id="mainSearchTxt" class="searchbar" placeholder="#커피랩  #스페셜" maxlength="11" size="23" onkeyup="if(window.event.keyCode==13){enterkey()}"/>
                 <a href="javascript:mainSearch()">
-                	<img src="${path}/resources/img/topserch_b.png" class="searchimg"/>
+                   <img src="${path}/resources/img/topserch_b.png" class="searchimg"/>
                 </a>
             </div>
 

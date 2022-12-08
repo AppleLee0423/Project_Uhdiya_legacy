@@ -48,7 +48,7 @@
 	</script>
 	
 </head>
-<body class="text-center">
+<body>
 	<main class="form-signin" style="margin-bottom: 75px;">
 		<div class="container">
 			<div class="table-responsive pt-3" style="max-height: 500px;">

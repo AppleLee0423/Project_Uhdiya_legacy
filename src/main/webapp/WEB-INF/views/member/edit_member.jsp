@@ -129,6 +129,12 @@
 				alert("비밀번호 확인을 해주세요");
 				return;
 			}
+			var member_name = $('#member_name').val();
+			if(member_name == null || !(member_name.length > 0)){
+				alert('이름을 입력해주세요.');
+				member_name.focus();
+			}
+			
 			
 			var member_phone = $("select[name='member_phone']").val().trim();
 			var member_phone1 = $("input[name='member_phone1']").val().trim();
@@ -182,6 +188,7 @@
 	            type : "post",
 	            dataType : "text",
 	            data : {
+	            	member_name : member_name,
 	            	member_password : member_password,
 	            	member_phone : member_phone,
 	            	member_phone1 : member_phone1,
@@ -195,6 +202,7 @@
 
 	               if( data == "Y" ) {
 	                  alert("회원정보가 수정되었습니다.");
+	                  location.reload();
 	               } else {
 	                  alert("회원정보 수정에 실패했습니다.");
 	               }

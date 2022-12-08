@@ -126,4 +126,14 @@ public class QnaDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.update("mapper.qna.update_parentId",reply_map);
 	}
+	
+	// 회원 탈퇴 시 문의글 삭제
+	public void delete_member_qna(String qna_writeId) {
+		// TODO Auto-generated method stub
+		List<Integer> qna_list = sqlSession.selectList("mapper.qna.delete_member_list",qna_writeId);
+		
+		for(int qna_id : qna_list) {
+			sqlSession.delete("mapper.qna.delete_qna",qna_id);
+		}
+	}
 }
