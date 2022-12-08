@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	body{margin:0 auto; background-color: black;}
+	.update_form{width: 500px; height: 250px; background-color: #fff; display: block; margin:0 auto; border-radius: 10px; border-color:transparent; padding: 10px 20px;}
+	.form_head{border-bottom: 1px solid rgba(220,227,233,.8); vertical-align: middle; display: inline-block; width: 100%;}
+	.form_head_title{text-align: center;}
+	.form_body {margin: 10px 0; border-bottom: 1px solid rgba(220,227,233,.8);}
+	.form_body div {display: inline-block; width:100%;}
+	.form_body .content_title {display: inline-block; font-size: 16px; font-weight: 700; line-height: 17px; letter-spacing: -.4px; color: #96a1aa;}
+	.form_footer {text-align: center; display: flex; justify-content: space-between; padding: 0 50px; margin-top:20px;}
+	#update_insert_btn {width: 120px; height: 30px; background-color: #959eae; border-radius: 0 0 0 12px; color: white; font-size: medium; cursor: pointer;}
+	#update_close_btn {width: 120px; height: 30px; border-radius: 1px; background-color: transparent; color: black; border-width: 1px; font-size:medium; cursor: pointer;}
+	#new_data{padding: 9px 11px 9px 11px; width: 100%; height: 36px; font-size: 14px; font-weight: 400; line-height: 16px; letter-spacing: -.46px; box-sizing: border-box; 
+		color: #303038;}
+</style>
+</head>
+<body>
+	<div class="update_form">
+		<div class="form_head">
+			<div class="form_head_title"><h2>이메일을 변경하시겠습니까?</h2></div>
+		</div>
+		<div class="form_body">
+			<div class="content_title" style="width: 30%;">기존 이메일</div>
+			<div class="ori_content" style="width: 60%; margin-bottom:10px;">ld210@naver.com</div>
+			<div class="content_title" style="width: 30%;">변경 이메일</div>
+			<div class="new_content" style="width: 60%; margin-bottom:10px;">
+				<div class="inner_content">
+					<input type="text" name="new_data" id="new_data" placeholder=""/>
+					<span style="color:red; font-size:small;">비밀번호는 특수문자가 포함되어야 합니다.</span> 
+				</div>
+			</div>
+		</div>
+		<div class="form_footer">
+			<input id="update_close_btn" type="button" value="취소"/>
+			<input id="update_insert_btn" type="button" value="수정하기"/>
+		</div>
+	</div>
+</body>
+</html>

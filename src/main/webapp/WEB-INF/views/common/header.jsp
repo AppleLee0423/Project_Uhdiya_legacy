@@ -24,6 +24,12 @@ function enterkey() {
 </script>
 <style>
 a{text-decoration:none; color:black;}
+.cartCnt{
+   font-size: 12px;
+   font-weight:bold;
+   color: #123478;
+}
+}
 </style>
 </head>
 <body>
@@ -35,7 +41,7 @@ a{text-decoration:none; color:black;}
                   <c:when test="${isLogOn == true && member != null && member.member_id != 'admin'}">
                      <p id="one">${member.member_id}님</p>&nbsp;&nbsp;
                   <p id="two"><a href="${path}/member/logout">로그아웃</a></p>&nbsp;&nbsp;
-                  <p><a href="${path}/cart/cartList">장바구니</a></p>&nbsp;&nbsp;
+                  <p><a href="${path}/cart/cartList">장바구니 ( <span class="cartCnt">${cartListCount }</span> )</a></p>&nbsp;&nbsp;
                   <p><a href="${path}/mypage">마이페이지</a></p>&nbsp;&nbsp;
                   </c:when>
                   <c:when test="${isLogOn == true && member.member_id == 'admin'}">

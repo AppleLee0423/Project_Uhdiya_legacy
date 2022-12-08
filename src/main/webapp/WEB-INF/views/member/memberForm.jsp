@@ -443,7 +443,7 @@
             <tr class="register" height="30">
                <td width="5%" align="center">*</td>
                <td width="15%">이 름</td>
-               <td><input type="text" id="member_name" name="member_name" /></td>
+               <td><input type="text" id="member_name" name="member_name" disabled="disabled"/></td>
             </tr>
             <tr height="7">
                <td colspan="3"><hr /></td>

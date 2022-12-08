@@ -45,4 +45,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/delete.jsp" />
 	</definition>
 	
+	<!-- 테스트? -->
+	<definition name="/member/member_page" extends="baseLayout">
+		<put-attribute name="title" value="회원정보 - UHDIYA STORE" />
+		<put-attribute name="body" value="/WEB-INF/views/member/member_page.jsp" />
+	</definition>
 </tiles-definitions>

@@ -166,7 +166,7 @@
 							<td class="review_product_content" colspan="4" style="text-align: left;">${review.review_content}</td>
 						</tr>
 						<c:forEach var="list" items="${review_fileList}">
-							<c:if test="${list.review_id == review.review_id}">
+							<c:if test="${list.review_id eq review.review_id}">
 								<tr id="review_image_${num.index}" class="content_hide">
 									<td class="review_product_num">&nbsp;</td>
 									<td class="review_product_content" colspan="4" style="text-align: left;">

@@ -217,9 +217,14 @@ public class MemberController {
 		return mav;
 	}
 
-   // 회원정보수정	
+   // 회원정보수정
+//	 @RequestMapping("member_page")
+//	public ModelAndView member_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	 
 	@RequestMapping("edit_member")
 	public ModelAndView c_member(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	 
+	
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
