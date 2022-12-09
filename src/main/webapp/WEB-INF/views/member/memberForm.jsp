@@ -295,6 +295,7 @@
       if( patternCnt >= 2 ) {
          alert("비밀번호 확인이 완료되었습니다");
          $("#passCheck").val("Y");
+         $('#member_name').attr("disabled",false);
          $("#Pcheck").attr("disabled", true);
          $("#member_password").attr("readonly",true).attr("disabled",false); //입력불가
          $("#member_password2").attr("readonly",true).attr("disabled",false); //입력불가

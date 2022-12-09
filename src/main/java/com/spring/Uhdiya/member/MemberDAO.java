@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +62,20 @@ public class MemberDAO {
 		return sqlSession.selectList("mapper.member.getMemList", param);
 	}
 	
-	// 회원정보수정
-	public int editMember(MemberDTO member) {
-		int result = sqlSession.update("mapper.member.editMember", member);
-		sqlSession.update("mapper.member.editAddress", member);
-		return result;
-	}
+//	// 회원정보수정
+//	public int editMember(MemberDTO member) {
+//		int result = sqlSession.update("mapper.member.editMember", member);
+//		sqlSession.update("mapper.member.editAddress", member);
+//		return result;
+//	}
 	
 	/**
 	 * 회원정보 삭제
 	 * @param param
 	 */
 	public int deleteMember(MemberDTO param) {
+		String member_id = param.getMember_id();
+		sqlSession.delete("mapper.member.delete_address", member_id);
 		return sqlSession.delete("mapper.member.deleteMember", param);
 	}
 
@@ -84,6 +87,18 @@ public class MemberDAO {
 
 	public void delete_Member(String member_id) {
 		// TODO Auto-generated method stub
+		sqlSession.delete("mapper.member.delete_address", member_id);
 		sqlSession.delete("mapper.member.delete_member",member_id);
+	}
+
+	public boolean editMember(Map<String, Object> dataMap) {
+		// TODO Auto-generated method stub
+		int result1 = sqlSession.update("mapper.member.editMember",dataMap);
+		int result2 = sqlSession.update("mapper.member.editAddress",dataMap);
+		
+		if((result1+result2) == 2) {
+			return true;
+		}
+		return false;
 	}
 }

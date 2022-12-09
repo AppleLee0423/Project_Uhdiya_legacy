@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,10 +53,10 @@ public class MemberService {
 		return memberDAO.getMemList(param);
 	}
 	
-	// 회원정보 수정
-	public int editMember(MemberDTO member) {
-		return memberDAO.editMember(member);
-	}
+//	// 회원정보 수정
+//	public int editMember(MemberDTO member) {
+//		return memberDAO.editMember(member);
+//	}
 	
 	/**
 	 * 회원정보 삭제
@@ -73,5 +74,9 @@ public class MemberService {
 	public void delete_Member(String member_id) {
 		// TODO Auto-generated method stub
 		memberDAO.delete_Member(member_id);
+	}
+	public boolean editMember(Map<String, Object> dataMap) {
+		// TODO Auto-generated method stub
+		return memberDAO.editMember(dataMap);
 	}
 }

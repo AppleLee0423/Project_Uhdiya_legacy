@@ -1,6 +1,7 @@
 package com.spring.Uhdiya.member;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -218,11 +220,11 @@ public class MemberController {
 	}
 
    // 회원정보수정
-//	 @RequestMapping("member_page")
-//	public ModelAndView member_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	 @RequestMapping("member_page")
+	public ModelAndView member_page(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	 
-	@RequestMapping("edit_member")
-	public ModelAndView c_member(HttpServletRequest request, HttpServletResponse response) throws Exception{
+//	@RequestMapping("edit_member")
+//	public ModelAndView c_member(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	 
 	
 		String viewName = (String) request.getAttribute("viewName");
@@ -244,26 +246,35 @@ public class MemberController {
 	}
 	
 	// 회원수정처리
-	@RequestMapping(value="editMember", method=RequestMethod.POST)
-	@ResponseBody
-	public String editMember(@ModelAttribute("editMember") MemberDTO member, RedirectAttributes rAttr,
-								HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		String res = "N";
-		
-		HttpSession session = request.getSession();
-		MemberDTO mem = (MemberDTO) session.getAttribute("member");
-		
-		member.setMember_id(mem.getMember_id());
-		
-		int result = memberService.editMember(member);
-		
-		if( result > 0 ) {
-			res = "Y";
-		}
-		
-		return res;
-	}
+//	@RequestMapping(value="editMember", method=RequestMethod.POST)
+//	@ResponseBody
+//	public String editMember(@ModelAttribute("editMember") MemberDTO member, RedirectAttributes rAttr,
+//								HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		
+//		String res = "N";
+//		
+//		HttpSession session = request.getSession();
+//		MemberDTO mem = (MemberDTO) session.getAttribute("member");
+//		
+//		member.setMember_id(mem.getMember_id());
+//		
+//		int result = memberService.editMember(member);
+//		
+//		if( result > 0 ) {
+//			res = "Y";
+//		}
+//		
+//		return res;
+//	}
+	 
+	 @RequestMapping(value="editMember", method= {RequestMethod.POST,RequestMethod.GET})
+	 public @ResponseBody String editMember(@RequestParam Map<String, Object> dataMap, HttpServletRequest request, Model model) throws Exception {
+		 String result = "0";
+		 if(memberService.editMember(dataMap)) {
+			 result = "1";
+		 }
+		 return result;
+	 }
 	
 	 // 회원삭제?
 	@RequestMapping(value = "/member_delete", method = RequestMethod.POST)
@@ -271,9 +282,11 @@ public class MemberController {
 	public String memberDelete( MemberDTO param ) {
 		
 		String res = "N";
-		System.out.println(param.getMember_id());
-		
+
+		String member_id = param.getMember_id();
 		int cnt = memberService.deleteMember(param);
+		qnaService.delete_member_qna(member_id);
+		reviewService.delete_member_review(member_id);
 		
 		System.out.println(cnt);
 		if( cnt > 0 ) {
@@ -325,19 +338,19 @@ public class MemberController {
 			
 			message = "<script>";
 			message += "alert('회원탈퇴 하였습니다.커피향이 그리울 때 다시 만나요!');";
-			session.invalidate();
 			message += "location.href='"+request.getContextPath()+"/main';";
 			message += "</script>";
-			
+			session.invalidate();
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			message = "<script>";
 			message += "alert('회원탈퇴에 실패하였습니다.');";
-			message += "history.go(-2);";
+			message += "history.go(-1);";
 			message += "</script>";
 			
 			resEnt = new ResponseEntity<String>(message,headers,HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
 		}
 	
 		return resEnt;

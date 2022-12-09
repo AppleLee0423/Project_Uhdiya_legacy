@@ -85,19 +85,24 @@
 			delete from member where member_id = #{member_id}
 		]]>
 	</delete>
+	<delete id="delete_address" parameterType="String">
+		<![CDATA[
+			delete from address where member_id = #{member_id}
+		]]>
+	</delete>
 	
 	<!-- 회원정보 수정 -->
-	<update id="editMember" parameterType="MemberDTO">
+	<update id="editMember" parameterType="java.util.Map">
 		UPDATE MEMBER SET 
 			MEMBER_NAME = #{member_name},
 			MEMBER_PASSWORD = #{member_password}, 
 			MEMBER_EMAIL = #{member_email},
-			MEMBER_PHONE = #{member_phone}||'-'||#{member_phone1}||'-'||#{member_phone2}
+			MEMBER_PHONE = #{member_phone}
 		WHERE MEMBER_ID = #{member_id}
 	</update>
 	
 	<!-- 회원정보 주소 수정 -->
-	<update id="editAddress" parameterType="MemberDTO">
+	<update id="editAddress" parameterType="java.util.Map">
 		UPDATE ADDRESS SET 
 			ZIPNO = #{zipno},
 			ROADFULLADDR = #{roadFullAddr},
@@ -108,10 +113,34 @@
 	<!-- 회원수정 페이지 데이터 -->
 	<select id="one_member" resultType="MemberDTO" parameterType="String">
 		<![CDATA[
-			select m.member_id, member_password, member_name, 
-				substr(member_phone,1,3) member_phone, substr(member_phone,5,4) member_phone1, substr(member_phone,10,4) member_phone2, 
-				member_email, zipno, roadFulladdr, addDetail
+			select m.member_id, member_password, member_name, member_phone, member_email, zipno, roadFulladdr, addDetail
 				from member m, address a where m.member_id = a.member_id and m.member_id = #{member_id}
 		]]>
 	</select>
+	
+	<!-- 
+	<update id="editMember" parameterType="java.util.Map">
+		update member set
+		
+		<choose>
+			<when test="member_password != null">
+				member_password = #{member_password}
+			</when>
+			
+			<when test="member_name != null">
+				member_name = #{member_name}
+			</when>
+			
+			<when test="member_phone != null">
+				member_phone = #{member_phone}
+			</when>
+			
+			<when test="member_email != null">
+				member_email = #{member_email}
+			</when>
+		</choose>
+		
+		where member_id = #{member_id}
+	</update>
+	 -->
 </mapper>

@@ -37,8 +37,8 @@
                         <h3>구매내역</h3>
                         <h4>고개님께서 구매하신 상품의 주문내역을 확인하실 수 있습니다.</h4>
                     </button>
-					<button onclick="location.href='${path}/member/edit_member';">
-					<%-- <button onclick="location.href='${path}/member/member_page';"> --%>
+					<%-- <button onclick="location.href='${path}/member/edit_member';"> --%>
+					<button onclick="location.href='${path}/member/member_page';">
                         <p>😄</p>
                         <h2>Profile</h2>
                         <h3>회원 정보</h3>

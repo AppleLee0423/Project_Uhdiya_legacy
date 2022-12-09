@@ -1,5 +1,6 @@
 package com.spring.Uhdiya.board.qna;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,10 +131,14 @@ public class QnaDAO {
 	// 회원 탈퇴 시 문의글 삭제
 	public void delete_member_qna(String qna_writeId) {
 		// TODO Auto-generated method stub
-		List<Integer> qna_list = sqlSession.selectList("mapper.qna.delete_member_list",qna_writeId);
+		List<Integer> qna_list = sqlSession.selectList("mapper.qna.delete_member_qna",qna_writeId);
 		
-		for(int qna_id : qna_list) {
-			sqlSession.delete("mapper.qna.delete_qna",qna_id);
+		if(qna_list != null && qna_list.size() > 0) {
+			for(int a : qna_list) {
+				sqlSession.delete("mapper.qna.delete_qna",a);
+				sqlSession.delete("mapper.qna.delete_qna_file",a);
+				sqlSession.delete("mapper.qna.delete_reply",a);
+			}
 		}
 	}
 }
