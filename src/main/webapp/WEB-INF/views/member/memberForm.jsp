@@ -182,7 +182,7 @@
          }
          var member_email = $("#member_email").val();
          if( member_email == null || !(member_email.length > 0) ) {
-            alert("email를 입력해주세요");
+            alert("이메일을 입력해주세요");
             return;
          }
          var add = $("input[name=addDetail]").val();
@@ -308,10 +308,14 @@
       }
    }
       function checkname() {
+    	 var pattern1 = /[0-9]/;  // 숫자
          var name = $("#member_name").val();
          if( name == null || !(id.length > 0) ) {
             alert("이름을 입력해주세요");
             return;
+         } else if (pattern1.test(name) == true){
+        	 alert("한글 또는 영문으로 입력해주세요");
+             return; 
          }
       }
       function checkphone() {
@@ -357,7 +361,7 @@
       function checkEmail() {
          var email = $("#member_email").val();
          if( email == null || !(email.length > 0) ) {
-            alert("email를 입력해주세요");
+            alert("이메일을 입력해주세요");
             return;
          }
          $.ajax({
@@ -371,13 +375,13 @@
                console.log(data);
 
                if( data == "Y" ) {
-                  alert("사용가능한 email 입니다.");
+                  alert("사용가능한 이메일 입니다.");
                   $("#emailcheck").val("Y");
                   $("#member_email").attr("readonly",true).attr("disabled",false); //입력불가
                 $("#member_email").css("background-color","silver");
                 $("#emailcheck").attr("disabled", true);
                } else {
-                  alert("중복된 email 입니다.");
+                  alert("중복된 이메일 입니다.");
                }
             },
             error : function(e) {
