@@ -310,10 +310,6 @@
 				message = '<span id="message" style="color:red; font-size:small;">비밀번호는 6자리 이상 16자리 이하로 작성해주세요.</span>';
 				$('.new_content').append(message);
 				$('#update_insert_btn').attr("disabled", true);
-			} else if(new_pwd == first_password) {
-				message = '<span id="message" style="color:red; font-size:small;">기존 비밀번호와 동일합니다.</span>';
-				$('.new_content').append(message);
-				$('#update_insert_btn').attr("disabled", true);
 			} else if(new_pwd.length >= 6 && new_pwd.length < 16){
 				var pattern1 = /[0-9]/;  // 숫자
 				var pattern2 = /[a-z]/;
@@ -334,9 +330,15 @@
 				   patternCnt++;
 				}
 				if( patternCnt >= 2 ) {
-					message = '<span id="message" style="color:green; font-size:small;">비밀번호 변경이 가능합니다.</span>';
-					$('.new_content').append(message);
-					$('#update_insert_btn').attr("disabled", false);
+					if(new_pwd == member_password) {
+							message = '<span id="message" style="color:red; font-size:small;">기존 비밀번호와 동일합니다.</span>';
+							$('.new_content').append(message);
+							$('#update_insert_btn').attr("disabled", true);
+					} else { 
+						message = '<span id="message" style="color:green; font-size:small;">비밀번호 변경이 가능합니다.</span>';
+						$('.new_content').append(message);
+						$('#update_insert_btn').attr("disabled", false);
+					}
 				} else {
 					message = '<span id="message" style="color:red; font-size:small;">비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합으로 가능합니다.</span>';
 					$('.new_content').append(message);
