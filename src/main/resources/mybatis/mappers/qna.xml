@@ -55,7 +55,7 @@
 			order by qna_id asc
 		</if>
 
-		 ) where rn between #{startNum} and #{endNum} order by qna_regDate #{list_day} 
+		 ) where rn between #{startNum} and #{endNum} 
 	</select>
 	<!-- 관리자 페이지 문의 답글 리스트 -->
 	<select id="reply_list" resultMap="qna">
