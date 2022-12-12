@@ -94,7 +94,7 @@
     }
 }
 
-@media screen and (max-width: 1550px) {
+@media screen and (max-width: 1500px) {
     .search_mode {
         display: none;
     }
