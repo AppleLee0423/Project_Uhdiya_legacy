@@ -1,3 +1,6 @@
+@import url("https://fonts.google.com/noto/specimen/Noto+Sans+KR/about?query=noto#supported-writing-systems");
+
+*{font-family: 'Noto Sans KR', sans-serif;}
 
 .header_bar {
     top: 0;

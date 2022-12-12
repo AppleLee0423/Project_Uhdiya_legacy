@@ -29,7 +29,7 @@ a{text-decoration:none; color:black;}
    font-weight:bold;
    color: #123478;
 }
-}
+.categori{font-family: 'Noto Sans KR', sans-serif;}
 </style>
 </head>
 <body>
